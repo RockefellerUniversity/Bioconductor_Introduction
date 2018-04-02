@@ -162,9 +162,9 @@ chr19_Seq
 
 ---
 
-# Biostrings and DNAstring
+# Biostrings and DNAString
 
-The returned sequence object is a **DNAstring** object from the **Biostrings** package. DNAstrings are efficient objects for storing and accessing large sequences.
+The returned sequence object is a **DNAString** object from the **Biostrings** package. DNAStrings are efficient objects for storing and accessing large sequences.
 
 
 ```r
@@ -177,12 +177,12 @@ class(chr19_Seq)
 ## [1] "Biostrings"
 ```
 
-**?DNAstring** for full help on DNAstring objects.
+**?DNAString** for full help on DNAString objects.
 ---
 
-# Subsetting a DNAstring set 
+# Subsetting a DNAString set 
 
-We can subset a DNAstring object just like indexing a normal vector
+We can subset a DNAString object just like indexing a normal vector
 
 
 ```r
@@ -196,11 +196,11 @@ chr19_Seq[1:10000000]
 
 ---
 
-# Subsetting a DNAstring set 
+# Subsetting a DNAString set 
 
-Or we can use the Biostrings function **subseq()** on our DNAstring.
+Or we can use the Biostrings function **subseq()** on our DNAString.
 
-Note that **subseq()** is a faster implementation of subsetting for DNAstring objects.
+Note that **subseq()** is a faster implementation of subsetting for DNAString objects.
 
 
 ```r

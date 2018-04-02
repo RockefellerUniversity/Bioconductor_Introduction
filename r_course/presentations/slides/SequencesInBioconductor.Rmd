@@ -115,34 +115,34 @@ chr19_Seq
 
 ---
 
-# Biostrings and DNAstring
+# Biostrings and DNAString
 
-The returned sequence object is a **DNAstring** object from the **Biostrings** package. DNAstrings are efficient objects for storing and accessing large sequences.
+The returned sequence object is a **DNAString** object from the **Biostrings** package. DNAStrings are efficient objects for storing and accessing large sequences.
 
-```{r dnastring, echo=TRUE,eval=TRUE,collapse=FALSE}
+```{r DNAString, echo=TRUE,eval=TRUE,collapse=FALSE}
 class(chr19_Seq)
 ```
 
-**?DNAstring** for full help on DNAstring objects.
+**?DNAString** for full help on DNAString objects.
 ---
 
-# Subsetting a DNAstring set 
+# Subsetting a DNAString set 
 
-We can subset a DNAstring object just like indexing a normal vector
+We can subset a DNAString object just like indexing a normal vector
 
-```{r dnastringSub, echo=TRUE,eval=TRUE,collapse=FALSE}
+```{r DNAStringSub, echo=TRUE,eval=TRUE,collapse=FALSE}
 chr19_Seq[1:10000000]
 ```
 
 ---
 
-# Subsetting a DNAstring set 
+# Subsetting a DNAString set 
 
-Or we can use the Biostrings function **subseq()** on our DNAstring.
+Or we can use the Biostrings function **subseq()** on our DNAString.
 
-Note that **subseq()** is a faster implementation of subsetting for DNAstring objects.
+Note that **subseq()** is a faster implementation of subsetting for DNAString objects.
 
-```{r dnastringSub2, echo=TRUE,eval=TRUE,collapse=FALSE}
+```{r DNAStringSub2, echo=TRUE,eval=TRUE,collapse=FALSE}
 subseq(chr19_Seq,start=1,end=10000000)
 ```
 
@@ -154,7 +154,7 @@ The Biostrings package has many useful functions for handling sequence data.
 
 We can review the frequency of bases using the **alphabetFrequency()** function.
 
-```{r dnastringSub3, echo=TRUE,eval=TRUE,collapse=FALSE}
+```{r DNAStringSub3, echo=TRUE,eval=TRUE,collapse=FALSE}
 alphabetFrequency(chr19_Seq)
 ```
 
@@ -164,7 +164,7 @@ alphabetFrequency(chr19_Seq)
 
 We can get the complement,reverse and reverse complement of sequence using the **complement()**, **reverse()**, **reverseComplement()**.
 
-```{r dnastringSub4, echo=TRUE,eval=TRUE,collapse=FALSE}
+```{r DNAStringSub4, echo=TRUE,eval=TRUE,collapse=FALSE}
 chr19_SeqComp <- complement(chr19_Seq)
 chr19_SeqRev <- reverse(chr19_Seq)
 chr19_SeqRevComp <- reverseComplement(chr19_Seq[10000000:10000010])
@@ -180,7 +180,7 @@ We can get also match and count the occurrence of patterns in our sequence using
 
 We will look more in depth at these later in the course.
 
-```{r dnastringSub5, echo=TRUE,eval=TRUE,collapse=FALSE}
+```{r DNAStringSub5, echo=TRUE,eval=TRUE,collapse=FALSE}
 chr19_Count <- countPattern(pattern="ATCTGCAATG",chr19_Seq)
 chr19_Count
 ```
@@ -196,14 +196,14 @@ To write our DNAString object to a FASTA file we can use the **writeXStringSet()
 First we will convert our DNAString to a DNAStringSet object using the **DNAStringSet()** function and set names using the **names()** function.
 
 
-```{r dnastringSub611, echo=TRUE,eval=FALSE,collapse=FALSE}
+```{r DNAStringSub611, echo=TRUE,eval=FALSE,collapse=FALSE}
 chr19_SeqSet <- DNAStringSet(chr19_Seq[10000000:10000010])
 names(chr19_SeqSet) <- "chr19"
 writeXStringSet(chr19_SeqSet,filepath = "Data/chr19_Seq.fa")
 
 ```
 
-```{r dnastringSub61s1, echo=FALSE,eval=TRUE,collapse=FALSE}
+```{r DNAStringSub61s1, echo=FALSE,eval=TRUE,collapse=FALSE}
 chr19_SeqSet <- DNAStringSet(chr19_Seq[10000000:10000010])
 names(chr19_SeqSet) <- "chr19"
 writeXStringSet(chr19_SeqSet,filepath = "../../Data/chr19_Seq.fa")
@@ -219,12 +219,12 @@ Now we can read our a FASTA file back to DNAStringSet object using the **readDNA
 We can access our DNAString from the DNAStringSet object again using **$** and **[[]]** functions.
 
 
-```{r dnastringSub62, echo=TRUE,eval=FALSE,tidy=TRUE}
+```{r DNAStringSub62, echo=TRUE,eval=FALSE,tidy=TRUE}
 chr19_FromFASTA <- readDNAStringSet(filepath = "Data/chr19_Seq.fa" )
 chr19_FromFASTA$chr19
 ```
 
-```{r dnastringSubxzz62, echo=FALSE,eval=TRUE,tidy=TRUE}
+```{r DNAStringSubxzz62, echo=FALSE,eval=TRUE,tidy=TRUE}
 chr19_FromFASTA <- readDNAStringSet(filepath = "../../Data/chr19_Seq.fa" )
 chr19_FromFASTA$chr19
 ```
