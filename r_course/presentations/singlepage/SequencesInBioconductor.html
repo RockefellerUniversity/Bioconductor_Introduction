@@ -323,28 +323,28 @@ chr19_Seq</code></pre></div>
 ## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code></pre>
 </div>
 <div id="biostrings-and-dnastring" class="section level1">
-<h1>Biostrings and DNAstring</h1>
-<p>The returned sequence object is a <strong>DNAstring</strong> object from the <strong>Biostrings</strong> package. DNAstrings are efficient objects for storing and accessing large sequences.</p>
+<h1>Biostrings and DNAString</h1>
+<p>The returned sequence object is a <strong>DNAString</strong> object from the <strong>Biostrings</strong> package. DNAStrings are efficient objects for storing and accessing large sequences.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(chr19_Seq)</code></pre></div>
 <pre><code>## [1] &quot;DNAString&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;Biostrings&quot;</code></pre>
 <div id="dnastring-for-full-help-on-dnastring-objects." class="section level2">
-<h2><strong>?DNAstring</strong> for full help on DNAstring objects.</h2>
+<h2><strong>?DNAString</strong> for full help on DNAString objects.</h2>
 </div>
 </div>
 <div id="subsetting-a-dnastring-set" class="section level1">
-<h1>Subsetting a DNAstring set</h1>
-<p>We can subset a DNAstring object just like indexing a normal vector</p>
+<h1>Subsetting a DNAString set</h1>
+<p>We can subset a DNAString object just like indexing a normal vector</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chr19_Seq[<span class="dv">1</span>:<span class="dv">10000000</span>]</code></pre></div>
 <pre><code>##   10000000-letter &quot;DNAString&quot; instance
 ## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GACCCAACTTGCCCAGGTGCGGGTTTTCCATTG</code></pre>
 <hr />
 </div>
 <div id="subsetting-a-dnastring-set-1" class="section level1">
-<h1>Subsetting a DNAstring set</h1>
-<p>Or we can use the Biostrings function <strong>subseq()</strong> on our DNAstring.</p>
-<p>Note that <strong>subseq()</strong> is a faster implementation of subsetting for DNAstring objects.</p>
+<h1>Subsetting a DNAString set</h1>
+<p>Or we can use the Biostrings function <strong>subseq()</strong> on our DNAString.</p>
+<p>Note that <strong>subseq()</strong> is a faster implementation of subsetting for DNAString objects.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">subseq</span>(chr19_Seq,<span class="dt">start=</span><span class="dv">1</span>,<span class="dt">end=</span><span class="dv">10000000</span>)</code></pre></div>
 <pre><code>##   10000000-letter &quot;DNAString&quot; instance
 ## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GACCCAACTTGCCCAGGTGCGGGTTTTCCATTG</code></pre>
