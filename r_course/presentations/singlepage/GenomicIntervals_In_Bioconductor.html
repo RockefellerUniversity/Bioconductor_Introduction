@@ -539,7 +539,7 @@ mergedGenomicIntervals</code></pre></div>
 <h1>Overlapping genomic intervals</h1>
 <p>Some particularly useful methods/operators in GenomicRanges allows us to assess the relationship between two sets of GRanges objects.</p>
 <p>One of the most common is the <strong>%over%</strong> operator which allows us to identify overlapping regions.</p>
-<p>First we make two genomic ranges lists.</p>
+<p>First we make two GRanges objects.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myGenomicIntervals1 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),
                               <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">25</span>),
                                              <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>)),
