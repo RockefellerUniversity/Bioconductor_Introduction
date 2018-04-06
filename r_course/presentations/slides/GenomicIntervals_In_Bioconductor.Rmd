@@ -267,7 +267,7 @@ myGenomicIntervals
 ---
 # Strand information in a GenomicRanges.
 
-Similarly we can extract and set strand information using the **strand()** fucntion.
+Similarly we can extract and set strand information using the **strand()** function.
 ```{r atra,error=TRUE}
 
 strand(myGenomicIntervals) <- c("+","+","-")
@@ -280,7 +280,9 @@ Although an factor RLE, strand always contains the levels "+", "-", "*" and only
 
 ```{r aera,error=TRUE}
 
-myGenomicIntervals <- GRanges(seqnames=c("chr1","chr1","chr2"), myIntervals,strand=c("+","+","+"))
+myGenomicIntervals <- GRanges(seqnames=c("chr1","chr1","chr2"),
+                              myIntervals,
+                              strand=c("+","+","+"))
 strand(myGenomicIntervals)
 ```
 ---
@@ -307,7 +309,7 @@ myGenomicIntervals["peak2"]
 # Additional genomic interval information.
 
 We will often want to store more information on our genomic intervals. We can use the **mcols** (metadata columns) to store this information
-To add additional metadata columns we can simply supply the desired column name and the values we want to assign as with data.frames.
+To add additional metadata columns we can simply supply the desired column name and the values we want to the **GRanges()** function as with data.frames.
 
 ```{r asa,error=TRUE}
 myIntervals <- IRanges(start=c(1,2,2),end=c(2,11,30))
@@ -335,6 +337,16 @@ We to retieve all metadata columns as a data frames we can use the **mcols()** f
 
 ```{r aasaaa,error=TRUE}
 mcols(myGenomicIntervals)
+```
+
+
+---
+# Convert to data frame.
+
+We to convert the entire GRanges to a data.frame using the **as.data.frame()** function.
+
+```{r aaszzzzzaaaaa,error=TRUE}
+as.data.frame(myGenomicIntervals)
 ```
 
 ---
@@ -368,19 +380,9 @@ resize(myGenomicIntervals[3],width=20)
 ---
 # Adjusting genomic ranges postions.
 
-by default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as start, end or centre to speciy where we wish to resize from.
+by default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as **start**, **end** or **centre** to specify where we wish to resize from.
 
 ```{r aaasdasalpi,error=TRUE}
-myGenomicIntervals[3]
-resize(myGenomicIntervals[3],width=20, fix="end")
-```
-
----
-# Adjusting genomic ranges postions.
-
-by default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as start, end or centre to speciy where we wish to resize from.
-
-```{r aaasakcdcdjsa,error=TRUE}
 myGenomicIntervals[3]
 resize(myGenomicIntervals[3],width=20, fix="end")
 ```
@@ -391,7 +393,7 @@ resize(myGenomicIntervals[3],width=20, fix="end")
 
 The **resize()** function by default takes into account strand information. 
 
-For negative strand intervals, when specifying **fix=start** it considers the start as the end position.
+For negative strand intervals, when specifying **fix=start** it considers the start as the end position. i.e. Useful for Gene positions.
 
 
 ```{r aaasakjsfvrfa,error=TRUE}
@@ -442,7 +444,8 @@ We can merge intervals across strands by setting **ignore.strand=TRUE**. Note th
 
 ```{r ajfddusxjihlsa,error=TRUE}
 strand(myGenomicIntervals) <- c("+","-","+")
-mergedGenomicIntervals <- reduce(myGenomicIntervals,ignore.strand=TRUE)
+mergedGenomicIntervals <- reduce(myGenomicIntervals,
+                                 ignore.strand=TRUE)
 mergedGenomicIntervals
 ```
 
@@ -450,18 +453,20 @@ mergedGenomicIntervals
 
 # Overlapping genomic intervals
 
-Some particularly useful functions/methods in GenomicRanges allows us to assess the relationship between two sets of GenomicRanges.
+Some particularly useful methods/operators in GenomicRanges allows us to assess the relationship between two sets of GRanges obbjects.
 
-One of the most common is the **%over%** method which allows us to identify overlapping regions.
+One of the most common is the **%over%** operator which allows us to identify overlapping regions.
 
 First we make two genomic ranges lists.
 
 ```{r ajfddfucfdjlsa,error=TRUE}
 myGenomicIntervals1 <- GRanges(seqnames=c("chr1","chr1"),
-                              ranges=IRanges(start=c(1,25),end=c(20,30)),
+                              ranges=IRanges(start=c(1,25),
+                                             end=c(20,30)),
                               strand=c("+","+"))
 myGenomicIntervals2 <- GRanges(seqnames=c("chr1","chr1"),
-                              ranges=IRanges(start=c(22,100),end=c(27,130)),
+                              ranges=IRanges(start=c(22,100),
+                                             end=c(27,130)),
                               strand=c("+","+"))
 ```
 
@@ -485,7 +490,7 @@ myGenomicIntervals1 %over% myGenomicIntervals2
 ---
 # Overlapping genomic intervals
 
-We can use this logical vector then to subset our **myGenomicIntervals1** set.
+We can use this logical vector then to subset our **myGenomicIntervals1** set [as we have with vectors](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/31) .
 
 ```{r ajfdcfdfuhjlsa,error=TRUE}
 myGenomicIntervals1[myGenomicIntervals1 %over% myGenomicIntervals2]
@@ -528,11 +533,11 @@ myGenomicIntervals2[subjectHits(myOverlaps)]
 
 As we have seen, Genomic Intervals are often stores as BED files. 
 
-The **rtracklayer** package provide mechansisms to import and export from bed3/6 files using the **import.bed** and **export.bed** functions.
+The **rtracklayer** package provide mechanisms to import and export from BED3/6 files using the **import.bed** and **export.bed** functions.
 
 ```{r revruujje,error=TRUE}
 library(rtracklayer)
-mySicerPeaks <- import.bed("../../Data/SicerPeaks.bed")
+mySicerPeaks <- import.bed(con="../../Data/SicerPeaks.bed")
 mySicerPeaks
 ```
 ---
@@ -543,7 +548,7 @@ Exporting to BED is achieved by using the **export.bed()** function.
 This produces a valid BED file for use in IGV and other softwares.
 
 ```{r revkkjkre,error=TRUE}
-export.bed(mySicerPeaks,"moreSicerPeaks.bed")
+export.bed(mySicerPeaks, con="moreSicerPeaks.bed")
 ```
 
 ---
@@ -551,21 +556,25 @@ export.bed(mySicerPeaks,"moreSicerPeaks.bed")
 
 We saw how we can extract sequences from a BSgenome object previously using **subseq()** function.
 
+```{r revkdedkjkaare,echo=FALSE}
+suppressPackageStartupMessages(library(BSgenome.Mmusculus.UCSC.mm10))
+```
 
 
 ```{r revkdedkjkre,error=TRUE}
+library(BSgenome.Mmusculus.UCSC.mm10)
 subseq(BSgenome.Mmusculus.UCSC.mm10$chr10,1,100)
 ```
 ---
 # Using GRanges to extract sequences.
 
-With GRanges objects we can specify the BSgenome and GRanges as regions to be extracted.
+With GRanges objects we can specify the BSgenome for the sequence and GRanges as regions to be extracted.
 
 Here we can use the **getSeq()** function to extract sequences under our Sicer Peaks on the mm10 genome. 
 
 
 ```{r revkvfydedkjkre,error=TRUE}
-library(BSgenome.Mmusculus.UCSC.mm10)
+
 sicerSeq <- getSeq(BSgenome.Mmusculus.UCSC.mm10,names=mySicerPeaks)
 sicerSeq
 ```
@@ -580,8 +589,8 @@ writeXStringSet(sicerSeq,"sicerSeq.fa")
 ---
 # Time for an exercise.
 
-[Link_to_exercises](../../exercises/GenomicRanges_exercises.html)
+[Link_to_exercises](../../exercises/GI_exercises.html)
 
-[Link_to_answers](../../answers/fastaAndBiostrings_answers.html)
+[Link_to_answers](../../answers/GI_answers.html)
 
 

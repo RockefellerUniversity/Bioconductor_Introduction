@@ -5,7 +5,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T,eval=T)
+knitr::opts_chunk$set(echo = F,eval=T)
 ```
 
 
@@ -111,21 +111,21 @@ Download the signal p-value bigwig from the encode portal for replicate 1 from e
 mySummits <- import.bed("../Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
 ```
 
-10. Generate density plots of summit heights for summits overlapping and not overlapping our extended TSS positions
+11. Generate density plots of summit heights for summits overlapping and not overlapping our extended TSS positions
 
 ```{r installBxxsssS2,fig.width=10,fig.height=10}
 mySummits$Overlap <- ifelse(mySummits %over% tssPosExt,"TSS","Not_TSS")
 mySummitsDF <- as.data.frame(mySummits)
-ggplot(mySummitsDF,aes(x=mySummitsDF$score,fill=Overlap))+geom_density(alpha=0.5)+
+ggplot(mySummitsDF,aes(x=score,fill=Overlap))+geom_density(alpha=0.5)+
   facet_wrap(~seqnames)+theme_bw()
 ```
 
-11. Filter the Summits GRanges to the top 500 ranked by the GRanges score column.
+12. Filter the Summits GRanges to the top 500 ranked by the GRanges score column.
 ```{r installBzsaaassS2}
 orderSummits500 <- mySummits[order(mySummits$score,decreasing = TRUE)][1:500,]
 ```
 
-12. Extend these top 500 Summits GRanges to 50bps around the centre of the GRanges intervals. Extract the sequences under the peaks and write to a file. 
+13. Extend these top 500 Summits GRanges to 50bps around the centre of the GRanges intervals. Extract the sequences under the peaks and write to a file. 
 
 ```{r installBjsazzaassS2}
 centredSummits <- resize(orderSummits500,width = 50,fix="center")

@@ -400,7 +400,7 @@ myGenomicIntervals
 ---
 # Strand information in a GenomicRanges.
 
-Similarly we can extract and set strand information using the **strand()** fucntion.
+Similarly we can extract and set strand information using the **strand()** function.
 
 ```r
 strand(myGenomicIntervals) &lt;- c("+","+","-")
@@ -420,7 +420,9 @@ Although an factor RLE, strand always contains the levels "+", "-", "*" and only
 
 
 ```r
-myGenomicIntervals &lt;- GRanges(seqnames=c("chr1","chr1","chr2"), myIntervals,strand=c("+","+","+"))
+myGenomicIntervals &lt;- GRanges(seqnames=c("chr1","chr1","chr2"),
+                              myIntervals,
+                              strand=c("+","+","+"))
 strand(myGenomicIntervals)
 ```
 
@@ -476,7 +478,7 @@ myGenomicIntervals["peak2"]
 # Additional genomic interval information.
 
 We will often want to store more information on our genomic intervals. We can use the **mcols** (metadata columns) to store this information
-To add additional metadata columns we can simply supply the desired column name and the values we want to assign as with data.frames.
+To add additional metadata columns we can simply supply the desired column name and the values we want to the **GRanges()** function as with data.frames.
 
 
 ```r
@@ -526,6 +528,24 @@ mcols(myGenomicIntervals)
 ## 1        10      GoodQC
 ## 2        20      GoodQC
 ## 3        40       BadQC
+```
+
+
+---
+# Convert to data frame.
+
+We to convert the entire GRanges to a data.frame using the **as.data.frame()** function.
+
+
+```r
+as.data.frame(myGenomicIntervals)
+```
+
+```
+##   seqnames start end width strand Score Comment
+## 1     chr1     1   2     2      +    10  GoodQC
+## 2     chr1     2  11    10      +    20  GoodQC
+## 3     chr2     2  30    29      +    40   BadQC
 ```
 
 ---
@@ -603,39 +623,7 @@ resize(myGenomicIntervals[3],width=20)
 ---
 # Adjusting genomic ranges postions.
 
-by default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as start, end or centre to speciy where we wish to resize from.
-
-
-```r
-myGenomicIntervals[3]
-```
-
-```
-## GRanges object with 1 range and 2 metadata columns:
-##       seqnames    ranges strand |     Score     Comment
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
-##   [1]     chr2   [2, 30]      + |        40       BadQC
-##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
-```
-
-```r
-resize(myGenomicIntervals[3],width=20, fix="end")
-```
-
-```
-## GRanges object with 1 range and 2 metadata columns:
-##       seqnames    ranges strand |     Score     Comment
-##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
-##   [1]     chr2  [11, 30]      + |        40       BadQC
-##   -------
-##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
-```
-
----
-# Adjusting genomic ranges postions.
-
-by default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as start, end or centre to speciy where we wish to resize from.
+by default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as **start**, **end** or **centre** to specify where we wish to resize from.
 
 
 ```r
@@ -670,7 +658,7 @@ resize(myGenomicIntervals[3],width=20, fix="end")
 
 The **resize()** function by default takes into account strand information. 
 
-For negative strand intervals, when specifying **fix=start** it considers the start as the end position.
+For negative strand intervals, when specifying **fix=start** it considers the start as the end position. i.e. Useful for Gene positions.
 
 
 
@@ -779,7 +767,8 @@ We can merge intervals across strands by setting **ignore.strand=TRUE**. Note th
 
 ```r
 strand(myGenomicIntervals) &lt;- c("+","-","+")
-mergedGenomicIntervals &lt;- reduce(myGenomicIntervals,ignore.strand=TRUE)
+mergedGenomicIntervals &lt;- reduce(myGenomicIntervals,
+                                 ignore.strand=TRUE)
 mergedGenomicIntervals
 ```
 
@@ -797,19 +786,21 @@ mergedGenomicIntervals
 
 # Overlapping genomic intervals
 
-Some particularly useful functions/methods in GenomicRanges allows us to assess the relationship between two sets of GenomicRanges.
+Some particularly useful methods/operators in GenomicRanges allows us to assess the relationship between two sets of GRanges obbjects.
 
-One of the most common is the **%over%** method which allows us to identify overlapping regions.
+One of the most common is the **%over%** operator which allows us to identify overlapping regions.
 
 First we make two genomic ranges lists.
 
 
 ```r
 myGenomicIntervals1 &lt;- GRanges(seqnames=c("chr1","chr1"),
-                              ranges=IRanges(start=c(1,25),end=c(20,30)),
+                              ranges=IRanges(start=c(1,25),
+                                             end=c(20,30)),
                               strand=c("+","+"))
 myGenomicIntervals2 &lt;- GRanges(seqnames=c("chr1","chr1"),
-                              ranges=IRanges(start=c(22,100),end=c(27,130)),
+                              ranges=IRanges(start=c(22,100),
+                                             end=c(27,130)),
                               strand=c("+","+"))
 ```
 
@@ -862,7 +853,7 @@ myGenomicIntervals1 %over% myGenomicIntervals2
 ---
 # Overlapping genomic intervals
 
-We can use this logical vector then to subset our **myGenomicIntervals1** set.
+We can use this logical vector then to subset our **myGenomicIntervals1** set [as we have with vectors](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/31) .
 
 
 ```r
@@ -956,12 +947,12 @@ myGenomicIntervals2[subjectHits(myOverlaps)]
 
 As we have seen, Genomic Intervals are often stores as BED files. 
 
-The **rtracklayer** package provide mechansisms to import and export from bed3/6 files using the **import.bed** and **export.bed** functions.
+The **rtracklayer** package provide mechanisms to import and export from BED3/6 files using the **import.bed** and **export.bed** functions.
 
 
 ```r
 library(rtracklayer)
-mySicerPeaks &lt;- import.bed("../../Data/SicerPeaks.bed")
+mySicerPeaks &lt;- import.bed(con="../../Data/SicerPeaks.bed")
 mySicerPeaks
 ```
 
@@ -984,7 +975,7 @@ This produces a valid BED file for use in IGV and other softwares.
 
 
 ```r
-export.bed(mySicerPeaks,"moreSicerPeaks.bed")
+export.bed(mySicerPeaks, con="moreSicerPeaks.bed")
 ```
 
 ---
@@ -995,48 +986,24 @@ We saw how we can extract sequences from a BSgenome object previously using **su
 
 
 
+
 ```r
+library(BSgenome.Mmusculus.UCSC.mm10)
 subseq(BSgenome.Mmusculus.UCSC.mm10$chr10,1,100)
 ```
 
 ```
-## Error in subseq(BSgenome.Mmusculus.UCSC.mm10$chr10, 1, 100): could not find function "subseq"
+##   100-letter "DNAString" instance
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 ```
 ---
 # Using GRanges to extract sequences.
 
-With GRanges objects we can specify the BSgenome and GRanges as regions to be extracted.
+With GRanges objects we can specify the BSgenome for the sequence and GRanges as regions to be extracted.
 
 Here we can use the **getSeq()** function to extract sequences under our Sicer Peaks on the mm10 genome. 
 
 
-
-```r
-library(BSgenome.Mmusculus.UCSC.mm10)
-```
-
-```
-## Loading required package: BSgenome
-```
-
-```
-## Loading required package: Biostrings
-```
-
-```
-## Loading required package: XVector
-```
-
-```
-## 
-## Attaching package: 'Biostrings'
-```
-
-```
-## The following object is masked from 'package:base':
-## 
-##     strsplit
-```
 
 ```r
 sicerSeq &lt;- getSeq(BSgenome.Mmusculus.UCSC.mm10,names=mySicerPeaks)
@@ -1062,9 +1029,9 @@ writeXStringSet(sicerSeq,"sicerSeq.fa")
 ---
 # Time for an exercise.
 
-[Link_to_exercises](../../exercises/GenomicRanges_exercises.html)
+[Link_to_exercises](../../exercises/GI_exercises.html)
 
-[Link_to_answers](../../answers/fastaAndBiostrings_answers.html)
+[Link_to_answers](../../answers/GI_answers.html)
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
