@@ -261,9 +261,9 @@ start(myGenomicIntervals) &lt;- c(10,50,150)
 ## Error in validObject(x): invalid class "IRanges" object: 'width(x)' cannot contain negative integers
 ```
 ---
-# Retreiving chromosome/contig names from a GenomicRanges.
+# retrieving chromosome/contig names from a GenomicRanges.
 
-We can retreive the chromosome names in a similar manner to **start()** and **end()** functions using the **seqnames()** function.
+We can retrieve the chromosome names in a similar manner to **start()** and **end()** functions using the **seqnames()** function.
 
 
 ```r
@@ -278,7 +278,7 @@ contigNames
 ## Levels(2): chr1 chr2
 ```
 ---
-# Retreiving chromosome/contig names from a GenomicRanges.
+# retrieving chromosome/contig names from a GenomicRanges.
 
 The contig names are stored in another special object called a RLE (run length encoded).
 This RLE object saves memory and allows for more efficient manipulation of long stretchs of repeated names.
@@ -329,7 +329,7 @@ seqnames(myGenomicIntervals) &lt;- c("chr3","chr2","chr1")
 ---
 # Replacing chromosome/contig names from a GenomicRanges.
 
-To add new contig we must update the seqlevels, like levels for factors but now for contigs in GRanges obbjects.
+To add new contig we must update the seqlevels, like levels for factors but now for contigs in GRanges objects.
 
 The **seqlevels()** identifies which contigs we are using.
 
@@ -514,7 +514,7 @@ myGenomicIntervals$Comment
 ---
 # Additional genomic interval information.
 
-We to retieve all metadata columns as a data frames we can use the **mcols()** function
+We to retrieve all metadata columns as a data frames we can use the **mcols()** function
 
 
 ```r
@@ -534,7 +534,7 @@ mcols(myGenomicIntervals)
 ---
 # Convert to data frame.
 
-We to convert the entire GRanges to a data.frame using the **as.data.frame()** function.
+We can convert the entire GRanges to a data.frame using the **as.data.frame()** function.
 
 
 ```r
@@ -557,7 +557,7 @@ The include functions to resize, merge/reduce and shift genomic ranges.
 
 ![](imgs/Unknown2.jpg)
 ---
-# Adjusting genomic ranges postions.
+# Adjusting genomic ranges positions.
 
 To adjust the postion of a GRanges object we can manually adjust start and end positions but GenomicRanges provides some more user friendly methods.
 
@@ -591,7 +591,7 @@ shift(myGenomicIntervals[1],shift = 10)
 ```
 
 ---
-# Adjusting genomic ranges postions.
+# Adjusting genomic ranges positions.
 
 The **resize()** function allows to adjust the width of regions.
 
@@ -623,9 +623,9 @@ resize(myGenomicIntervals[3],width=20)
 ```
 
 ---
-# Adjusting genomic ranges postions.
+# Adjusting genomic ranges positions.
 
-by default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as **start**, **end** or **centre** to specify where we wish to resize from.
+By default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as **start**, **end** or **centre** to specify where we wish to resize from.
 
 
 ```r
@@ -656,7 +656,7 @@ resize(myGenomicIntervals[3],width=20, fix="end")
 
 ---
 
-# Adjusting genomic ranges postions.
+# Adjusting genomic ranges positions.
 
 The **resize()** function by default takes into account strand information. 
 
@@ -692,7 +692,7 @@ resize(myGenomicIntervals[3],width=20, fix="start")
 ```
 
 ---
-# Adjusting genomic ranges postions.
+# Adjusting genomic ranges positions.
 
 A final function for adjusting genomic ranges which we will review is the **reduce()** function. 
 
@@ -720,7 +720,7 @@ myGenomicIntervals
 ##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
 ```
 ---
-# Adjusting genomic ranges postions.
+# Adjusting genomic ranges positions.
 
 Now we can merge them with **reduce()** function taking into account chromosomes
 
@@ -740,7 +740,7 @@ mergedGenomicIntervals
 ##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
 ```
 ---
-# Adjusting genomic ranges postions.
+# Adjusting genomic ranges positions.
 
 The **reduce()** function also takes into account the strand information and only merges genomic intervals on same strand.
 
@@ -762,7 +762,7 @@ mergedGenomicIntervals
 ##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
 ```
 ---
-# Adjusting genomic ranges postions.
+# Adjusting genomic ranges positions.
 
 We can merge intervals across strands by setting **ignore.strand=TRUE**. Note that all regions are now considered strandless.
 
@@ -788,7 +788,7 @@ mergedGenomicIntervals
 
 # Overlapping genomic intervals
 
-Some particularly useful methods/operators in GenomicRanges allows us to assess the relationship between two sets of GRanges obbjects.
+Some particularly useful methods/operators in GenomicRanges allows us to assess the relationship between two sets of GRanges objects.
 
 One of the most common is the **%over%** operator which allows us to identify overlapping regions.
 
