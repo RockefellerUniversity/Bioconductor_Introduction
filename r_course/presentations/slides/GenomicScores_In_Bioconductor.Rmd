@@ -228,6 +228,18 @@ We have already seen an rle in our cigar string from SAM files.
 
 ---
 # Rle in genomics
+
+We have also seen **Rle** objects [within the GRanges objects we reviewed last session.](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html#18)
+
+Chromosome/contig names in **GRanges** objects are stored as **Rle** objects for instance.
+
+```{r hqqk,eval=TRUE}
+mycPeaks <- import.bed("../../Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+seqnames(mycPeaks)
+```
+
+---
+# Rle in genomics
 For genomic scores we will be storing long stretchs of numbers as an **Rle**.
 
 To store genomic scores across chromosomes/contig we will use an **RleList**.
@@ -267,9 +279,9 @@ myBigWig[1:2]
 ---
 # Indexing an RLElist
 
-To access elements of a RleList we can use our regular accessors for lists **$** and **[[]]**.
+To access elements of a **RleList** we can use our regular accessors for lists **$** and **[[]]**.
 
-Here we retrieve the Rle object named *chr1* containing all the genomic scores information for chromosome 1.
+Here we retrieve the **Rle** object named *chr1* containing all the genomic scores information for chromosome 1.
 
 
 ```{r j,eval=TRUE}
@@ -283,7 +295,7 @@ chr1_rle
 ---
 # Indexing an RLE
 
-Now we have an Rle object of our genomic scores on chromosome 1 we can index it just like we have for standard vectors.
+Now we have an **Rle** object of our genomic scores on chromosome 1 we can index it just like we have for standard vectors.
 Here i retrieve values for all basepairs between 1 and 10
 
 ```{r k,eval=TRUE}
