@@ -44,6 +44,10 @@ myBigWig <- import.bw("../../Data/TSS_ENCFF940MBK.bw",
                       as = "RleList")
 class(myBigWig)
 
+## ----hqqk,eval=TRUE------------------------------------------------------
+mycPeaks <- import.bed("../../Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+seqnames(mycPeaks)
+
 ## ----hqq,eval=TRUE-------------------------------------------------------
 myNumbers <- c(0,0,0,0,0,1,1,1,0,0,0,0,0)
 Rle(myNumbers)
