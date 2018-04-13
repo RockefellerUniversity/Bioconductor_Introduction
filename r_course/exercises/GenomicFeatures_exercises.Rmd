@@ -5,7 +5,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F,eval=T)
+knitr::opts_chunk$set(echo = T,eval=T)
 ```
 
 
@@ -73,7 +73,7 @@ atcgFreqDF <- data.frame(Bases=names(atcgFreq),Frequency=atcgFreq)
 ggplot(atcgFreqDF,aes(y=Frequency,x=Bases,fill=Bases))+geom_bar(stat = "identity")+theme_minimal()
 ```
 
-6. Read in the expression table **GM12878_minus_HeLa.csv** from Data directory.
+6. Read in the expression table **GM12878_minus_HeLa.csv** from Data directory containing human/hg19 expression data.
 
 ```{r installBSsss23,eval=TRUE}
 myDETable <- read.delim("../Data/GM12878_minus_HeLa.csv",sep=",",stringsAsFactors = FALSE)
@@ -87,3 +87,19 @@ myAnnotationTable <- select(org.Hs.eg.db,keys=as.character(myDETable$ID),keytype
 newTable <- merge(myAnnotationTable,myDETable,by=1,all.x=FALSE,all.y=TRUE)
 newTable <- newTable[order(newTable$padj),]
 ```
+
+7. Identify genes with a padj < 0.05 and logFC greater than 1. Export promoter positions (upstream 2000bp, downstream 50bp) of these genes's transcripts, merge overlapping promoters and export to a bed file and visualise in IGV. 
+
+```{r installBSsxxs2as3,eval=TRUE}
+genesToSelect <- newTable$ENTREZID[newTable$padj < 0.05 & !is.na(newTable$padj) & newTable$log2FoldChange > 1]
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+myPromoters <- promoters(TxDb.Hsapiens.UCSC.hg19.knownGene,upstream = 2000,downstream = 50,columns=c("gene_id"))
+selectedPromoters <- myPromoters[as.vector(myPromoters$gene_id) %in% genesToSelect]
+reducedselectedPromoters <- reduce(selectedPromoters)
+export.bed(reducedselectedPromoters,con="DE_Promoters.bed")
+```
+![](igvRes.png)
+
+
+
+
