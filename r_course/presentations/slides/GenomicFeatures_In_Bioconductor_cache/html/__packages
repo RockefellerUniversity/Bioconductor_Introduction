@@ -13,3 +13,4 @@ XVector
 Biostrings
 BSgenome
 BSgenome.Hsapiens.UCSC.hg19
+org.Hs.eg.db

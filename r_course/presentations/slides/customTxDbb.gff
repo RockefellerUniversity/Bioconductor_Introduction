@@ -1,11 +1,11 @@
-##gff-version 2
+##gff-version 1
 ##source-version rtracklayer 1.36.4
-##date 2018-04-12
-chr1	rtracklayer	gene	3214482	3671498	.	-	.	 ID "GeneID:Xkr4"; Name "Xkr4"
-chr1	rtracklayer	mRNA	3214482	3671498	.	-	.	Parent "GeneID:Xkr4"; ID "TxID:1"; Name "NM_001011874"
-chr1	rtracklayer	exon	3214482	3216968	.	-	.	Parent "TxID:1";
-chr1	rtracklayer	exon	3421702	3421901	.	-	.	Parent "TxID:1";
-chr1	rtracklayer	exon	3670552	3671498	.	-	.	Parent "TxID:1";
-chr1	rtracklayer	CDS	3216022	3216968	.	-	.	Parent "TxID:1";
-chr1	rtracklayer	CDS	3421702	3421901	.	-	.	Parent "TxID:1";
-chr1	rtracklayer	CDS	3670552	3671348	.	-	.	Parent "TxID:1";
+##date 2018-04-13
+chr1	rtracklayer	gene	3214482	3671498	.	-	.	chr1
+chr1	rtracklayer	mRNA	3214482	3671498	.	-	.	chr1
+chr1	rtracklayer	exon	3214482	3216968	.	-	.	chr1
+chr1	rtracklayer	exon	3421702	3421901	.	-	.	chr1
+chr1	rtracklayer	exon	3670552	3671498	.	-	.	chr1
+chr1	rtracklayer	CDS	3216022	3216968	.	-	.	chr1
+chr1	rtracklayer	CDS	3421702	3421901	.	-	.	chr1
+chr1	rtracklayer	CDS	3670552	3671348	.	-	.	chr1
