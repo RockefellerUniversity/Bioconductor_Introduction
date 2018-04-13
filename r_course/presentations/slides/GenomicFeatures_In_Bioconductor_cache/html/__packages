@@ -1,0 +1,15 @@
+base
+BiocGenerics
+S4Vectors
+IRanges
+GenomeInfoDb
+GenomicRanges
+Biobase
+AnnotationDbi
+GenomicFeatures
+TxDb.Hsapiens.UCSC.hg19.knownGene
+rtracklayer
+XVector
+Biostrings
+BSgenome
+BSgenome.Hsapiens.UCSC.hg19
