@@ -14,3 +14,12 @@ Biostrings
 BSgenome
 BSgenome.Hsapiens.UCSC.hg19
 org.Hs.eg.db
+BSgenome.Mmusculus.UCSC.mm10
+rmarkdown
+BiocInstaller
+ggplot2
+TxDb.Dmelanogaster.UCSC.dm6.ensGene
+limma
+edgeR
+org.Mm.eg.db
+TxDb.Mmusculus.UCSC.mm10.knownGene
