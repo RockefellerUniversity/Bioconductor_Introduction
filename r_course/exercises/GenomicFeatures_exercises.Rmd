@@ -5,7 +5,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T,eval=T)
+knitr::opts_chunk$set(echo = F,eval=T)
 ```
 
 
@@ -15,7 +15,7 @@ In these exercises will gain some experience working with the Gene models and an
 
 
 
-1. Load the library TxDb
+1. Load the library TxDb.Mmusculus.UCSC.mm10.knownGene
 
 ```{r installBS, eval=TRUE,echo=FALSE}
 suppressPackageStartupMessages(library(TxDb.Mmusculus.UCSC.mm10.knownGene))
