@@ -1,5 +1,5 @@
 ---
-title: "Alignment In Bioconductor"
+title: "Aligned data In Bioconductor"
 author: "Rockefeller University, Bioinformatics Resource Centre"
 date: "http://rockefelleruniversity.github.io/SequencesInBioconductor/"
 output: 
@@ -64,15 +64,6 @@ Rsamtools::indexBam("~/Downloads/ENCFF846QSN.bam")
 
 ```
 
-# FastQ Sequences
-
-Sequences returned from the Illumina sequences machines are often stored in FASTQ format.
-
-<div align="center">
-<img src="imgs/fastq.png" alt="igv" height="400" width="600">
-</div>
-
-
 ---
 
 # Aligned Sequences
@@ -87,25 +78,13 @@ Aligned sequence reads are stored in BAM format.
 
 # From unaligned sequence reads to aligned data,
 
-To convert our unaligned sequence reads to aligned sequence reads we will need to use an **aligner** sotware to assign reads onto **a reference genome**.
-
-We have already reviewed the FASTA format which is used to store reference genome
-
-<div align="center">
-<img src="imgs/fasta.png" alt="igv" height="300" width="400">
-</div>
+In our previous session we saw how to align data to the genome using an aligner and that we can use a splice aware aligner to map RNAseq reads across splice junctions.
 
 ---
 
-# From unaligned sequence reads to aligned data,
+# Working with BAM files in Bioconductor.
 
-We have also reviewed reference genomes in Bioconductor stored in the BSgenome packages.
-
-
-<div align="center">
-<img src="imgs/bsgenome.png" alt="igv" height="400" width="400">
-</div>
-
+In this session we will work with aligned data as BAM files 
 ---
 
 # Alignment software
