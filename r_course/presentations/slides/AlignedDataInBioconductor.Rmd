@@ -588,6 +588,7 @@ myParam <- ScanBamParam(what=c("qname","seq","qual"))
 infoInReads <- readGAlignments("Sorted_liver.bam",param = myParam)
 infoInReads[1]
 ```
+---
 # Working with large BAM files
 
 We can access this additional information as we would in **GRanges** objects by using the **mcols** function.
