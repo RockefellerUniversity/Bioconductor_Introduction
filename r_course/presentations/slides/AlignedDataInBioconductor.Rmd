@@ -375,19 +375,6 @@ myReads[1:2,]
 ```
 
 
----
-
-
-# GenomicAlignments - GAlignments
-
-The resulting **GAlignments** object contains much of the information we saw in the SAM file earlier on. 
-
-This include the chromomome, strand, start and end position of alignment.
-
-
-```{r ka2,echo=TRUE,eval=TRUE}
-myReads[1:2,]
-```
 
 ---
 

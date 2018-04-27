@@ -608,34 +608,6 @@ myReads[1:2,]
 ```
 
 
----
-
-
-# GenomicAlignments - GAlignments
-
-The resulting **GAlignments** object contains much of the information we saw in the SAM file earlier on. 
-
-This include the chromomome, strand, start and end position of alignment.
-
-
-
-```r
-myReads[1:2,]
-```
-
-```
-## GAlignments object with 2 alignments and 0 metadata columns:
-##       seqnames strand       cigar    qwidth     start       end     width
-##          &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
-##   [1]    chr12      -         75M        75  98000078  98000152        75
-##   [2]    chr12      +         50M        50  98019636  98019685        50
-##           njunc
-##       &lt;integer&gt;
-##   [1]         0
-##   [2]         0
-##   -------
-##   seqinfo: 25 sequences from an unspecified genome
-```
 
 ---
 
