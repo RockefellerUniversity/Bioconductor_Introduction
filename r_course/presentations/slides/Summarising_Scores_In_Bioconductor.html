@@ -251,7 +251,9 @@ Here we simply select only reads aligning to the positive strand prior to creati
 heartAlnPos &lt;- heartAln[strand(heartAln) == "+"]
 heartAlnPos &lt;- coverage(heartAlnPos)
 heartAlnPos["chr12"]
+export.bw(heartAlnPos,con="heartPos.bw")
 ```
+
 
 ```
 ## RleList of length 1
@@ -260,6 +262,8 @@ heartAlnPos["chr12"]
 ##   Lengths: 98045674       75      907 ...       50       25 33855377
 ##   Values :        0        1        0 ...        3        2        0
 ```
+
+
 
 
 ---

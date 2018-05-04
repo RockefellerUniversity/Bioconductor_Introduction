@@ -249,11 +249,20 @@ This means we can perform some operations on our sequence reads in R prior to cr
 
 Here we simply select only reads aligning to the positive strand prior to creating our signal scores..
 
-```{r a6}
+```{r a6s,echo=TRUE,eval=FALSE}
+heartAlnPos <- heartAln[strand(heartAln) == "+"]
+heartAlnPos <- coverage(heartAlnPos)
+heartAlnPos["chr12"]
+export.bw(heartAlnPos,con="heartPos.bw")
+```
+
+```{r a6,echo=FALSE,eval=TRUE}
 heartAlnPos <- heartAln[strand(heartAln) == "+"]
 heartAlnPos <- coverage(heartAlnPos)
 heartAlnPos["chr12"]
 ```
+
+
 
 
 ---
