@@ -56,6 +56,10 @@ Sequence reads aligned to a genome are most often stored in BAM format.
 
 A common analysis step in the interpretation of high-throughput sequencing experiments is to quantify the abundance of sequence in/over genomic regions.
 
+<div align="center">
+<img src="imgs/sum.png" alt="igv" height="400" width="600">
+</div>
+
 ---
 # Summarizing alignments in/over regions.
 
