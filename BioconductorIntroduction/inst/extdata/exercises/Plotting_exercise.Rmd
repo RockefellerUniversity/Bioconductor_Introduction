@@ -1,0 +1,78 @@
+---
+title: "Base plotting exercise"
+author: "Rockefeller University"
+date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,eval=T)
+```
+
+
+##Exercise 1
+Read in the data "timecourse.csv" as a data.frame and get a summary of column values
+
+```{r,eval=TRUE,echo=FALSE,include=FALSE}
+timeCourse <- read.delim("../data/timecourse.csv",sep=",",header = T) 
+summary(timeCourse)
+```
+
+```{r,eval=FALSE}
+timeCourse <- read.delim("../data/timecourse.csv",sep=",",header = T) 
+summary(timeCourse)
+```
+
+##Exercise 2
+Produce a histogram of the values for control and treatment samples
+```{r}
+hist(as.matrix(timeCourse)[,2:3],main = "Control",xlab = "Control")
+hist(as.matrix(timeCourse)[,4:5],main = "Treatment",xlab = "Treatment")
+```
+
+##Exercise 3
+Put these in the same plot with same X scale limits
+```{r}
+par(mfrow=c(2,1))
+hist(as.matrix(timeCourse)[,2:3],xlim = c(0,20),main = "Control",xlab = "Control")
+hist(as.matrix(timeCourse)[,4:5],xlim = c(0,20),main = "Treatment",xlab = "Treatment")
+```
+
+##Exercise 4
+Make a barplot of values in control sample 1 for every time point
+```{r}
+par(mfrow=c(1,1))
+
+control1 <- timeCourse[,2]
+barplot(control1,names.arg = timeCourse[,1],xlab = "Time")
+
+```
+
+##Exercise 5
+Make a barplot of mean values in control and treatment samples side by side for every time point
+```{r}
+par(mfrow=c(1,1))
+
+controlMeans <- rowMeans(timeCourse[,c(2,3)])
+treatmentMeans <- rowMeans(timeCourse[,c(4,5)])
+meanTable <- rbind(controlMeans,treatmentMeans)
+barplot(meanTable,names.arg = timeCourse[,1],xlab = "Time",beside=TRUE,col=c("blue","red"))
+
+legend("topleft",legend = c("Control","Treatment"),fill=c("blue","red"))
+
+```
+
+## Exercise 6
+Create a line graph showing control and treatment samples against time.
+
+```{r}
+topOfY <- max(timeCourse[,-1])+3
+ 
+plot(timeCourse[,2],type="o",xlab="Time",ylab="Score",pch=1,ylim=c(0,topOfY),col="blue") 
+lines(timeCourse[,3],pch=1,col="blue",type="o") 
+lines(timeCourse[,4],pch=1,col="red",type="o") 
+lines(timeCourse[,5],pch=1,col="red",type="o") 
+legend("topleft",legend = c("Control","Treatment"),col=c("blue","red"),lwd = 2)
+```
+
+

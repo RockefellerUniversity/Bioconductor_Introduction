@@ -1,0 +1,160 @@
+---
+title: "Exercise Set 1 — Geoms and Aesthetics"
+author: "Tom Carroll"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,eval=T)
+```
+
+
+## Exercise 1
+
+These first few exercises will run through some of the simple principles of creating a ggplot2 object, assigning aesthetics mappings and geoms.
+
+
+1. Read in the cleaned patients dataset as we saw in ggplot2 course earlier ("patients_clean_ggplot2.txt")
+
+```{r exerciseReadin, echo=T}
+patients_clean <- read.delim("../data/patients_clean_ggplot2.txt",sep="\t")
+```
+
+### Scatterplots
+
+2. Using the patient dataset generate a scatter plot of BMI versus Weight.
+
+```{r exercise1}
+library(ggplot2)
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight))+geom_point()
+plot
+```
+
+3. Extending the plot from exercise 2, add a colour scale to the scatterplot based on the Height variable.
+
+```{r exercise2}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=Height))+geom_point()
+plot
+```
+
+4. Following from exercise 3, split the BMI vs Weight plot into a grid of plots separated by Smoking status and Sex .
+
+```{r exercise3}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=Height))+geom_point()
+plot+facet_grid(Sex~Smokes)
+```
+
+5. Using an additional geom, add an extra layer of a fit line to the solution from exercise 3.
+
+```{r exercise4}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=Height))+geom_point()+
+  geom_smooth()
+plot
+```
+
+6. Does the fit in question 5 look good? Look at the description for ?geom_smooth() and adjust the method for a better fit.
+
+```{r exercise5}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=Height))+geom_point()+
+  geom_smooth(method="lm",se=F)
+plot
+```
+
+###Boxplots and Violin plots
+
+7. Generate a boxplot of BMIs comparing smokers and non-smokers.
+
+```{r exercise6}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=Smokes,y=BMI))+geom_boxplot()
+plot
+```
+
+
+8. Following from the boxplot comparing smokers and non-smokers in exercise 7, colour boxplot edges by Sex.
+
+```{r exercise7}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=Smokes,y=BMI,colour=Sex))+geom_boxplot()
+
+plot
+```
+
+9. Now reproduce the boxplots in exercise 8 (grouped by smoker, coloured by sex) but now include a separate facet for people of different age (using Age column).
+
+```{r exercise8}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=Smokes,y=BMI,colour=Sex))+
+  geom_boxplot()+
+  facet_wrap(~Age)
+plot
+```
+
+10. Produce a similar boxplot of BMIs but this time group data by Sex, colour by Age and facet by Smoking status.
+
+HINT - Discrete values such as in factors are used for categorical data.
+
+```{r exercise9}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=Sex,y=BMI,colour=factor(Age)))+
+  geom_boxplot()+
+  facet_wrap(~Smokes)
+plot
+```
+
+11. Regenerate the solution to exercise 10 but this time using a violin plot.
+
+```{r exercise10}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=Sex,y=BMI,colour=factor(Age)))+
+  geom_violin()+
+  facet_wrap(~Smokes)
+plot
+```
+
+
+###Histogram and Density plots
+
+12. Generate a histogram of BMIs with each bar coloured blue.
+
+
+```{r exercise11}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(BMI))+
+  geom_histogram(fill="blue")
+plot
+```
+
+13. Generate density plots of BMIs coloured by Sex.
+
+HINT: alpha can be used to control transparancy.
+
+```{r exercise12}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(BMI))+ geom_density(aes(fill=Sex),alpha=0.5)
+plot
+```
+
+14. Generate a separate density plot of BMI coloured by sex for each Grade,
+```{r exercise13}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(BMI))+ geom_density(aes(fill=Sex),alpha=0.5)
+plot+facet_wrap(~Grade)
+```
+
+

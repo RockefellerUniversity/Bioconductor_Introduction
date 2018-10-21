@@ -1,0 +1,97 @@
+---
+title: "Exercise Set 2 - Scales, statistics and Themes"
+author: "Tom Carroll"
+date: "8 May 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, eval=F)
+```
+
+## Exercise 2
+
+In these exercises we look at adjusting the scales and themes of our plots.
+
+### Scales
+
+1. Using the patient dataset from earlier, generate a scatter plot of BMI versus Weight
+
+```{r exerciseReadin, echo=T,eval=T}
+library(ggplot2)
+
+patients_clean <- read.delim("patients_clean_ggplot2.txt",sep="\t")
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight))+geom_point()
+plot
+```
+
+2. With the plot above, from exercise 1, adjust the BMI axis to show only labels for 20, 30, 40 and the weight axis to show breaks for 60 to 100 in steps of 5 as well as to specify units in y axis label. 
+
+
+```{r exercise1}
+
+```
+
+
+
+3. Create a violin plot of BMI by Age where violins are filled using a sequential colour palette.
+
+```{r exercise2}
+
+```            
+
+4. Create a scatterplot of BMI versus Weight and add a continuous colour scale for the height. Make the colour scale  with a midpoint (set to mean point) colour of gray and extremes of blue (low) and yellow (high).
+
+
+```{r exercise3}
+
+```
+
+5. Adjust the plot from exercise 4 using scales to remove values greater than 180.
+
+```{r exercise4}
+
+```
+
+6. Adjust the scale legend from plot in exercise 4 to show only 75%, median and min values in scale legend.
+
+```{r exercise5}
+
+```
+
+
+6. With the plot from exercise 4, create another scatterplot with Count variable mapped to transparency/alpha and size illustrating whether a person is overweight. 
+Is there a better combination of aesthetic mappings?
+
+```{r exercise6}
+
+```
+
+### Statistics
+
+7. Recreate the scatterplot of BMI by height. Colour by Age group and add fitted lines (but no SE lines) for each Age group. 
+
+
+```{r exercise7}
+
+```
+
+### Themes
+
+8. Remove the legend title from plot in exercise 7, change the background colours of legend panels to white and place legend at bottom of plot.
+
+```{r exercise8}
+
+
+```
+
+9. Add a title to the plot, remove minor grid lines and save to 7 by 7 inch plot on disk.
+
+```{r exercise9}
+```
+
+10. Produce a Height vs Weight scatter plot with point sizes scaled by BMI. 
+Present only the points and title of plot with all other graph features missing.
+

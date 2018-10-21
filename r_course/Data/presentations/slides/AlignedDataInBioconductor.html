@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Aligned data In Bioconductor</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Aligned data In Bioconductor
+### Rockefeller University, Bioinformatics Resource Centre
+### <a href="http://rockefelleruniversity.github.io/SequencesInBioconductor/" class="uri">http://rockefelleruniversity.github.io/SequencesInBioconductor/</a>
+
+---
+
+
+
+
+
+
+
+# Aligned Sequences
+
+Aligned sequence reads are stored in BAM format.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/sam.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+---
+
+
+# Aligned Sequences - BAM header
+
+Information on the content and state of BAM file is stored in its header.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/header.png" alt="igv" height="400" width="400"&gt;
+&lt;/div&gt;
+
+---
+
+# Aligned Sequences - BAM reads
+
+The body of the BAM file hold information on the original reads.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bam1.png" alt="igv" height="400" width="700"&gt;
+&lt;/div&gt;
+---
+
+# Aligned Sequences - BAM reads
+
+As well as on the positions reads map to in the genome.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bam2.png" alt="igv" height="400" width="700"&gt;
+&lt;/div&gt;
+
+
+---
+# Working with aligned data in Bioconductor.
+
+Aligned data is handled in Bioconductor using the **GenomicAlignments** package.
+
+**GenomicAlignments** package builds on tools in other packages we have already encountered such as the 
+**Rsamtools**, **GenomicRanges**, **ShortRead**, **BSgenome** and **rtracklayer** packages.
+
+---
+# From unaligned sequence reads to aligned data,
+
+In our previous session we saw how to align data to the genome using an aligner and that we can use a splice aware aligner to map RNAseq reads across splice junctions.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/IGV_SplicingExample.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+
+# The Data
+
+In this session we will work with aligned data as BAM files. 
+
+I have provided BAM files we saw in our last session as our test data from today.
+
+This can be found in **Data/liver.bodyMap.bam**
+
+---
+
+# Rsamtools
+
+We introduced the **Rsamtools** package in our last session to help us post process our newly aligned BAM files.
+
+The Rsamtools package is the basis for many R/Bioconductor packages working with alignments in BAM format including another package we will work with today, the **GenomicAligments** package.
+
+First we can load the **Rsamtools** package.
+
+
+```r
+library(Rsamtools)
+```
+
+
+
+---
+
+# Rsamtools - Sorting by coordinate
+
+We saw in our last session we can sort files using the **sortBam()** function.
+This function returns the name of sorted BAM file.
+
+By default the file is sorted by chromosome name and then by coordinates of reads within these chromosomes.
+
+
+
+```r
+coordSorted &lt;- sortBam("../../Data/liver.bodyMap.bam",
+                       "Sorted_liver")
+coordSorted
+```
+
+```
+## [1] "Sorted_liver.bam"
+```
+---
+
+# Rsamtools - Sorting by read name
+
+Some external programs will require reads be sorted by read name, not coordinates. 
+To sort by read name we can set the **sortBam** arguement **byQname** to **TRUE**.
+
+
+
+```r
+readnameSorted &lt;- sortBam("../../Data/liver.bodyMap.bam",
+                          "SortedByName_liver",
+                          byQname=TRUE)
+readnameSorted
+```
+
+```
+## [1] "SortedByName_liver.bam"
+```
+
+---
+
+# Rsamtools - Saving or exploiting more memory
+
+We can control how much memory we use with the **maxMemory** parameter. This allows to sort very large files on smaller memory computers (such as our laptops). 
+
+The maxMemory is specified as the maximum MB of RAM which our **sortBam()** function call can use. In sorting **Rsamtools** will produce mulitple smaller BAM files, the smaller the maxMemory value the greater then number of temporary files.
+
+Here in this example, we sort our file in 1MB of memory and it will produce 19 tempory files.
+
+
+
+
+```r
+coordSorted &lt;- sortBam("../../Data/liver.bodyMap.bam",
+                          "Sorted_liver",
+                          maxMemory=1)
+```
+
+```
+## Warning in .local(file, destination, ...): [bam_sort_core] merging from 19
+## files...
+```
+
+```r
+coordSorted
+```
+
+```
+## [1] "Sorted_liver.bam"
+```
+
+---
+
+# Rsamtools
+
+Once we have a coordinate sorted file we can index these files to allow for use in other programs such as IGV.
+
+Importantly for us, an indexed BAM file allows us to access information from a BAM file by genomic location.
+
+
+
+```r
+indexBam("Sorted_liver.bam")
+```
+
+```
+##       Sorted_liver.bam 
+## "Sorted_liver.bam.bai"
+```
+
+
+---
+# Rsamtools
+
+We saw in our last session that we can use **quickBamFlagSummary()** function to get information on alignnment rates and other BAM flags.
+
+
+```r
+quickBamFlagSummary("Sorted_liver.bam")
+```
+
+```
+##                                 group |    nb of |    nb of | mean / max
+##                                    of |  records |   unique | records per
+##                               records | in group |   QNAMEs | unique QNAME
+## All records........................ A |    61994 |    42950 | 1.44 / 2
+##   o template has single segment.... S |    20549 |    20523 |    1 / 2
+##   o template has multiple segments. M |    41445 |    22427 | 1.85 / 2
+##       - first segment.............. F |    20863 |    20863 |    1 / 1
+##       - last segment............... L |    20582 |    20579 |    1 / 2
+##       - other segment.............. O |        0 |        0 |   NA / NA
+## 
+## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
+## Indentation reflects this.
+## 
+## Details for group A:
+##   o record is mapped.............. A1 |    61994 |    42950 | 1.44 / 2
+##       - primary alignment......... A2 |    61994 |    42950 | 1.44 / 2
+##       - secondary alignment....... A3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ A4 |        0 |        0 |   NA / NA
+## 
+## Details for group S:
+##   o record is mapped.............. S1 |    20549 |    20523 |    1 / 2
+##       - primary alignment......... S2 |    20549 |    20523 |    1 / 2
+##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ S4 |        0 |        0 |   NA / NA
+## 
+## Details for group M:
+##   o record is mapped.............. M1 |    41445 |    22427 | 1.85 / 2
+##       - primary alignment......... M2 |    41445 |    22427 | 1.85 / 2
+##       - secondary alignment....... M3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ M4 |        0 |        0 |   NA / NA
+## 
+## Details for group F:
+##   o record is mapped.............. F1 |    20863 |    20863 |    1 / 1
+##       - primary alignment......... F2 |    20863 |    20863 |    1 / 1
+##       - secondary alignment....... F3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ F4 |        0 |        0 |   NA / NA
+## 
+## Details for group L:
+##   o record is mapped.............. L1 |    20582 |    20579 |    1 / 2
+##       - primary alignment......... L2 |    20582 |    20579 |    1 / 2
+##       - secondary alignment....... L3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ L4 |        0 |        0 |   NA / NA
+```
+
+---
+# Rsamtools
+
+Despite the name, the **quickBamFlagSummary** can take a noticeable amount of time when working with large files.
+
+To get a very quick overview of number of mapped reads we can use the indexed BAM file and the **idxstatsBam()** function.
+
+
+```r
+myIndexStats &lt;- idxstatsBam("Sorted_liver.bam")
+```
+
+---
+# Rsamtools
+
+The **idxstatsBam()** function returns a data.frame containing chromosome name, chromosome lengths and number of mapped reads.
+
+
+```r
+myIndexStats[1:12,]
+```
+
+```
+##    seqnames seqlength mapped unmapped
+## 1      chr1 249250621      0        0
+## 2      chr2 243199373      0        0
+## 3      chr3 198022430      0        0
+## 4      chr4 191154276      0        0
+## 5      chr5 180915260      0        0
+## 6      chr6 171115067      0        0
+## 7      chr7 159138663      0        0
+## 8      chr8 146364022      0        0
+## 9      chr9 141213431      0        0
+## 10    chr10 135534747      0        0
+## 11    chr11 135006516      0        0
+## 12    chr12 133851895  61994        0
+```
+
+---
+
+# GenomicAlignments
+
+Importing and handling of BAM files is handled largely in the GenomicAlignments package.
+
+We first load the package.
+
+
+```r
+library(GenomicAlignments)
+```
+
+
+---
+# GenomicAlignments - BAM header
+
+We saw in our earlier sessions on file formats that BAM files contain header information.
+
+This header information provides a list of the chromosomes used and their lengths as well as the current state of BAM sorting (unsorted, coordinate or by name).
+
+Additional information on programs used in processing of BAM file may also be present in BAM header
+
+---
+# GenomicAlignments - BAM header
+
+We can retrieve the BAM header in R using the **scanBamHeader()** function and the name of the file we wish to access header information from.
+
+Header information is returned as a list. 
+
+
+```r
+myHeader &lt;- scanBamHeader("Sorted_liver.bam")
+str(myHeader)
+```
+
+```
+## List of 1
+##  $ Sorted_liver.bam:List of 2
+##   ..$ targets: Named int [1:25] 249250621 135534747 135006516 133851895 115169878 107349540 102531392 90354753 81195210 78077248 ...
+##   .. ..- attr(*, "names")= chr [1:25] "chr1" "chr10" "chr11" "chr12" ...
+##   ..$ text   :List of 27
+##   .. ..$ @HD: chr [1:2] "VN:1.0" "SO:coordinate"
+##   .. ..$ @SQ: chr [1:2] "SN:chr1" "LN:249250621"
+##   .. ..$ @SQ: chr [1:2] "SN:chr10" "LN:135534747"
+##   .. ..$ @SQ: chr [1:2] "SN:chr11" "LN:135006516"
+##   .. ..$ @SQ: chr [1:2] "SN:chr12" "LN:133851895"
+##   .. ..$ @SQ: chr [1:2] "SN:chr13" "LN:115169878"
+##   .. ..$ @SQ: chr [1:2] "SN:chr14" "LN:107349540"
+##   .. ..$ @SQ: chr [1:2] "SN:chr15" "LN:102531392"
+##   .. ..$ @SQ: chr [1:2] "SN:chr16" "LN:90354753"
+##   .. ..$ @SQ: chr [1:2] "SN:chr17" "LN:81195210"
+##   .. ..$ @SQ: chr [1:2] "SN:chr18" "LN:78077248"
+##   .. ..$ @SQ: chr [1:2] "SN:chr19" "LN:59128983"
+##   .. ..$ @SQ: chr [1:2] "SN:chr2" "LN:243199373"
+##   .. ..$ @SQ: chr [1:2] "SN:chr20" "LN:63025520"
+##   .. ..$ @SQ: chr [1:2] "SN:chr21" "LN:48129895"
+##   .. ..$ @SQ: chr [1:2] "SN:chr22" "LN:51304566"
+##   .. ..$ @SQ: chr [1:2] "SN:chr3" "LN:198022430"
+##   .. ..$ @SQ: chr [1:2] "SN:chr4" "LN:191154276"
+##   .. ..$ @SQ: chr [1:2] "SN:chr5" "LN:180915260"
+##   .. ..$ @SQ: chr [1:2] "SN:chr6" "LN:171115067"
+##   .. ..$ @SQ: chr [1:2] "SN:chr7" "LN:159138663"
+##   .. ..$ @SQ: chr [1:2] "SN:chr8" "LN:146364022"
+##   .. ..$ @SQ: chr [1:2] "SN:chr9" "LN:141213431"
+##   .. ..$ @SQ: chr [1:2] "SN:chrM" "LN:16571"
+##   .. ..$ @SQ: chr [1:2] "SN:chrX" "LN:155270560"
+##   .. ..$ @SQ: chr [1:2] "SN:chrY" "LN:59373566"
+##   .. ..$ @PG: chr [1:3] "ID:TopHat" "VN:1.1.4" "CL:/home/radon00/cole/bin/tophat -p 4 -a 5 -F 0.0 -r 100 --tmp-dir=/broad/shptmp/nmcabili/rnaseq/human/HBM_hg19"| __truncated__
+```
+
+---
+
+# GenomicAlignments - BAM header
+
+We can access useful information such as chromosome names and lengths as with other lists using **$** accessors.
+The first level of list is the file names.
+The second levels of list are
+
+* Chromosome names and lengths - named **targets**
+* Unparsed Text from lines of header - named **text**
+
+
+```r
+names(myHeader)
+```
+
+```
+## [1] "Sorted_liver.bam"
+```
+
+```r
+names(myHeader$Sorted_liver.bam)
+```
+
+```
+## [1] "targets" "text"
+```
+
+---
+
+# GenomicAlignments - BAM header
+
+The chromosome lengths are stored in a named vector under the **targets list**.
+
+
+```r
+myHeader$Sorted_liver.bam$targets[1:10]
+```
+
+```
+##      chr1     chr10     chr11     chr12     chr13     chr14     chr15 
+## 249250621 135534747 135006516 133851895 115169878 107349540 102531392 
+##     chr16     chr17     chr18 
+##  90354753  81195210  78077248
+```
+---
+
+# GenomicAlignments - BAM header
+
+The **text list** contains information on sorting and programs.
+
+
+```r
+myHeader$Sorted_liver.bam$text
+```
+
+```
+## $`@HD`
+## [1] "VN:1.0"        "SO:coordinate"
+## 
+## $`@SQ`
+## [1] "SN:chr1"      "LN:249250621"
+## 
+## $`@SQ`
+## [1] "SN:chr10"     "LN:135534747"
+## 
+## $`@SQ`
+## [1] "SN:chr11"     "LN:135006516"
+## 
+## $`@SQ`
+## [1] "SN:chr12"     "LN:133851895"
+## 
+## $`@SQ`
+## [1] "SN:chr13"     "LN:115169878"
+## 
+## $`@SQ`
+## [1] "SN:chr14"     "LN:107349540"
+## 
+## $`@SQ`
+## [1] "SN:chr15"     "LN:102531392"
+## 
+## $`@SQ`
+## [1] "SN:chr16"    "LN:90354753"
+## 
+## $`@SQ`
+## [1] "SN:chr17"    "LN:81195210"
+## 
+## $`@SQ`
+## [1] "SN:chr18"    "LN:78077248"
+## 
+## $`@SQ`
+## [1] "SN:chr19"    "LN:59128983"
+## 
+## $`@SQ`
+## [1] "SN:chr2"      "LN:243199373"
+## 
+## $`@SQ`
+## [1] "SN:chr20"    "LN:63025520"
+## 
+## $`@SQ`
+## [1] "SN:chr21"    "LN:48129895"
+## 
+## $`@SQ`
+## [1] "SN:chr22"    "LN:51304566"
+## 
+## $`@SQ`
+## [1] "SN:chr3"      "LN:198022430"
+## 
+## $`@SQ`
+## [1] "SN:chr4"      "LN:191154276"
+## 
+## $`@SQ`
+## [1] "SN:chr5"      "LN:180915260"
+## 
+## $`@SQ`
+## [1] "SN:chr6"      "LN:171115067"
+## 
+## $`@SQ`
+## [1] "SN:chr7"      "LN:159138663"
+## 
+## $`@SQ`
+## [1] "SN:chr8"      "LN:146364022"
+## 
+## $`@SQ`
+## [1] "SN:chr9"      "LN:141213431"
+## 
+## $`@SQ`
+## [1] "SN:chrM"  "LN:16571"
+## 
+## $`@SQ`
+## [1] "SN:chrX"      "LN:155270560"
+## 
+## $`@SQ`
+## [1] "SN:chrY"     "LN:59373566"
+## 
+## $`@PG`
+## [1] "ID:TopHat"                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+## [2] "VN:1.1.4"                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+## [3] "CL:/home/radon00/cole/bin/tophat -p 4 -a 5 -F 0.0 -r 100 --tmp-dir=/broad/shptmp/nmcabili/rnaseq/human/HBM_hg19/Alignments/liver_50 -o /seq/rinnlab/Moran/HBM_hg19/Alignments/liver_50 --no-novel-juncs -j /seq/rinnlab/Moran/HBM_hg19/Junctions/HBM+GencodeV4+RinnNov10.juncs /seq/rinnscratch/cole/bowtie_indexes/hg19/hg19-male /broad/shptmp/nmcabili/rnaseq/human/HBM/50bp/FCB/s_8_1_sequence.txt /broad/shptmp/nmcabili/rnaseq/human/HBM/50bp/FCB/s_8_2_sequence.txt"
+```
+---
+# GenomicAlignments - BAM header
+
+We can see the order by reviewing the **HD** element. Here we sorted by coordinate.
+
+
+```r
+myHeader$Sorted_liver.bam$text["@HD"]
+```
+
+```
+## $`@HD`
+## [1] "VN:1.0"        "SO:coordinate"
+```
+---
+# GenomicAlignments - BAM header
+
+We can check the order for our name sorted BAM file too.
+
+
+```r
+myHeader &lt;- scanBamHeader("SortedByName_liver.bam")
+myHeader$SortedByName_liver.bam$text["@HD"]
+```
+
+```
+## $`@HD`
+## [1] "VN:1.0"       "SO:queryname"
+```
+
+---
+
+# GenomicAlignments - BAM header
+
+We can see the program information by reviewing the **PG** element.
+Note that **PG** elements are not always complete and depend on tools used. Here we can see aligner, version used and the command line command itself.
+
+
+```r
+myHeader &lt;- scanBamHeader("Sorted_liver.bam")
+myHeader$Sorted_liver.bam$text["@PG"]
+```
+
+```
+## $`@PG`
+## [1] "ID:TopHat"                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+## [2] "VN:1.1.4"                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+## [3] "CL:/home/radon00/cole/bin/tophat -p 4 -a 5 -F 0.0 -r 100 --tmp-dir=/broad/shptmp/nmcabili/rnaseq/human/HBM_hg19/Alignments/liver_50 -o /seq/rinnlab/Moran/HBM_hg19/Alignments/liver_50 --no-novel-juncs -j /seq/rinnlab/Moran/HBM_hg19/Junctions/HBM+GencodeV4+RinnNov10.juncs /seq/rinnscratch/cole/bowtie_indexes/hg19/hg19-male /broad/shptmp/nmcabili/rnaseq/human/HBM/50bp/FCB/s_8_1_sequence.txt /broad/shptmp/nmcabili/rnaseq/human/HBM/50bp/FCB/s_8_2_sequence.txt"
+```
+
+---
+
+
+# GenomicAlignments - BAM Alignments
+
+Now we have an idea how our BAM was constructed, we want to start to retrieve some of the data from our BAM file.
+
+We can use the **readGAlignments()** function to import the BAM data into R. 
+
+The returned object is a **GAlignments** object.
+
+
+
+
+```r
+myReads &lt;- readGAlignments("Sorted_liver.bam")
+class(myReads)
+```
+
+```
+## [1] "GAlignments"
+## attr(,"package")
+## [1] "GenomicAlignments"
+```
+
+---
+
+
+# GenomicAlignments - GAlignments
+
+The resulting **GAlignments** object contains much of the information we saw in the SAM file earlier on. 
+
+This include the chromomome, strand, start and end position of alignment.
+
+
+
+```r
+myReads[1:2,]
+```
+
+```
+## GAlignments object with 2 alignments and 0 metadata columns:
+##       seqnames strand       cigar    qwidth     start       end     width
+##          &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##   [1]    chr12      -         75M        75  98000078  98000152        75
+##   [2]    chr12      +         50M        50  98019636  98019685        50
+##           njunc
+##       &lt;integer&gt;
+##   [1]         0
+##   [2]         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+
+
+---
+
+# GenomicAlignments - GAlignments
+
+As for **GRanges** objects we have the **width** of our ranges (end coordinate - start coordinate) in the **GAlignments** objects.
+
+Additional we have the **qwidth** which contains information on the width of the original read. 
+
+
+
+```r
+myReads[1:2,]
+```
+
+```
+## GAlignments object with 2 alignments and 0 metadata columns:
+##       seqnames strand       cigar    qwidth     start       end     width
+##          &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##   [1]    chr12      -         75M        75  98000078  98000152        75
+##   [2]    chr12      +         50M        50  98019636  98019685        50
+##           njunc
+##       &lt;integer&gt;
+##   [1]         0
+##   [2]         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+---
+
+
+# GenomicAlignments - GAlignments
+
+
+The **GAlignments** object also contains information on the **cigar** strings within alignments and the number of junctions a read spans in the **njunc** column
+
+Cigar strings denote the matches against reference.
+
+75M - This is 75 matches in a row.
+
+
+```r
+myReads[1:2,]
+```
+
+```
+## GAlignments object with 2 alignments and 0 metadata columns:
+##       seqnames strand       cigar    qwidth     start       end     width
+##          &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##   [1]    chr12      -         75M        75  98000078  98000152        75
+##   [2]    chr12      +         50M        50  98019636  98019685        50
+##           njunc
+##       &lt;integer&gt;
+##   [1]         0
+##   [2]         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+
+---
+
+# GenomicAlignments - GAlignments
+
+
+The **GAlignments** object inherits much of the functionality we have seen with **GRanges** object.
+
+We can access information using the same accessors as we saw with GRanges objects.
+
+
+```r
+seqnames(myReads)
+```
+
+```
+## factor-Rle of length 61994 with 1 run
+##   Lengths: 61994
+##   Values : chr12
+## Levels(25): chr1 chr10 chr11 chr12 chr13 ... chr8 chr9 chrM chrX chrY
+```
+
+```r
+start(myReads)[1:2]
+```
+
+```
+## [1] 98000078 98019636
+```
+
+---
+
+# GenomicAlignments - GAlignments
+
+
+The **GAlignments** object also has some new accessors to access the cigar and njunc information using the **cigar** and **njunc** functions.
+
+
+
+```r
+cigar(myReads)[1:2]
+```
+
+```
+## [1] "75M" "50M"
+```
+
+```r
+njunc(myReads)[1:2]
+```
+
+```
+## [1] 0 0
+```
+
+---
+
+# GenomicAlignments - GAlignments
+
+
+We can also index and subset the same way as with **GRanges** objects.
+
+Here we only keep reads on positive strand
+
+
+```r
+myReads[strand(myReads) == "+"]
+```
+
+```
+## GAlignments object with 31364 alignments and 0 metadata columns:
+##           seqnames strand       cigar    qwidth     start       end
+##              &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##       [1]    chr12      +         50M        50  98019636  98019685
+##       [2]    chr12      +         75M        75  98048450  98048524
+##       [3]    chr12      +         75M        75  98071725  98071799
+##       [4]    chr12      +         75M        75  98071725  98071799
+##       [5]    chr12      +         75M        75  98071725  98071799
+##       ...      ...    ...         ...       ...       ...       ...
+##   [31360]    chr12      +         50M        50  99898308  99898357
+##   [31361]    chr12      +         50M        50  99898308  99898357
+##   [31362]    chr12      +         50M        50  99954800  99954849
+##   [31363]    chr12      +         75M        75  99964155  99964229
+##   [31364]    chr12      +         50M        50  99980103  99980152
+##               width     njunc
+##           &lt;integer&gt; &lt;integer&gt;
+##       [1]        50         0
+##       [2]        75         0
+##       [3]        75         0
+##       [4]        75         0
+##       [5]        75         0
+##       ...       ...       ...
+##   [31360]        50         0
+##   [31361]        50         0
+##   [31362]        50         0
+##   [31363]        75         0
+##   [31364]        50         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+
+---
+
+# GenomicAlignments - GAlignments
+
+We can alter range positions using the GenomicRanges **narrow()** function.
+
+
+Here we resize our reads to be the 5' 1st base pair at the beginning of every read. Note that **narrow()** function does not take notice of strand.
+
+The cigar strings and njunc will automatically be altered as well
+
+
+```r
+my5primeReads &lt;- narrow(myReads,start=1,width = 1)
+my5primeReads
+```
+
+```
+## GAlignments object with 61994 alignments and 0 metadata columns:
+##           seqnames strand       cigar    qwidth     start       end
+##              &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##       [1]    chr12      -          1M         1  98000078  98000078
+##       [2]    chr12      +          1M         1  98019636  98019636
+##       [3]    chr12      +          1M         1  98048450  98048450
+##       [4]    chr12      +          1M         1  98071725  98071725
+##       [5]    chr12      +          1M         1  98071725  98071725
+##       ...      ...    ...         ...       ...       ...       ...
+##   [61990]    chr12      +          1M         1  99898308  99898308
+##   [61991]    chr12      +          1M         1  99898308  99898308
+##   [61992]    chr12      +          1M         1  99954800  99954800
+##   [61993]    chr12      +          1M         1  99964155  99964155
+##   [61994]    chr12      +          1M         1  99980103  99980103
+##               width     njunc
+##           &lt;integer&gt; &lt;integer&gt;
+##       [1]         1         0
+##       [2]         1         0
+##       [3]         1         0
+##       [4]         1         0
+##       [5]         1         0
+##       ...       ...       ...
+##   [61990]         1         0
+##   [61991]         1         0
+##   [61992]         1         0
+##   [61993]         1         0
+##   [61994]         1         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+---
+
+# GenomicAlignments - GAlignments
+
+We can control this ourselves with a little subsetting. 
+
+
+```r
+myReadsPos &lt;- narrow(myReads[strand(myReads) == "+"],
+                     start=1,width = 1)
+myReadsNeg &lt;- narrow(myReads[strand(myReads) == "-"],
+                     end=-1,width = 1)
+
+my5primeReads &lt;- c(myReadsPos,myReadsNeg)
+my5primeReads
+```
+
+```
+## GAlignments object with 61994 alignments and 0 metadata columns:
+##           seqnames strand       cigar    qwidth     start       end
+##              &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##       [1]    chr12      +          1M         1  98019636  98019636
+##       [2]    chr12      +          1M         1  98048450  98048450
+##       [3]    chr12      +          1M         1  98071725  98071725
+##       [4]    chr12      +          1M         1  98071725  98071725
+##       [5]    chr12      +          1M         1  98071725  98071725
+##       ...      ...    ...         ...       ...       ...       ...
+##   [61990]    chr12      -          1M         1  99738530  99738530
+##   [61991]    chr12      -          1M         1  99738530  99738530
+##   [61992]    chr12      -          1M         1  99738530  99738530
+##   [61993]    chr12      -          1M         1  99738530  99738530
+##   [61994]    chr12      -          1M         1  99862397  99862397
+##               width     njunc
+##           &lt;integer&gt; &lt;integer&gt;
+##       [1]         1         0
+##       [2]         1         0
+##       [3]         1         0
+##       [4]         1         0
+##       [5]         1         0
+##       ...       ...       ...
+##   [61990]         1         0
+##   [61991]         1         0
+##   [61992]         1         0
+##   [61993]         1         0
+##   [61994]         1         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+---
+
+# GenomicAlignments - GAlignments to GRanges. 
+
+We can convert a GAlignments object to a GRanges to take advantage of other functions using the **granges()** function. 
+
+This is most useful when reads align continously to a genome (WGS, ChIP-seq, ATAC-seq)
+
+
+```r
+myReadAsGRanges &lt;- granges(myReads,use.mcols = TRUE)
+myReadAsGRanges
+```
+
+```
+## GRanges object with 61994 ranges and 0 metadata columns:
+##           seqnames               ranges strand
+##              &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt;
+##       [1]    chr12 [98000078, 98000152]      -
+##       [2]    chr12 [98019636, 98019685]      +
+##       [3]    chr12 [98048450, 98048524]      +
+##       [4]    chr12 [98071725, 98071799]      +
+##       [5]    chr12 [98071725, 98071799]      +
+##       ...      ...                  ...    ...
+##   [61990]    chr12 [99898308, 99898357]      +
+##   [61991]    chr12 [99898308, 99898357]      +
+##   [61992]    chr12 [99954800, 99954849]      +
+##   [61993]    chr12 [99964155, 99964229]      +
+##   [61994]    chr12 [99980103, 99980152]      +
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+---
+
+# GenomicAlignments - GAlignments to GRanges. 
+
+To convert RNA-seq reads which may span exons is a little more difficult. Since a read can potentially span multiple exons,a single read may need to be converted to multiple ranges.
+
+To solve this we can use the **grglist()** function to return a GRangesList with a separate GRanges for each read.
+
+
+
+```r
+myReadAsGRangesList &lt;- grglist(myReads,use.mcols = TRUE)
+myReadAsGRangesList[njunc(myReads) == 1]
+```
+
+```
+## GRangesList object of length 8261:
+## [[1]] 
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames               ranges strand
+##          &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]    chr12 [98880911, 98880966]      +
+##   [2]    chr12 [98884772, 98884790]      +
+## 
+## [[2]] 
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames               ranges strand
+##   [1]    chr12 [98880911, 98880966]      +
+##   [2]    chr12 [98884772, 98884790]      +
+## 
+## [[3]] 
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames               ranges strand
+##   [1]    chr12 [98880934, 98880966]      +
+##   [2]    chr12 [98884772, 98884788]      +
+## 
+## ...
+## &lt;8258 more elements&gt;
+## -------
+## seqinfo: 25 sequences from an unspecified genome
+```
+
+---
+
+# GenomicAlignments - GRanges to GAlignments.
+
+We can convert **GRanges** back to a **GAlignments** object using the function as(*myGranges*,"GAlignments")
+
+
+```r
+myReadAsGRanges &lt;- granges(myReads,use.mcols = TRUE)
+myReadsAgain &lt;- as(myReadAsGRanges,"GAlignments")
+myReadsAgain
+```
+
+```
+## GAlignments object with 61994 alignments and 0 metadata columns:
+##           seqnames strand       cigar    qwidth     start       end
+##              &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##       [1]    chr12      -         75M        75  98000078  98000152
+##       [2]    chr12      +         50M        50  98019636  98019685
+##       [3]    chr12      +         75M        75  98048450  98048524
+##       [4]    chr12      +         75M        75  98071725  98071799
+##       [5]    chr12      +         75M        75  98071725  98071799
+##       ...      ...    ...         ...       ...       ...       ...
+##   [61990]    chr12      +         50M        50  99898308  99898357
+##   [61991]    chr12      +         50M        50  99898308  99898357
+##   [61992]    chr12      +         50M        50  99954800  99954849
+##   [61993]    chr12      +         75M        75  99964155  99964229
+##   [61994]    chr12      +         50M        50  99980103  99980152
+##               width     njunc
+##           &lt;integer&gt; &lt;integer&gt;
+##       [1]        75         0
+##       [2]        50         0
+##       [3]        75         0
+##       [4]        75         0
+##       [5]        75         0
+##       ...       ...       ...
+##   [61990]        50         0
+##   [61991]        50         0
+##   [61992]        50         0
+##   [61993]        75         0
+##   [61994]        50         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+---
+# GenomicAlignments -  GRanges to GAlignments. 
+
+This allows to perform some complex operations as **GRanges** and then convert back to a **GAlignments** object.
+
+
+```r
+myReadAsGRanges &lt;- granges(myReads,use.mcols = TRUE)
+my5Prime &lt;- resize(myReadAsGRanges,fix = "start",width = 1)
+my5PrimeAsReads &lt;- as(my5Prime,"GAlignments")
+my5PrimeAsReads
+```
+
+```
+## GAlignments object with 61994 alignments and 0 metadata columns:
+##           seqnames strand       cigar    qwidth     start       end
+##              &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##       [1]    chr12      -          1M         1  98000152  98000152
+##       [2]    chr12      +          1M         1  98019636  98019636
+##       [3]    chr12      +          1M         1  98048450  98048450
+##       [4]    chr12      +          1M         1  98071725  98071725
+##       [5]    chr12      +          1M         1  98071725  98071725
+##       ...      ...    ...         ...       ...       ...       ...
+##   [61990]    chr12      +          1M         1  99898308  99898308
+##   [61991]    chr12      +          1M         1  99898308  99898308
+##   [61992]    chr12      +          1M         1  99954800  99954800
+##   [61993]    chr12      +          1M         1  99964155  99964155
+##   [61994]    chr12      +          1M         1  99980103  99980103
+##               width     njunc
+##           &lt;integer&gt; &lt;integer&gt;
+##       [1]         1         0
+##       [2]         1         0
+##       [3]         1         0
+##       [4]         1         0
+##       [5]         1         0
+##       ...       ...       ...
+##   [61990]         1         0
+##   [61991]         1         0
+##   [61992]         1         0
+##   [61993]         1         0
+##   [61994]         1         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+---
+# GenomicAlignments -  GAlignments to a BAM. 
+
+One very good reason to convert our **GRanges** objects back to a **GAlignments** object is so we can export our modified reads back to a BAM.
+
+We can use the **rtracklayer** packages **export()** function to export our **GAlignments**  file to a BAM file.
+
+
+```r
+library(rtracklayer)
+export(my5PrimeAsReads,con="myModifiedReads.bam")
+```
+
+
+---
+# Working with large BAM files
+
+Handling large BAM file can mean we will often need to import only a subset of reads from a BAM file in one go.
+We can have a fine degree of control over what we import from a BAM file using the **ScanBamParam()** function.
+
+Most importantly we can specify the **what** and **which** parameters to control **what** read information we import and **which** regions we import respectively.
+
+* **what** - Information we import from reads (sequences, read ids, flags)
+* **which** - Genomic locations we want to extract reads for.
+
+---
+# Working with large BAM files
+
+We can specify to import information from only specific regions by providing a **GRanges** of regions of interest to the **which** parameter in the **ScanBamParam()** function.
+
+
+```r
+myRanges &lt;- GRanges("chr12", IRanges(98987153,98988394))
+myParam &lt;- ScanBamParam(which=myRanges)
+myParam
+```
+
+```
+## class: ScanBamParam
+## bamFlag (NA unless specified):
+## bamSimpleCigar: FALSE
+## bamReverseComplement: FALSE
+## bamTag:  
+## bamTagFilter:
+## bamWhich: 1 ranges
+## bamWhat:
+## bamMapqFilter: NA
+```
+
+---
+# Working with large BAM files
+
+We can then use the newly created **ScanBamParam** object within our **readGAlignments()** function call.
+
+Now we import only reads which overlap our specified **GRanges**.
+
+
+```r
+filteredReads &lt;- readGAlignments("Sorted_liver.bam",param = myParam)
+filteredReads
+```
+
+```
+## GAlignments object with 1735 alignments and 0 metadata columns:
+##          seqnames strand       cigar    qwidth     start       end
+##             &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##      [1]    chr12      +         50M        50  98987424  98987473
+##      [2]    chr12      +         50M        50  98987424  98987473
+##      [3]    chr12      +         50M        50  98987424  98987473
+##      [4]    chr12      +         50M        50  98987425  98987474
+##      [5]    chr12      +         50M        50  98987425  98987474
+##      ...      ...    ...         ...       ...       ...       ...
+##   [1731]    chr12      -         75M        75  98988370  98988444
+##   [1732]    chr12      -         75M        75  98988370  98988444
+##   [1733]    chr12      -         50M        50  98988388  98988437
+##   [1734]    chr12      -         50M        50  98988388  98988437
+##   [1735]    chr12      -         50M        50  98988388  98988437
+##              width     njunc
+##          &lt;integer&gt; &lt;integer&gt;
+##      [1]        50         0
+##      [2]        50         0
+##      [3]        50         0
+##      [4]        50         0
+##      [5]        50         0
+##      ...       ...       ...
+##   [1731]        75         0
+##   [1732]        75         0
+##   [1733]        50         0
+##   [1734]        50         0
+##   [1735]        50         0
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+
+---
+# Working with large BAM files
+
+We can also control the information we import using the **what** parameter in **ScanBamParam()** function. 
+
+Here we import the read name, sequence and qualities.
+
+
+```r
+myParam &lt;- ScanBamParam(what=c("qname","seq","qual"))
+infoInReads &lt;- readGAlignments("Sorted_liver.bam",param = myParam)
+infoInReads[1]
+```
+
+```
+## GAlignments object with 1 alignment and 3 metadata columns:
+##       seqnames strand       cigar    qwidth     start       end     width
+##          &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##   [1]    chr12      -         75M        75  98000078  98000152        75
+##           njunc |                                 qname
+##       &lt;integer&gt; |                           &lt;character&gt;
+##   [1]         0 | HWI-BRUNOP16X_0001:8:1:16461:187530#0
+##                           seq                     qual
+##                &lt;DNAStringSet&gt;           &lt;PhredQuality&gt;
+##   [1] TTTAATTGTG...TATAAATTNN [[eeeY[Y\\^...EEGGJIJJBB
+##   -------
+##   seqinfo: 25 sequences from an unspecified genome
+```
+---
+# Working with large BAM files
+
+We can access this additional information as we would in **GRanges** objects by using the **mcols** function.
+
+
+```r
+mcols(infoInReads)
+```
+
+```
+## DataFrame with 61994 rows and 3 columns
+##                                        qname                     seq
+##                                  &lt;character&gt;          &lt;DNAStringSet&gt;
+## 1      HWI-BRUNOP16X_0001:8:1:16461:187530#0 TTTAATTGTG...TATAAATTNN
+## 2       HWI-BRUNOP16X_0001:8:24:8092:17512#0 CTGGGACTAC...TTGTATCTTT
+## 3     HWI-BRUNOP16X_0001:8:65:19457:112370#0 GCTGAGTTCA...TGGGGGGTTA
+## 4       HWI-BRUNOP16X_0001:8:2:18583:93458#0 NNCAAGATGG...GCAATATCAT
+## 5      HWI-BRUNOP16X_0001:8:23:3549:142929#0 NNCAAGATGG...GCAATATCAT
+## ...                                      ...                     ...
+## 61990  HWI-BRUNOP16X_0001:8:26:10787:63093#0 CAGCTGTGTC...TGAAGGAAAT
+## 61991   HWI-BRUNOP16X_0001:8:68:4416:97075#0 CAGCTGTGTC...TGAAGGAAAT
+## 61992  HWI-BRUNOP16X_0001:8:21:20052:32589#0 ANTTTTAGTA...GGTATCAATC
+## 61993   HWI-BRUNOP16X_0001:8:22:4306:35162#0 NNGGCTCACG...TCAAGACCAT
+## 61994 HWI-BRUNOP16X_0001:8:41:20739:121715#0 CNTTACTCCA...GACCACCTCA
+##                            qual
+##                  &lt;PhredQuality&gt;
+## 1      [[eeeY[Y\\^...EEGGJIJJBB
+## 2       ___]_^]^^_...SSSPP`^c^_
+## 3       bff`bddd`d...BBBBBBBBBB
+## 4     BBHHHHEEHH...[eeeeYY[\\\\
+## 5      BBHHHHEEHH...YWYWWYYY\\X
+## ...                         ...
+## 61990   fgfggggfgg...gheggdgggg
+## 61991   fffffbcb[b...cfffffffcb
+## 61992   TBTTFQSPNT...BBBBBBBBBB
+## 61993   BBIIJIIGGG...BBBBBBBBBB
+## 61994   TBTTTggggg...gggggggggg
+```
+
+
+---
+# Working with large BAM files
+
+Using the **ScanBamParam()** function in combination with a loop and information from our header file we can process our BAM files, one chromosome at a time.
+
+
+```r
+bamHeader &lt;- scanBamHeader("Sorted_liver.bam")
+myChromosomes &lt;- bamHeader$Sorted_liver.bam$targets
+for(i in 1:length(myChromosomes)){
+  grangesForImport &lt;- GRanges(names(myChromosomes)[i],
+                              IRanges(1,myChromosomes)[i])
+  myParam &lt;- ScanBamParam(which = grangesForImport)
+  myReads &lt;- readGAlignments("Sorted_liver.bam", 
+                             param=myParam)
+  print(length(myReads))
+}
+```
+
+```
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 61994
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+## [1] 0
+```
+
+---
+
+# Time for an exercise.
+
+[Link_to_exercises](../../exercises/alignedData_exercises.html)
+
+[Link_to_answers](../../answers/alignedData_answers.html)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

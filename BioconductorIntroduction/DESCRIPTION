@@ -4,6 +4,8 @@ Title: What the package does (short line)
 Version: 1.0
 Date: 2018-03-17
 Author: Thomas Carroll
+Authors@R: c(person("Tom", "Developer", role = c("aut", "cre"),
+                     email = "thomas.carroll@rockefeller.edu"))
 Maintainer: Thomas Carroll <tcarroll@rockefeller.edu>
 Description: Course for plotting in R
 License: What license is it under?

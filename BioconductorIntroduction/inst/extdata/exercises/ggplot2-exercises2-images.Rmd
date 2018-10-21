@@ -1,0 +1,146 @@
+---
+title: "Mark Dunning"
+author: "Exercise Set 2 - Scales, statistics and Themes"
+date: '`r format(Sys.time(), "Last modified: %d %b %Y")`'
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, eval=TRUE)
+```
+
+## Exercise 2
+
+In these exercises we look at adjusting the scales and themes of our plots.
+
+### Scales
+
+1. Using the patient dataset from earlier, generate a scatter plot of BMI versus Weight
+
+```{r exerciseReadin, echo=T,eval=T}
+library(ggplot2)
+
+patients_clean <- read.delim("patient-data-cleaned.txt",sep="\t")
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight))+geom_point()
+plot
+```
+
+2. With the plot above, from exercise 1, adjust the BMI axis to show only labels for 20, 30, 40 and the weight axis to show breaks for 60 to 100 in steps of 5 as well as to specify units in y axis label. 
+
+
+```{r exercise1}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight))+geom_point()
+plot+scale_x_continuous(breaks=c(20,30,40),label=c(20,30,40),limits=c(20,40))+
+  scale_y_continuous(breaks=seq(60,100,by=5),label=seq(60,100,by=5),
+                     name="Weight (kilos)")
+```
+
+
+
+3. Create a violin plot of BMI by Age where violins are filled using a sequential colour palette.
+
+```{r exercise2}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=factor(Age),y=BMI))+geom_violin(aes(fill=factor(Age)))+
+               scale_fill_brewer(palette="Blues", na.value="black")
+plot
+```            
+
+4. Create a scatterplot of BMI versus Weight and add a continuous colour scale for the height. Make the colour scale  with a midpoint (set to mean point) colour of gray and extremes of blue (low) and yellow (high).
+
+
+```{r exercise3}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=Height))+geom_point()+
+  scale_colour_gradient2(low="blue",high="yellow",mid="grey",midpoint=mean(patients_clean$Height))
+plot
+```
+
+5. Adjust the plot from exercise 4 using scales to remove values greater than 180.
+
+```{r exercise4}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=Height))+geom_point()+
+  scale_colour_gradient2(low="blue",high="yellow",
+                         mid="grey",midpoint=mean(patients_clean$Height),
+                         limits=c(min(patients_clean$Height),180),
+                         na.value=NA)
+plot
+```
+
+6. Adjust the scale legend from plot in exercise 4 to show only 75%, median and min values in scale legend.
+
+```{r exercise5}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=Height))+geom_point()+
+  scale_colour_gradient2(low="blue",high="yellow",
+                         mid="grey",midpoint=mean(patients_clean$Height),
+                         breaks=c(min(patients_clean$Height),
+                                  median(patients_clean$Height),
+                                  quantile(patients_clean$Height)[4]),
+                         labels=c(signif(min(patients_clean$Height),3),
+                                  signif(median(patients_clean$Height),3),
+                                  signif(quantile(patients_clean$Height)[4],3)))
+plot
+```
+
+
+6. With the plot from exercise 4, create another scatterplot with Count variable mapped to transparency/alpha and size illustrating whether a person is overweight. 
+Is there a better combination of aesthetic mappings?
+
+```{r exercise6}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=Height,alpha=Count,size=Overweight))+geom_point()
+plot
+```
+
+### Statistics
+
+7. Recreate the scatterplot of BMI by height. Colour by Age group and add fitted lines (but no SE lines) for each Age group. 
+
+
+```{r exercise7}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=factor(Age)))+geom_point()+stat_smooth(method="lm",se=F)
+
+plot
+```
+
+### Themes
+
+8. Remove the legend title from plot in exercise 7, change the background colours of legend panels to white and place legend at bottom of plot.
+
+```{r exercise8}
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=factor(Age)))+geom_point()+stat_smooth(method="lm",se=F)
+
+plot <- plot+theme(legend.title=element_blank(),legend.background=element_rect(fill="white"),legend.key=element_rect(fill="white"),legend.position="bottom")
+
+plot
+
+```
+
+9. Add a title to the plot, remove minor grid lines and save to 7 by 7 inch plot on disk.
+
+```{r exercise9}
+
+plot <- ggplot(data=patients_clean,
+               mapping=aes(x=BMI,y=Weight,colour=factor(Age)))+geom_point()+stat_smooth(method="lm",se=F)
+
+plot <- plot+theme(legend.title=element_blank(),legend.background=element_rect(fill="white"),legend.key=element_rect(fill="white"),legend.position="bottom")
+
+plot <- plot+ggtitle("BMI vs Weight")+theme(panel.grid.minor=element_blank())
+
+plot
+ggsave(plot,file="BMIvsWeight.png",units = "in",height = 7,width = 7)
+```
+
+10. Produce a Height vs Weight scatter plot with point sizes scaled by BMI. 
+Present only the points and title of plot with all other graph features missing.
+
