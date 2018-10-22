@@ -176,14 +176,61 @@ chr19_SeqRevComp
 
 # Useful functions.
 
+We can get the translation of our sequence using the **translate()**.
+
+```{r DNAStringSub4a, echo=TRUE,eval=TRUE,collapse=FALSE}
+length(chr19_Seq[10000000:10000008])
+chr19_SeqTranslation <- translate(chr19_Seq[10000000:10000008])
+
+```
+
+---
+
+# Useful functions.
+
 We can get also match and count the occurrence of patterns in our sequence using **matchPattern()** and **countPattern()**.
 
-We will look more in depth at these later in the course.
+To count occurrence of patterns we provide our sequence to match to the **pattern** argument and the sequence to search within as a DNAstring object to the **subject** argument.
 
-```{r DNAStringSub5, echo=TRUE,eval=TRUE,collapse=FALSE}
-chr19_Count <- countPattern(pattern="ATCTGCAATG",chr19_Seq)
+```{r DNAStringSub5k, echo=TRUE,eval=TRUE,collapse=FALSE,tidy=FALSE}
+chr19_Count <- countPattern(pattern="ATCTGCAATG",
+                            subject=chr19_Seq)
 chr19_Count
 ```
+
+---
+
+# Useful functions.
+
+Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns. 
+
+```{r DNAStringSub5, echo=TRUE,eval=TRUE,collapse=FALSE,tidy=FALSE}
+chr19_Count_Watson <- countPattern(pattern="ATCTGCAATG",
+                                    subject=chr19_Seq)
+chr19_Count_Crick <- countPattern(pattern="ATCTGCAATG",
+                                    subject=reverseComplement(chr19_Seq)
+                                   )
+Total_chr19_Count <- chr19_Count_Watson+chr19_Count_Crick
+
+```
+
+
+---
+
+# Useful functions.
+
+Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns. 
+
+```{r DNAStringSub5l, echo=TRUE,eval=TRUE,collapse=FALSE,tidy=FALSE}
+chr19_Count_Watson <- countPattern(pattern="ATCTGCAATG",
+                                    subject=chr19_Seq)
+chr19_Count_Crick <- countPattern(pattern="ATCTGCAATG",
+                                    subject=reverseComplement(chr19_Seq)
+                                   )
+Total_chr19_Count <- chr19_Count_Watson+chr19_Count_Crick
+
+```
+
 
 ---
 

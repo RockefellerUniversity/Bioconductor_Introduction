@@ -1,5 +1,5 @@
 ---
-title: "FastQ in Bioconductor exercises"
+title: "Alignment in Bioconductor exercises"
 author: "Tom Carroll"
 output: html_document
 ---
@@ -19,15 +19,28 @@ The example data can be found in the data directory
 
 We will also use  the full FastQ file from this dataset which you can download from [here.](https://www.encodeproject.org/files/ENCFF000CXH/@@download/ENCFF000CXH.fastq.gz).
 
-1. Read in the **sampled_ENCFF000CXH.fastq.gz** file.
+1. Align the data from heart.bodyMap.fq.
 
 ```{r installdeBSded,include=FALSE}
-suppressPackageStartupMessages(library(ShortRead))
+suppressPackageStartupMessages(library(QuasR))
 ```
 
 ```{r installBSded}
-library(ShortRead)
-fastqFile <- readFastq("../Data/sampled_ENCFF000CXH.fastq.gz")
+library(QuasR)
+
+library(BSgenome.Hsapiens.UCSC.hg38)
+chr12hg38 <- BSgenome.Hsapiens.UCSC.hg38[["chr12"]]
+chr12hg38Set <- DNAStringSet(list(chr12=chr12hg38))
+writeXStringSet(chr12hg38Set,file="chr12.fa")
+FileName <- c("../../Data/heart.bodyMap.fq","../../Data/liver.bodyMap.fq")
+SampleName <- c("Heart","Liver")
+toSampleTable <- data.frame(FileName,SampleName)
+write.table(toSampleTable,file="SampleTable.txt",sep="\t",row.names = FALSE,quote = FALSE)
+fastqFile <- qAlign("SampleTable.txt","chr12.fa")
+
+library(Rsamtools)
+
+sortSam("../../Data/liver.bodyMap.bam","")
 ```
 
 2. Plot the occurrence of A, G, T, C and N in the read with ID **"42JV5AAXX_HWI-EAS229_1:6:1:633:2029"** using ggplot2

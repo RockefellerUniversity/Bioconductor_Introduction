@@ -385,11 +385,42 @@ chr19_Seq[<span class="dv">10000000</span>:<span class="dv">10000010</span>]</co
 </div>
 <div id="useful-functions.-2" class="section level1">
 <h1>Useful functions.</h1>
+<p>We can get the translation of our sequence using the <strong>translate()</strong>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(chr19_Seq[<span class="dv">10000000</span>:<span class="dv">10000008</span>])</code></pre></div>
+<pre><code>## [1] 9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chr19_SeqTranslation &lt;-<span class="st"> </span><span class="kw">translate</span>(chr19_Seq[<span class="dv">10000000</span>:<span class="dv">10000008</span>])</code></pre></div>
+<hr />
+</div>
+<div id="useful-functions.-3" class="section level1">
+<h1>Useful functions.</h1>
 <p>We can get also match and count the occurrence of patterns in our sequence using <strong>matchPattern()</strong> and <strong>countPattern()</strong>.</p>
-<p>We will look more in depth at these later in the course.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chr19_Count &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,chr19_Seq)
+<p>To count occurrence of patterns we provide our sequence to match to the <strong>pattern</strong> argument and the sequence to search within as a DNAstring object to the <strong>subject</strong> argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chr19_Count &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,
+                            <span class="dt">subject=</span>chr19_Seq)
 chr19_Count</code></pre></div>
 <pre><code>## [1] 86</code></pre>
+<hr />
+</div>
+<div id="useful-functions.-4" class="section level1">
+<h1>Useful functions.</h1>
+<p>Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chr19_Count_Watson &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,
+                                    <span class="dt">subject=</span>chr19_Seq)
+chr19_Count_Crick &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,
+                                    <span class="dt">subject=</span><span class="kw">reverseComplement</span>(chr19_Seq)
+                                   )
+Total_chr19_Count &lt;-<span class="st"> </span>chr19_Count_Watson+chr19_Count_Crick</code></pre></div>
+<hr />
+</div>
+<div id="useful-functions.-5" class="section level1">
+<h1>Useful functions.</h1>
+<p>Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">chr19_Count_Watson &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,
+                                    <span class="dt">subject=</span>chr19_Seq)
+chr19_Count_Crick &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,
+                                    <span class="dt">subject=</span><span class="kw">reverseComplement</span>(chr19_Seq)
+                                   )
+Total_chr19_Count &lt;-<span class="st"> </span>chr19_Count_Watson+chr19_Count_Crick</code></pre></div>
 <hr />
 </div>
 <div id="writing-to-a-fasta-file." class="section level1">

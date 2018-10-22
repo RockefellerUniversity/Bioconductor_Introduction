@@ -274,19 +274,73 @@ chr19_SeqRevComp
 
 # Useful functions.
 
-We can get also match and count the occurrence of patterns in our sequence using **matchPattern()** and **countPattern()**.
-
-We will look more in depth at these later in the course.
+We can get the translation of our sequence using the **translate()**.
 
 
 ```r
-chr19_Count &lt;- countPattern(pattern="ATCTGCAATG",chr19_Seq)
+length(chr19_Seq[10000000:10000008])
+```
+
+```
+## [1] 9
+```
+
+```r
+chr19_SeqTranslation &lt;- translate(chr19_Seq[10000000:10000008])
+```
+
+---
+
+# Useful functions.
+
+We can get also match and count the occurrence of patterns in our sequence using **matchPattern()** and **countPattern()**.
+
+To count occurrence of patterns we provide our sequence to match to the **pattern** argument and the sequence to search within as a DNAstring object to the **subject** argument.
+
+
+```r
+chr19_Count &lt;- countPattern(pattern="ATCTGCAATG",
+                            subject=chr19_Seq)
 chr19_Count
 ```
 
 ```
 ## [1] 86
 ```
+
+---
+
+# Useful functions.
+
+Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns. 
+
+
+```r
+chr19_Count_Watson &lt;- countPattern(pattern="ATCTGCAATG",
+                                    subject=chr19_Seq)
+chr19_Count_Crick &lt;- countPattern(pattern="ATCTGCAATG",
+                                    subject=reverseComplement(chr19_Seq)
+                                   )
+Total_chr19_Count &lt;- chr19_Count_Watson+chr19_Count_Crick
+```
+
+
+---
+
+# Useful functions.
+
+Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns. 
+
+
+```r
+chr19_Count_Watson &lt;- countPattern(pattern="ATCTGCAATG",
+                                    subject=chr19_Seq)
+chr19_Count_Crick &lt;- countPattern(pattern="ATCTGCAATG",
+                                    subject=reverseComplement(chr19_Seq)
+                                   )
+Total_chr19_Count &lt;- chr19_Count_Watson+chr19_Count_Crick
+```
+
 
 ---
 
