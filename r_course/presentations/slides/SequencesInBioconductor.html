@@ -34,7 +34,7 @@ class: center, middle, inverse, title-slide
 As we have seen earlier, genomic sequences are often stored in FASTA format.
 
 &lt;div align="center"&gt;
-&lt;img src="imgs/fasta.png" alt="igv" height="400" width="400"&gt;
+&lt;img src="imgs/newFASTA.png" alt="igv" height="200" width="800"&gt;
 &lt;/div&gt;
 
 
@@ -42,7 +42,13 @@ As we have seen earlier, genomic sequences are often stored in FASTA format.
 
 # Genomic Sequences in Bioconductor.
 
-Genomic sequences can be handled in Bioconductor using the functions in the **Biostrings** package and full genome sequences for many model organisms are contained within the **BSgenome** packages.
+Genomic sequences can be handled in Bioconductor using the functions in the **Biostrings** package and full genome sequences for many model organisms are contained within the [**BSgenome** packages](https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData).
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bsgenomeExample.png" alt="igv" height="400" width="400"&gt;
+&lt;/div&gt;
+
+
 
 ---
 
@@ -287,6 +293,12 @@ length(chr19_Seq[10000000:10000008])
 
 ```r
 chr19_SeqTranslation &lt;- translate(chr19_Seq[10000000:10000008])
+chr19_SeqTranslation
+```
+
+```
+##   3-letter "AAString" instance
+## seq: VMY
 ```
 
 ---
@@ -312,18 +324,60 @@ chr19_Count
 
 # Useful functions.
 
-Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns. 
+We may not always expect a perfect match for our sequence. We can search for close matches by setting the degree of specificity to the **max.mismatch** and **min.mismatch** arguments. 
+
+By default both **max.mismatch** and **min.mismatch**  are set to 0.
 
 
 ```r
-chr19_Count_Watson &lt;- countPattern(pattern="ATCTGCAATG",
-                                    subject=chr19_Seq)
-chr19_Count_Crick &lt;- countPattern(pattern="ATCTGCAATG",
-                                    subject=reverseComplement(chr19_Seq)
-                                   )
-Total_chr19_Count &lt;- chr19_Count_Watson+chr19_Count_Crick
+chr19_Count &lt;- countPattern(pattern="ATCTGCAATG",
+                            subject=chr19_Seq,
+                            max.mismatch = 2,
+                            min.mismatch = 0)
+chr19_Count
 ```
 
+```
+## [1] 34456
+```
+
+---
+
+# Useful functions.
+
+We can also use IUPAC codes to account for ambiguity in the sequence we will match.
+
+We can see the availble IUPAC code by viewing the Biostring named vector **IUPAC_CODE_MAP**.
+
+
+```r
+IUPAC_CODE_MAP
+```
+
+```
+##      A      C      G      T      M      R      W      S      Y      K 
+##    "A"    "C"    "G"    "T"   "AC"   "AG"   "AT"   "CG"   "CT"   "GT" 
+##      V      H      D      B      N 
+##  "ACG"  "ACT"  "AGT"  "CGT" "ACGT"
+```
+
+---
+
+# Useful functions.
+
+We can make use of IUPAC codes in our search by setting the **fixed** argument to false.
+
+
+```r
+chr19_Count &lt;- countPattern(pattern="RYKHBNKYSRR",
+                            subject=chr19_Seq,
+                            fixed=FALSE)
+chr19_Count
+```
+
+```
+## [1] 3303152
+```
 
 ---
 
