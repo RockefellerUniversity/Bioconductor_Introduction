@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
+    <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to Bioconductor
+<html>
+<div style="float:left">
+
+</div>
+<hr color='#EB811B' size=1px width=796px>
+</html>
+### Rockefeller University, Bioinformatics Resource Centre
+### <a href="http://rockefelleruniversity.github.io/Bioconductor_Introduction/" class="uri">http://rockefelleruniversity.github.io/Bioconductor_Introduction/</a>
+
+---
+
+
+
+
+
+# Genomic Intervals
+
+As we have seen earlier, genomic intervals are often stored in BED format.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bed.png" alt="igv" height="400" width="400"&gt;
+&lt;/div&gt;
+
+
+---
+# Genomic Intervals examples.
+
+In Genomics and High throughput sequencing we make extensive use of Genomic Intervals to store simple annotation and summarised results over regions.
+
+- Transcriptional Start Sites / Enhancers
+- Enrichment for ChIP-seq signal. i.e. Peak calls.
+
+
+
+---
+# Genomic Intervals in Bioconductor.
+
+Two popular Bioconductor packages for dealing with Genomics Intervals are:
+
+- [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) -- Importing/exporting genomic intervals into/out of R.
+- [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) -- Handling genomic intervals in R.
+
+---
+# Genomic Intervals in Bioconductor.
+
+The first package we will look at is the GenomicRanges package.
+
+Remember we can install Bioconductor packages (fairly) easily  using Bioconductor package pages' provided commands.
+
+
+```r
+## try http:// if https:// URLs are not supported
+source("https://bioconductor.org/biocLite.R")
+biocLite("GenomicRanges")
+```
+
+---
+# Genomic Intervals in Bioconductor.
+
+Now we have the package installed, we can load the library
+
+
+
+
+```r
+library(GenomicRanges)
+```
+
+---
+
+# Building a GenomicRanges.
+
+To construct a GenomicRanges object we require a set of genomic intervals.
+
+Intervals (genomic and non genomic intervals) are created using the **IRanges()** function. We must specify **start** and **end** positions as numeric vectors to create our IRanges object.
+
+
+```r
+myIntervals &lt;- IRanges(start=c(1,10,20),end=c(2,11,30))
+class(myIntervals)
+```
+
+```
+## [1] "IRanges"
+## attr(,"package")
+## [1] "IRanges"
+```
+
+---
+
+# Building a GenomicRanges.
+
+The resulting IRanges object contains our intervals and an additional column describing widths of intervals.
+
+
+
+```r
+myIntervals
+```
+
+```
+## IRanges object with 3 ranges and 0 metadata columns:
+##           start       end     width
+##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##   [1]         1         2         2
+##   [2]        10        11         2
+##   [3]        20        30        11
+```
+
+---
+
+# Building a GenomicRanges.
+
+Now to create a Genomic Ranges interval object , **GRanges** object,we extend this to include chrosomosome/contig information. 
+
+To do this we can supply our new IRanges object and a vector of corresponding chromosome locations to the **seqnames** parameter in **GRanges()** function.
+
+
+
+```r
+myGenomicIntervals &lt;- GRanges(seqnames=c("chr1","chr1","chr2"),
+                              myIntervals)
+class(myGenomicIntervals)
+```
+
+```
+## [1] "GRanges"
+## attr(,"package")
+## [1] "GenomicRanges"
+```
+
+---
+
+# Building a GenomicRanges.
+
+The created **GRanges** object contains our original intervals from the IRanges object and now the chromosomes/contigs on which there intervals exist.
+
+
+
+```r
+myGenomicIntervals
+```
+
+```
+## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [ 1,  2]      *
+##   [2]     chr1  [10, 11]      *
+##   [3]     chr2  [20, 30]      *
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+---
+# Indexing and subsetting a GenomicRanges.
+
+We can retrieve genomic intervals from our GRanges using indexing as with [vectors, matrices and dataframes.](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/21)
+
+
+```r
+myGenomicIntervals[c(2,3),]
+```
+
+```
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [10, 11]      *
+##   [2]     chr2  [20, 30]      *
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+---
+
+# Indexing and subsetting a GenomicRanges.
+
+Unlike data frames and matrices, we dont need the second **","** to specify rows not columns.
+
+
+```r
+myGenomicIntervals[c(2,3)]
+```
+
+```
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [10, 11]      *
+##   [2]     chr2  [20, 30]      *
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+---
+# Accessing columns in  GenomicRanges.
+
+To access the columns of a GRanges object we must use special accessor functions - **seqnames()**,**start()**, **end()** which correspond to the columns we wish to retrieve.
+
+We get start and stop positions using the  **start()** and **end()** functions.
+
+
+```r
+start(myGenomicIntervals)
+```
+
+```
+## [1]  1 10 20
+```
+
+
+```r
+end(myGenomicIntervals)
+```
+
+```
+## [1]  2 11 30
+```
+
+---
+
+# Replacing in columns of  GenomicRanges.
+
+We can use the **start()** and **end()** functions to update our start and end positions as well.
+
+
+```r
+start(myGenomicIntervals) &lt;- c(1,5,15)
+```
+
+
+```r
+start(myGenomicIntervals)
+```
+
+```
+## [1]  1  5 15
+```
+
+---
+
+# Replacing in columns of  GenomicRanges.
+
+We can not however create intervals with negative widths. Our start positions cannot be greater than our end positions.
+
+
+```r
+start(myGenomicIntervals) &lt;- c(10,50,150)
+```
+
+```
+## Error in validObject(x): invalid class "IRanges" object: 'width(x)' cannot contain negative integers
+```
+---
+# retrieving chromosome/contig names from a GenomicRanges.
+
+We can retrieve the chromosome names in a similar manner to **start()** and **end()** functions using the **seqnames()** function.
+
+
+```r
+contigNames &lt;- seqnames(myGenomicIntervals)
+contigNames
+```
+
+```
+## factor-Rle of length 3 with 2 runs
+##   Lengths:    2    1
+##   Values : chr1 chr2
+## Levels(2): chr1 chr2
+```
+---
+# retrieving chromosome/contig names from a GenomicRanges.
+
+The contig names are stored in another special object called a RLE (run length encoded).
+This RLE object saves memory and allows for more efficient manipulation of long stretchs of repeated names.
+
+We can convert to a character vector using the **as.character()** function
+
+
+```r
+as.character(contigNames)
+```
+
+```
+## [1] "chr1" "chr1" "chr2"
+```
+---
+
+# Replacing chromosome/contig names from a GenomicRanges.
+
+As with the **start()** and **end()** functions we can update our contig names using the **seqnames()** function.
+
+
+
+```r
+seqnames(myGenomicIntervals) &lt;- c("chr2","chr2","chr1")
+seqnames(myGenomicIntervals)
+```
+
+```
+## factor-Rle of length 3 with 2 runs
+##   Lengths:    2    1
+##   Values : chr2 chr1
+## Levels(2): chr1 chr2
+```
+---
+# Replacing chromosome/contig names from a GenomicRanges.
+
+As with [all factors however](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/57), we can not add contigs not already in use in seqnames column.
+
+
+
+```r
+seqnames(myGenomicIntervals) &lt;- c("chr3","chr2","chr1")
+```
+
+```
+## Error in .normalize_seqnames_replacement_value(value, x): levels of supplied 'seqnames' must be identical to 'seqlevels(x)'
+```
+---
+# Replacing chromosome/contig names from a GenomicRanges.
+
+To add new contig we must update the seqlevels, like levels for factors but now for contigs in GRanges objects.
+
+The **seqlevels()** identifies which contigs we are using.
+
+```r
+seqlevels(myGenomicIntervals)
+```
+
+```
+## [1] "chr1" "chr2"
+```
+---
+# Replacing chromosome/contig names from a GenomicRanges.
+
+We can update the seqlevels in use by again using the **seqlevels()** function.
+
+```r
+seqlevels(myGenomicIntervals) &lt;- c("chr1","chr2","chr3")
+seqlevels(myGenomicIntervals)
+```
+
+```
+## [1] "chr1" "chr2" "chr3"
+```
+---
+# Replacing chromosome/contig names from a GenomicRanges.
+
+Now we can add contig for chromosome 3 (**chr3**).
+
+```r
+seqnames(myGenomicIntervals) &lt;- c("chr1","chr2","chr3")
+myGenomicIntervals
+```
+
+```
+## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [ 1,  2]      *
+##   [2]     chr2  [ 5, 11]      *
+##   [3]     chr3  [15, 30]      *
+##   -------
+##   seqinfo: 3 sequences from an unspecified genome; no seqlengths
+```
+---
+# Strand information in a GenomicRanges.
+
+We can include strand information in GRanges objects.
+
+We can set strand to be "+" , "-" , or unstranded with "*"
+
+```r
+myGenomicIntervals &lt;- GRanges(seqnames=c("chr1","chr1","chr2"), 
+                              myIntervals,
+                              strand=c("+","-","*"))
+myGenomicIntervals
+```
+
+```
+## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [ 1,  2]      +
+##   [2]     chr1  [10, 11]      -
+##   [3]     chr2  [20, 30]      *
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+---
+# Strand information in a GenomicRanges.
+
+Similarly we can extract and set strand information using the **strand()** function.
+
+```r
+strand(myGenomicIntervals) &lt;- c("+","+","-")
+strand(myGenomicIntervals)
+```
+
+```
+## factor-Rle of length 3 with 2 runs
+##   Lengths: 2 1
+##   Values : + -
+## Levels(3): + - *
+```
+---
+# Strand information in a GenomicRanges.
+
+Although an factor RLE, strand always contains the levels "+", "-", "*" and only these levels.
+
+
+```r
+myGenomicIntervals &lt;- GRanges(seqnames=c("chr1","chr1","chr2"),
+                              myIntervals,
+                              strand=c("+","+","+"))
+strand(myGenomicIntervals)
+```
+
+```
+## factor-Rle of length 3 with 1 run
+##   Lengths: 3
+##   Values : +
+## Levels(3): + - *
+```
+---
+
+# Names in a GenomicRanges.
+
+Finally we can set and extract names for our genomic intervals using the **names()** function.
+
+
+```r
+names(myGenomicIntervals) &lt;- c("peak1","peak2","peak3")
+myGenomicIntervals
+```
+
+```
+## GRanges object with 3 ranges and 0 metadata columns:
+##         seqnames    ranges strand
+##            &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   peak1     chr1  [ 1,  2]      +
+##   peak2     chr1  [10, 11]      +
+##   peak3     chr2  [20, 30]      +
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+---
+
+# Names in a GenomicRanges.
+
+As with vectors we can use to names to index and retrieve genomic intervals of interest.
+
+
+```r
+myGenomicIntervals["peak2"]
+```
+
+```
+## GRanges object with 1 range and 0 metadata columns:
+##         seqnames    ranges strand
+##            &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   peak2     chr1  [10, 11]      +
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+---
+
+# Additional genomic interval information.
+
+We will often want to store more information on our genomic intervals. We can use the **mcols** (metadata columns) to store this information
+To add additional metadata columns we can simply supply the desired column name and the values we want to the **GRanges()** function as with data.frames.
+
+
+```r
+myIntervals &lt;- IRanges(start=c(1,2,2),end=c(2,11,30))
+myGenomicIntervals &lt;- GRanges(seqnames=c("chr1","chr1","chr2"),
+                              myIntervals,strand=c("+","+","+"),
+                              Score=c(10,20,40),
+                              Comment=c("GoodQC","GoodQC","BadQC"))
+```
+
+---
+# Additional genomic interval information.
+
+We can retrieve this metadata column information as with data frames by using the **$** accessor
+
+
+```r
+myGenomicIntervals$Score
+```
+
+```
+## [1] 10 20 40
+```
+
+```r
+myGenomicIntervals$Comment
+```
+
+```
+## [1] "GoodQC" "GoodQC" "BadQC"
+```
+
+---
+# Additional genomic interval information.
+
+We to retrieve all metadata columns as a data frames we can use the **mcols()** function
+
+
+```r
+mcols(myGenomicIntervals)
+```
+
+```
+## DataFrame with 3 rows and 2 columns
+##       Score     Comment
+##   &lt;numeric&gt; &lt;character&gt;
+## 1        10      GoodQC
+## 2        20      GoodQC
+## 3        40       BadQC
+```
+
+
+---
+# Convert to data frame.
+
+We can convert the entire GRanges to a data.frame using the **as.data.frame()** function.
+
+
+```r
+as.data.frame(myGenomicIntervals)
+```
+
+```
+##   seqnames start end width strand Score Comment
+## 1     chr1     1   2     2      +    10  GoodQC
+## 2     chr1     2  11    10      +    20  GoodQC
+## 3     chr2     2  30    29      +    40   BadQC
+```
+
+---
+# Special Genomic Ranges functions
+
+One of the big advantage of using GRanges objects to handle genomic data is the set of functions which allows us to manipulate and handle genomic intervals.
+
+The include functions to resize, merge/reduce and shift genomic ranges.
+
+![](imgs/Unknown2.jpg)
+---
+# Adjusting genomic ranges positions.
+
+To adjust the postion of a GRanges object we can manually adjust start and end positions but GenomicRanges provides some more user friendly methods.
+
+The **shift** function allows us to move by a specified number of basepairs.
+
+
+```r
+myGenomicIntervals[1]
+```
+
+```
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames    ranges strand |     Score     Comment
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr1    [1, 2]      + |        10      GoodQC
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+```r
+shift(myGenomicIntervals[1],shift = 10)
+```
+
+```
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames    ranges strand |     Score     Comment
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr1  [11, 12]      + |        10      GoodQC
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+---
+# Adjusting genomic ranges positions.
+
+The **resize()** function allows to adjust the width of regions.
+
+
+```r
+myGenomicIntervals[3]
+```
+
+```
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames    ranges strand |     Score     Comment
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr2   [2, 30]      + |        40       BadQC
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+```r
+resize(myGenomicIntervals[3],width=20)
+```
+
+```
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames    ranges strand |     Score     Comment
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr2   [2, 21]      + |        40       BadQC
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+---
+# Adjusting genomic ranges positions.
+
+By default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as **start**, **end** or **centre** to specify where we wish to resize from.
+
+
+```r
+myGenomicIntervals[3]
+```
+
+```
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames    ranges strand |     Score     Comment
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr2   [2, 30]      + |        40       BadQC
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+```r
+resize(myGenomicIntervals[3],width=20, fix="end")
+```
+
+```
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames    ranges strand |     Score     Comment
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr2  [11, 30]      + |        40       BadQC
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+---
+
+# Adjusting genomic ranges positions.
+
+The **resize()** function by default takes into account strand information. 
+
+For negative strand intervals, when specifying **fix=start** it considers the start as the end position. i.e. Useful for Gene positions.
+
+
+
+```r
+resize(myGenomicIntervals[3],width=20, fix="start")
+```
+
+```
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames    ranges strand |     Score     Comment
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr2   [2, 21]      + |        40       BadQC
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+```r
+strand(myGenomicIntervals)[3] &lt;- "-"
+resize(myGenomicIntervals[3],width=20, fix="start")
+```
+
+```
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames    ranges strand |     Score     Comment
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr2  [11, 30]      - |        40       BadQC
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+---
+# Adjusting genomic ranges positions.
+
+A final function for adjusting genomic ranges which we will review is the **reduce()** function. 
+
+The reduce function merges overlapping regions into a single genomic interval.
+
+
+First lets make some overlapping intervals
+
+
+```r
+myGenomicIntervals &lt;- GRanges(seqnames=c("chr1","chr1","chr2"),
+                              ranges=IRanges(start=c(1,2,2),end=c(2,11,30)),
+                              strand=c("+","+","+"))
+myGenomicIntervals
+```
+
+```
+## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1   [1,  2]      +
+##   [2]     chr1   [2, 11]      +
+##   [3]     chr2   [2, 30]      +
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+---
+# Adjusting genomic ranges positions.
+
+Now we can merge them with **reduce()** function taking into account chromosomes
+
+
+```r
+mergedGenomicIntervals &lt;- reduce(myGenomicIntervals)
+mergedGenomicIntervals
+```
+
+```
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1   [1, 11]      +
+##   [2]     chr2   [2, 30]      +
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+---
+# Adjusting genomic ranges positions.
+
+The **reduce()** function also takes into account the strand information and only merges genomic intervals on same strand.
+
+
+```r
+strand(myGenomicIntervals) &lt;- c("+","-","+")
+mergedGenomicIntervals &lt;- reduce(myGenomicIntervals)
+mergedGenomicIntervals
+```
+
+```
+## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1   [1,  2]      +
+##   [2]     chr1   [2, 11]      -
+##   [3]     chr2   [2, 30]      +
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+---
+# Adjusting genomic ranges positions.
+
+We can merge intervals across strands by setting **ignore.strand=TRUE**. Note that all regions are now considered strandless.
+
+
+```r
+strand(myGenomicIntervals) &lt;- c("+","-","+")
+mergedGenomicIntervals &lt;- reduce(myGenomicIntervals,
+                                 ignore.strand=TRUE)
+mergedGenomicIntervals
+```
+
+```
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1   [1, 11]      *
+##   [2]     chr2   [2, 30]      *
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
+```
+
+---
+
+# Overlapping genomic intervals
+
+Some particularly useful methods/operators in GenomicRanges allows us to assess the relationship between two sets of GRanges objects.
+
+One of the most common is the **%over%** operator which allows us to identify overlapping regions.
+
+First we make two GRanges objects.
+
+
+```r
+myGenomicIntervals1 &lt;- GRanges(seqnames=c("chr1","chr1"),
+                              ranges=IRanges(start=c(1,25),
+                                             end=c(20,30)),
+                              strand=c("+","+"))
+myGenomicIntervals2 &lt;- GRanges(seqnames=c("chr1","chr1"),
+                              ranges=IRanges(start=c(22,100),
+                                             end=c(27,130)),
+                              strand=c("+","+"))
+```
+
+---
+
+# Overlapping genomic intervals
+
+
+```r
+myGenomicIntervals1
+```
+
+```
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [ 1, 20]      +
+##   [2]     chr1  [25, 30]      +
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+
+```r
+myGenomicIntervals2
+```
+
+```
+## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames     ranges strand
+##          &lt;Rle&gt;  &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1 [ 22,  27]      +
+##   [2]     chr1 [100, 130]      +
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+---
+# Overlapping genomic intervals
+Now to find all regions in **myGenomicIntervals1** which overlap with intervals in **myGenomicIntervals2** we simply use the **%over%** operator.
+
+This will return a logical vector specifying if regions in **myGenomicIntervals1** overlap any regions in **myGenomicIntervals2**.
+
+
+```r
+myGenomicIntervals1 %over% myGenomicIntervals2
+```
+
+```
+## [1] FALSE  TRUE
+```
+---
+# Overlapping genomic intervals
+
+We can use this logical vector then to subset our **myGenomicIntervals1** set [as we have with vectors](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/31) .
+
+
+```r
+myGenomicIntervals1[myGenomicIntervals1 %over% myGenomicIntervals2]
+```
+
+```
+## GRanges object with 1 range and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [25, 30]      +
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+---
+# Overlapping genomic intervals
+
+Another useful function to find overlaps is the **findOverlaps()** function.
+
+This returns a new object **Hits** object.
+
+
+
+```r
+myOverlaps &lt;- findOverlaps(myGenomicIntervals1,myGenomicIntervals2)
+class(myOverlaps)
+```
+
+```
+## [1] "SortedByQueryHits"
+## attr(,"package")
+## [1] "S4Vectors"
+```
+---
+# Overlapping genomic intervals
+
+To extract the indicies of genomic intervals in **myGenomicIntervals1** overlapping **myGenomicIntervals2** we can use the **queryHits()** function. 
+
+To get the corresponding indicies of overlapping **myGenomicIntervals2** regions we can use the **subjectHits()** function.
+
+
+
+```r
+queryHits(myOverlaps)
+```
+
+```
+## [1] 2
+```
+
+```r
+subjectHits(myOverlaps)
+```
+
+```
+## [1] 1
+```
+---
+# Overlapping genomic intervals
+
+We can use these indicies to retrieve the overlapping intervals.
+
+
+```r
+myGenomicIntervals1[queryHits(myOverlaps)]
+```
+
+```
+## GRanges object with 1 range and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [25, 30]      +
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+
+```r
+myGenomicIntervals2[subjectHits(myOverlaps)]
+```
+
+```
+## GRanges object with 1 range and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1  [22, 27]      +
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+---
+# Importing and exporting to bed.
+
+As we have seen, Genomic Intervals are often stores as BED files. 
+
+The **rtracklayer** package provide mechanisms to import and export from BED3/6 files using the **import.bed** and **export.bed** functions.
+
+
+```r
+library(rtracklayer)
+```
+
+```
+## Warning: package 'rtracklayer' was built under R version 3.4.2
+```
+
+```r
+mySicerPeaks &lt;- import.bed(con="../../Data/SicerPeaks.bed")
+```
+
+```
+## Warning in open.connection(con, open): cannot open file '../../Data/
+## SicerPeaks.bed': No such file or directory
+```
+
+```
+## Error in open.connection(con, open): cannot open the connection
+```
+
+```r
+mySicerPeaks
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'mySicerPeaks' not found
+```
+---
+# Importing and exporting to bed.
+
+Exporting to BED is achieved by using the **export.bed()** function.
+
+This produces a valid BED file for use in IGV and other softwares.
+
+
+```r
+export.bed(mySicerPeaks, con="moreSicerPeaks.bed")
+```
+
+```
+## Error in export.bed(mySicerPeaks, con = "moreSicerPeaks.bed"): object 'mySicerPeaks' not found
+```
+
+---
+# Using GRanges to extract sequences.
+
+We saw how we can extract sequences from a BSgenome object previously using **subseq()** function.
+
+
+```
+## Warning: closing unused connection 5 (../../Data/SicerPeaks.bed)
+```
+
+
+
+```r
+library(BSgenome.Mmusculus.UCSC.mm10)
+subseq(BSgenome.Mmusculus.UCSC.mm10$chr10,1,100)
+```
+
+```
+##   100-letter "DNAString" instance
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+```
+---
+# Using GRanges to extract sequences.
+
+With GRanges objects we can specify the BSgenome for the sequence and GRanges as regions to be extracted.
+
+Here we can use the **getSeq()** function to extract sequences under our Sicer Peaks on the mm10 genome. 
+
+
+
+```r
+sicerSeq &lt;- getSeq(BSgenome.Mmusculus.UCSC.mm10,names=mySicerPeaks)
+```
+
+```
+## Error in is(names, "Rle"): object 'mySicerPeaks' not found
+```
+
+```r
+sicerSeq
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'sicerSeq' not found
+```
+---
+# Using GRanges to extract sequences.
+
+The resulting **DNAStringSet** may be written to a FASTA file for further analysis in external programs
+
+```r
+writeXStringSet(sicerSeq,"sicerSeq.fa")
+```
+
+```
+## Error in is(x, "XStringSet"): object 'sicerSeq' not found
+```
+
+---
+# Time for an exercise.
+
+[Link_to_exercises](../../exercises/GI_exercises.html)
+
+[Link_to_answers](../../answers/GI_answers.html)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
