@@ -25,7 +25,7 @@ AsSlides <- TRUE
 ```
 
 
-# Genomic Intervals
+## Genomic Intervals
 
 As we have seen earlier, genomic intervals are often stored in BED format.
 
@@ -35,7 +35,7 @@ As we have seen earlier, genomic intervals are often stored in BED format.
 
 
 ---
-# Genomic Intervals examples.
+## Genomic Intervals examples.
 
 In Genomics and High throughput sequencing we make extensive use of Genomic Intervals to store simple annotation and summarised results over regions.
 
@@ -43,9 +43,28 @@ In Genomics and High throughput sequencing we make extensive use of Genomic Inte
 - Enrichment for ChIP-seq signal. i.e. Peak calls.
 
 
+---
+## Genomic Intervals manipulation
+
+We also want to be able to assess spatial relation between such genomic intervals within our linear genome. 
+
+- Transcriptional Start Sites and their nearest enhancers.
+- Enrichment for ChIP-seq signal within promoters and outside of promoters.
+
+
+
 
 ---
+class: inverse, center, middle
+
+
 # Genomic Intervals in Bioconductor.
+
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
+
+---
+## Genomic Intervals in Bioconductor.
 
 Two popular Bioconductor packages for dealing with Genomics Intervals are:
 
@@ -53,7 +72,7 @@ Two popular Bioconductor packages for dealing with Genomics Intervals are:
 - [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) -- Handling genomic intervals in R.
 
 ---
-# Genomic Intervals in Bioconductor.
+## Genomic Intervals in Bioconductor.
 
 The first package we will look at is the GenomicRanges package.
 
@@ -79,6 +98,17 @@ library(GenomicRanges)
 ```
 
 ---
+
+class: inverse, center, middle
+
+
+# Creating Genomic Ranges.
+
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
+
+---
+
 
 # Building a GenomicRanges.
 
@@ -349,6 +379,45 @@ as.data.frame(myGenomicIntervals)
 ```
 
 ---
+## GRanges from IDs.
+
+The GenomicRanges package also as a quick short cut to create GRanges from character strings. 
+
+We simply specify a genomic range as we saw presented in IGV - **Chromosome:Start-End** _**(chr1:110-120)**_.
+
+```{r aaszzzzzaaadsdaa,error=TRUE}
+GRanges("chr1:110-120")
+```
+
+---
+## GRanges from IDs.
+
+Often genomics programs will export results in table with a similar format for the GenomicIntervals. The BRC pipeline outputs in a format of **Chromosome:Start:End** _**(chr1:110:120)**_ to allow separation into columns in programs such as excel. 
+
+We will need to replace last **":"** with a **"-"** so we can use the **stringi** package's **stri_replace_last_fixed** function. 
+
+```{r aaszzzzzaxaaaaaca,error=TRUE}
+library(stringi)
+myRange <- "chr1:110:120"
+newRange <- stri_replace_last_fixed(myRange, ':', '-')
+newRange
+GRanges(newRange)
+```
+
+---
+## GRanges from IDs.
+
+Sometimes the format is  **IDforRange:Chromosome:Start:End**. We can clean this up in additional step using another **stringi** function.
+
+```{r aaszzzzzaaassaca,error=TRUE}
+library(stringi)
+myRange <- "MyID:chr1:110:120"
+newRange <- stri_replace_last_fixed(myRange, ':', '-')
+newerRange <- stri_replace_first_regex(newRange, '\\w*:', '')
+GRanges(newRange)
+```
+
+---
 # Special Genomic Ranges functions
 
 One of the big advantage of using GRanges objects to handle genomic data is the set of functions which allows us to manipulate and handle genomic intervals.
@@ -529,6 +598,76 @@ We can use these indicies to retrieve the overlapping intervals.
 myGenomicIntervals1[queryHits(myOverlaps)]
 myGenomicIntervals2[subjectHits(myOverlaps)]
 ```
+
+---
+# Finding closest regions.
+
+Another common set of operations we often want to perform between our Genomic Intervals is to find regions which are nearest to, precede or follow each other.
+
+We can perform these actions using the **nearest**, **precede** and **follow** functions.
+
+```{r ajfddfusscdcscfdjlsa,error=TRUE}
+myGenomicIntervals1 <- GRanges(seqnames=c("chr1","chr1"),
+                              ranges=IRanges(start=c(10,20),
+                                             end=c(25,30)),
+                              strand=c("+","+"))
+myGenomicIntervals2 <- GRanges(seqnames=c("chr1","chr1"),
+                              ranges=IRanges(start=c(1,10000),
+                                             end=c(2,10002)),
+                              strand=c("+","+"))
+
+```
+
+---
+## Finding closest regions.
+
+```{r ajfddfussscfdxcscsjlsa,error=TRUE}
+myGenomicIntervals1
+myGenomicIntervals2
+```
+
+---
+# Nearest genomics intervals
+
+The **nearest()** function accepts the two GenomicRanges we wish to compare as arguments and returns the index of intervals in second GenomicRanges nearest to those in first GenomicRanges.
+
+```{r ajfddfussseecrfdjlsa,error=TRUE}
+indexOfNearest <- nearest(myGenomicIntervals1,myGenomicIntervals2)
+indexOfNearest
+```
+
+---
+# Nearest genomics intervals
+
+I can use this vector of index positions to then extract intervals in second GenomicRanges nearest to those in first GenomicRanges
+
+```{r ajfddfussscrssfdjlsa,error=TRUE}
+myGenomicIntervals2[indexOfNearest]
+
+```
+
+---
+# Preceding and following genomics intervals
+
+We can use the **precede()** and **follow()** functions in much the same way to the **nearest()** function. This returns the index of elements in second GenomicRanges argument that are preceeded or followed by elements in first GenomicRanges argument
+
+```{r ajfddfussscrfdjlecdsa,error=TRUE}
+precedeIndex <- precede(myGenomicIntervals1,myGenomicIntervals2)
+followIndex <- follow(myGenomicIntervals1,myGenomicIntervals2)
+myGenomicIntervals2[precedeIndex]
+```
+
+---
+# Distance To Nearest genomics intervals
+
+Another useful function is **distanceToNearest()** which again accepts arguments like **nearest()** or **findOverlaps()** functions and provides an object containing indexes of nearest intervals including a column of distances between nearest intervals.
+
+```{r ajfddfussscscscrfdjlsa,error=TRUE}
+distances <- distanceToNearest(myGenomicIntervals1,myGenomicIntervals2)
+distances
+mcols(distances)
+```
+
 ---
 # Importing and exporting to bed.
 

@@ -12,7 +12,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Introduction to Bioconductor
+# Genomic Intervals in Bioconductor
 <html>
 <div style="float:left">
 
@@ -28,7 +28,7 @@ class: center, middle, inverse, title-slide
 
 
 
-# Genomic Intervals
+## Genomic Intervals
 
 As we have seen earlier, genomic intervals are often stored in BED format.
 
@@ -38,7 +38,7 @@ As we have seen earlier, genomic intervals are often stored in BED format.
 
 
 ---
-# Genomic Intervals examples.
+## Genomic Intervals examples.
 
 In Genomics and High throughput sequencing we make extensive use of Genomic Intervals to store simple annotation and summarised results over regions.
 
@@ -46,9 +46,28 @@ In Genomics and High throughput sequencing we make extensive use of Genomic Inte
 - Enrichment for ChIP-seq signal. i.e. Peak calls.
 
 
+---
+## Genomic Intervals manipulation
+
+We also want to be able to assess spatial relation between such genomic intervals within our linear genome. 
+
+- Transcriptional Start Sites and their nearest enhancers.
+- Enrichment for ChIP-seq signal within promoters and outside of promoters.
+
+
+
 
 ---
+class: inverse, center, middle
+
+
 # Genomic Intervals in Bioconductor.
+
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=720px&gt;&lt;/html&gt; 
+
+---
+## Genomic Intervals in Bioconductor.
 
 Two popular Bioconductor packages for dealing with Genomics Intervals are:
 
@@ -56,7 +75,7 @@ Two popular Bioconductor packages for dealing with Genomics Intervals are:
 - [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) -- Handling genomic intervals in R.
 
 ---
-# Genomic Intervals in Bioconductor.
+## Genomic Intervals in Bioconductor.
 
 The first package we will look at is the GenomicRanges package.
 
@@ -82,6 +101,17 @@ library(GenomicRanges)
 ```
 
 ---
+
+class: inverse, center, middle
+
+
+# Creating Genomic Ranges.
+
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=720px&gt;&lt;/html&gt; 
+
+---
+
 
 # Building a GenomicRanges.
 
@@ -556,6 +586,64 @@ as.data.frame(myGenomicIntervals)
 ```
 
 ---
+## GRanges from IDs.
+
+The GenomicRanges package also as a quick short cut to create GRanges from character strings. We simply specify a genomic range as we saw presented in IGV - **Chromosome:Start-End** _**(chr1:110-120)**_.
+
+
+```r
+GRanges("chr1:110-120")
+```
+
+```
+## GRanges object with 1 range and 0 metadata columns:
+##       seqnames     ranges strand
+##          &lt;Rle&gt;  &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1 [110, 120]      *
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+
+---
+## GRanges from IDs.
+
+Often genomics programs will export results in table with a similar format for the GenomicIntervals.
+
+The BRC pipeline outputs in a format of **Chromosome:Start:End** _**(chr1:110:120)**_ to allow separation into columns in programs such as excel. We will need to replace last **":"** with a **"-"** so we can use the **stringi** package's **stri_replace_last_fixed** function. 
+
+
+```r
+library(stringi)
+```
+
+```
+## Warning: package 'stringi' was built under R version 3.4.4
+```
+
+```r
+myRange &lt;- "chr1:110:120"
+newRange &lt;- stri_replace_last_fixed(myRange, ':', '-')
+newRange
+```
+
+```
+## [1] "chr1:110-120"
+```
+
+```r
+GRanges(newRange)
+```
+
+```
+## GRanges object with 1 range and 0 metadata columns:
+##       seqnames     ranges strand
+##          &lt;Rle&gt;  &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1 [110, 120]      *
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+
+---
 # Special Genomic Ranges functions
 
 One of the big advantage of using GRanges objects to handle genomic data is the set of functions which allows us to manipulate and handle genomic intervals.
@@ -968,11 +1056,11 @@ library(rtracklayer)
 ```
 
 ```r
-mySicerPeaks &lt;- import.bed(con="../../Data/SicerPeaks.bed")
+mySicerPeaks &lt;- import.bed(con="Data/SicerPeaks.bed")
 ```
 
 ```
-## Warning in open.connection(con, open): cannot open file '../../Data/
+## Warning in open.connection(con, open): cannot open file 'Data/
 ## SicerPeaks.bed': No such file or directory
 ```
 
@@ -1010,8 +1098,7 @@ We saw how we can extract sequences from a BSgenome object previously using **su
 
 
 ```
-## Warning in environmentIsLocked(ns): closing unused connection 5 (../../
-## Data/SicerPeaks.bed)
+## Warning in .Data: closing unused connection 5 (Data/SicerPeaks.bed)
 ```
 
 
