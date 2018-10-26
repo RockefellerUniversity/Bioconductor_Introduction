@@ -483,11 +483,13 @@ myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>
 myRange &lt;-<span class="st"> &quot;MyID:chr1:110:120&quot;</span>
 newRange &lt;-<span class="st"> </span><span class="kw">stri_replace_last_fixed</span>(myRange, <span class="st">':'</span>, <span class="st">'-'</span>)
 newerRange &lt;-<span class="st"> </span><span class="kw">stri_replace_first_regex</span>(newRange, <span class="st">'</span><span class="ch">\\</span><span class="st">w*:'</span>, <span class="st">''</span>)
-<span class="kw">GRanges</span>(newRange)</code></pre></div>
-<pre><code>## Error in asMethod(object): The character vector to convert to a GRanges object must contain
-##   strings of the form &quot;chr1:2501-2800&quot; or &quot;chr1:2501-2800:+&quot; (&quot;..&quot;
-##   being also supported as a separator between the start and end
-##   positions). Strand can be &quot;+&quot;, &quot;-&quot;, &quot;*&quot;, or missing.</code></pre>
+<span class="kw">GRanges</span>(newerRange)</code></pre></div>
+<pre><code>## GRanges object with 1 range and 0 metadata columns:
+##       seqnames     ranges strand
+##          &lt;Rle&gt;  &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1 [110, 120]      *
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
 </div>
 </div>
 <div id="adjusting-genomic-ranges-positions." class="section level1">

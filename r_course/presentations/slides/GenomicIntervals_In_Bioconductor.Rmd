@@ -414,7 +414,7 @@ library(stringi)
 myRange <- "MyID:chr1:110:120"
 newRange <- stri_replace_last_fixed(myRange, ':', '-')
 newerRange <- stri_replace_first_regex(newRange, '\\w*:', '')
-GRanges(newRange)
+GRanges(newerRange)
 ```
 
 ---
