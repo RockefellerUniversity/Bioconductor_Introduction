@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Bioconductor <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
+title: "Genomic Intervals in Bioconductor <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
 author: "Rockefeller University, Bioinformatics Resource Centre"
 date: "http://rockefelleruniversity.github.io/Bioconductor_Introduction/"
 output: 
@@ -538,7 +538,7 @@ The **rtracklayer** package provide mechanisms to import and export from BED3/6 
 
 ```{r revruujje,error=TRUE}
 library(rtracklayer)
-mySicerPeaks <- import.bed(con="../../Data/SicerPeaks.bed")
+mySicerPeaks <- import.bed(con="Data/SicerPeaks.bed")
 mySicerPeaks
 ```
 ---

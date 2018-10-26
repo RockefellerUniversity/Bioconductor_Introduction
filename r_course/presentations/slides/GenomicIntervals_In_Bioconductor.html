@@ -12,7 +12,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Introduction to Bioconductor
+# Genomic Intervals in Bioconductor
 <html>
 <div style="float:left">
 
@@ -961,31 +961,19 @@ The **rtracklayer** package provide mechanisms to import and export from BED3/6 
 
 ```r
 library(rtracklayer)
-```
-
-```
-## Warning: package 'rtracklayer' was built under R version 3.4.2
-```
-
-```r
-mySicerPeaks &lt;- import.bed(con="../../Data/SicerPeaks.bed")
-```
-
-```
-## Warning in open.connection(con, open): cannot open file '../../Data/
-## SicerPeaks.bed': No such file or directory
-```
-
-```
-## Error in open.connection(con, open): cannot open the connection
-```
-
-```r
+mySicerPeaks &lt;- import.bed(con="Data/SicerPeaks.bed")
 mySicerPeaks
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'mySicerPeaks' not found
+## GRanges object with 3 ranges and 2 metadata columns:
+##       seqnames               ranges strand |        name     score
+##          &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;numeric&gt;
+##   [1]     chrY [90739201, 90744599]      * |       peak1         1
+##   [2]     chrY [90766601, 90767999]      * |       peak2        20
+##   [3]     chrX [ 6399201,  6401199]      * |       peak3        40
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths
 ```
 ---
 # Importing and exporting to bed.
@@ -999,19 +987,12 @@ This produces a valid BED file for use in IGV and other softwares.
 export.bed(mySicerPeaks, con="moreSicerPeaks.bed")
 ```
 
-```
-## Error in export.bed(mySicerPeaks, con = "moreSicerPeaks.bed"): object 'mySicerPeaks' not found
-```
-
 ---
 # Using GRanges to extract sequences.
 
 We saw how we can extract sequences from a BSgenome object previously using **subseq()** function.
 
 
-```
-## Warning: closing unused connection 5 (../../Data/SicerPeaks.bed)
-```
 
 
 
@@ -1035,18 +1016,15 @@ Here we can use the **getSeq()** function to extract sequences under our Sicer P
 
 ```r
 sicerSeq &lt;- getSeq(BSgenome.Mmusculus.UCSC.mm10,names=mySicerPeaks)
-```
-
-```
-## Error in is(names, "Rle"): object 'mySicerPeaks' not found
-```
-
-```r
 sicerSeq
 ```
 
 ```
-## Error in eval(expr, envir, enclos): object 'sicerSeq' not found
+##   A DNAStringSet instance of length 3
+##     width seq
+## [1]  5399 AACAGGGCCTGACTGCGTACAGACATGTCCC...CCCGGAGATCGGCGCTGGGCCCTAGCCTAGA
+## [2]  1399 CATTCACCCACAGTGATCCCCCCGCCTCAGA...AGAAAATCACTCACAGTCATCCCCCTGCCTC
+## [3]  1999 TTGGCCAGCTTATCAGTGGGTGTTCTTTCGA...AGATTGCCAGGTGGAGGGACTTCATGAACTT
 ```
 ---
 # Using GRanges to extract sequences.
@@ -1055,10 +1033,6 @@ The resulting **DNAStringSet** may be written to a FASTA file for further analys
 
 ```r
 writeXStringSet(sicerSeq,"sicerSeq.fa")
-```
-
-```
-## Error in is(x, "XStringSet"): object 'sicerSeq' not found
 ```
 
 ---

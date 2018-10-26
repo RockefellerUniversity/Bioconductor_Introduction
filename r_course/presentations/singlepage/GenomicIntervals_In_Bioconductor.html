@@ -242,7 +242,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Introduction to Bioconductor
+<h1 class="title toc-ignore">Genomic Intervals in Bioconductor
 <html>
 <div style="float:left">
 
@@ -600,12 +600,16 @@ myGenomicIntervals2 &lt;-<span class="st"> </span><span class="kw">GRanges</span
 <p>As we have seen, Genomic Intervals are often stores as BED files.</p>
 <p>The <strong>rtracklayer</strong> package provide mechanisms to import and export from BED3/6 files using the <strong>import.bed</strong> and <strong>export.bed</strong> functions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rtracklayer)
-mySicerPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<span class="dt">con=</span><span class="st">&quot;../../Data/SicerPeaks.bed&quot;</span>)</code></pre></div>
-<pre><code>## Warning in open.connection(con, open): cannot open file '../../Data/
-## SicerPeaks.bed': No such file or directory</code></pre>
-<pre><code>## Error in open.connection(con, open): cannot open the connection</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mySicerPeaks</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): object 'mySicerPeaks' not found</code></pre>
+mySicerPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<span class="dt">con=</span><span class="st">&quot;Data/SicerPeaks.bed&quot;</span>)
+mySicerPeaks</code></pre></div>
+<pre><code>## GRanges object with 3 ranges and 2 metadata columns:
+##       seqnames               ranges strand |        name     score
+##          &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;numeric&gt;
+##   [1]     chrY [90739201, 90744599]      * |       peak1         1
+##   [2]     chrY [90766601, 90767999]      * |       peak2        20
+##   [3]     chrX [ 6399201,  6401199]      * |       peak3        40
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
 </div>
 <div id="using-granges-to-extract-sequences." class="section level1">
 <h1>Using GRanges to extract sequences.</h1>
@@ -619,7 +623,6 @@ mySicerPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<s
 <h1>Using GRanges to extract sequences.</h1>
 <p>The resulting <strong>DNAStringSet</strong> may be written to a FASTA file for further analysis in external programs</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">writeXStringSet</span>(sicerSeq,<span class="st">&quot;sicerSeq.fa&quot;</span>)</code></pre></div>
-<pre><code>## Error in is(x, &quot;XStringSet&quot;): object 'sicerSeq' not found</code></pre>
 <hr />
 </div>
 <div id="time-for-an-exercise." class="section level1">
