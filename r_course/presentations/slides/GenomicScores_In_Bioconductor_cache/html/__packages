@@ -1,0 +1,14 @@
+base
+rmarkdown
+BiocInstaller
+BiocGenerics
+S4Vectors
+IRanges
+GenomeInfoDb
+GenomicRanges
+stringi
+rtracklayer
+XVector
+Biostrings
+BSgenome
+BSgenome.Mmusculus.UCSC.mm10
