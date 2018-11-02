@@ -53,7 +53,7 @@ As we have seen earlier, genomic scores are often stored in wiggle format.
 A perhaps more common human readable format is bedGraph.
 
 <div align="center">
-<img src="imgs/bedGraph3.png" alt="igv" height="200" width="400">
+<img src="imgs/bedgraph3.png" alt="igv" height="200" width="400">
 </div>
 ---
 # Genomic Scores
