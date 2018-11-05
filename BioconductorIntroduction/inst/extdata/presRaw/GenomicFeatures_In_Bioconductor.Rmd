@@ -1,9 +1,10 @@
 ---
-title: "Genomic Features In Bioconductor"
+title: "Genomic Features In Bioconductor <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
 author: "Rockefeller University, Bioinformatics Resource Centre"
 date: "http://rockefelleruniversity.github.io/Bioconductor_Introduction/"
 output: 
   xaringan::moon_reader:
+    css: ["default", "metropolisCustom.css", "metropolis-fontsCustom.css"]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -16,8 +17,6 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
-
-
 ---
 
 ```{r setup, include=FALSE}
@@ -31,7 +30,7 @@ AsSlides <- TRUE
 Genomic Features are often stored as GTF or GFF files.
 
 <div align="center">
-<img src="imgs/gff.png" alt="igv" height="400" width="600">
+<img src="imgs/gff.png" alt="igv" height="200" width="600">
 </div>
 
 ---
@@ -53,7 +52,7 @@ We use GFF and GTF in IGV to display gene models.
 
 ```{r setssssup, eval=FALSE,echo=FALSE}
 library(TxDb.Hsapiens.UCSC.hg19.knownGene)
-export.gff(TxDb.Hsapiens.UCSC.hg19.knownGene,con = "../../Data/test.gff")
+export.gff(TxDb.Hsapiens.UCSC.hg19.knownGene,con = "Data/test.gff")
 ```
 
 ![](imgs/fullGenes.png)
@@ -282,7 +281,7 @@ Often we will have our favourite gene models stored in a GTF outside of Biocondu
 
 We can do this using the **makeTxDbFromGFF()** function which will parse GTF or GFF into a **TxDb** object
 ```{r ssslkzzzzfkkjkjj,eval=TRUE}
-myCustomTxDb <- makeTxDbFromGFF("../../Data/Xkr4.gtf")
+myCustomTxDb <- makeTxDbFromGFF("Data/Xkr4.gtf")
 class(myCustomTxDb)
 ```
 
@@ -401,6 +400,83 @@ We can then either work with the resulting DNAStringSet then in R or write to Fa
 ```{r ssslkdszzzzddfkjj,eval=TRUE,cache=TRUE,message=FALSE,warning=FALSE}
 writeXStringSet(hg19TransSeq,"myTranscriptSequences.fa")
 ```
+
+---
+# Changing naming conventions.
+
+So far we have used the standard UCSC style of chromosome names
+
+- Chr1, Chr2, Chr3 ..
+
+Sadly, conventions for chromosome and contig names can vary across different annotation sources.
+
+Ensembl for instance uses.
+
+- 1, 2, 3, 4 ...
+
+---
+# Changing chromosome naming styles.
+
+The **GenomeInfoDb** package and associated **GenomeInfoDbData** package contain mappings between differing naming conventions and functions to convert between them.
+
+First we need to load the **GenomeInfoDb** library.
+
+```{r}
+library(GenomeInfoDb)
+```
+
+---
+# Reviewing chromosome naming styles.
+
+We can review all the mappings for supported organisms' genomes using the **genomeStyles()** function with no arguments.
+
+The **genomeStyles()** function returns a list of mapping data.frames of each organism.
+
+```{r}
+allMappings <- genomeStyles()
+names(allMappings)
+```
+
+---
+# Chromosome naming style data.frame.
+
+We can then review mappings for our organism of interest's genomes by retrieving the relevant entry from our list returned by the **genomeStyles()** function.
+
+The resulting data.frame contains information on contig/chromosome mappings as well as additional information on chromosomes, i.e. Circularity. 
+
+```{r}
+#allMappings$Homo_sapiens or
+allMappings[["Homo_sapiens"]]
+```
+
+---
+# Changing chromosome naming styles.
+
+The **seqlevelsStyle()** function allows us to review as well as set the naming convention for our GenomicRanges or TxDb objects.
+
+First lets review the genes from the  **TxDb.Hsapiens.UCSC.hg19.knownGene** package. Here we see they are **UCSC** style.
+
+```{r}
+myGenes <- genes(TxDb.Hsapiens.UCSC.hg19.knownGene)
+seqlevelsStyle(myGenes)
+myGenes[1:2,]
+
+```
+
+---
+# Changing chromosome naming styles (2).
+
+Now we can update them to **Ensembl**, **NCBI** or **dbSNP** styles. Here we update to **Ensembl** chromosome naming conventions. 
+
+This conversion is essential if we want to use our objects with data generated following Ensembl styles.
+
+```{r}
+seqlevelsStyle(myGenes) <- "Ensembl"
+myGenes[1:2,]
+
+```
+
+
 ---
 # Gene annotation.
 
