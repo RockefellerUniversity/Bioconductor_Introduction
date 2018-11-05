@@ -505,7 +505,7 @@ myCustomTxDb
 ## # exon_nrow: 3
 ## # cds_nrow: 3
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2018-11-05 12:26:22 -0500 (Mon, 05 Nov 2018)
+## # Creation time: 2018-11-05 12:36:15 -0500 (Mon, 05 Nov 2018)
 ## # GenomicFeatures version at creation time: 1.28.4
 ## # RSQLite version at creation time: 2.0
 ## # DBSCHEMAVERSION: 1.1
@@ -566,13 +566,6 @@ We can review the genomes available to us using the **ucscGenomes()** function f
 
 ```r
 library(rtracklayer)
-```
-
-```
-## Warning: package 'rtracklayer' was built under R version 3.4.2
-```
-
-```r
 availableGenomes &lt;- ucscGenomes()
 availableGenomes[1:4,]
 ```
@@ -613,7 +606,7 @@ hg18TxDb
 ## # exon_nrow: 266688
 ## # cds_nrow: 221991
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2018-11-05 12:28:30 -0500 (Mon, 05 Nov 2018)
+## # Creation time: 2018-11-05 12:38:19 -0500 (Mon, 05 Nov 2018)
 ## # GenomicFeatures version at creation time: 1.28.4
 ## # RSQLite version at creation time: 2.0
 ## # DBSCHEMAVERSION: 1.1
@@ -706,18 +699,18 @@ hg19TransSeq
 
 ```
 ##   A DNAStringSet instance of length 82960
-##          width seq                                     names               
-##     [1]   1652 CTTGCCGTCAGCCTTTTC...GCACACTGTTGGTTTCTG 1
-##     [2]   1488 CTTGCCGTCAGCCTTTTC...GCACACTGTTGGTTTCTG 2
-##     [3]   1595 CTTGCCGTCAGCCTTTTC...GCACACTGTTGGTTTCTG 3
-##     [4]    918 ATGGTGACTGAATTCATT...TCTAGTGTAAAGTTTTAG 4
-##     [5]     32 TACAGACCAAGCTCATGACTCACAATGGCCTA        5
+##          width seq                                                                                             names               
+##     [1]   1652 CTTGCCGTCAGCCTTTTCTTTGACCTCTTCTTTCTGTTCATGTGTA...CTGCACAGCTAGAGATCCTTTATTAAAAGCACACTGTTGGTTTCTG 1
+##     [2]   1488 CTTGCCGTCAGCCTTTTCTTTGACCTCTTCTTTCTGTTCATGTGTA...CTGCACAGCTAGAGATCCTTTATTAAAAGCACACTGTTGGTTTCTG 2
+##     [3]   1595 CTTGCCGTCAGCCTTTTCTTTGACCTCTTCTTTCTGTTCATGTGTA...CTGCACAGCTAGAGATCCTTTATTAAAAGCACACTGTTGGTTTCTG 3
+##     [4]    918 ATGGTGACTGAATTCATTTTTCTGGGTCTCTCTGATTCTCAGGAAC...AAGACAGCTGAGAAAATGGGATGCACATTCTAGTGTAAAGTTTTAG 4
+##     [5]     32 TACAGACCAAGCTCATGACTCACAATGGCCTA                                                                5
 ##     ...    ... ...
-## [82956]   1217 GCCAGTTTAGGGTCTCTG...CCTCCGCCTCCTGAGATC 82956
-## [82957]    737 CTCCACTTCTGATCCTCC...GCTTTATTAGATGCAGTG 82957
-## [82958]     30 TGGTGAATTTCAGCCAAAGTGGCCAAAGAA          82958
-## [82959]     30 TTGCAGAGGTGGCTGGTTGCTCTTTGAGCC          82959
-## [82960]     30 TGGTGAATTTCAGCCAAAGTGGCCAAAGAA          82960
+## [82956]   1217 GCCAGTTTAGGGTCTCTGGTATCTCCCGCTGAGCTGCTCTGTTCCC...GGGCTTCTATGGCCACCGATCACTGCAACCTCCGCCTCCTGAGATC 82956
+## [82957]    737 CTCCACTTCTGATCCTCCCCGCCCTGGTGCTGCTCCGGGTCACATA...AAAATGGCTTTCTCGGCCTCAAATAGCCGCTTTATTAGATGCAGTG 82957
+## [82958]     30 TGGTGAATTTCAGCCAAAGTGGCCAAAGAA                                                                  82958
+## [82959]     30 TTGCAGAGGTGGCTGGTTGCTCTTTGAGCC                                                                  82959
+## [82960]     30 TGGTGAATTTCAGCCAAAGTGGCCAAAGAA                                                                  82960
 ```
 ---
 # Extracting sequence information.
@@ -768,13 +761,52 @@ names(allMappings)
 ```
 
 ```
-##  [1] "Arabidopsis_thaliana"     "Caenorhabditis_elegans"  
-##  [3] "Canis_familiaris"         "Cyanidioschyzon_merolae" 
-##  [5] "Drosophila_melanogaster"  "genomeMappingTbl.csv"    
-##  [7] "Homo_sapiens"             "Mus_musculus"            
-##  [9] "Oryza_sativa"             "Populus_trichocarpa"     
-## [11] "Rattus_norvegicus"        "Saccharomyces_cerevisiae"
+##  [1] "Arabidopsis_thaliana"     "Caenorhabditis_elegans"   "Canis_familiaris"         "Cyanidioschyzon_merolae" 
+##  [5] "Drosophila_melanogaster"  "genomeMappingTbl.csv"     "Homo_sapiens"             "Mus_musculus"            
+##  [9] "Oryza_sativa"             "Populus_trichocarpa"      "Rattus_norvegicus"        "Saccharomyces_cerevisiae"
 ## [13] "Zea_mays"
+```
+
+---
+# Chromosome naming style data.frame.
+
+We can then review mappings for our organism of interest's genomes by retrieving the relevant entry from our list returned by the **genomeStyles()** function.
+
+The resulting data.frame contains information on contig/chromosome mappings as well as additional information on chromosomes, i.e. Circularity. 
+
+
+```r
+#allMappings$Homo_sapiens or
+allMappings[["Homo_sapiens"]]
+```
+
+```
+##    circular  auto   sex NCBI  UCSC dbSNP Ensembl
+## 1     FALSE  TRUE FALSE    1  chr1   ch1       1
+## 2     FALSE  TRUE FALSE    2  chr2   ch2       2
+## 3     FALSE  TRUE FALSE    3  chr3   ch3       3
+## 4     FALSE  TRUE FALSE    4  chr4   ch4       4
+## 5     FALSE  TRUE FALSE    5  chr5   ch5       5
+## 6     FALSE  TRUE FALSE    6  chr6   ch6       6
+## 7     FALSE  TRUE FALSE    7  chr7   ch7       7
+## 8     FALSE  TRUE FALSE    8  chr8   ch8       8
+## 9     FALSE  TRUE FALSE    9  chr9   ch9       9
+## 10    FALSE  TRUE FALSE   10 chr10  ch10      10
+## 11    FALSE  TRUE FALSE   11 chr11  ch11      11
+## 12    FALSE  TRUE FALSE   12 chr12  ch12      12
+## 13    FALSE  TRUE FALSE   13 chr13  ch13      13
+## 14    FALSE  TRUE FALSE   14 chr14  ch14      14
+## 15    FALSE  TRUE FALSE   15 chr15  ch15      15
+## 16    FALSE  TRUE FALSE   16 chr16  ch16      16
+## 17    FALSE  TRUE FALSE   17 chr17  ch17      17
+## 18    FALSE  TRUE FALSE   18 chr18  ch18      18
+## 19    FALSE  TRUE FALSE   19 chr19  ch19      19
+## 20    FALSE  TRUE FALSE   20 chr20  ch20      20
+## 21    FALSE  TRUE FALSE   21 chr21  ch21      21
+## 22    FALSE  TRUE FALSE   22 chr22  ch22      22
+## 23    FALSE FALSE  TRUE    X  chrX   chX       X
+## 24    FALSE FALSE  TRUE    Y  chrY   chY       Y
+## 25     TRUE FALSE FALSE   MT  chrM  chMT      MT
 ```
 
 ---
@@ -896,12 +928,9 @@ columns(org.Hs.eg.db)
 ```
 
 ```
-##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT" 
-##  [5] "ENSEMBLTRANS" "ENTREZID"     "ENZYME"       "EVIDENCE"    
-##  [9] "EVIDENCEALL"  "GENENAME"     "GO"           "GOALL"       
-## [13] "IPI"          "MAP"          "OMIM"         "ONTOLOGY"    
-## [17] "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"        
-## [21] "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"      
+##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT"  "ENSEMBLTRANS" "ENTREZID"     "ENZYME"       "EVIDENCE"    
+##  [9] "EVIDENCEALL"  "GENENAME"     "GO"           "GOALL"        "IPI"          "MAP"          "OMIM"         "ONTOLOGY"    
+## [17] "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"         "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"      
 ## [25] "UNIGENE"      "UNIPROT"
 ```
 --
@@ -920,12 +949,9 @@ keytypes(org.Hs.eg.db)
 ```
 
 ```
-##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT" 
-##  [5] "ENSEMBLTRANS" "ENTREZID"     "ENZYME"       "EVIDENCE"    
-##  [9] "EVIDENCEALL"  "GENENAME"     "GO"           "GOALL"       
-## [13] "IPI"          "MAP"          "OMIM"         "ONTOLOGY"    
-## [17] "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"        
-## [21] "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"      
+##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT"  "ENSEMBLTRANS" "ENTREZID"     "ENZYME"       "EVIDENCE"    
+##  [9] "EVIDENCEALL"  "GENENAME"     "GO"           "GOALL"        "IPI"          "MAP"          "OMIM"         "ONTOLOGY"    
+## [17] "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"         "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"      
 ## [25] "UNIGENE"      "UNIPROT"
 ```
 ---
@@ -939,206 +965,118 @@ keys(org.Hs.eg.db, keytype="SYMBOL")
 ```
 
 ```
-##    [1] "A1BG"       "A2M"        "A2MP1"      "NAT1"       "NAT2"      
-##    [6] "NATP"       "SERPINA3"   "AADAC"      "AAMP"       "AANAT"     
-##   [11] "AARS"       "AAVS1"      "ABAT"       "ABCA1"      "ABCA2"     
-##   [16] "ABCA3"      "ABCB7"      "ABCF1"      "ABCA4"      "ABL1"      
-##   [21] "AOC1"       "ABL2"       "ABO"        "ABR"        "ACAA1"     
-##   [26] "ACACA"      "ACACB"      "ACADL"      "ACADM"      "ACADS"     
-##   [31] "ACADSB"     "ACADVL"     "ACAT1"      "ACAT2"      "ASIC2"     
-##   [36] "ASIC1"      "ACHE"       "ACLS"       "ACLY"       "ACO1"      
-##   [41] "ACR"        "ACO2"       "ACOX1"      "ACP1"       "ACP2"      
-##   [46] "ACP5"       "ACPP"       "ACRV1"      "ACTA1"      "ACTA2"     
-##   [51] "ACTB"       "ACTBP2"     "ACTBP3"     "ACTBP4"     "ACTBP6"    
-##   [56] "ACTBP7"     "ACTBP8"     "ACTBP9"     "ACTC1"      "ACTG1"     
-##   [61] "ACTG2"      "ACTG1P1"    "ACTG1P2"    "ACTG1P3"    "ACTG1P6"   
-##   [66] "ACTG1P7"    "ACTG1P8"    "ACTN4"      "ACTG1P9"    "ACTG1P10"  
-##   [71] "ACTL6A"     "ACTN1"      "ACTN2"      "ACTN3"      "ACVR1"     
-##   [76] "ACVR1B"     "ACVR2A"     "ACVR2B"     "ACVRL1"     "ACY1"      
-##   [81] "ACYP1"      "ACYP2"      "ADA"        "ADAM8"      "ADAM10"    
-##   [86] "ADAR"       "ADARB1"     "ADARB2"     "ADCP1"      "ADCY1"     
-##   [91] "ADCY2"      "ADCY3"      "ADCY5"      "ADCY6"      "ADCY7"     
-##   [96] "ADCY8"      "ADCY9"      "ADCYAP1"    "ADCYAP1R1"  "ADD1"      
-##  [101] "ADD2"       "ADD3"       "ADFN"       "PLIN2"      "ADH1A"     
-##  [106] "ADH1B"      "ADH1C"      "ADH4"       "ADH5"       "ADH6"      
-##  [111] "ADH7"       "ADK"        "ADM"        "ADORA1"     "ADORA2A"   
-##  [116] "ADORA2B"    "ADORA2BP1"  "ADORA3"     "ADPRH"      "PARP1"     
-##  [121] "PARP4"      "PARP1P1"    "PARP1P2"    "ADRA1D"     "ADRA1B"    
-##  [126] "ADRA1A"     "ADRA2A"     "ADRA2B"     "ADRA2C"     "ADRB1"     
-##  [131] "ADRB2"      "ADRB3"      "GRK2"       "GRK3"       "ADSL"      
-##  [136] "ADSS"       "AP2A1"      "AP2A2"      "AP1B1"      "AP2B1"     
-##  [141] "AP1G1"      "AEBP1"      "AES"        "CRISP1"     "AF8T"      
-##  [146] "AFA"        "AFD1"       "AFG3L1P"    "AFM"        "AFP"       
-##  [151] "AGA"        "ACAN"       "AGER"       "AGL"        "AGMX2"     
-##  [156] "AGRP"       "JAG1"       "AGT"        "AGTR1"      "AGTR2"     
-##  [161] "APLNR"      "AGXT"       "NR0B1"      "AHCY"       "AIC"       
-##  [166] "AHR"        "AHSG"       "AIF1"       "AIH3"       "CRYBG1"    
-##  [171] "AK1"        "AK2"        "AK4"        "AK4P1"      "AKT1"      
-##  [176] "AKT2"       "ALAD"       "ALAS1"      "ALAS2"      "ALB"       
-##  [181] "ALCAM"      "ABCD1"      "ALDH1A1"    "ALDH2"      "ALDH3A1"   
-##  [186] "ALDH1B1"    "ALDH1A3"    "ALDH3B1"    "ALDH3B2"    "ALDH9A1"   
-##  [191] "ALDH3A2"    "ABCD2"      "ALDOA"      "ALDOAP2"    "ALDOB"     
-##  [196] "ALDOC"      "AKR1B1"     "AKR1B1P2"   "ALK"        "ALOX12"    
-##  [201] "ALOX5"      "ALOX5AP"    "ALOX12B"    "ALOX12P1"   "ALOX12P2"  
-##  [206] "ALOX15"     "ALOX15B"    "ALPI"       "ALPL"       "ALPP"      
-##  [211] "ALPPL2"     "ALS3"       "ALS5"       "ALX3"       "AMBN"      
-##  [216] "AMBP"       "AMCN"       "AMD1"       "AMD1P2"     "AMELX"     
-##  [221] "AMELY"      "AMFR"       "AMH"        "AMHR2"      "AMPD1"     
-##  [226] "AMPD2"      "AMPD3"      "AMPH"       "BIN1"       "AMT"       
-##  [231] "AMY1A"      "AMY1B"      "AMY1C"      "AMY2A"      "AMY2B"     
-##  [236] "AMYP1"      "ANCR"       "ANG"        "ANGPT1"     "ANGPT2"    
-##  [241] "ANK1"       "ANK2"       "ANK3"       "ANOP1"      "ANPEP"     
-##  [246] "SLC25A4"    "SLC25A5"    "SLC25A6"    "ANXA1"      "ANXA2"     
-##  [251] "ANXA2P1"    "ANXA2P2"    "ANXA2P3"    "ANXA3"      "ANXA4"     
-##  [256] "ANXA5"      "ANXA6"      "ANXA7"      "ANXA11"     "ANXA13"    
-##  [261] "AOAH"       "AOC2"       "AOX1"       "APAF1"      "NUDT2"     
-##  [266] "APOF"       "APBA1"      "APBA2"      "APBB1"      "APBB2"     
-##  [271] "APC"        "APCS"       "AIRE"       "APEH"       "APEX1"     
-##  [276] "BIRC2"      "BIRC3"      "XIAP"       "BIRC5"      "APLP1"     
-##  [281] "APLP2"      "APOA1"      "APOA2"      "APOA4"      "APOB"      
-##  [286] "APOBEC1"    "APOC1"      "APOC1P1"    "AQP8"       "APOC2"     
-##  [291] "APOC3"      "APOC4"      "APOD"       "APOE"       "APOH"      
-##  [296] "APP"        "APRT"       "KLK3"       "FAS"        "FASLG"     
-##  [301] "SHROOM2"    "AQP1"       "AQP2"       "AQP3"       "AQP4"      
-##  [306] "AQP5"       "AQP6"       "AQP7"       "AQP9"       "AR"        
-##  [311] "ABCC6"      "ARAF"       "ARCN1"      "TRIM23"     "AREG"      
-##  [316] "ARF1"       "ARF3"       "ARF4"       "ARL4D"      "ARF4P1"    
-##  [321] "ARF5"       "ARF6"       "ARG1"       "ARG2"       "RHOA"      
-##  [326] "RHOB"       "RHOC"       "RND3"       "RHOG"       "ARHGAP1"   
-##  [331] "ARHGAP4"    "ARHGAP5"    "ARHGAP6"    "ARHGDIA"    "ARHGDIB"   
-##  [336] "ARHGDIG"    "RHOH"       "ARL1"       "PHOX2A"     "ARL2"      
-##  [341] "ARL3"       "ARNT"       "ARNTL"      "ARR3"       "ARRB1"     
-##  [346] "ARRB2"      "ARSA"       "ARSB"       "STS"        "ARSC2"     
-##  [351] "ARSD"       "ARSE"       "ARSF"       "ART1"       "ART2P"     
-##  [356] "ART3"       "ART4"       "ARVCF"      "ARVD3"      "ARVD4"     
-##  [361] "ASAH1"      "ASCL1"      "ASCL2"      "ASD1"       "ASGR1"     
-##  [366] "ASGR2"      "ASIP"       "ASL"        "ASLP1"      "ASMT"      
-##  [371] "ASNA1"      "ASNS"       "ASNSP2"     "ASPA"       "ASPH"      
-##  [376] "ASS1"       "ASS1P2"     "ASS1P4"     "ASS1P5"     "ASS1P6"    
-##  [381] "ASS1P8"     "ASS1P9"     "ASS1P10"    "ASS1P14"    "ASTN1"     
-##  [386] "SERPINC1"   "ZFHX3"      "ATD"        "ATF1"       "ATF3"      
-##  [391] "ATF4"       "ATF4P1"     "ATHS"       "ATIC"       "ATM"       
-##  [396] "RERE"       "ATOH1"      "ATOX1"      "ATP1A1"     "ATP1A2"    
-##  [401] "ATP1A3"     "ATP12A"     "ATP1A4"     "ATP1B1"     "ATP1B2"    
-##  [406] "ATP1B3"     "ATP1B3P1"   "ATP1B1P1"   "FXYD2"      "ATP2A1"    
-##  [411] "ATP2A2"     "ATP2A3"     "ATP2B1"     "ATP2B2"     "ATP2B3"    
-##  [416] "ATP2B4"     "ATP4A"      "ATP4B"      "ATP5A1"     "ALDH7A1"   
-##  [421] "ATP5A1P2"   "ATP5B"      "ATP5BP1"    "ATP5C1"     "ATP5D"     
-##  [426] "ATP5E"      "ATP5F1"     "ATP5G1"     "ATP5G2"     "ATP5G3"    
-##  [431] "ATP5G2P1"   "ATP5I"      "ATP5J"      "ATP6V1A"    "ATP6V1B1"  
-##  [436] "ATP6V1B2"   "ATP6V0C"    "ATP6V1C1"   "ATP6V1E1"   "ATP6V0B"   
-##  [441] "ATP6V1G2"   "ATP6V0A1"   "ATP6AP1"    "ATP7A"      "ATP5O"     
-##  [446] "ATP7B"      "ALDH7A1P1"  "ALDH7A1P2"  "ALDH7A1P3"  "ALDH7A1P4" 
-##  [451] "ATR"        "ATRX"       "KIF1A"      "AUH"        "AUP1"      
-##  [456] "AVP"        "AVPR1A"     "AVPR1B"     "AVPR2"      "AXL"       
-##  [461] "AZF1"       "AZGP1"      "AZU1"       "B2M"        "B2MR"      
-##  [466] "BAAT"       "BACH1"      "BAD"        "BAG1"       "BAGE"      
-##  [471] "ADGRB1"     "ADGRB2"     "ADGRB3"     "BAK1"       "NKX3-2"    
-##  [476] "BARD1"      "BAX"        "BBS1"       "BBS2"       "BBS4"      
-##  [481] "BCAT1"      "BCAT2"      "BCHE"       "BCKDHA"     "BCKDHB"    
-##  [486] "CCND1"      "BCL2"       "BCL2A1"     "BCL2L1"     "BCL2L2"    
-##  [491] "BAK1P1"     "BAK1P2"     "BCL3"       "BCL5"       "BCL6"      
-##  [496] "BCL7A"      "NBEAP1"     "BCL9"       "TNFRSF17"   "HCN2"      
-##  [501] "OPN1SW"     "BCR"        "BCRP4"      "BCS1L"      "BCYRN1"    
-##  [506] "BCYRN1P1"   "BCYRN1P2"   "BDH1"       "BDKRB1"     "BDKRB2"    
-##  [511] "BDNF"       "BEVI"       "CFB"        "BFSP1"      "BGLAP"     
-##  [516] "BGN"        "CEACAM1"    "BHMT"       "BICD1"      "BID"       
-##  [521] "BIK"        "PRDM1"      "BLK"        "BLM"        "BLMH"      
-##  [526] "CXCR5"      "BLVRA"      "BLVRB"      "BNC1"       "BMI1"      
-##  [531] "BMP1"       "BMP2"       "BMP3"       "BMP4"       "BMP5"      
-##  [536] "BMP6"       "BMP7"       "BMP8B"      "BMPR1A"     "BMPR1B"    
-##  [541] "BMPR2"      "BMX"        "POLR3D"     "BNIP1"      "BNIP2"     
-##  [546] "BNIP3"      "BNIP3L"     "BOK"        "DST"        "FOXL2"     
-##  [551] "BPGM"       "BPHL"       "BPI"        "BRCA1"      "BRAF"      
-##  [556] "BRCA2"      "BRDT"       "ZFP36L1"    "ZFP36L2"    "BRS3"      
-##  [561] "BSG"        "BST1"       "BST2"       "BTC"        "BTD"       
-##  [566] "KLF9"       "KLF5"       "BTF3"       "BTF3P11"    "BTF3P1"    
-##  [571] "BTG1"       "BTK"        "BTN1A1"     "BTS1"       "BUB1"      
-##  [576] "BVR1"       "BUB1B"      "BYSL"       "TSPO"       "C1QBP"     
-##  [581] "SERPING1"   "ERC2-IT1"   "C1QA"       "C1QB"       "C1QC"      
-##  [586] "C1R"        "C1S"        "C2"         "C3"         "C3AR1"     
-##  [591] "C4A"        "C4B"        "C4BPA"      "C4BPAP2"    "C4BPB"     
-##  [596] "CAPN5"      "C5"         "C5AR1"      "C6"         "C7"        
-##  [601] "C8A"        "C8B"        "C8G"        "OSGIN2"     "C9"        
-##  [606] "VPS51"      "MRPL49"     "ZNHIT2"     "MPPED2"     "MYRF"      
-##  [611] "TMEM258"    "DAGLA"      "GAS8-AS1"   "FMNL1"      "LDLRAD4"   
-##  [616] "PTTG1IP"    "C21orf2"    "TMEM50B"    "MPPED1"     "CA1"       
-##  [621] "CA2"        "CA3"        "CA4"        "CA5A"       "CA5AP1"    
-##  [626] "CA6"        "CA7"        "CA8"        "CA9"        "CA11"      
-##  [631] "CA12"       "CACD"       "CACNA1A"    "CACNA1B"    "CACNA1C"   
-##  [636] "CACNA1D"    "CACNA1E"    "CACNA1F"    "CACNA1S"    "DDR1"      
-##  [641] "CACNA2D1"   "CACNB1"     "CACNB2"     "CACNB3"     "CACNB4"    
-##  [646] "CACNG1"     "SLC25A20"   "SLC25A20P1" "CAD"        "CALB1"     
-##  [651] "CALB2"      "S100G"      "CALCA"      "CALCB"      "CALCP"     
-##  [656] "CALCR"      "CALD1"      "CALM1"      "CALM1P1"    "CALM1P2"   
-##  [661] "CALM2"      "CALM2P2"    "CALM2P3"    "CALM3"      "CALML3"    
-##  [666] "CALR"       "CALU"       "CAMK4"      "CAMK2A"     "CAMK2B"    
-##  [671] "CAMK2D"     "CAMK2G"     "CAMLG"      "CAMP"       "CANX"      
-##  [676] "CAPG"       "CAPN1"      "CAPN2"      "CAPN3"      "CAPNS1"    
-##  [681] "CAPN6"      "CAPS"       "CAPZA1"     "CAPZA2"     "CAST"      
-##  [686] "CAPZB"      "CARS"       "CASP1"      "CASP2"      "CASP3"     
-##  [691] "CASP4"      "CASP5"      "CASP6"      "CASP7"      "CASP8"     
-##  [696] "CASP9"      "CASP10"     "CASQ1"      "CASQ2"      "CASR"      
-##  [701] "CAT"        "CATR1"      "CAV1"       "CAV2"       "CAV3"      
-##  [706] "RUNX2"      "RUNX1"      "RUNX1T1"    "CBFA2T3"    "RUNX3"     
-##  [711] "CBFB"       "SERPINA6"   "CBL"        "CBLB"       "CBLN1"     
-##  [716] "SERPINH1"   "CBR1"       "CBR3"       "CBS"        "CCA1"      
-##  [721] "CCIN"       "CCAL1"      "KYAT1"      "CCK"        "CCKAR"     
-##  [726] "CCKBR"      "KRIT1"      "CCNA2"      "CCNB1"      "CCNC"      
-##  [731] "CCND2"      "CCND2P1"    "CCND3"      "CCND3P1"    "CCNE1"     
-##  [736] "CCNF"       "CCNG1"      "CCNG2"      "CCNH"       "CCNT1"     
-##  [741] "CCNT2"      "CCT"        "CCT6A"      "CD1A"       "CD1B"      
-##  [746] "CD1C"       "CD1D"       "CD1E"       "CD2"        "CD3D"      
-##  [751] "CD3E"       "CD3G"       "CD247"      "CD4"        "CD5"       
-##  [756] "CD5L"       "CD6"        "CD7"        "CD8A"       "CD8B"      
-##  [761] "CD8BP"      "CD9"        "CD14"       "CD19"       "MS4A1"     
-##  [766] "MS4A3"      "CD22"       "CD24P1"     "CD24P2"     "CD24P3"    
-##  [771] "CD24P4"     "CD27"       "CD28"       "CD80"       "CD86"      
-##  [776] "TNFRSF8"    "TNFSF8"     "CD33"       "SIGLEC6"    "CD34"      
-##  [781] "CD36"       "SCARB1"     "SCARB2"     "CD37"       "CD38"      
-##  [786] "ENTPD1"     "ENTPD2"     "ENTPD6"     "ENTPD3"     "ENTPD5"    
-##  [791] "CD40"       "CD40LG"     "CD44"       "CD47"       "CD48"      
-##  [796] "CD53"       "CD58"       "CD59"       "CD63"       "CD68"      
-##  [801] "CD69"       "CD70"       "CD72"       "CD74"       "CD79A"     
-##  [806] "CD79B"      "CD81"       "ADGRE5"     "CD151"      "CDA"       
-##  [811] "CDAN3"      "CDB2"       "CDK1"       "CDK11B"     "LRBA"      
-##  [816] "CDC5L"      "SEPT7"      "CDC6"       "CDC20"      "CDC25A"    
-##  [821] "CDC25B"     "CDC25C"     "CDC27"      "CDC34"      "CDC42"     
-##  [826] "CDH1"       "CDH2"       "CDH3"       "CDH4"       "CDH5"      
-##  [831] "CDH6"       "CDH7"       "CDH8"       "CDH9"       "CDH10"     
-##  [836] "CDH11"      "CDH12"      "CDH12P2"    "CDH13"      "CDH15"     
-##  [841] "CDH16"      "CDH17"      "CDH18"      "CDK2"       "CDK3"      
-##  [846] "CDK4"       "CDK5"       "CDK6"       "CDK7"       "CDL2"      
-##  [851] "CDK8"       "CDK9"       "CDKN1A"     "CDKN1B"     "CDKN1C"    
-##  [856] "CDKN2A"     "CDKN2B"     "CDKN2C"     "CDKN2D"     "CDKN3"     
-##  [861] "CDO1"       "CDR1"       "CDR2"       "CDS1"       "CDSN"      
-##  [866] "CD52"       "CDX1"       "CDX2"       "CDX4"       "CLGN"      
-##  [871] "CEACAM5"    "CEBPA"      "CEBPB"      "CEBPD"      "CEBPE"     
-##  [876] "CEBPG"      "CECR"       "CEL"        "CELP"       "CENPA"     
-##  [881] "CENPB"      "CENPC"      "CENPCP1"    "CENPE"      "CENPF"     
-##  [886] "CES1"       "CETN1"      "CETN2"      "CETN3"      "CETP"      
-##  [891] "CFL1"       "CFL2"       "CFL1P5"     "CTSC"       "CFTR"      
-##  [896] "CGA"        "CGB3"       "CGF1"       "CEACAM3"    "CEACAMP5"  
-##  [901] "CEACAMP11"  "CEACAM7"    "CEACAM8"    "CEACAM4"    "CEACAMP1"  
-##  [906] "CEACAMP2"   "CEACAMP3"   "CEACAMP4"   "CEACAMP6"   "CEACAMP7"  
-##  [911] "CEACAMP8"   "CEACAMP9"   "CEACAMP10"  "CHAD"       "RCBTB2"    
-##  [916] "CHAT"       "RCC1"       "CHD1"       "CHD2"       "CHD3"      
-##  [921] "CHD4"       "AKR1C4"     "CHEK1"      "FOXN3"      "CHGA"      
-##  [926] "CHGB"       "CHI3L1"     "CHI3L2"     "CHIT1"      "CHKA"      
-##  [931] "CHKB"       "CHM"        "CHML"       "CHN1"       "CHN2"      
-##  [936] "CHR"        "CHRM1"      "CHRM2"      "LYST"       "CHRM3"     
-##  [941] "CHRM4"      "CHRM5"      "CHRNA1"     "CHRNA2"     "CHRNA3"    
-##  [946] "CHRNA4"     "CHRNA5"     "CHRNA7"     "CHRNB1"     "CHRNB2"    
-##  [951] "CHRNB3"     "CHRNB4"     "CHRND"      "CHRNE"      "CHRNG"     
-##  [956] "CHUK"       "CIDEA"      "CKB"        "CIRBP"      "CISH"      
-##  [961] "TBCB"       "CKBE"       "CKBP1"      "CKM"        "CKMT1B"    
-##  [966] "CKMT2"      "ERCC8"      "CKS1B"      "CKS2"       "SCAR2"     
-##  [971] "CLA3"       "AP2M1"      "AP1S1"      "AP2S1"      "AP3S1"     
-##  [976] "CLC"        "CLCA1"      "CLCN1"      "CLCN2"      "CLCN3"     
-##  [981] "CLCN4"      "CLCN5"      "CLCN6"      "CLCN7"      "CLCNKA"    
-##  [986] "CLCNKB"     "CLU"        "CLIC1"      "CLIC2"      "CLK1"      
-##  [991] "CLK2"       "CLK2P1"     "CLK3"       "TPP1"       "CLN3"      
-##  [996] "CLN5"       "CLNS1AP1"   "CLNS1A"     "CLPS"       "CLPTM1"    
+##    [1] "A1BG"       "A2M"        "A2MP1"      "NAT1"       "NAT2"       "NATP"       "SERPINA3"   "AADAC"      "AAMP"      
+##   [10] "AANAT"      "AARS"       "AAVS1"      "ABAT"       "ABCA1"      "ABCA2"      "ABCA3"      "ABCB7"      "ABCF1"     
+##   [19] "ABCA4"      "ABL1"       "AOC1"       "ABL2"       "ABO"        "ABR"        "ACAA1"      "ACACA"      "ACACB"     
+##   [28] "ACADL"      "ACADM"      "ACADS"      "ACADSB"     "ACADVL"     "ACAT1"      "ACAT2"      "ASIC2"      "ASIC1"     
+##   [37] "ACHE"       "ACLS"       "ACLY"       "ACO1"       "ACR"        "ACO2"       "ACOX1"      "ACP1"       "ACP2"      
+##   [46] "ACP5"       "ACPP"       "ACRV1"      "ACTA1"      "ACTA2"      "ACTB"       "ACTBP2"     "ACTBP3"     "ACTBP4"    
+##   [55] "ACTBP6"     "ACTBP7"     "ACTBP8"     "ACTBP9"     "ACTC1"      "ACTG1"      "ACTG2"      "ACTG1P1"    "ACTG1P2"   
+##   [64] "ACTG1P3"    "ACTG1P6"    "ACTG1P7"    "ACTG1P8"    "ACTN4"      "ACTG1P9"    "ACTG1P10"   "ACTL6A"     "ACTN1"     
+##   [73] "ACTN2"      "ACTN3"      "ACVR1"      "ACVR1B"     "ACVR2A"     "ACVR2B"     "ACVRL1"     "ACY1"       "ACYP1"     
+##   [82] "ACYP2"      "ADA"        "ADAM8"      "ADAM10"     "ADAR"       "ADARB1"     "ADARB2"     "ADCP1"      "ADCY1"     
+##   [91] "ADCY2"      "ADCY3"      "ADCY5"      "ADCY6"      "ADCY7"      "ADCY8"      "ADCY9"      "ADCYAP1"    "ADCYAP1R1" 
+##  [100] "ADD1"       "ADD2"       "ADD3"       "ADFN"       "PLIN2"      "ADH1A"      "ADH1B"      "ADH1C"      "ADH4"      
+##  [109] "ADH5"       "ADH6"       "ADH7"       "ADK"        "ADM"        "ADORA1"     "ADORA2A"    "ADORA2B"    "ADORA2BP1" 
+##  [118] "ADORA3"     "ADPRH"      "PARP1"      "PARP4"      "PARP1P1"    "PARP1P2"    "ADRA1D"     "ADRA1B"     "ADRA1A"    
+##  [127] "ADRA2A"     "ADRA2B"     "ADRA2C"     "ADRB1"      "ADRB2"      "ADRB3"      "GRK2"       "GRK3"       "ADSL"      
+##  [136] "ADSS"       "AP2A1"      "AP2A2"      "AP1B1"      "AP2B1"      "AP1G1"      "AEBP1"      "AES"        "CRISP1"    
+##  [145] "AF8T"       "AFA"        "AFD1"       "AFG3L1P"    "AFM"        "AFP"        "AGA"        "ACAN"       "AGER"      
+##  [154] "AGL"        "AGMX2"      "AGRP"       "JAG1"       "AGT"        "AGTR1"      "AGTR2"      "APLNR"      "AGXT"      
+##  [163] "NR0B1"      "AHCY"       "AIC"        "AHR"        "AHSG"       "AIF1"       "AIH3"       "CRYBG1"     "AK1"       
+##  [172] "AK2"        "AK4"        "AK4P1"      "AKT1"       "AKT2"       "ALAD"       "ALAS1"      "ALAS2"      "ALB"       
+##  [181] "ALCAM"      "ABCD1"      "ALDH1A1"    "ALDH2"      "ALDH3A1"    "ALDH1B1"    "ALDH1A3"    "ALDH3B1"    "ALDH3B2"   
+##  [190] "ALDH9A1"    "ALDH3A2"    "ABCD2"      "ALDOA"      "ALDOAP2"    "ALDOB"      "ALDOC"      "AKR1B1"     "AKR1B1P2"  
+##  [199] "ALK"        "ALOX12"     "ALOX5"      "ALOX5AP"    "ALOX12B"    "ALOX12P1"   "ALOX12P2"   "ALOX15"     "ALOX15B"   
+##  [208] "ALPI"       "ALPL"       "ALPP"       "ALPPL2"     "ALS3"       "ALS5"       "ALX3"       "AMBN"       "AMBP"      
+##  [217] "AMCN"       "AMD1"       "AMD1P2"     "AMELX"      "AMELY"      "AMFR"       "AMH"        "AMHR2"      "AMPD1"     
+##  [226] "AMPD2"      "AMPD3"      "AMPH"       "BIN1"       "AMT"        "AMY1A"      "AMY1B"      "AMY1C"      "AMY2A"     
+##  [235] "AMY2B"      "AMYP1"      "ANCR"       "ANG"        "ANGPT1"     "ANGPT2"     "ANK1"       "ANK2"       "ANK3"      
+##  [244] "ANOP1"      "ANPEP"      "SLC25A4"    "SLC25A5"    "SLC25A6"    "ANXA1"      "ANXA2"      "ANXA2P1"    "ANXA2P2"   
+##  [253] "ANXA2P3"    "ANXA3"      "ANXA4"      "ANXA5"      "ANXA6"      "ANXA7"      "ANXA11"     "ANXA13"     "AOAH"      
+##  [262] "AOC2"       "AOX1"       "APAF1"      "NUDT2"      "APOF"       "APBA1"      "APBA2"      "APBB1"      "APBB2"     
+##  [271] "APC"        "APCS"       "AIRE"       "APEH"       "APEX1"      "BIRC2"      "BIRC3"      "XIAP"       "BIRC5"     
+##  [280] "APLP1"      "APLP2"      "APOA1"      "APOA2"      "APOA4"      "APOB"       "APOBEC1"    "APOC1"      "APOC1P1"   
+##  [289] "AQP8"       "APOC2"      "APOC3"      "APOC4"      "APOD"       "APOE"       "APOH"       "APP"        "APRT"      
+##  [298] "KLK3"       "FAS"        "FASLG"      "SHROOM2"    "AQP1"       "AQP2"       "AQP3"       "AQP4"       "AQP5"      
+##  [307] "AQP6"       "AQP7"       "AQP9"       "AR"         "ABCC6"      "ARAF"       "ARCN1"      "TRIM23"     "AREG"      
+##  [316] "ARF1"       "ARF3"       "ARF4"       "ARL4D"      "ARF4P1"     "ARF5"       "ARF6"       "ARG1"       "ARG2"      
+##  [325] "RHOA"       "RHOB"       "RHOC"       "RND3"       "RHOG"       "ARHGAP1"    "ARHGAP4"    "ARHGAP5"    "ARHGAP6"   
+##  [334] "ARHGDIA"    "ARHGDIB"    "ARHGDIG"    "RHOH"       "ARL1"       "PHOX2A"     "ARL2"       "ARL3"       "ARNT"      
+##  [343] "ARNTL"      "ARR3"       "ARRB1"      "ARRB2"      "ARSA"       "ARSB"       "STS"        "ARSC2"      "ARSD"      
+##  [352] "ARSE"       "ARSF"       "ART1"       "ART2P"      "ART3"       "ART4"       "ARVCF"      "ARVD3"      "ARVD4"     
+##  [361] "ASAH1"      "ASCL1"      "ASCL2"      "ASD1"       "ASGR1"      "ASGR2"      "ASIP"       "ASL"        "ASLP1"     
+##  [370] "ASMT"       "ASNA1"      "ASNS"       "ASNSP2"     "ASPA"       "ASPH"       "ASS1"       "ASS1P2"     "ASS1P4"    
+##  [379] "ASS1P5"     "ASS1P6"     "ASS1P8"     "ASS1P9"     "ASS1P10"    "ASS1P14"    "ASTN1"      "SERPINC1"   "ZFHX3"     
+##  [388] "ATD"        "ATF1"       "ATF3"       "ATF4"       "ATF4P1"     "ATHS"       "ATIC"       "ATM"        "RERE"      
+##  [397] "ATOH1"      "ATOX1"      "ATP1A1"     "ATP1A2"     "ATP1A3"     "ATP12A"     "ATP1A4"     "ATP1B1"     "ATP1B2"    
+##  [406] "ATP1B3"     "ATP1B3P1"   "ATP1B1P1"   "FXYD2"      "ATP2A1"     "ATP2A2"     "ATP2A3"     "ATP2B1"     "ATP2B2"    
+##  [415] "ATP2B3"     "ATP2B4"     "ATP4A"      "ATP4B"      "ATP5A1"     "ALDH7A1"    "ATP5A1P2"   "ATP5B"      "ATP5BP1"   
+##  [424] "ATP5C1"     "ATP5D"      "ATP5E"      "ATP5F1"     "ATP5G1"     "ATP5G2"     "ATP5G3"     "ATP5G2P1"   "ATP5I"     
+##  [433] "ATP5J"      "ATP6V1A"    "ATP6V1B1"   "ATP6V1B2"   "ATP6V0C"    "ATP6V1C1"   "ATP6V1E1"   "ATP6V0B"    "ATP6V1G2"  
+##  [442] "ATP6V0A1"   "ATP6AP1"    "ATP7A"      "ATP5O"      "ATP7B"      "ALDH7A1P1"  "ALDH7A1P2"  "ALDH7A1P3"  "ALDH7A1P4" 
+##  [451] "ATR"        "ATRX"       "KIF1A"      "AUH"        "AUP1"       "AVP"        "AVPR1A"     "AVPR1B"     "AVPR2"     
+##  [460] "AXL"        "AZF1"       "AZGP1"      "AZU1"       "B2M"        "B2MR"       "BAAT"       "BACH1"      "BAD"       
+##  [469] "BAG1"       "BAGE"       "ADGRB1"     "ADGRB2"     "ADGRB3"     "BAK1"       "NKX3-2"     "BARD1"      "BAX"       
+##  [478] "BBS1"       "BBS2"       "BBS4"       "BCAT1"      "BCAT2"      "BCHE"       "BCKDHA"     "BCKDHB"     "CCND1"     
+##  [487] "BCL2"       "BCL2A1"     "BCL2L1"     "BCL2L2"     "BAK1P1"     "BAK1P2"     "BCL3"       "BCL5"       "BCL6"      
+##  [496] "BCL7A"      "NBEAP1"     "BCL9"       "TNFRSF17"   "HCN2"       "OPN1SW"     "BCR"        "BCRP4"      "BCS1L"     
+##  [505] "BCYRN1"     "BCYRN1P1"   "BCYRN1P2"   "BDH1"       "BDKRB1"     "BDKRB2"     "BDNF"       "BEVI"       "CFB"       
+##  [514] "BFSP1"      "BGLAP"      "BGN"        "CEACAM1"    "BHMT"       "BICD1"      "BID"        "BIK"        "PRDM1"     
+##  [523] "BLK"        "BLM"        "BLMH"       "CXCR5"      "BLVRA"      "BLVRB"      "BNC1"       "BMI1"       "BMP1"      
+##  [532] "BMP2"       "BMP3"       "BMP4"       "BMP5"       "BMP6"       "BMP7"       "BMP8B"      "BMPR1A"     "BMPR1B"    
+##  [541] "BMPR2"      "BMX"        "POLR3D"     "BNIP1"      "BNIP2"      "BNIP3"      "BNIP3L"     "BOK"        "DST"       
+##  [550] "FOXL2"      "BPGM"       "BPHL"       "BPI"        "BRCA1"      "BRAF"       "BRCA2"      "BRDT"       "ZFP36L1"   
+##  [559] "ZFP36L2"    "BRS3"       "BSG"        "BST1"       "BST2"       "BTC"        "BTD"        "KLF9"       "KLF5"      
+##  [568] "BTF3"       "BTF3P11"    "BTF3P1"     "BTG1"       "BTK"        "BTN1A1"     "BTS1"       "BUB1"       "BVR1"      
+##  [577] "BUB1B"      "BYSL"       "TSPO"       "C1QBP"      "SERPING1"   "ERC2-IT1"   "C1QA"       "C1QB"       "C1QC"      
+##  [586] "C1R"        "C1S"        "C2"         "C3"         "C3AR1"      "C4A"        "C4B"        "C4BPA"      "C4BPAP2"   
+##  [595] "C4BPB"      "CAPN5"      "C5"         "C5AR1"      "C6"         "C7"         "C8A"        "C8B"        "C8G"       
+##  [604] "OSGIN2"     "C9"         "VPS51"      "MRPL49"     "ZNHIT2"     "MPPED2"     "MYRF"       "TMEM258"    "DAGLA"     
+##  [613] "GAS8-AS1"   "FMNL1"      "LDLRAD4"    "PTTG1IP"    "C21orf2"    "TMEM50B"    "MPPED1"     "CA1"        "CA2"       
+##  [622] "CA3"        "CA4"        "CA5A"       "CA5AP1"     "CA6"        "CA7"        "CA8"        "CA9"        "CA11"      
+##  [631] "CA12"       "CACD"       "CACNA1A"    "CACNA1B"    "CACNA1C"    "CACNA1D"    "CACNA1E"    "CACNA1F"    "CACNA1S"   
+##  [640] "DDR1"       "CACNA2D1"   "CACNB1"     "CACNB2"     "CACNB3"     "CACNB4"     "CACNG1"     "SLC25A20"   "SLC25A20P1"
+##  [649] "CAD"        "CALB1"      "CALB2"      "S100G"      "CALCA"      "CALCB"      "CALCP"      "CALCR"      "CALD1"     
+##  [658] "CALM1"      "CALM1P1"    "CALM1P2"    "CALM2"      "CALM2P2"    "CALM2P3"    "CALM3"      "CALML3"     "CALR"      
+##  [667] "CALU"       "CAMK4"      "CAMK2A"     "CAMK2B"     "CAMK2D"     "CAMK2G"     "CAMLG"      "CAMP"       "CANX"      
+##  [676] "CAPG"       "CAPN1"      "CAPN2"      "CAPN3"      "CAPNS1"     "CAPN6"      "CAPS"       "CAPZA1"     "CAPZA2"    
+##  [685] "CAST"       "CAPZB"      "CARS"       "CASP1"      "CASP2"      "CASP3"      "CASP4"      "CASP5"      "CASP6"     
+##  [694] "CASP7"      "CASP8"      "CASP9"      "CASP10"     "CASQ1"      "CASQ2"      "CASR"       "CAT"        "CATR1"     
+##  [703] "CAV1"       "CAV2"       "CAV3"       "RUNX2"      "RUNX1"      "RUNX1T1"    "CBFA2T3"    "RUNX3"      "CBFB"      
+##  [712] "SERPINA6"   "CBL"        "CBLB"       "CBLN1"      "SERPINH1"   "CBR1"       "CBR3"       "CBS"        "CCA1"      
+##  [721] "CCIN"       "CCAL1"      "KYAT1"      "CCK"        "CCKAR"      "CCKBR"      "KRIT1"      "CCNA2"      "CCNB1"     
+##  [730] "CCNC"       "CCND2"      "CCND2P1"    "CCND3"      "CCND3P1"    "CCNE1"      "CCNF"       "CCNG1"      "CCNG2"     
+##  [739] "CCNH"       "CCNT1"      "CCNT2"      "CCT"        "CCT6A"      "CD1A"       "CD1B"       "CD1C"       "CD1D"      
+##  [748] "CD1E"       "CD2"        "CD3D"       "CD3E"       "CD3G"       "CD247"      "CD4"        "CD5"        "CD5L"      
+##  [757] "CD6"        "CD7"        "CD8A"       "CD8B"       "CD8BP"      "CD9"        "CD14"       "CD19"       "MS4A1"     
+##  [766] "MS4A3"      "CD22"       "CD24P1"     "CD24P2"     "CD24P3"     "CD24P4"     "CD27"       "CD28"       "CD80"      
+##  [775] "CD86"       "TNFRSF8"    "TNFSF8"     "CD33"       "SIGLEC6"    "CD34"       "CD36"       "SCARB1"     "SCARB2"    
+##  [784] "CD37"       "CD38"       "ENTPD1"     "ENTPD2"     "ENTPD6"     "ENTPD3"     "ENTPD5"     "CD40"       "CD40LG"    
+##  [793] "CD44"       "CD47"       "CD48"       "CD53"       "CD58"       "CD59"       "CD63"       "CD68"       "CD69"      
+##  [802] "CD70"       "CD72"       "CD74"       "CD79A"      "CD79B"      "CD81"       "ADGRE5"     "CD151"      "CDA"       
+##  [811] "CDAN3"      "CDB2"       "CDK1"       "CDK11B"     "LRBA"       "CDC5L"      "SEPT7"      "CDC6"       "CDC20"     
+##  [820] "CDC25A"     "CDC25B"     "CDC25C"     "CDC27"      "CDC34"      "CDC42"      "CDH1"       "CDH2"       "CDH3"      
+##  [829] "CDH4"       "CDH5"       "CDH6"       "CDH7"       "CDH8"       "CDH9"       "CDH10"      "CDH11"      "CDH12"     
+##  [838] "CDH12P2"    "CDH13"      "CDH15"      "CDH16"      "CDH17"      "CDH18"      "CDK2"       "CDK3"       "CDK4"      
+##  [847] "CDK5"       "CDK6"       "CDK7"       "CDL2"       "CDK8"       "CDK9"       "CDKN1A"     "CDKN1B"     "CDKN1C"    
+##  [856] "CDKN2A"     "CDKN2B"     "CDKN2C"     "CDKN2D"     "CDKN3"      "CDO1"       "CDR1"       "CDR2"       "CDS1"      
+##  [865] "CDSN"       "CD52"       "CDX1"       "CDX2"       "CDX4"       "CLGN"       "CEACAM5"    "CEBPA"      "CEBPB"     
+##  [874] "CEBPD"      "CEBPE"      "CEBPG"      "CECR"       "CEL"        "CELP"       "CENPA"      "CENPB"      "CENPC"     
+##  [883] "CENPCP1"    "CENPE"      "CENPF"      "CES1"       "CETN1"      "CETN2"      "CETN3"      "CETP"       "CFL1"      
+##  [892] "CFL2"       "CFL1P5"     "CTSC"       "CFTR"       "CGA"        "CGB3"       "CGF1"       "CEACAM3"    "CEACAMP5"  
+##  [901] "CEACAMP11"  "CEACAM7"    "CEACAM8"    "CEACAM4"    "CEACAMP1"   "CEACAMP2"   "CEACAMP3"   "CEACAMP4"   "CEACAMP6"  
+##  [910] "CEACAMP7"   "CEACAMP8"   "CEACAMP9"   "CEACAMP10"  "CHAD"       "RCBTB2"     "CHAT"       "RCC1"       "CHD1"      
+##  [919] "CHD2"       "CHD3"       "CHD4"       "AKR1C4"     "CHEK1"      "FOXN3"      "CHGA"       "CHGB"       "CHI3L1"    
+##  [928] "CHI3L2"     "CHIT1"      "CHKA"       "CHKB"       "CHM"        "CHML"       "CHN1"       "CHN2"       "CHR"       
+##  [937] "CHRM1"      "CHRM2"      "LYST"       "CHRM3"      "CHRM4"      "CHRM5"      "CHRNA1"     "CHRNA2"     "CHRNA3"    
+##  [946] "CHRNA4"     "CHRNA5"     "CHRNA7"     "CHRNB1"     "CHRNB2"     "CHRNB3"     "CHRNB4"     "CHRND"      "CHRNE"     
+##  [955] "CHRNG"      "CHUK"       "CIDEA"      "CKB"        "CIRBP"      "CISH"       "TBCB"       "CKBE"       "CKBP1"     
+##  [964] "CKM"        "CKMT1B"     "CKMT2"      "ERCC8"      "CKS1B"      "CKS2"       "SCAR2"      "CLA3"       "AP2M1"     
+##  [973] "AP1S1"      "AP2S1"      "AP3S1"      "CLC"        "CLCA1"      "CLCN1"      "CLCN2"      "CLCN3"      "CLCN4"     
+##  [982] "CLCN5"      "CLCN6"      "CLCN7"      "CLCNKA"     "CLCNKB"     "CLU"        "CLIC1"      "CLIC2"      "CLK1"      
+##  [991] "CLK2"       "CLK2P1"     "CLK3"       "TPP1"       "CLN3"       "CLN5"       "CLNS1AP1"   "CLNS1A"     "CLPS"      
+## [1000] "CLPTM1"    
 ##  [ reached getOption("max.print") -- omitted 58682 entries ]
 ```
 ---
