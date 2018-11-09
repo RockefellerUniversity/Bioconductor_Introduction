@@ -11,12 +11,12 @@ output:
       highlightLines: true
       countIncrementalSlides: false
   html_document:
-    toc: true # table of content true
+    toc: true ##table of content true
     toc_float: yes
-    depth: 3  # upto three depths of headings (specified by #, ## and ###)
-    number_sections: false  ## if you want number sections at each table header
-    theme: united  # many options for theme, this one is my favorite.
-    highlight: tango  # specifies the syntax highlighting style
+    depth: 3  ##upto three depths of headings (specified by #, ###and ###)
+    number_sections: false  ###if you want number sections at each table header
+    theme: united  ##many options for theme, this one is my favorite.
+    highlight: tango  ##specifies the syntax highlighting style
 ---
 
 ```{r setup, include=FALSE}
@@ -31,7 +31,24 @@ fastqSample <- temp[1:100000]
 writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/sampled_ENCFF000CXH.fastq.gz",mode = "w")
 ```
 
-# FastQ Sequences
+## Why we use illumina sequencing
+
+- We can now massively, parallel sequence DNA fragments using illumina/solexa sequencing.
+- This allows us to rapidly profile abundance of specific DNA sequences in a pool of DNA sequences (or cDNA sequences).
+- With the full genome sequence we can identify where our abundant sequences are in linear genome
+- And/or with transcriptome models we can estimate abundance of transcripts/genes.
+
+---
+
+##Principals of illumina sequencing
+
+<div align="center">
+<img src="imgs/wps.png" alt="igv" height="500" width="800">
+</div>
+
+---
+
+##FastQ Sequences
 
 As we have seen earlier,sequences returned from the Illumina sequences machines are often stored in FASTQ format.
 
@@ -42,13 +59,13 @@ As we have seen earlier,sequences returned from the Illumina sequences machines 
 
 ---
 
-# FastQ in Bioconductor.
+##FastQ in Bioconductor.
 
 Illumina sequences as FastQ files can be handled in Bioconductor using the functions in the **Biostrings** package as well as the **ShortRead** package.
 
 ---
 
-# ShortRead packages.
+##ShortRead packages.
 
 To make use of a ShortRead package we must first install and load the library.
 
@@ -63,7 +80,7 @@ suppressPackageStartupMessages(library(ShortRead))
 
 ---
 
-# Data
+##Data
 
 In this session we will be making use of some public datasets from the Encode consortium.
 
@@ -77,7 +94,7 @@ This RNAseq data has been generated from the human cell line **GM12878** and the
 
 ---
 
-# Data locally
+##Data locally
 
 For this session, i have taken the first 100,000 reads from the fastQ file **ENCFF000CXH.fastq.gz** to create **Data/sampled_ENCFF000CXH.fastq.gz**. This should allow us to quickly perform some processing and analysis of this data as well as include the smaller file size example data in our zip archive.
 
@@ -88,7 +105,7 @@ This can be found in
 
 ---
 
-# Data locally
+##Data locally
 
 Even though we will work with smaller sample for the presentation, the ShortRead allows us to handle large sequencing datasets in a memory efficient manner.
 
@@ -97,7 +114,7 @@ We will review this at the end of the session.
 
 ---
 
-# Reading in FastQ data
+##Reading in FastQ data
 
 The **ShortRead** package allows us to import FastQ files into R using the **readFastq()** function. This function returns a **ShortReadQ** storing the information from the fastQ file (sequence, quality of sequence and unique read identifiers).
 
@@ -109,7 +126,7 @@ class(fastQ)
 
 ---
 
-# FastQ data object
+##FastQ data object
 
 We can get a very simple summary of the **ShortReadQ** object by typing in the variable name.
 ```{r setup22}
@@ -117,7 +134,7 @@ fastQ
 ```
 
 ---
-# FastQ data object
+##FastQ data object
 
 We can use the familiar **length()** function to report the total number of reads as we have done for vectors or GRanges objects.
 
@@ -127,7 +144,7 @@ length(fastQ)
 
 
 ---
-# FastQ data object
+##FastQ data object
 
 Or we can use the **width()** function to find the size of each read/sequence in fastQ as we have done with DNAstringSet and GRanges objects
 
@@ -137,7 +154,7 @@ readLengths[1:10]
 ```
 
 ---
-# FastQ data object
+##FastQ data object
 
 We can subset or index **ShortReadQ** objects using the same methods as we have for vectors and GRanges.
 
@@ -147,7 +164,7 @@ fastQ[1:10]
 ```
 
 ---
-# FastQ accessors
+##FastQ accessors
 
 As we have seen, just typing the object name provide a summary of total reads and maximum read length but to retrieve information such a the sequence, quality or ID we will need to use some special accessors.
 
@@ -155,7 +172,7 @@ As we have seen, just typing the object name provide a summary of total reads an
 * **quality()** - Retrieve quality of reads as ASCI scores.
 * **ids()** - Retrieve IDs of reads.
 ---
-# FastQ sequences
+##FastQ sequences
 
 We can retrieve all read sequences using the **sread()** accessor function and the **ShortReadQ** object.
 
@@ -164,7 +181,7 @@ sequenceOfReads <- sread(fastQ)
 class(sequenceOfReads)
 ```
 ---
-# FastQ sequences
+##FastQ sequences
 
 The sequences in reads are themselves held in an object we are quite familiar with, a **DNAStringSet** object.
 
@@ -172,7 +189,7 @@ The sequences in reads are themselves held in an object we are quite familiar wi
 sequenceOfReads 
 ```
 ---
-# FastQ sequences
+##FastQ sequences
 
 This means we can use all the great functions from the **Biostrings** library on this **DNAStringSet** object.
 
@@ -184,7 +201,7 @@ alpFreq[1:2,]
 ```
 
 ---
-# FastQ IDs
+##FastQ IDs
 
 We can also extract the IDs for every read using the **id()** function.
 
@@ -196,7 +213,7 @@ class(idsOfReads)
 idsOfReads[1:2]
 ```
 ---
-# FastQ IDs
+##FastQ IDs
 
 Again we can act on the **BStringSet** object just as we did on **DNAStringSet** objects.
 
@@ -208,7 +225,7 @@ Ids[1:4]
 ```
 
 ---
-# FastQ Quality
+##FastQ Quality
 
 A fundamental difference betweem Fasta and FastQ files is the **Q**uality scores containined in FastQ.
 
@@ -217,7 +234,7 @@ As we have seen, quality scores are stored as ASCI characters representing -log1
 A comprehensive description of phred quality can be found on the wiki page for [FastQ](https://en.wikipedia.org/wiki/FASTQ_format#Quality)
 
 ---
-# FastQ Quality
+##FastQ Quality
 
 We can also extract the qualities for every read using the **quality()** function.
 
@@ -229,7 +246,7 @@ class(quals)
 ```
 
 ---
-# FastQ Quality
+##FastQ Quality
 
 The object itself contains our quality scores as characters in ASCI format.
 
@@ -238,7 +255,7 @@ quals
 ```
 
 ---
-# FastQ Quality
+##FastQ Quality
 
 We can find out how to translate from these ASCI characters into their corresponding -log10 pvalues using the **encoding()** function on our **FastqQuality** object of qualities.
 
@@ -247,7 +264,7 @@ qualityEncoding <- encoding(quals)
 qualityEncoding
 ```
 ---
-# FastQ Quality
+##FastQ Quality
 
 We could use our named vector of quality encoding to translate our **FastqQuality** object into qualities one read at a time.
 
@@ -259,7 +276,7 @@ quals[1]
 quals[[1]]
 ```
 ---
-# FastQ Quality
+##FastQ Quality
 
 We can use the **strsplit()** to split out quality into an array of individual ASCI quality score and use the quality encoding to translate to -log10 pvalues. 
 
@@ -271,7 +288,7 @@ toTranslate <- unlist(toTranslateList)
 toTranslate
 ```
 ---
-# FastQ Quality
+##FastQ Quality
 
 And finally we can translate vector of characters to scores using the named vector of quality encoding.
 
@@ -280,7 +297,7 @@ qualityEncoding[toTranslate]
 ```
 
 ---
-# FastQ Quality
+##FastQ Quality
 
 Thankfully, there are some functions available in the **ShortRead** package which will perform this translation for us.
 
@@ -292,7 +309,7 @@ readScores[1]
 sum(qualityEncoding[toTranslate])
 ```
 ---
-# FastQ Quality
+##FastQ Quality
 
 We can also obtain the quality scores over cycles for all reads using the function **as(_myQualities_,"matrix")**
 
@@ -304,7 +321,7 @@ rowSums(matrixOfQualities)[1]
 ```
 
 ---
-# ShortRead functions.
+##ShortRead functions.
 
 The **ShortRead** package has many functions available to allow us to collect useful metrics from our ShortRead object.
 
@@ -317,7 +334,7 @@ alpByCyc <- alphabetByCycle(sequenceOfReads)
 alpByCyc[1:4,1:15]
 ```
 ---
-# ShortRead functions.
+##ShortRead functions.
 
 We can also apply our new  **alphabetByCycle()** function to the quality scores. 
 
@@ -326,7 +343,7 @@ qualsByCyc <- alphabetByCycle(quals)
 qualsByCyc[1:4,1:15]
 ```
 ---
-# ShortRead functions.
+##ShortRead functions.
 
 We can use the **table** function to identify the number of times a sequence appears in our FastQ file's sequence reads.
 ```{r setup23sswedccrssrjjd4,eval=FALSE,echo=TRUE}
@@ -340,7 +357,7 @@ data.frame(Occurrence=sort(readOccurence,decreasing = TRUE)[1:2])
 ```
 
 ---
-# ShortRead functions.
+##ShortRead functions.
 
 We can identify duplicated reads (potentially arising from PCR over amplification) by using the **srduplicated()** function and the **ShortReadQ** object.
 
@@ -351,7 +368,7 @@ duplicates <- srduplicated(fastQ)
 duplicates[1:3]
 ```
 ---
-# ShortRead functions.
+##ShortRead functions.
 
 We can use this now to get a quick measure of sequence duplication rate using the **table** function.
 
@@ -360,7 +377,7 @@ table(duplicates)
 ```
 
 ---
-# ShortReads' qa function
+##ShortReads' qa function
 
 The **ShortRead** package also contains a function to generate a simple quality control report.
 
@@ -372,7 +389,7 @@ my_QA
 ```
 
 ---
-# ShortReads' qa function
+##ShortReads' qa function
 
 We can then use the **report()** function to generate a simple report.
 
@@ -382,7 +399,7 @@ myReport
 ```
 
 ---
-# ShortReads' qa function
+##ShortReads' qa function
 
 Finally we can review the report in a browser or use the browseURL function to open it in a browser from R. 
 ```{r setup23q7,eval=FALSE}
@@ -391,7 +408,7 @@ browseURL(myReport)
 
 
 ---
-# Trimming
+##Trimming
 
 When we observe low quality at the end of reads we may wish to remove the low quality bases for later alignment to the genome.
 The **trimTails()** function trims reads from the 3', removing bases which fall below a desired quality. 
@@ -403,7 +420,7 @@ TrimmedFastq
 ```
 
 ---
-# Exporting Fastq files.
+##Exporting Fastq files.
 
 Now we have trimmed our FastQ reads, we can export these reads for further analysis using the **writeFastq()** function.
 
@@ -418,13 +435,13 @@ writeFastq(TrimmedFastq,"myTrimmed_Fastq.fastq.gz",mode="w")
 
 
 ---
-# Handling large files
+##Handling large files
 
 So far we have used a subsampled FastQ file to review some of the functions available to us in the ShortRead package.
 
 The **FastqSampler()** and **FastqStreamer()** functions allow us to read portions of a FastQ file. 
 ---
-# Handling large files
+##Handling large files
 
 For evaluating quality of our FastQ, we do not require the entire file but perhaps only 100,000 random reads to assess quality.
 
@@ -438,7 +455,7 @@ yield(sampleToRead)
 ```
 
 ---
-# Handling large files
+##Handling large files
 
 The **FastqStreamer()** function works in a similar manner accept isntead of randomly sampling the file, it allows us to read chunks of the file at a time.
 
@@ -450,7 +467,7 @@ second100Reads <- yield(sampleToRead)
 ```
 ---
 
-# Handling large files
+##Handling large files
 
 We can stream over entire files using a loop, here in chunks of 25000
 
@@ -466,7 +483,7 @@ while (length(fq <- yield(f)) > 0) {
 
 ---
 
-# Time for an exercise.
+##Time for an exercise.
 
 [Link_to_exercises](../../exercises/fastq_exercises.html)
 
