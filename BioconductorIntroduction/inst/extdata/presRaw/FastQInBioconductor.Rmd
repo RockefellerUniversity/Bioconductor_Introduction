@@ -1,9 +1,10 @@
 ---
-title: "FastQ Sequence data In Bioconductor"
+title: "FastQ Sequence data In Bioconductor <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
 author: "Rockefeller University, Bioinformatics Resource Centre"
-date: "http://rockefelleruniversity.github.io/SequencesInBioconductor/"
+date: "http://rockefelleruniversity.github.io/Bioconductor_Introduction/"
 output: 
   xaringan::moon_reader:
+    css: ["default", "metropolisCustom.css", "metropolis-fontsCustom.css"]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -16,8 +17,6 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
-
-
 ---
 
 ```{r setup, include=FALSE}
@@ -37,7 +36,7 @@ writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introdu
 As we have seen earlier,sequences returned from the Illumina sequences machines are often stored in FASTQ format.
 
 <div align="center">
-<img src="imgs/fastq.png" alt="igv" height="400" width="600">
+<img src="imgs/fq1.png" alt="igv" height="200" width="600">
 </div>
 
 
@@ -104,7 +103,7 @@ The **ShortRead** package allows us to import FastQ files into R using the **rea
 
 ```{r setup2112,eval=TRUE,echo=TRUE}
 library(ShortRead)
-fastQ <- readFastq("../../Data/sampled_ENCFF000CXH.fastq.gz")
+fastQ <- readFastq("Data/sampled_ENCFF000CXH.fastq.gz")
 class(fastQ)
 ```
 
@@ -367,19 +366,21 @@ The **ShortRead** package also contains a function to generate a simple quality 
 
 The **qa()** function accepts a FastQ file and returns a **FastqQA**  object.
 
-```{r setup2355}
-myQA <- qa("../../Data/sampled_ENCFF000CXH.fastq.gz")
-myQA
+```{r setup2355a}
+my_QA <- qa("Data/sampled_ENCFF000CXH.fastq.gz")
+my_QA
 ```
+
 ---
 # ShortReads' qa function
 
 We can then use the **report()** function to generate a simple report.
 
-```{r setup236}
-myReport <- report(myQA)
+```{r setup236a}
+myReport <- report(my_QA)
 myReport
 ```
+
 ---
 # ShortReads' qa function
 
@@ -431,7 +432,7 @@ The **FastqSampler()** function allows us to specifiy how many reads we wish to 
 
 
 ```{r setup237fef}
-sampleToRead <- FastqSampler("../../Data/sampled_ENCFF000CXH.fastq.gz",
+sampleToRead <- FastqSampler("Data/sampled_ENCFF000CXH.fastq.gz",
                              n=100)
 yield(sampleToRead)
 ```
@@ -442,7 +443,7 @@ yield(sampleToRead)
 The **FastqStreamer()** function works in a similar manner accept isntead of randomly sampling the file, it allows us to read chunks of the file at a time.
 
 ```{r setup23kk7ssa}
-sampleToRead <- FastqStreamer("../../Data/sampled_ENCFF000CXH.fastq.gz",
+sampleToRead <- FastqStreamer("Data/sampled_ENCFF000CXH.fastq.gz",
                               n=100)
 first100Reads <- yield(sampleToRead)
 second100Reads <- yield(sampleToRead)
@@ -455,7 +456,7 @@ We can stream over entire files using a loop, here in chunks of 25000
 
 
 ```{r setup2kk37}
-f <- FastqStreamer("../../Data/sampled_ENCFF000CXH.fastq.gz",
+f <- FastqStreamer("Data/sampled_ENCFF000CXH.fastq.gz",
                    n=25000)
 while (length(fq <- yield(f)) > 0) {
     print(length(fq))
