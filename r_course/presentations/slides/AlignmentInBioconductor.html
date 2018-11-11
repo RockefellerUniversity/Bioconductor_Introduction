@@ -1,67 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
+    <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Aligned data In Bioconductor
+<html>
+<div style="float:left">
+
+</div>
+<hr color='##EB811B' size=1px width=796px>
+</html>
+### Rockefeller University, Bioinformatics Resource Centre
+### <a href="http://rockefelleruniversity.github.io/Bioconductor_Introduction/" class="uri">http://rockefelleruniversity.github.io/Bioconductor_Introduction/</a>
+
 ---
-title: "Aligned data In Bioconductor <html><div style='float:left'></div><hr color='##EB811B' size=1px width=796px></html>"
-author: "Rockefeller University, Bioinformatics Resource Centre"
-date: "http://rockefelleruniversity.github.io/Bioconductor_Introduction/"
-output: 
-  xaringan::moon_reader:
-    css: ["default", "metropolisCustom.css", "metropolis-fontsCustom.css"]
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
-  html_document:
-    toc: true ## table of content true
-    toc_float: yes
-    depth: 3  ## upto three depths of headings (specified by ##, #### and ######)
-    number_sections: false  #### if you want number sections at each table header
-    theme: united  ## many options for theme, this one is my favorite.
-    highlight: tango  ## specifies the syntax highlighting style
----
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-AsSlides <- TRUE
-```
 
-```{r setup2, include=FALSE,eval=FALSE,echo=FALSE}
-library(ShortRead)
-temp <- readFastq("~/Projects/Results/RNAseqPipeTest/FirstTest/FQs/ENCFF000CXH.fastq.gz")
 
-~/Downloads/out.fq
-temp <- readFastq("~/Downloads/out.fq")
-tAlin <- temp[sample(1:length(temp),10000)]
-writeFastq(tAlin,"~/Downloads/sampledActin.fq.gz")
-BiocInstaller::biocLite("QuasR")
-myFile <- data.frame(FileName="Data/sampled_ENCFF000CXH.fastq.gz",SampleName="ENCFF000CXH")
-library("BSgenome.Hsapiens.UCSC.hg19")
-tis <- BSgenome.Hsapiens.UCSC.hg19[["chr5"]]
-writeXStringSet(DNAStringSet(list(chr5=tis)),"chr5.fa")
-write.table(myFile,"samples.txt",sep="\t",row.names=FALSE,quote=FALSE)
-qAlign("samples.txt","chr5.fa")
-library(Rsamtools)
-Rsamtools::sortBam("Data/sampled_ENCFF000CXH_29a7bd074f7.bam","Sorted_sampled_ENCFF000CXH")
-Rsamtools::indexBam("Sorted_sampled_ENCFF000CXH.bam")
-myCoverage <- coverage("Sorted_sampled_ENCFF000CXH.bam")
-export.bw(myCoverage,con = "Sorted_sampled_ENCFF000CXH.bw")
 
-Rsamtools::indexBam("~/Downloads/ENCFF846QSN.bam")
 
-myFile <- data.frame(FileName="~/Downloads/sampledActin.fq.gz",SampleName="ENCFF000CXH")
-library("BSgenome.Hsapiens.UCSC.hg19")
-tis <- BSgenome.Hsapiens.UCSC.hg19[["chr7"]]
-writeXStringSet(DNAStringSet(list(chr7=tis)),"chr7.fa")
-write.table(myFile,"samples.txt",sep="\t",row.names=FALSE,quote=FALSE)
-qAlign("samples.txt","chr7.fa",splicedAlignment = TRUE)
-library(Rsamtools)
-Rsamtools::sortBam("~/Downloads/sampledActin_29a70b5f1d3.bam","sampledActinSpliced")
-Rsamtools::indexBam("sampledActinSpliced.bam")
-myCoverage <- coverage("Sorted_sampled_ENCFF000CXH.bam")
-export.bw(myCoverage,con = "Sorted_sampled_ENCFF000CXH.bw")
-
-Rsamtools::indexBam("~/Downloads/ENCFF846QSN.bam")
-
-```
 
 ---
 
@@ -69,9 +35,9 @@ Rsamtools::indexBam("~/Downloads/ENCFF846QSN.bam")
 
 Aligned sequence reads are stored in BAM format.
 
-<div align="center">
-<img src="imgs/sam.png" alt="igv" height="400" width="600">
-</div>
+&lt;div align="center"&gt;
+&lt;img src="imgs/sam.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
 
 ---
 
@@ -108,9 +74,9 @@ Popular splice aware aligners include **Tophat**, **SpliceMap**, **subjunc**, **
 A splice aware aligner is important for analysis of RNAseq where mRNA's introns are spliced to stitch exons into continuous sequence.
 
 
-<div align="center">
-<img src="imgs/splice.png" alt="igv" height="400" width="600">
-</div>
+&lt;div align="center"&gt;
+&lt;img src="imgs/splice.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
 
 
 ---
@@ -158,30 +124,28 @@ This sampled data can be found in **Data/sampledActin.fq.gz**
 
 To make use of a bowtie and SpliceMap aligners we must first install and load the QuasR library.
 
-```{r load, echo=TRUE,eval=FALSE}
+
+```r
 source("https://bioconductor.org/biocLite.R")
 biocLite("QuasR")
 library(QuasR)
 ```
 
-```{r load1q, echo=FALSE,eval=TRUE}
-suppressPackageStartupMessages(library(QuasR))
-```
+
 
 ---
 ## BSGenome packages.
 
 We will also require some reference data so lets install the BSgenome package for hg38
 
-```{r load11, echo=TRUE,eval=FALSE}
+
+```r
 source("https://bioconductor.org/biocLite.R")
 biocLite("BSgenome.Hsapiens.UCSC.hg38")
 library(BSgenome.Hsapiens.UCSC.hg38)
 ```
 
-```{r load1, echo=FALSE,eval=TRUE}
-suppressPackageStartupMessages(library(BSgenome.Hsapiens.UCSC.hg38))
-```
+
 
 ---
 ## QuasR genomic alignment.
@@ -198,17 +162,18 @@ The **qAlign()** function requires just two arguments.
 
 The sample table requires is a tab-delimited file listing the path to fastq(s) to be aligned and the desired sample names.
 
-```{r sampleTable1, echo=TRUE,eval=FALSE}
-FileName <- "Data/sampledActin.fq.gz"
-SampleName <- "sampledActin"
-sampleTable <- data.frame(FileName,SampleName)
+
+```r
+FileName &lt;- "Data/sampledActin.fq.gz"
+SampleName &lt;- "sampledActin"
+sampleTable &lt;- data.frame(FileName,SampleName)
 write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
 ```
 
-```{r sampleTable1s, echo=FALSE,eval=TRUE}
-FileName <- "Data/sampledActin.fq.gz"
-SampleName <- "sampledActin" 
-data.frame(FileName,SampleName)
+
+```
+##                  FileName   SampleName
+## 1 Data/sampledActin.fq.gz sampledActin
 ```
 
 ---
@@ -218,7 +183,8 @@ The simplest way to specify a reference genome for alignment in **qAlign()** is 
 
 Here we can simply specify the name of BSgenome object we wish to use for alignment. Here we specify the BSgenome object for hg38 **BSgenome.Hsapiens.UCSC.hg38**.
 
-```{r bsgenome, echo=TRUE,eval=FALSE}
+
+```r
 library(QuasR)
 qAlign("sampleTable.txt","BSgenome.Hsapiens.UCSC.hg38")
 ```
@@ -232,10 +198,11 @@ We can also provide a FASTA file directly to the **qAlign()** function.
 
 First lets extract a FASTA file from out BSgenome object. Here we will create a FASTA file for just Chr7 (the location of ActB)
 
-```{r bsgenomeffft, echo=TRUE,eval=FALSE}
+
+```r
 library(BSgenome.Hsapiens.UCSC.hg38)
-chr7hg38 <- BSgenome.Hsapiens.UCSC.hg38[["chr7"]]
-chr7hg38Set <- DNAStringSet(list(chr7=chr7hg38))
+chr7hg38 &lt;- BSgenome.Hsapiens.UCSC.hg38[["chr7"]]
+chr7hg38Set &lt;- DNAStringSet(list(chr7=chr7hg38))
 writeXStringSet(chr7hg38Set,file="chr7.fa")
 ```
 
@@ -244,7 +211,8 @@ writeXStringSet(chr7hg38Set,file="chr7.fa")
 
 Now we can align to our Chr7 FASTA file using **qAlign()**.
 
-```{r bsgenomek, echo=TRUE,eval=FALSE}
+
+```r
 qAlign("sampleTable.txt","chr7.fa")
 ```
 
@@ -276,15 +244,14 @@ The **Rsamtools** package allows us to make us of the samtools functions within 
 
 First we can install and load the library.
 
-```{r loadq, echo=TRUE,eval=FALSE}
+
+```r
 source("https://bioconductor.org/biocLite.R")
 biocLite("Rsamtools")
 library(Rsamtools)
 ```
 
-```{r loadq1, echo=FALSE,eval=TRUE}
-suppressPackageStartupMessages(library(Rsamtools))
-```
+
 
 ---
 ## Rsamtools sorting
@@ -295,8 +262,13 @@ The  **sortBam()** function take as arguments the path to BAM file to sort and t
 
 Note the **prefix** should not contain the *.bam* extension.
 
-```{r sort, echo=TRUE,eval=TRUE}
+
+```r
 sortBam("Data/sampledActin_29a3a870bf.bam","SortedActB")
+```
+
+```
+## [1] "SortedActB.bam"
 ```
 
 ---
@@ -304,8 +276,14 @@ sortBam("Data/sampledActin_29a3a870bf.bam","SortedActB")
 
 After sorting, we can now index our sorted BAM file using the **indexBAM()** function.
 
-```{r index, echo=TRUE,eval=TRUE}
+
+```r
 indexBam("SortedActB.bam")
+```
+
+```
+##       SortedActB.bam 
+## "SortedActB.bam.bai"
 ```
 
 ---
@@ -313,8 +291,27 @@ indexBam("SortedActB.bam")
 
 We can get an overview of BAM file information using the **quickBamFlagSummary()** function.
 
-```{r sum, echo=TRUE,eval=TRUE,collapse=TRUE}
+
+```r
 quickBamFlagSummary("SortedActB.bam")
+##                                 group |    nb of |    nb of | mean / max
+##                                    of |  records |   unique | records per
+##                               records | in group |   QNAMEs | unique QNAME
+## All records........................ A |    10000 |    10000 |    1 / 1
+##   o template has single segment.... S |    10000 |    10000 |    1 / 1
+##   o template has multiple segments. M |        0 |        0 |   NA / NA
+##       - first segment.............. F |        0 |        0 |   NA / NA
+##       - last segment............... L |        0 |        0 |   NA / NA
+##       - other segment.............. O |        0 |        0 |   NA / NA
+## 
+## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
+## Indentation reflects this.
+## 
+## Details for group S:
+##   o record is mapped.............. S1 |     8240 |     8240 |    1 / 1
+##       - primary alignment......... S2 |     8240 |     8240 |    1 / 1
+##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ S4 |     1760 |     1760 |    1 / 1
 ```
 
 ---
@@ -322,18 +319,18 @@ quickBamFlagSummary("SortedActB.bam")
 
 We can now review our BAM file in IGV.
 
-<div align="center">
-<img src="imgs/alnActB.png" alt="igv" height="400" width="600">
-</div>
+&lt;div align="center"&gt;
+&lt;img src="imgs/alnActB.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
 
 ---
 ## Review in IGV
 
 But if we look for splice junctions we see we are missing some information.
 
-<div align="center">
-<img src="imgs/alnActBnojunc.png" alt="igv" height="400" width="600">
-</div>
+&lt;div align="center"&gt;
+&lt;img src="imgs/alnActBnojunc.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
 
 
 ---
@@ -341,7 +338,8 @@ But if we look for splice junctions we see we are missing some information.
 
 We are missing reads which would align across splice junctions. To use the **qAlign()** function to align spliced reads we must simply specify the parameter **splicedAlignment** to be **TRUE**.
 
-```{r bsgenomqek, echo=TRUE,eval=FALSE}
+
+```r
 qAlign("sampleTable.txt","chr7.fa",splicedAlignment = TRUE)
 ```
 
@@ -350,9 +348,22 @@ qAlign("sampleTable.txt","chr7.fa",splicedAlignment = TRUE)
 
 We can now sort and index our splice aware alignment as before.
 
-```{r sortS, echo=TRUE,eval=TRUE}
+
+```r
 sortBam("Data/sampledActin_29a42342e34.bam","SortedActBSpliced")
+```
+
+```
+## [1] "SortedActBSpliced.bam"
+```
+
+```r
 indexBam("SortedActBSpliced.bam")
+```
+
+```
+##       SortedActBSpliced.bam 
+## "SortedActBSpliced.bam.bai"
 ```
 
 ---
@@ -360,8 +371,27 @@ indexBam("SortedActBSpliced.bam")
 
 We can get an overview of BAM file information using the **quickBamFlagSummary()** function.
 
-```{r sum2, echo=TRUE,eval=TRUE,collapse=TRUE}
+
+```r
 quickBamFlagSummary("SortedActBSpliced.bam")
+##                                 group |    nb of |    nb of | mean / max
+##                                    of |  records |   unique | records per
+##                               records | in group |   QNAMEs | unique QNAME
+## All records........................ A |    10000 |    10000 |    1 / 1
+##   o template has single segment.... S |    10000 |    10000 |    1 / 1
+##   o template has multiple segments. M |        0 |        0 |   NA / NA
+##       - first segment.............. F |        0 |        0 |   NA / NA
+##       - last segment............... L |        0 |        0 |   NA / NA
+##       - other segment.............. O |        0 |        0 |   NA / NA
+## 
+## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
+## Indentation reflects this.
+## 
+## Details for group S:
+##   o record is mapped.............. S1 |     9037 |     9037 |    1 / 1
+##       - primary alignment......... S2 |     9037 |     9037 |    1 / 1
+##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ S4 |      963 |      963 |    1 / 1
 ```
 
 ---
@@ -369,9 +399,9 @@ quickBamFlagSummary("SortedActBSpliced.bam")
 
 We can now review our splice aware BAM file in IGV.
 
-<div align="center">
-<img src="imgs/alnActjunc.png" alt="igv" height="400" width="600">
-</div>
+&lt;div align="center"&gt;
+&lt;img src="imgs/alnActjunc.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
 
 
 ---
@@ -379,9 +409,9 @@ We can now review our splice aware BAM file in IGV.
 
 Now if we compare to the original alignment from Encode we can identify where some of our unaligned reads may have gone.
 
-<div align="center">
-<img src="imgs/originalVsNew.png" alt="igv" height="400" width="600">
-</div>
+&lt;div align="center"&gt;
+&lt;img src="imgs/originalVsNew.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
 
 ---
 ## Review in IGV
@@ -390,9 +420,9 @@ STAR aligner has allowed for very long splicing, here over the neighbouring gene
 
 The default parameters for alignment within **QuasR** are carefully selected for alignment with ChIP-seq, ATAC-seq, WGS and splice aware alignment in RNA-seq. We will review this performance over the coming sessions.
 
-<div align="center">
-<img src="imgs/starCrazy.png" alt="igv" height="400" width="600">
-</div>
+&lt;div align="center"&gt;
+&lt;img src="imgs/starCrazy.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
 
 
 ---
@@ -402,7 +432,8 @@ The Rsubread package offers a fast aligner for both genomic and splice aware ali
 
 The Rsubread package is only available on Mac and Linux systems.
 
-```{r sum2wcww, echo=TRUE,eval=FALSE,include=TRUE}
+
+```r
 library(Rsubread)
 ```
 
@@ -413,7 +444,8 @@ The Rsubread package requires we first build an index of our reference genome fo
 
 Here we use the **buildindex()** function, specifying the name of index to be built and the FASTA file to build the index from.  
 
-```{r sum2wcwssw, echo=TRUE,eval=FALSE,include=TRUE}
+
+```r
 buildindex("chr7","chr7.fa")
 ```
 
@@ -426,7 +458,8 @@ We can now use the **subjunc()** function to align reads in a splice aware manne
 We must specify out index name, fastq file, desired output format and name of BAM file to be created.
 
 
-```{r sum2waacww, echo=TRUE,eval=FALSE,include=TRUE}
+
+```r
 subjunc("chr7","Data/sampledActin.fq.gz",
         output_format = "BAM",
         output_file = "Data//RsubreadsampledActin.bam")
@@ -438,7 +471,8 @@ subjunc("chr7","Data/sampledActin.fq.gz",
 Again we must sort and index our file.
 
 
-```{r sum2wcaww, echo=TRUE,eval=FALSE,include=TRUE}
+
+```r
 sortBam("Data/RsubreadsampledActin.bam",
         "Sorted_RsubreadsampledActin")
 indexBam("Sorted_RsubreadsampledActin.bam")
@@ -449,34 +483,33 @@ indexBam("Sorted_RsubreadsampledActin.bam")
 
 Finally we can assess mapping rate.
 
-```{r sum2wcwsssw, echo=TRUE,eval=TRUE,include=TRUE}
+
+```r
 quickBamFlagSummary("Sorted_RsubreadsampledActin.bam")
-
 ```
 
-```{r sum2ww, echo=FALSE,eval=FALSE,collapse=TRUE,include=FALSE}
-temp <- scanBam("SortedActBSpliced.bam")
-reads <- temp[[1]]$qname[is.na(temp[[1]]$mapq)]
-temp2 <- readGAlignments("~/Downloads/out.bam",param=ScanBamParam(what=c("qname", "strand", "pos", "qwidth")))
-temp3 <- temp2[temp2@elementMetadata$qname %in% reads]
-export(temp3,"missing.bam")
-
-
-library(Rsubread)
-Rsubread::buildindex("chr7","chr7.fa",gappedIndex = FALSE,indexSplit = FALSE)
-Rsubread::subjunc("/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/presentations/slides/chr7","/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/sampledActin.fq.gz",output_format = "BAM",output_file = "/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/RsubreadsampledActin.bam")
-
-temp <- scanBam("Data/RsubreadsampledActin.bam")
-reads <- temp[[1]]$qname[is.na(temp[[1]]$mapq)]
-temp2 <- readGAlignments("~/Downloads/out.bam",param=ScanBamParam(what=c("qname", "strand", "pos", "qwidth")))
-temp3 <- temp2[temp2@elementMetadata$qname %in% reads]
-export(temp3,"missingRsubread.bam")
-
-qAlign("sampleTable.txt","chr7.fa",splicedAlignment = TRUE,maxHits = 100)
-
-
-
 ```
+##                                 group |    nb of |    nb of | mean / max
+##                                    of |  records |   unique | records per
+##                               records | in group |   QNAMEs | unique QNAME
+## All records........................ A |    10000 |    10000 |    1 / 1
+##   o template has single segment.... S |    10000 |    10000 |    1 / 1
+##   o template has multiple segments. M |        0 |        0 |   NA / NA
+##       - first segment.............. F |        0 |        0 |   NA / NA
+##       - last segment............... L |        0 |        0 |   NA / NA
+##       - other segment.............. O |        0 |        0 |   NA / NA
+## 
+## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
+## Indentation reflects this.
+## 
+## Details for group S:
+##   o record is mapped.............. S1 |     9726 |     9726 |    1 / 1
+##       - primary alignment......... S2 |     9726 |     9726 |    1 / 1
+##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ S4 |      274 |      274 |    1 / 1
+```
+
+
 
 ---
 
@@ -485,5 +518,51 @@ qAlign("sampleTable.txt","chr7.fa",splicedAlignment = TRUE,maxHits = 100)
 [Link_to_exercises](../../exercises/alignment_exercises.html)
 
 [Link_to_answers](../../answers/alignment_answers.html)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
 
-
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
