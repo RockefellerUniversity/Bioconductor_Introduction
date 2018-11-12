@@ -516,12 +516,26 @@ buildindex("chr7","chr7.fa")
 ---
 ## The Rsubread package
 
-We can now use the **subjunc()** function to align reads in a splice aware manner.
+We can now use the **subread()** function to align reads to the genome in a similar manner to **Rbowtie2**
 
 We must specify out index name, fastq file, desired output format and name of BAM file to be created.
 
 
 ```{r sum2waacww, echo=TRUE,eval=FALSE,include=TRUE}
+subread("chr7","Data/sampledActin.fq.gz",
+        output_format = "BAM",
+        output_file = "Data//Rsubread_NoSplicing_sampledActin.bam")
+```
+
+---
+## The Rsubread package
+
+We can now use the **subjunc()** function to align reads in a splice aware manner.
+
+We must again specify out index name, fastq file, desired output format and name of BAM file to be created.
+
+
+```{r sum2wkaacww, echo=TRUE,eval=FALSE,include=TRUE}
 subjunc("chr7","Data/sampledActin.fq.gz",
         output_format = "BAM",
         output_file = "Data//RsubreadsampledActin.bam")
