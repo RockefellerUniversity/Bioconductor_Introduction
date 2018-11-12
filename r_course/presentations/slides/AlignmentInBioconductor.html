@@ -12,7 +12,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Aligned data In Bioconductor
+# Alignment In Bioconductor
 <html>
 <div style="float:left">
 
@@ -29,34 +29,39 @@ class: center, middle, inverse, title-slide
 
 
 
+
+## Alignment - Fasta and fastq
+
+In previous sessions we have seen how to handle unaligned sequence data as well as where and how to retrieve genome reference data in Fasta format. 
+
+.pull-left[
+&lt;div align="center"&gt;
+&lt;img src="imgs/newFASTA.png" alt="igv" height="400" width="800"&gt;
+&lt;/div&gt;
+]
+
+.pull-right[
+&lt;div align="center"&gt;
+&lt;img src="imgs/fq1.png" alt="igv" height="150" width="400"&gt;
+&lt;/div&gt;
+]
+
 ---
+## Aligned data - SAM/BAM
 
-## Aligned Sequences
+We will want to produce a SAM/BAM file containing aligned reads in a format we can visualise in IGV and work with in our downstream analysis.
 
-Aligned sequence reads are stored in BAM format.
 
 &lt;div align="center"&gt;
-&lt;img src="imgs/sam.png" alt="igv" height="400" width="600"&gt;
+&lt;img src="imgs/sam2.png" alt="igv" height="300" width="900"&gt;
 &lt;/div&gt;
 
----
 
-## From unaligned sequence reads to aligned data,
 
-In our previous session we saw how to align data to the genome using an aligner and that we can use a splice aware aligner to map RNAseq reads across splice junctions.
 
 ---
 
-## Working with BAM files in Bioconductor.
-
-In this session we will work with aligned data as BAM files 
----
-
-## Alignment software
-
-In previous sessions we have seen how to handle unaligned sequence data as well as where and how to retrieve genome reference data. 
-
-We now need a suitable **aligner** software to place unaligned reads onto our reference genome.
+We now need a suitable **aligner** software to place unaligned reads onto our reference genome to produce a SAM/BAM file.
 
 Aligner softwares can be broadly placed into two categories.
 
@@ -75,7 +80,7 @@ A splice aware aligner is important for analysis of RNAseq where mRNA's introns 
 
 
 &lt;div align="center"&gt;
-&lt;img src="imgs/splice.png" alt="igv" height="400" width="600"&gt;
+&lt;img src="imgs/splice.png" alt="igv" height="350" width="700"&gt;
 &lt;/div&gt;
 
 
@@ -85,7 +90,7 @@ A splice aware aligner is important for analysis of RNAseq where mRNA's introns 
 
 A few of the popular aligners are wrapped up in R/Bioconductor packages allowing us to use our **aligner** software from R as well as make use of some of the R/Bioconductor objects we are growing to love.
 
-* Bowtie - **rbowtie**, **rbowtie2**, **QuasR**
+* Bowtie - **Rbowtie**, **Rbowtie2**, **QuasR**
 * GSNAP/GMAP - **gmapR**
 * SpliceMap - **QuasR**
 * subread/subjunc - **rsubread**
@@ -98,7 +103,9 @@ The **rsubread** and **gampR** packages offer convenient access to subread/subju
 
 The **QuasR** package offers an interface to Bowtie and SpliceMap on Windows, Mac and Linux and so provides access to a genomic and splice aware aligner on all systems.
 
-In this session we will focus on the **QuasR** package.
+The **Rbowtie2** package offers a wrapper to the popular Bowtie2 software and offers significant improvement in memory and CPU usage to Bowtie packaged in QuasR.
+
+In this session we will focus on the **QuasR** package for all users but recommend rsubread for analysis.
 
 ---
 
@@ -426,9 +433,103 @@ The default parameters for alignment within **QuasR** are carefully selected for
 
 
 ---
+## The Rbowtie2 package
+
+The **Rbowtie2** library offers a faster alternative to genomic alignment in R using Bowtie2. 
+
+
+
+```r
+library(Rbowtie2)
+```
+
+---
+## The Rbowtie2 package
+
+As with other aligners we first need to build an index to align too. We can build the index using the **bowtie2_build** function supplying the path to Fasta file to **references** argument and path for bowtie2 index to **bt2Index** command. 
+
+This may take some time but you will only need to run this index step once.
+
+
+
+```r
+bowtie2_build(references="chr7.fa", 
+                       bt2Index=file.path("chr7hg38"))
+```
+
+---
+## The Rbowtie2 package
+
+Now we have created an index to align to, we can align our fastq data to this index. 
+
+First however we will need to decompress our compressed fastq files to use them with Rbowtie2. The **gunzip** function in R allows us to decompress file from R.
+
+
+
+```r
+library(R.utils)
+
+gunzip("Data/sampledActin.fq.gz")
+```
+
+
+---
+## The Rbowtie2 package
+
+We cqn align our data using the main **bowtie2** function and specifying the index path to  **bt2Index** argument, the output path for sam to **samOutput** argument and the sequence we wish to align to the **seq1** path.
+
+
+
+```r
+bowtie2(bt2Index = "chr7hg38",
+          samOutput = "sampledActin.sam",
+          seq1 = "Data/sampledActin.fq")
+```
+
+---
+## The Rbowtie2 package
+
+The **bowtie2** function outputs a SAM file. We will want to produce a BAM file we can sort and index from this SAM file using the **asBam** function.
+
+
+
+```r
+bamFile_Bowtie2 &lt;- asBam("sampledActin.sam")
+bamFile_Bowtie2
+```
+
+---
+## The Rbowtie2 package
+
+We can then sort and index our BAM file to ensure we are ready for IGV and downstream analysis.
+
+
+
+```r
+sortBam(bamFile_Bowtie2,"SortedActBSpliced_bowtie")
+indexBam("SortedActBSpliced_bowtie.bam")
+```
+
+---
+## The Rbowtie2 package
+
+Although **Rbowtie2** is a significant improvement over **QuasR** it only allows for genomic alignment and not splice aware alignment.
+
+This means that **Rbowtie2** is suitable for 
+- ATAC-seq 
+- ChIP-seq
+- WGS
+
+**Rbowtie2** is NOT suitable for 
+- RNA-seq
+- Ribo-seq
+
+---
 ## The Rsubread package
 
 The Rsubread package offers a fast aligner for both genomic and splice aware alignment.
+
+Updated refrequently - [Latest paper here](https://www.biorxiv.org/content/early/2018/08/15/377762)
 
 The Rsubread package is only available on Mac and Linux systems.
 
