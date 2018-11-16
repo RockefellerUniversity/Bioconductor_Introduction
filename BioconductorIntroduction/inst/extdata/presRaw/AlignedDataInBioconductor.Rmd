@@ -1,9 +1,10 @@
 ---
-title: "Aligned data In Bioconductor"
+title: "Aligned data In Bioconductor <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
 author: "Rockefeller University, Bioinformatics Resource Centre"
-date: "http://rockefelleruniversity.github.io/SequencesInBioconductor/"
+date: "http://rockefelleruniversity.github.io/Bioconductor_Introduction/"
 output: 
   xaringan::moon_reader:
+    css: ["default", "metropolisCustom.css", "metropolis-fontsCustom.css"]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -16,8 +17,6 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
-
-
 ---
 
 ```{r setup, include=FALSE}
@@ -34,14 +33,14 @@ temp <- readFastq("~/Downloads/out.fq")
 tAlin <- temp[sample(1:length(temp),10000)]
 writeFastq(tAlin,"~/Downloads/sampledActin.fq.gz")
 BiocInstaller::biocLite("QuasR")
-myFile <- data.frame(FileName="../../Data/sampled_ENCFF000CXH.fastq.gz",SampleName="ENCFF000CXH")
+myFile <- data.frame(FileName="Data/sampled_ENCFF000CXH.fastq.gz",SampleName="ENCFF000CXH")
 library("BSgenome.Hsapiens.UCSC.hg19")
 tis <- BSgenome.Hsapiens.UCSC.hg19[["chr5"]]
 writeXStringSet(DNAStringSet(list(chr5=tis)),"chr5.fa")
 write.table(myFile,"samples.txt",sep="\t",row.names=FALSE,quote=FALSE)
 qAlign("samples.txt","chr5.fa")
 library(Rsamtools)
-Rsamtools::sortBam("../../Data/sampled_ENCFF000CXH_29a7bd074f7.bam","Sorted_sampled_ENCFF000CXH")
+Rsamtools::sortBam("Data/sampled_ENCFF000CXH_29a7bd074f7.bam","Sorted_sampled_ENCFF000CXH")
 Rsamtools::indexBam("Sorted_sampled_ENCFF000CXH.bam")
 myCoverage <- coverage("Sorted_sampled_ENCFF000CXH.bam")
 export.bw(myCoverage,con = "Sorted_sampled_ENCFF000CXH.bw")
@@ -70,7 +69,7 @@ Rsamtools::indexBam("~/Downloads/ENCFF846QSN.bam")
 Aligned sequence reads are stored in BAM format.
 
 <div align="center">
-<img src="imgs/sam.png" alt="igv" height="400" width="600">
+<img src="imgs/sam2.png" alt="igv" height="200" width="600">
 </div>
 
 ---
@@ -81,7 +80,7 @@ Aligned sequence reads are stored in BAM format.
 Information on the content and state of BAM file is stored in its header.
 
 <div align="center">
-<img src="imgs/header.png" alt="igv" height="400" width="400">
+<img src="imgs/sam1.png" alt="igv" height="400" width="400">
 </div>
 
 ---
@@ -91,7 +90,7 @@ Information on the content and state of BAM file is stored in its header.
 The body of the BAM file hold information on the original reads.
 
 <div align="center">
-<img src="imgs/bam1.png" alt="igv" height="400" width="700">
+<img src="imgs/sam3.png" alt="igv" height="200" width="700">
 </div>
 ---
 
@@ -100,7 +99,7 @@ The body of the BAM file hold information on the original reads.
 As well as on the positions reads map to in the genome.
 
 <div align="center">
-<img src="imgs/bam2.png" alt="igv" height="400" width="700">
+<img src="imgs/sam4.png" alt="igv" height="200" width="700">
 </div>
 
 
@@ -161,7 +160,7 @@ By default the file is sorted by chromosome name and then by coordinates of read
 
 
 ```{r b1,echo=TRUE,eval=TRUE}
-coordSorted <- sortBam("../../Data/liver.bodyMap.bam",
+coordSorted <- sortBam("Data/liver.bodyMap.bam",
                        "Sorted_liver")
 coordSorted
 ```
@@ -174,7 +173,7 @@ To sort by read name we can set the **sortBam** arguement **byQname** to **TRUE*
 
 
 ```{r c1,echo=TRUE,eval=TRUE}
-readnameSorted <- sortBam("../../Data/liver.bodyMap.bam",
+readnameSorted <- sortBam("Data/liver.bodyMap.bam",
                           "SortedByName_liver",
                           byQname=TRUE)
 readnameSorted
@@ -193,7 +192,7 @@ Here in this example, we sort our file in 1MB of memory and it will produce 19 t
 
 
 ```{r d1,echo=TRUE,eval=TRUE}
-coordSorted <- sortBam("../../Data/liver.bodyMap.bam",
+coordSorted <- sortBam("Data/liver.bodyMap.bam",
                           "Sorted_liver",
                           maxMemory=1)
 coordSorted
