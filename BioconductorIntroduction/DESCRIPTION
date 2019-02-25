@@ -10,5 +10,5 @@ Maintainer: Thomas Carroll <tcarroll@rockefeller.edu>
 Description: Course for plotting in R
 License: What license is it under?
 biocViews: Sequencing, Infrastructure, DataImport
-Depends: BSgenome.Mmusculus.UCSC.mm10, BSgenome.Hsapiens.UCSC.hg19, Biostrings, rtracklayer, GenomicRanges
+Imports: BSgenome.Mmusculus.UCSC.mm10, BSgenome.Hsapiens.UCSC.hg19, Biostrings, rtracklayer, GenomicRanges
 RoxygenNote: 6.0.1
