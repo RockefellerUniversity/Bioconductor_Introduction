@@ -17,14 +17,43 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
+params:
+  isSlides: "no"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 AsSlides <- TRUE
 ```
 
+# (PART) Bioconductor {-}
+
+
+```{r,results='asis',include=TRUE,echo=FALSE}
+if(params$isSlides == "yes"){
+  cat("---
+class: inverse, center, middle
 
 # Introduction to Bioconductor
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
+
+---
+"    
+  )
+}else{
+  cat("---
+
+# Introduction to Bioconductor
+
+---
+"    
+  )
+  
+}
+```
+
+
+## Introduction to Bioconductor
 
 Bioconductor (BioC) is an open source, community driven software project which provides a framework of tools and databases for the analysis of biological data in R.
 
@@ -36,7 +65,7 @@ Bioconductor (BioC) is an open source, community driven software project which p
 
 ---
 
-# Bioconductor Goals.
+### Bioconductor Goals.
 
 To provide -
 
@@ -48,14 +77,14 @@ To provide -
 
 ---
 
-# Bioconductor-[website](https://www.bioconductor.org/)
+### Bioconductor-[website](https://www.bioconductor.org/)
 
 <div align="center">
 <img src="imgs/bioconductor.png" alt="igv" height="500" width="1000">
 </div>
 
 ---
-# Bioconductor packages
+### Bioconductor packages
 
 Bioconductor packages can be broadly split into 3 groups.
 
@@ -64,7 +93,7 @@ Bioconductor packages can be broadly split into 3 groups.
 - Experiment Data (Example and actual data from experiments)
 
 ---
-# Bioconductor packages
+### Bioconductor packages
 
 Current release is Bioconductor 3.6
 
@@ -78,7 +107,7 @@ All packages have been
 
 ---
 
-# Packages review.
+### Packages review.
 
 Before being accepted to Bioconductor all new packages are reviewed so as to pass Bioconductor guidelines.
 
@@ -96,7 +125,7 @@ As well as an open review on [Bioconductor github site](https://github.com/Bioco
 
 ---
 
-# Bioconductor packages
+### Bioconductor packages
 Review ensures
 
 - All packages can be built in latest version R.
@@ -110,7 +139,7 @@ Review ensures
 
 ---
 
-# A Bioconductor package
+### A Bioconductor package
 
 Example package - [BasecallQC](https://bioconductor.org/packages/release/bioc/html/basecallQC.html)
 
@@ -121,7 +150,7 @@ Example package - [BasecallQC](https://bioconductor.org/packages/release/bioc/ht
 
 ---
 
-# Installing a Bioconductor package
+### Installing a Bioconductor package
 
 Installing a Bioconductor package is quite straight forward. Every Bioconductor package has a description of the installation R command we can simply copy and paste.
 
@@ -134,7 +163,7 @@ biocLite("basecallQC")
 
 ---
 
-# Bioconductor package dependencies.
+### Bioconductor package dependencies.
 
 All dependencies and their required versions are resolved for us. We must be careful however to check the version of Bioconductor we are using.
 
@@ -150,7 +179,7 @@ If we wish to update to latest Bioconductor release we can use the **biocUpgrade
 
 ---
 
-# Reference Manual
+### Reference Manual
 
 .pull-left[
 
@@ -172,7 +201,7 @@ This will include importantly
 
 ---
 
-# Vignette
+### Vignette
 
 .pull-left[
 
@@ -190,10 +219,33 @@ These vignettes detail a typical usage of the package with working examples incl
 
 ]
 
----
-
+```{r,results='asis',include=TRUE,echo=FALSE}
+if(params$isSlides == "yes"){
+  cat("---
+class: inverse, center, middle
 
 # Genomics data in Bioconductor
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
+
+---
+"    
+  )
+}else{
+  cat("---
+
+## Genomics data in Bioconductor
+
+---
+"    
+  )
+  
+}
+```
+
+
+
+### Genomics data in Bioconductor
 
 Bioconductor packages cover a wide range of biological data types.
 
@@ -208,7 +260,7 @@ This includes methods for handling common genomics data types.
 
 ---
 
-# FASTA in Bioconductor.
+### FASTA in Bioconductor.
 
 Genomic sequences stored as [FASTA files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/6) are handled using the [**Biostrings**](https://bioconductor.org/packages/release/bioc/html/Biostrings.html) package.
 
@@ -219,7 +271,7 @@ Genomic sequences stored as [FASTA files](https://rockefelleruniversity.github.i
 
 ---
 
-# BED/BED6 in Bioconductor.
+### BED/BED6 in Bioconductor.
 
 Genomic intervals stored as [BED files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/18) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
 
@@ -229,7 +281,7 @@ Genomic intervals stored as [BED files](https://rockefelleruniversity.github.io/
 
 ---
 
-# Wigs and BigWigs in Bioconductor.
+### Wigs and BigWigs in Bioconductor.
 
 Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/22) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
 
@@ -238,7 +290,7 @@ Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.git
 </div>
 
 ---
-# GFF.
+### GFF.
 
 [GFF files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/24) containing gene models are handled using the [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html)  package.
 
@@ -247,7 +299,7 @@ Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.git
 </div>
 
 ---
-# FastQ 
+### FastQ 
 
 [FastQ files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/8) containing gene models are handled using the [**ShortRead**](https://bioconductor.org/packages/release/bioc/html/ShortRead.html) package.
 
@@ -256,7 +308,7 @@ Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.git
 </div>
 
 ---
-# SAM/BAM
+### SAM/BAM
 
 [SAM and BAM files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/13) are handled using the  [**GenomicAlignments**](https://bioconductor.org/packages/release/bioc/html/GenomicAlignments.html) package.
 
@@ -264,8 +316,32 @@ Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.git
 <img src="imgs/sam2.png" alt="igv" height="200" width="600">
 </div>
 
----
+
+```{r,results='asis',include=TRUE,echo=FALSE}
+if(params$isSlides == "yes"){
+  cat("---
+class: inverse, center, middle
+
 # Reference Data in Bioconductor.
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
+
+---
+"    
+  )
+}else{
+  cat("---
+
+## Reference Data in Bioconductor.
+
+---
+"    
+  )
+  
+}
+```
+
+### Reference Data in Bioconductor.
 
 As well as software packages, we know Bioconductor maintains a number of annotation packages.
 
@@ -273,7 +349,7 @@ This includes microarray annotation, gene to ID mappings, genes' functional anno
 
 ---
 
-# Gene annotation.
+### Gene annotation.
 
 Information on model organism's gene annotation is contained with the **org.db** packages.
 
@@ -288,7 +364,7 @@ Homo Sapiens annotation with Entrez Gene IDs -- org.Hs.eg.db
 
 ---
 
-# Genome Sequence
+### Genome Sequence
 
 Genomic sequence information is held within the **BSgenome** packages.
 
@@ -302,7 +378,7 @@ Homo Sapiens genome sequence from UCSC's version hg19 -- BSgenome.Hsapiens.UCSC.
 
 ---
 
-# Gene Models
+### Gene Models
 
 Gene models are held in the **TxDb** packages.
 
@@ -316,7 +392,7 @@ Homo Sapiens gene build from UCSC's version hg19 known gene table -- TxDb.Hsapie
 
 ---
 
-# Time for an exercise.
+### Time for an exercise.
 
 [Link_to_exercises](../../exercises/biocIntro_exercises.html)
 
