@@ -17,6 +17,9 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
+params:
+  isSlides: "no"
+
 ---
 
 
@@ -26,7 +29,32 @@ AsSlides <- TRUE
 ```
 
 
-# Genomic Sequences
+```{r,results='asis',include=TRUE,echo=FALSE}
+if(params$isSlides == "yes"){
+  cat("---
+class: inverse, center, middle
+
+# Genomic Sequences in Bioconductor
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
+
+---
+"    
+  )
+}else{
+  cat("---
+
+## Genomic Sequences in Bioconductor
+
+---
+"    
+  )
+  
+}
+```
+
+
+### Genomic Sequences
 
 As we have seen earlier, genomic sequences are often stored in FASTA format.
 
@@ -37,7 +65,7 @@ As we have seen earlier, genomic sequences are often stored in FASTA format.
 
 ---
 
-# Genomic Sequences in Bioconductor.
+### Genomic Sequences in Bioconductor.
 
 Genomic sequences can be handled in Bioconductor using the functions in the **Biostrings** package and full genome sequences for many model organisms are contained within the [**BSgenome** packages](https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData).
 
@@ -49,7 +77,7 @@ Genomic sequences can be handled in Bioconductor using the functions in the **Bi
 
 ---
 
-# BSgenome packages.
+### BSgenome packages.
 
 To make use of a BSgenome package we must first install and load the library.
 
@@ -70,7 +98,7 @@ class(BSgenome.Mmusculus.UCSC.mm10)
 BSgenome.Mmusculus.UCSC.mm10
 ```
 ---
-# Data in BSgenome objects.
+### Data in BSgenome objects.
 
 Simply by typing the object name we have retrieved some important information.
 
@@ -79,7 +107,7 @@ Importantly it tells us how we can access information in the object.
 - **seqnames()** function to retrieve all contig names.
 - **$** and **[[]]** accessors to retrieve a given contig's sequence.
 ---
-# Contig names.
+### Contig names.
 
 We can retrieve contig names using **seqnames()** function.
 
@@ -89,7 +117,7 @@ contigNames[1:22]
 ```
 ---
 
-# Contig lengths
+### Contig lengths
 
 We can also retrieve contig lengths using **seqlengths()** function.
 
@@ -100,7 +128,7 @@ contigLengths[1:4]
 
 ---
 
-# retrieving sequence information.
+### retrieving sequence information.
 
 Now we know sequence names, we can retrieve sequence information using either the **$** or **[[]]** accessors.
 
@@ -110,7 +138,7 @@ chr19_Seq <- BSgenome.Mmusculus.UCSC.mm10$chr19
 chr19_Seq
 ```
 ---
-# retrieving sequence information.
+### retrieving sequence information.
 
 
 now we use list accessor **[[]]** with name of contig of interest
@@ -121,7 +149,7 @@ chr19_Seq
 
 ---
 
-# Biostrings and DNAString
+### Biostrings and DNAString
 
 The returned sequence object is a **DNAString** object from the **Biostrings** package. DNAStrings are efficient objects for storing and accessing large sequences.
 
@@ -132,7 +160,7 @@ class(chr19_Seq)
 **?DNAString** for full help on DNAString objects.
 ---
 
-# Subsetting a DNAString set 
+### Subsetting a DNAString set 
 
 We can subset a DNAString object just like indexing a normal vector
 
@@ -142,7 +170,7 @@ chr19_Seq[1:10000000]
 
 ---
 
-# Subsetting a DNAString set 
+### Subsetting a DNAString set 
 
 Or we can use the Biostrings function **subseq()** on our DNAString.
 
@@ -154,7 +182,7 @@ subseq(chr19_Seq,start=1,end=10000000)
 
 ---
 
-# Useful functions.
+### Useful functions.
 
 The Biostrings package has many useful functions for handling sequence data.
 
@@ -166,7 +194,7 @@ alphabetFrequency(chr19_Seq)
 
 ---
 
-# Useful functions. 2
+### Useful functions. 2
 
 We can get the complement,reverse and reverse complement of sequence using the **complement()**, **reverse()**, **reverseComplement()**.
 
@@ -180,7 +208,7 @@ chr19_SeqRevComp
 
 ---
 
-# Useful functions.
+### Useful functions.
 
 We can get the translation of our sequence using the **translate()**.
 
@@ -192,7 +220,7 @@ chr19_SeqTranslation
 
 ---
 
-# Useful functions.
+### Useful functions.
 
 We can get also match and count the occurrence of patterns in our sequence using **matchPattern()** and **countPattern()**.
 
@@ -206,7 +234,7 @@ chr19_Count
 
 ---
 
-# Useful functions.
+### Useful functions.
 
 We may not always expect a perfect match for our sequence. We can search for close matches by setting the degree of specificity to the **max.mismatch** and **min.mismatch** arguments. 
 
@@ -222,7 +250,7 @@ chr19_Count
 
 ---
 
-# Useful functions.
+### Useful functions.
 
 We can also use IUPAC codes to account for ambiguity in the sequence we will match.
 
@@ -234,7 +262,7 @@ IUPAC_CODE_MAP
 
 ---
 
-# Useful functions.
+### Useful functions.
 
 We can make use of IUPAC codes in our search by setting the **fixed** argument to false.
 
@@ -247,7 +275,7 @@ chr19_Count
 
 ---
 
-# Useful functions.
+### Useful functions.
 
 Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns. 
 
@@ -264,7 +292,7 @@ Total_chr19_Count <- chr19_Count_Watson+chr19_Count_Crick
 
 ---
 
-#Writing to a FASTA file.
+### Writing to a FASTA file.
 
 The **Biostrings** package contains useful functions to read and write to a FASTA file.
 
@@ -289,7 +317,7 @@ writeXStringSet(chr19_SeqSet,filepath = "Data/chr19_Seq.fa")
 
 ---
 
-#Reading a FASTA file.
+### Reading a FASTA file.
 
 Now we can read our a FASTA file back to DNAStringSet object using the **readDNAStringSet()** function. 
 
@@ -309,7 +337,7 @@ chr19_FromFASTA$chr19
 
 ---
 
-# Time for an exercise.
+### Time for an exercise.
 
 [Link_to_exercises](../../exercises/fastaAndBiostrings_exercises.html)
 
