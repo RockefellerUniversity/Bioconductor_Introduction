@@ -5,5 +5,5 @@ orderOfCourse <- function(path=getwd()){
   rmdFiles <- c("AlignedDataInBioconductor.Rmd","AlignmentInBioconductor.Rmd","bioconductor_introduction.Rmd",
   "FastQInBioconductor.Rmd","GenomicFeatures_In_Bioconductor.Rmd","GenomicIntervals_In_Bioconductor.Rmd",
   "GenomicScores_In_Bioconductor.Rmd","SequencesInBioconductor.Rmd","Summarising_Scores_In_Bioconductor.Rmd")
-  file.path(path,rmdFiles[order(rmdFilesOrder)])[1:5]
+  file.path(path,rmdFiles[order(rmdFilesOrder)])[1]
 }
