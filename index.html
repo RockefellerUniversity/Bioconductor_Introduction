@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Bioconductor_Introduction by mrccsc</title>
+    <title>An Intro to Bioconductor by BRC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -12,26 +12,23 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">Bioconductor Introduction</h1>
-      <h2 class="project-tagline">Rockefeller University, BRC Course Plotting R</h2>
+      <h2 class="project-tagline">Rockefeller University, BRC Course</h2>
       <a href="https://github.com/rockefelleruniversity/Bioconductor_Introduction/zipball/master" class="btn">Download.zip</a>
       <a href="https://github.com/rockefelleruniversity/Bioconductor_Introduction/tarball/master" class="btn">Download.tar.gz</a>
+      <a href="https://github.com/RockefellerUniversity/Bioconductor_Introduction/issues" class="btn">Getting help !</a>
     </section>
 
     <section class="main-content">
       <h1>
-<a id="Intro_To_R" class="anchor" href="#Intro_To_R" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction to Bioconductor</h1>
-
-<p><a href="https://gitter.im/RockefellerUniversity/Lobby?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/RockefellerUniversity/Lobby"></a>
-<a href="https://travis-ci.org/RockefellerUniversity/Intro_To_R_1Day"><img src="https://travis-ci.org/RockefellerUniversity/Intro_To_R_1Day.svg?branch=master" alt="https://travis-ci.org/RockefellerUniversity/Intro_To_R_1Day.svg?branch=master"></a>
-</p>
+<a id="Intro_To_Bioconductor" class="anchor" href="#Intro_To_R" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction to Bioconductor</h1>
 
 <h2>
 <a id="the-course" class="anchor" href="#the-course" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The Course</h2>
 
 <p>This course introduces the Bioconductor set of R packages.</p>
 
-<p>The course consists of multiple sections, the first section introduces Bioconductor and remaining sections discuss the handling of Genomics data and metadata in R.<br>
-Each section is presented as both HTMl and Rpres markdown ( to allow for intergration of the presentation in the RStudio enviroment itself).  Exercises and answer sheets are included after all subsections to practice techniques and provide future reference examples. </p>
+<p>The course consists of multiple sections, the first section introduces Bioconductor and remaining sections discuss the handling of Genomics data and metadata in R using Bioconductor packages.<br>
+Each section is presented as HTMl presentations or single page document. Exercises and answer sheets are included after all subsections to practice techniques and provide future reference examples.. </p>
 
 <p>Course material and exercises are available to view as rendered HTML at <a href="https://rockefelleruniversity.github.io/Bioconductor_Introduction/">https://rockefelleruniversity.github.io/Bioconductor_Introduction/</a>.<br>
 All material is available to download under GPL v2 license.</p>
@@ -43,7 +40,7 @@ All material is available to download under GPL v2 license.</p>
 <a id="install-r" class="anchor" href="#install-r" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install R.</h4>
 
 <p>R can be installed from the R-project website.<br>
-R 3.1.0 or higher is required for this course.</p>
+R 3.6.0 or higher is required for this course.</p>
 
 <p><a href="http://www.r-project.org/">http://www.r-project.org/</a></p>
 
@@ -57,9 +54,9 @@ R 3.1.0 or higher is required for this course.</p>
 <h4>
 <a id="install-required-packages" class="anchor" href="#install-required-packages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install required packages.</h4>
 
-<h5><b>Option 1 - (For your own personal computers)</b></h5>
+<h5><b>Option 1 - For your own personal computers</b></h5>
 
-<p>Having downloaded R and RStudio, some additional packages are required (rmarkdown and ggplot2).<br>
+<p>Having downloaded R and RStudio, some additional packages are required (Bioconductor packages).<br>
 To install these,</p>
 
 <ul>
@@ -72,25 +69,25 @@ devtools::install_github("rockefelleruniversity/Bioconductor_Introduction",subdi
 </li>
 </ul>
 
-<h5><b>Option 3 - (For anywhere)</b></h5> 
+<h5><b>Option 2 - For anywhere</b></h5> 
 
-<p>Having downloaded R and RStudio, some additional packages are required (rmarkdown and ggplot2).<br>
+<p>Having downloaded R and RStudio, some additional packages are required (Bioconductor packages).<br>
 To install these,</p>
 
 <ul>
 <li>First launch RStudio</li>
-<li>Install the packages in the R console using install.packages 
+<li>Install Bioconductor. Version 3.10 or higher is required for this course. Then install Bioconductor packages in the R console using BiocManager::install() 
 <pre>
-source("https://bioconductor.org/biocLite.R")
-biocLite("BSgenome.Mmusculus.UCSC.mm10")
-biocLite("BSgenome.Hsapiens.UCSC.hg19")
-biocLite("TxDb.Hsapiens.UCSC.hg19.knownGene")
-biocLite("TxDb.Mmusculus.UCSC.mm10.knownGene")
-biocLite("Org.Mm.eg.db")
-biocLite("Org.Hs.eg.db")
-biocLite("Biostrings")
-biocLite("GenomicRanges")
-biocLite("rtracklayer")
+BiocManager::install(version = "3.10")
+BiocManager::install("BSgenome.Mmusculus.UCSC.mm10")
+BiocManager::install("BSgenome.Hsapiens.UCSC.hg38")
+BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene")
+BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
+BiocManager::install("Org.Mm.eg.db")
+BiocManager::install("Org.Hs.eg.db")
+BiocManager::install("Biostrings")
+BiocManager::install("GenomicRanges")
+BiocManager::install("rtracklayer")
 </pre>
 </li>
 </ul>
@@ -123,7 +120,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/bioconductor_introduction.html">Bioc Intro</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/bioconductor_introduction.html">Bioc Intro</a><br>
-Link to R code included in presentation- - <a href="./r_course/presentations/rcode/bioconductor_introduction.R">Bioc Intro</a><br>
+Link to R code included in presentation - <a href="./r_course/presentations/r_code/bioconductor_introduction.R">Bioc Intro</a><br>
 
 
 <iframe src="./r_course/presentations/slides/bioconductor_introduction.html" width="100%" height="400"></iframe>
@@ -144,7 +141,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/SequencesInBioconductor.html">Session 2</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/SequencesInBioconductor.html">Session 2</a><br>
-Link to R code included in presentation- - <a href="./r_course/presentations/rcode/SequencesInBioconductor.R">Session 2</a><br>
+Link to R code included in presentation - <a href="./r_course/presentations/r_code/SequencesInBioconductor.R">Session 2</a><br>
 
 
 <iframe src="./r_course/presentations/slides/SequencesInBioconductor.html" width="100%" height="400"></iframe>
@@ -163,7 +160,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html">Session 3</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/GenomicIntervals_In_Bioconductor.html">Session 3</a><br>
-Link to R code included in presentation- - <a href="./r_course/presentations/rcode/GenomicIntervals_In_Bioconductor.R">Session 3</a><br>
+Link to R code included in presentation - <a href="./r_course/presentations/r_code/GenomicIntervals_In_Bioconductor.R">Session 3</a><br>
 
 
 <iframe src="./r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html" width="100%" height="400"></iframe>
@@ -183,7 +180,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/GenomicScores_In_Bioconductor.html">Session 3</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html">Session 3</a><br>
-Link to R code included in presentation- - <a href="./r_course/presentations/rcode/GenomicScores_In_Bioconductor.R">Session 3</a><br>
+Link to R code included in presentation - <a href="./r_course/presentations/r_code/GenomicScores_In_Bioconductor.R">Session 3</a><br>
 
 
 <iframe src="./r_course/presentations/slides/GenomicScores_In_Bioconductor.html" width="100%" height="400"></iframe>
@@ -203,7 +200,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/GenomicFeatures_In_Bioconductor.html">Session 3</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/GenomicFeatures_In_Bioconductor.html">Session 3</a><br>
-Link to R code included in presentation- - <a href="./r_course/presentations/rcode/GenomicFeatures_In_Bioconductor.R">Session 3</a><br>
+Link to R code included in presentation - <a href="./r_course/presentations/r_code/GenomicFeatures_In_Bioconductor.R">Session 3</a><br>
 
 
 <iframe src="./r_course/presentations/slides/GenomicFeatures_In_Bioconductor.html" width="100%" height="400"></iframe>
@@ -223,7 +220,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/FastQInBioconductor.html">Session 6</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/FastQInBioconductor.html">Session 6</a><br>
-Link to R code included in presentation- - <a href="./r_course/presentations/rcode/FastQInBioconductor.R">Session 6</a><br>
+Link to R code included in presentation - <a href="./r_course/presentations/r_code/FastQInBioconductor.R">Session 6</a><br>
 
 
 <iframe src="./r_course/presentations/slides/FastQInBioconductor.html" width="100%" height="400"></iframe>
@@ -245,7 +242,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/AlignmentInBioconductor.html">Session 6</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/AlignmentInBioconductor.html">Session 6</a><br>
-Link to R codes included in presentation- - <a href="./r_course/presentations/rcode/AlignmentInBioconductor.R">Session 6</a><br>
+Link to R codes included in presentation- - <a href="./r_course/presentations/r_code/AlignmentInBioconductor.R">Session 6</a><br>
 
 
 <iframe src="./r_course/presentations/slides/AlignmentInBioconductor.html" width="100%" height="400"></iframe>
@@ -265,7 +262,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/AlignedDataInBioconductor.html">Session 8</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/AlignedDataInBioconductor.html">Session 8</a><br>
-Link to R code included in presentation- - <a href="./r_course/presentations/rcode/AlignedDataInBioconductor.R">Session 8</a><br>
+Link to R code included in presentation - <a href="./r_course/presentations/r_code/AlignedDataInBioconductor.R">Session 8</a><br>
 
 
 <iframe src="./r_course/presentations/slides/AlignedDataInBioconductor.html" width="100%" height="400"></iframe>
@@ -285,7 +282,7 @@ Session sections:
 
 Link to HTML presentation - <a href="./r_course/presentations/slides/Summarising_Scores_In_Bioconductor.html">Session 9</a><br>
 Link to single page, printable HTML - <a href="./r_course/presentations/singlepage/Summarising_Scores_In_Bioconductor.html">Session 9</a><br>
-Link to R code included in presentation- - <a href="./r_course/presentations/rcode/Summarising_Scores_In_Bioconductor.R">Session 9</a><br>
+Link to R code included in presentation - <a href="./r_course/presentations/r_code/Summarising_Scores_In_Bioconductor.R">Session 9</a><br>
 
 
 <iframe src="./r_course/presentations/slides/Summarising_Scores_In_Bioconductor.html" width="100%" height="400"></iframe>
