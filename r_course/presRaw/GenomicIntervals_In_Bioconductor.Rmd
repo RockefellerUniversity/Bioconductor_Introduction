@@ -35,12 +35,12 @@ As we have seen earlier, genomic intervals are often stored in BED format.
 
 
 ---
-## Genomic Intervals examples.
+## Genomic Intervals examples
 
-In Genomics and High throughput sequencing we make extensive use of Genomic Intervals to store simple annotation and summarised results over regions.
+In Genomics and High Throughput sequencing we make extensive use of Genomic Intervals to store simple annotation and summarised results over regions.
 
 - Transcriptional Start Sites / Enhancers
-- Enrichment for ChIP-seq signal. i.e. Peak calls.
+- Enrichment for ChIP-seq signal i.e. Peak calls.
 
 
 ---
@@ -58,36 +58,35 @@ We also want to be able to assess spatial relation between such genomic interval
 class: inverse, center, middle
 
 
-# Genomic Intervals in Bioconductor.
+# Genomic Intervals in Bioconductor
 
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
 
 ---
-## Genomic Intervals in Bioconductor.
+## Genomic Intervals in Bioconductor
 
 Two popular Bioconductor packages for dealing with Genomics Intervals are:
 
-- [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) -- Importing/exporting genomic intervals into/out of R.
-- [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) -- Handling genomic intervals in R.
+- [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) - Importing/exporting genomic intervals into/out of R.
+- [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) - Handling genomic intervals in R.
 
 ---
-## Genomic Intervals in Bioconductor.
+## Genomic Intervals in Bioconductor
 
 The first package we will look at is the GenomicRanges package.
 
-Remember we can install Bioconductor packages (fairly) easily  using Bioconductor package pages' provided commands.
+Remember we can install Bioconductor packages (fairly) easily using Bioconductor package [commands](https://www.bioconductor.org/install/).
 
 ```{r setssssup, eval=FALSE}
-## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("GenomicRanges")
+BiocManager::install(version = "3.10")
+BiocManager::install("GenomicRanges")
 ```
 
 ---
-# Genomic Intervals in Bioconductor.
+# Genomic Intervals in Bioconductor
 
-Now we have the package installed, we can load the library
+Now we have the package installed, we can load the library.
 
 ```{r sedfs,eval=TRUE,echo=FALSE}
 suppressPackageStartupMessages(library(GenomicRanges))
@@ -110,7 +109,7 @@ class: inverse, center, middle
 ---
 
 
-# Building a GenomicRanges.
+# Building a GenomicRanges
 
 To construct a GenomicRanges object we require a set of genomic intervals.
 
@@ -122,11 +121,9 @@ class(myIntervals)
 ```
 
 ---
-
-# Building a GenomicRanges.
+# Building a GenomicRanges
 
 The resulting IRanges object contains our intervals and an additional column describing widths of intervals.
-
 
 ```{r sttxxxsx}
 myIntervals
@@ -134,9 +131,9 @@ myIntervals
 
 ---
 
-# Building a GenomicRanges.
+# Building a GenomicRanges
 
-Now to create a Genomic Ranges interval object , **GRanges** object,we extend this to include chrosomosome/contig information. 
+Now to create a Genomic Ranges interval object or **GRanges** object. We extend our IRanges object to also include chrosomosome/contig information. 
 
 To do this we can supply our new IRanges object and a vector of corresponding chromosome locations to the **seqnames** parameter in **GRanges()** function.
 
@@ -148,10 +145,9 @@ class(myGenomicIntervals)
 ```
 
 ---
+# Building a GenomicRanges
 
-# Building a GenomicRanges.
-
-The created **GRanges** object contains our original intervals from the IRanges object and now the chromosomes/contigs on which there intervals exist.
+The created **GRanges** object contains our original intervals from the IRanges object and now the chromosomes/contigs on which the intervals exist.
 
 
 ```{r stxxtsdx}
@@ -159,9 +155,9 @@ myGenomicIntervals
 ```
 
 ---
-# Indexing and subsetting a GenomicRanges.
+# Indexing a GenomicRanges
 
-We can retrieve genomic intervals from our GRanges using indexing as with [vectors, matrices and dataframes.](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/21)
+We can retrieve genomic intervals from our GRanges using indexing as with [vectors, matrices and dataframes.](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/singlepage/introToR_Session1.html#vectors_-_indexing)
 
 ```{r sttsxxx}
 myGenomicIntervals[c(2,3),]
@@ -169,7 +165,7 @@ myGenomicIntervals[c(2,3),]
 
 ---
 
-# Indexing and subsetting a GenomicRanges.
+# Indexing a GenomicRanges
 
 Unlike data frames and matrices, we dont need the second **","** to specify rows not columns.
 
@@ -178,7 +174,7 @@ myGenomicIntervals[c(2,3)]
 ```
 
 ---
-# Accessing columns in  GenomicRanges.
+# Accessing columns in GenomicRanges
 
 To access the columns of a GRanges object we must use special accessor functions - **seqnames()**,**start()**, **end()** which correspond to the columns we wish to retrieve.
 
@@ -193,8 +189,7 @@ end(myGenomicIntervals)
 ```
 
 ---
-
-# Replacing in columns of  GenomicRanges.
+# Replacing values in GenomicRanges
 
 We can use the **start()** and **end()** functions to update our start and end positions as well.
 
@@ -207,37 +202,38 @@ start(myGenomicIntervals)
 ```
 
 ---
-
-# Replacing in columns of  GenomicRanges.
+# Replacing values in GenomicRanges
 
 We can not however create intervals with negative widths. Our start positions cannot be greater than our end positions.
 
 ```{r stddxxtsxssssddss,error=TRUE}
 start(myGenomicIntervals) <- c(10,50,150)
 ```
----
-# retrieving chromosome/contig names from a GenomicRanges.
 
-We can retrieve the chromosome names in a similar manner to **start()** and **end()** functions using the **seqnames()** function.
+---
+# Retrieving chromosome/contig information
+
+We can retrieve the chromosome names from GenomicRanges in a similar manner to **start()** and **end()** functions using the **seqnames()** function.
 
 ```{r stddxxtsxdddsssddss,error=TRUE}
 contigNames <- seqnames(myGenomicIntervals)
 contigNames
 ```
+
 ---
-# retrieving chromosome/contig names from a GenomicRanges.
+# Retrieving chromosome/contig info
 
 The contig names are stored in another special object called a RLE (run length encoded).
-This RLE object saves memory and allows for more efficient manipulation of long stretchs of repeated names.
+This RLE object saves memory and allows for more efficient manipulation of long stretches of repeated names.
 
 We can convert to a character vector using the **as.character()** function
 
 ```{r stddaaxxtsxssddss,error=TRUE}
 as.character(contigNames)
 ```
----
 
-# Replacing chromosome/contig names from a GenomicRanges.
+---
+# Replacing chromosome/contig info
 
 As with the **start()** and **end()** functions we can update our contig names using the **seqnames()** function.
 
@@ -246,17 +242,18 @@ As with the **start()** and **end()** functions we can update our contig names u
 seqnames(myGenomicIntervals) <- c("chr2","chr2","chr1")
 seqnames(myGenomicIntervals)
 ```
----
-# Replacing chromosome/contig names from a GenomicRanges.
 
-As with [all factors however](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/57), we can not add contigs not already in use in seqnames column.
+---
+# Replacing chromosome/contig info
+
+As with [all factors however](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/singlepage/introToR_Session1.html#factors_-_creating_factors), we can not add contigs not already in use in seqnames column.
 
 
 ```{r stddxxaadtsxassddddss,error=TRUE}
 seqnames(myGenomicIntervals) <- c("chr3","chr2","chr1")
 ```
 ---
-# Replacing chromosome/contig names from a GenomicRanges.
+# Replacing chromosome/contig info
 
 To add new contig we must update the seqlevels, like levels for factors but now for contigs in GRanges objects.
 
@@ -264,28 +261,31 @@ The **seqlevels()** identifies which contigs we are using.
 ```{r stddxxddstsxsddsddss,error=TRUE}
 seqlevels(myGenomicIntervals)
 ```
+
 ---
-# Replacing chromosome/contig names from a GenomicRanges.
+# Replacing chromosome/contig info
 
 We can update the seqlevels in use by again using the **seqlevels()** function.
 ```{r stddxxssdtsxsddsddss,error=TRUE}
 seqlevels(myGenomicIntervals) <- c("chr1","chr2","chr3")
 seqlevels(myGenomicIntervals)
 ```
+
 ---
-# Replacing chromosome/contig names from a GenomicRanges.
+# Replacing chromosome/contig info
 
 Now we can add contig for chromosome 3 (**chr3**).
 ```{r stddxxddwwstsxsddsddss,error=TRUE}
 seqnames(myGenomicIntervals) <- c("chr1","chr2","chr3")
 myGenomicIntervals
 ```
+
 ---
-# Strand information in a GenomicRanges.
+# Strand information in a GenomicRanges
 
 We can include strand information in GRanges objects.
 
-We can set strand to be "+" , "-" , or unstranded with "*"
+We can set strand to be "+" , "-" , or unstranded with "*".
 ```{r aaeroe,error=TRUE}
 
 myGenomicIntervals <- GRanges(seqnames=c("chr1","chr1","chr2"), 
@@ -293,8 +293,9 @@ myGenomicIntervals <- GRanges(seqnames=c("chr1","chr1","chr2"),
                               strand=c("+","-","*"))
 myGenomicIntervals
 ```
+
 ---
-# Strand information in a GenomicRanges.
+# Strand information in a GenomicRanges
 
 Similarly we can extract and set strand information using the **strand()** function.
 ```{r atra,error=TRUE}
@@ -302,10 +303,11 @@ Similarly we can extract and set strand information using the **strand()** funct
 strand(myGenomicIntervals) <- c("+","+","-")
 strand(myGenomicIntervals)
 ```
----
-# Strand information in a GenomicRanges.
 
-Although an factor RLE, strand always contains the levels "+", "-", "*" and only these levels.
+---
+# Strand information in a GenomicRanges
+
+The strand information is also stored as a factor RLE. This contains the levels "+", "-", "*" and only these levels.
 
 ```{r aera,error=TRUE}
 
@@ -314,9 +316,9 @@ myGenomicIntervals <- GRanges(seqnames=c("chr1","chr1","chr2"),
                               strand=c("+","+","+"))
 strand(myGenomicIntervals)
 ```
----
 
-# Names in a GenomicRanges.
+---
+# Names in a GenomicRanges
 
 Finally we can set and extract names for our genomic intervals using the **names()** function.
 
@@ -324,21 +326,22 @@ Finally we can set and extract names for our genomic intervals using the **names
 names(myGenomicIntervals) <- c("peak1","peak2","peak3")
 myGenomicIntervals
 ```
----
 
-# Names in a GenomicRanges.
+---
+# Names in a GenomicRanges
 
 As with vectors we can use to names to index and retrieve genomic intervals of interest.
 
 ```{r afffa,error=TRUE}
 myGenomicIntervals["peak2"]
 ```
+
 ---
+# Additional genomic interval information
 
-# Additional genomic interval information.
+We will often want to store more information on our genomic intervals. We can use the **mcols** (metadata columns) to store this information.  
 
-We will often want to store more information on our genomic intervals. We can use the **mcols** (metadata columns) to store this information
-To add additional metadata columns we can simply supply the desired column name and the values we want to the **GRanges()** function as with data.frames.
+To add additional metadata columns we can simply supply the desired column name and the values we want to the **GRanges()** function as with data frames.
 
 ```{r asa,error=TRUE}
 myIntervals <- IRanges(start=c(1,2,2),end=c(2,11,30))
@@ -350,7 +353,7 @@ myGenomicIntervals <- GRanges(seqnames=c("chr1","chr1","chr2"),
 ```
 
 ---
-# Additional genomic interval information.
+# Additional genomic interval information
 
 We can retrieve this metadata column information as with data frames by using the **$** accessor
 
@@ -360,7 +363,7 @@ myGenomicIntervals$Comment
 ```
 
 ---
-# Additional genomic interval information.
+# Additional genomic interval information
 
 We to retrieve all metadata columns as a data frames we can use the **mcols()** function
 
@@ -370,7 +373,7 @@ mcols(myGenomicIntervals)
 
 
 ---
-# Convert to data frame.
+# Convert to data frame
 
 We can convert the entire GRanges to a data.frame using the **as.data.frame()** function.
 
@@ -379,41 +382,41 @@ as.data.frame(myGenomicIntervals)
 ```
 
 ---
-## GRanges from IDs.
+## GRanges from IDs
 
-The GenomicRanges package also as a quick short cut to create GRanges from character strings. 
+The GenomicRanges package also has a quick short cut to create GRanges from character strings. 
 
-We simply specify a genomic range as we saw presented in IGV - **Chromosome:Start-End** _**(chr1:110-120)**_.
+We simply specify a genomic range in a similar format to that used by IGV - **Chromosome:Start-End** _**(chr1:110-120)**_.
 
 ```{r aaszzzzzaaadsdaa,error=TRUE}
 GRanges("chr1:110-120")
 ```
 
 ---
-## GRanges from IDs.
+## GRanges from IDs
 
-Often genomics programs will export results in table with a similar format for the GenomicIntervals. The BRC pipeline outputs in a format of **Chromosome:Start:End** _**(chr1:110:120)**_ to allow separation into columns in programs such as excel. 
+Often genomics programs will export results in table with a similar format for the GenomicIntervals. The BRC pipeline outputs in a format of **Chromosome:Start:End** _**(chr1:110:120)**_ to allow separation into columns in programs such as excel.
 
-We will need to replace last **":"** with a **"-"** so we can use the **stringi** package's **stri_replace_last_fixed** function. 
+To convert the formats we can use some string manipulation tools. In the BRC example we will need to replace last **":"** with a **"-"**. We can use the **stringi** package's **stri_replace_last_fixed** function. 
 
 ```{r aaszzzzzaxaaaaaca,error=TRUE}
 library(stringi)
 myRange <- "chr1:110:120"
 newRange <- stri_replace_last_fixed(myRange, ':', '-')
 newRange
-GRanges(newRange)
 ```
 
 ---
-## GRanges from IDs.
+## GRanges from IDs
 
-Sometimes the format is  **IDforRange:Chromosome:Start:End**. We can clean this up in additional step using another **stringi** function.
+Another common format is **IDforRange:Chromosome:Start:End**. We can clean this up in additional step using another **stringi** function.
 
 ```{r aaszzzzzaaassaca,error=TRUE}
 library(stringi)
 myRange <- "MyID:chr1:110:120"
 newRange <- stri_replace_last_fixed(myRange, ':', '-')
 newerRange <- stri_replace_first_regex(newRange, '\\w*:', '')
+newerRange
 GRanges(newerRange)
 ```
 
@@ -425,10 +428,11 @@ One of the big advantage of using GRanges objects to handle genomic data is the 
 The include functions to resize, merge/reduce and shift genomic ranges.
 
 ![](imgs/Unknown2.jpg)
----
-# Adjusting genomic ranges positions.
 
-To adjust the postion of a GRanges object we can manually adjust start and end positions but GenomicRanges provides some more user friendly methods.
+---
+# Adjusting genomic ranges positions
+
+To adjust the postion of a GRanges object we can manually adjust start and end positions, but GenomicRanges provides some more user friendly methods.
 
 The **shift** function allows us to move by a specified number of basepairs.
 
@@ -438,32 +442,31 @@ shift(myGenomicIntervals[1],shift = 10)
 ```
 
 ---
-# Adjusting genomic ranges positions.
+# Adjusting genomic ranges positions
 
 The **resize()** function allows to adjust the width of regions.
 
 ```{r aaasatcsa,error=TRUE}
 myGenomicIntervals[3]
-resize(myGenomicIntervals[3],width=20)
+resize(myGenomicIntervals[3], width=20)
 ```
 
 ---
-# Adjusting genomic ranges positions.
+# Adjusting genomic ranges positions
 
-By default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behaviour by specifying the **fix** parameter as **start**, **end** or **centre** to specify where we wish to resize from.
+By default the **resize()** function adjust the width of regions from the **start** of the region. We can control this behavior by specifying the **fix** parameter as **start**, **end** or **center** to specify where we wish to resize from.
 
 ```{r aaasdasalpi,error=TRUE}
 myGenomicIntervals[3]
-resize(myGenomicIntervals[3],width=20, fix="end")
+resize(myGenomicIntervals[3], width=20, fix="end")
 ```
 
 ---
-
-# Adjusting genomic ranges positions.
+# Adjusting genomic ranges positions
 
 The **resize()** function by default takes into account strand information. 
 
-For negative strand intervals, when specifying **fix=start** it considers the start as the end position. i.e. Useful for Gene positions.
+For negative strand intervals, when specifying **fix=start** it considers the start as the end position i.e. Useful for Gene positions.
 
 
 ```{r aaasakjsfvrfa,error=TRUE}
@@ -473,7 +476,7 @@ resize(myGenomicIntervals[3],width=20, fix="start")
 ```
 
 ---
-# Adjusting genomic ranges positions.
+# Adjusting genomic ranges positions
 
 A final function for adjusting genomic ranges which we will review is the **reduce()** function. 
 
@@ -488,17 +491,19 @@ myGenomicIntervals <- GRanges(seqnames=c("chr1","chr1","chr2"),
                               strand=c("+","+","+"))
 myGenomicIntervals
 ```
----
-# Adjusting genomic ranges positions.
 
-Now we can merge them with **reduce()** function taking into account chromosomes
+---
+# Adjusting genomic ranges positions
+
+Now we can merge them with **reduce()** function taking into account chromosomes.
 
 ```{r ajfddslka,error=TRUE}
 mergedGenomicIntervals <- reduce(myGenomicIntervals)
 mergedGenomicIntervals
 ```
+
 ---
-# Adjusting genomic ranges positions.
+# Adjusting genomic ranges positions
 
 The **reduce()** function also takes into account the strand information and only merges genomic intervals on same strand.
 
@@ -507,8 +512,9 @@ strand(myGenomicIntervals) <- c("+","-","+")
 mergedGenomicIntervals <- reduce(myGenomicIntervals)
 mergedGenomicIntervals
 ```
+
 ---
-# Adjusting genomic ranges positions.
+# Adjusting genomic ranges positions
 
 We can merge intervals across strands by setting **ignore.strand=TRUE**. Note that all regions are now considered strandless.
 
@@ -520,7 +526,6 @@ mergedGenomicIntervals
 ```
 
 ---
-
 # Overlapping genomic intervals
 
 Some particularly useful methods/operators in GenomicRanges allows us to assess the relationship between two sets of GRanges objects.
@@ -534,6 +539,7 @@ myGenomicIntervals1 <- GRanges(seqnames=c("chr1","chr1"),
                               ranges=IRanges(start=c(1,25),
                                              end=c(20,30)),
                               strand=c("+","+"))
+
 myGenomicIntervals2 <- GRanges(seqnames=c("chr1","chr1"),
                               ranges=IRanges(start=c(22,100),
                                              end=c(27,130)),
@@ -541,13 +547,13 @@ myGenomicIntervals2 <- GRanges(seqnames=c("chr1","chr1"),
 ```
 
 ---
-
 # Overlapping genomic intervals
 
 ```{r ajfddfuhjlsa,error=TRUE}
 myGenomicIntervals1
 myGenomicIntervals2
 ```
+
 ---
 # Overlapping genomic intervals
 Now to find all regions in **myGenomicIntervals1** which overlap with intervals in **myGenomicIntervals2** we simply use the **%over%** operator.
@@ -557,14 +563,16 @@ This will return a logical vector specifying if regions in **myGenomicIntervals1
 ```{r ajfddfuhjcfvlsa,error=TRUE}
 myGenomicIntervals1 %over% myGenomicIntervals2
 ```
+
 ---
 # Overlapping genomic intervals
 
-We can use this logical vector then to subset our **myGenomicIntervals1** set [as we have with vectors](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/31) .
+We can use this logical vector then to subset our **myGenomicIntervals1** set [as we have with vectors](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#factors_-_creating_factors).
 
 ```{r ajfdcfdfuhjlsa,error=TRUE}
 myGenomicIntervals1[myGenomicIntervals1 %over% myGenomicIntervals2]
 ```
+
 ---
 # Overlapping genomic intervals
 
@@ -572,15 +580,16 @@ Another useful function to find overlaps is the **findOverlaps()** function.
 
 This returns a new object **Hits** object.
 
-
 ```{r dccdc,error=TRUE}
 myOverlaps <- findOverlaps(myGenomicIntervals1,myGenomicIntervals2)
 class(myOverlaps)
+myOverlaps 
 ```
+
 ---
 # Overlapping genomic intervals
 
-To extract the indicies of genomic intervals in **myGenomicIntervals1** overlapping **myGenomicIntervals2** we can use the **queryHits()** function. 
+To extract the indices of genomic intervals in **myGenomicIntervals1** overlapping **myGenomicIntervals2** we can use the **queryHits()** function. 
 
 To get the corresponding indicies of overlapping **myGenomicIntervals2** regions we can use the **subjectHits()** function.
 
@@ -589,10 +598,11 @@ To get the corresponding indicies of overlapping **myGenomicIntervals2** regions
 queryHits(myOverlaps)
 subjectHits(myOverlaps)
 ```
+
 ---
 # Overlapping genomic intervals
 
-We can use these indicies to retrieve the overlapping intervals.
+We can use these indices to retrieve the overlapping intervals.
 
 ```{r rekkpkvre,error=TRUE}
 myGenomicIntervals1[queryHits(myOverlaps)]
@@ -600,7 +610,7 @@ myGenomicIntervals2[subjectHits(myOverlaps)]
 ```
 
 ---
-# Finding closest regions.
+# Finding closest regions
 
 Another common set of operations we often want to perform between our Genomic Intervals is to find regions which are nearest to, precede or follow each other.
 
@@ -611,6 +621,7 @@ myGenomicIntervals1 <- GRanges(seqnames=c("chr1","chr1"),
                               ranges=IRanges(start=c(10,20),
                                              end=c(25,30)),
                               strand=c("+","+"))
+
 myGenomicIntervals2 <- GRanges(seqnames=c("chr1","chr1"),
                               ranges=IRanges(start=c(1,10000),
                                              end=c(2,10002)),
@@ -619,7 +630,7 @@ myGenomicIntervals2 <- GRanges(seqnames=c("chr1","chr1"),
 ```
 
 ---
-## Finding closest regions.
+## Finding closest regions
 
 ```{r ajfddfussscfdxcscsjlsa,error=TRUE}
 myGenomicIntervals1
@@ -639,7 +650,7 @@ indexOfNearest
 ---
 # Nearest genomics intervals
 
-I can use this vector of index positions to then extract intervals in second GenomicRanges nearest to those in first GenomicRanges
+I can use this vector of index positions to then extract intervals in second GenomicRanges nearest to those in first GenomicRanges.
 
 ```{r ajfddfussscrssfdjlsa,error=TRUE}
 myGenomicIntervals2[indexOfNearest]
@@ -647,9 +658,9 @@ myGenomicIntervals2[indexOfNearest]
 ```
 
 ---
-# Preceding and following genomics intervals
+# Preceding/following intervals
 
-We can use the **precede()** and **follow()** functions in much the same way to the **nearest()** function. This returns the index of elements in second GenomicRanges argument that are preceeded or followed by elements in first GenomicRanges argument
+We can use the **precede()** and **follow()** functions in much the same way to the **nearest()** function. This returns the index of elements in second GenomicRanges argument that are preceeded or followed by elements in first GenomicRanges argument.
 
 ```{r ajfddfussscrfdjlecdsa,error=TRUE}
 precedeIndex <- precede(myGenomicIntervals1,myGenomicIntervals2)
@@ -658,7 +669,7 @@ myGenomicIntervals2[precedeIndex]
 ```
 
 ---
-# Distance To Nearest genomics intervals
+# Distance to nearest genomics intervals
 
 Another useful function is **distanceToNearest()** which again accepts arguments like **nearest()** or **findOverlaps()** functions and provides an object containing indexes of nearest intervals including a column of distances between nearest intervals.
 
@@ -669,7 +680,7 @@ mcols(distances)
 ```
 
 ---
-# Importing and exporting to bed.
+# Importing and exporting to bed
 
 As we have seen, Genomic Intervals are often stores as BED files. 
 
@@ -680,8 +691,9 @@ library(rtracklayer)
 mySicerPeaks <- import.bed(con="Data/SicerPeaks.bed")
 mySicerPeaks
 ```
+
 ---
-# Importing and exporting to bed.
+# Importing and exporting to bed
 
 Exporting to BED is achieved by using the **export.bed()** function.
 
@@ -692,7 +704,7 @@ export.bed(mySicerPeaks, con="moreSicerPeaks.bed")
 ```
 
 ---
-# Using GRanges to extract sequences.
+# Using GRanges to extract sequences
 
 We saw how we can extract sequences from a BSgenome object previously using **subseq()** function.
 
@@ -706,7 +718,7 @@ library(BSgenome.Mmusculus.UCSC.mm10)
 subseq(BSgenome.Mmusculus.UCSC.mm10$chr10,1,100)
 ```
 ---
-# Using GRanges to extract sequences.
+# Using GRanges to extract sequences
 
 With GRanges objects we can specify the BSgenome for the sequence and GRanges as regions to be extracted.
 
@@ -715,13 +727,15 @@ Here we can use the **getSeq()** function to extract sequences under our Sicer P
 
 ```{r revkvfydedkjkre,error=TRUE}
 
-sicerSeq <- getSeq(BSgenome.Mmusculus.UCSC.mm10,names=mySicerPeaks)
+sicerSeq <- getSeq(BSgenome.Mmusculus.UCSC.mm10, names=mySicerPeaks)
 sicerSeq
 ```
----
-# Using GRanges to extract sequences.
 
-The resulting **DNAStringSet** may be written to a FASTA file for further analysis in external programs
+---
+# Using GRanges to extract sequences
+
+The resulting **DNAStringSet** may be written to a FASTA file for further analysis in external programs.
+
 ```{r revkdedkjkkkre,error=TRUE}
 writeXStringSet(sicerSeq,"sicerSeq.fa")
 ```
