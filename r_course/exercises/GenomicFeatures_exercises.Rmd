@@ -1,19 +1,25 @@
 ---
-title: "Genomic Features Exercises"
-author: "Tom Carroll"
-output: html_document
+title: "Genomic Features"
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F,eval=T)
 ```
 
+<p>&nbsp;</p>
+These exercises cover the Genomic Features sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
+
 
 ## Working with Gene Models and annotation
 
 In these exercises will gain some experience working with the Gene models and annnotation using the TxDb, OrgDb and GenomicFeatures packages.
-
-
 
 1. Load the library TxDb.Mmusculus.UCSC.mm10.knownGene
 
@@ -76,7 +82,7 @@ ggplot(atcgFreqDF,aes(y=Frequency,x=Bases,fill=Bases))+geom_bar(stat = "identity
 6. Read in the expression table **GM12878_minus_HeLa.csv** from Data directory containing human/hg19 expression data.
 
 ```{r installBSsss23,eval=TRUE}
-myDETable <- read.delim("../Data/GM12878_minus_HeLa.csv",sep=",",stringsAsFactors = FALSE)
+myDETable <- read.delim("data/GM12878_minus_HeLa.csv",sep=",",stringsAsFactors = FALSE)
 ```
 
 7. In the **GM12878_minus_HeLa.csv** file, Column 1 contains Entrez IDs and column 2 contains symbols. Add a column of gene names to the table. 

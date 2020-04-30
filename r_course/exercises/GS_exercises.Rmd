@@ -5,7 +5,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T,eval=T)
+knitr::opts_chunk$set(echo = F,eval=T)
 ```
 
 
@@ -67,12 +67,12 @@ export.bw(newBigWigRegion,"log2.bw")
 
 ![](log2.png)
 
-6. Read in the file **Data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls** and create a GRanges object of all peaks on chromosome 1.
+6. Read in the file **data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls** and create a GRanges object of all peaks on chromosome 1.
 
 ```{r e6}
 library(rtracklayer)
 library(GenomicRanges)
-MYCpeaks <- read.delim("../Data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls",sep="\t",comment.char = "#")
+MYCpeaks <- read.delim("data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls",sep="\t",comment.char = "#")
 MYCgranges <- GRanges(MYCpeaks$chr,IRanges(MYCpeaks$start,MYCpeaks$end),
                        FE=MYCpeaks$fold_enrichment,
                        minuslog10Pval=MYCpeaks$X.log10.pvalue.)
@@ -95,7 +95,7 @@ bigWigPeaks <- import.bw("~/Downloads/ENCFF940MBK.bigWig",
 
 
 ```{r instasssllBsssS2}
-IGVGenePositions <- read.delim("../Data/mm10_GenePosForIGV.txt",sep="\t")
+IGVGenePositions <- read.delim("data/mm10_GenePosForIGV.txt",sep="\t")
 
 genePos <- GRanges(IGVGenePositions$seqnames,
                    IRanges(IGVGenePositions$start,IGVGenePositions$end),

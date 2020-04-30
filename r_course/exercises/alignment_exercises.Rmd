@@ -1,12 +1,20 @@
 ---
-title: "Alignment in Bioconductor exercises"
-author: "Tom Carroll"
-output: html_document
+title: "Alignment"
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F,eval=T)
 ```
+
+<p>&nbsp;</p>
+These exercises cover the Alignment sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
 
 
 ## Alignment
@@ -21,8 +29,8 @@ We have already reviewed this data when looking at IGV in an earlier session.
 
 The example data can be found in the data directory 
 
-**Data/liver.bodyMap.fq**
-**Data/heart.bodyMap.fq**
+**data/liver.bodyMap.fq**
+**data/heart.bodyMap.fq**
 
 
 1. Identify the number of reads in heart.bodyMap.fq and  liver.bodyMap.fq files.
@@ -39,8 +47,8 @@ library(Rsubread)
 library(ShortRead)
 library(ggplot2)
 library(Rsamtools)
-heartQ <- readFastq("../Data/heart.bodyMap.fq")
-liverQ <- readFastq("../Data/liver.bodyMap.fq")
+heartQ <- readFastq("data/heart.bodyMap.fq")
+liverQ <- readFastq("data/liver.bodyMap.fq")
 # length(heartQ)
 # length(liverQ)
 ```
@@ -85,15 +93,15 @@ buildindex("chr12","chr12.fa")
 
 ```{r instalssxlBSded,eval=FALSE}
 
-FileName <- c("../Data/heart.bodyMap.fq","../Data/liver.bodyMap.fq")
-OutputName <- c("../Data/heart.bodyMap.bam","../Data/liver.bodyMap.bam")
+FileName <- c("data/heart.bodyMap.fq","data/liver.bodyMap.fq")
+OutputName <- c("data/heart.bodyMap.bam","data/liver.bodyMap.bam")
 
 subjunc("chr12",FileName,
         output_format = "BAM",
         output_file = OutputName)
 
-sortBam("../Data/heart.bodyMap.bam","Heart")
-sortBam("../Data/liver.bodyMap.bam","Liver")
+sortBam("data/heart.bodyMap.bam","Heart")
+sortBam("data/liver.bodyMap.bam","Liver")
 
 indexBam("Heart.bam")
 indexBam("Liver.bam")
