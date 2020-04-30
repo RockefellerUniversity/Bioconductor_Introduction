@@ -1,17 +1,25 @@
 ---
-title: "Alignment in Bioconductor exercises"
-author: "Tom Carroll"
-output: html_document
+title: "Alignment"
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F,eval=T)
 ```
 
+<p>&nbsp;</p>
+These exercises cover the Alignment sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
+
 
 ## Alignment
 
-In these exercises we will review some of the **QuasR** packages functionality in alignment.
+In these exercises we will review some of the **Rsubread** packages functionality in alignment.
 
 For these exercises we will be using some of the example data available from the BodyMap consortium. 
 
@@ -21,26 +29,26 @@ We have already reviewed this data when looking at IGV in an earlier session.
 
 The example data can be found in the data directory 
 
-**Data/liver.bodyMap.fq**
-**Data/heart.bodyMap.fq**
+**data/liver.bodyMap.fq**
+**data/heart.bodyMap.fq**
 
 
 1. Identify the number of reads in heart.bodyMap.fq and  liver.bodyMap.fq files.
 
 ```{r installdeBSded,include=FALSE}
-suppressPackageStartupMessages(library(QuasR))
+suppressPackageStartupMessages(library(Rsubread))
 suppressPackageStartupMessages(library(ShortRead))
 suppressPackageStartupMessages(library(Rsamtools))
 suppressPackageStartupMessages(library(ggplot2))
 ```
 
 ```{r installBSded}
-library(QuasR)
+library(Rsubread)
 library(ShortRead)
 library(ggplot2)
 library(Rsamtools)
-heartQ <- readFastq("../Data/heart.bodyMap.fq")
-liverQ <- readFastq("../Data/liver.bodyMap.fq")
+heartQ <- readFastq("data/heart.bodyMap.fq")
+liverQ <- readFastq("data/liver.bodyMap.fq")
 # length(heartQ)
 # length(liverQ)
 ```
@@ -69,28 +77,32 @@ ggplot(toPlot,aes(x=Bases,y=Frequency,fill=Bases))+geom_bar(stat="identity")+the
 
 ```
 
-4. Create a FASTA file containing sequence for chromosome 12 from Human Hg38 genome build, with contig sequence named "chr12".
+4. Create a FASTA file containing sequence for chromosome 12 from Human Hg38 genome build, with contig sequence named "chr12". Build an index with this FASTA. 
 
 ```{r instalsaslBSded,eval=FALSE}
-library(QuasR)
+library(Rsubread)
 
 library(BSgenome.Hsapiens.UCSC.hg38)
 chr12hg38 <- BSgenome.Hsapiens.UCSC.hg38[["chr12"]]
 chr12hg38Set <- DNAStringSet(list(chr12=chr12hg38))
 writeXStringSet(chr12hg38Set,file="chr12.fa")
+buildindex("chr12","chr12.fa")
 ```
 
-5. Align the two samples to the chromosome 12 FASTA file using qAlign() function in QuasR in a splice aware mode. Sort and index the resulting alignments
+5. Align the two samples to the chromosome 12 FASTA file using Rsubread in a splice aware mode. Sort and index the resulting alignments
 
 ```{r instalssxlBSded,eval=FALSE}
 
-FileName <- c("../Data/heart.bodyMap.fq","../Data/liver.bodyMap.fq")
-SampleName <- c("Heart","Liver")
-toSampleTable <- data.frame(FileName,SampleName)
-write.table(toSampleTable,file="SampleTable.txt",sep="\t",row.names = FALSE,quote = FALSE)
-fastqFile <- qAlign("SampleTable.txt","chr12.fa",splicedAlignment = TRUE)
-sortBam("../Data/heart.bodyMap_29a143839ad.bam","Heart")
-sortBam("../Data/liver.bodyMap_29a77529739.bam","Liver")
+FileName <- c("data/heart.bodyMap.fq","data/liver.bodyMap.fq")
+OutputName <- c("data/heart.bodyMap.bam","data/liver.bodyMap.bam")
+
+subjunc("chr12",FileName,
+        output_format = "BAM",
+        output_file = OutputName)
+
+sortBam("data/heart.bodyMap.bam","Heart")
+sortBam("data/liver.bodyMap.bam","Liver")
+
 indexBam("Heart.bam")
 indexBam("Liver.bam")
 ```
@@ -103,5 +115,7 @@ quickBamFlagSummary("Liver.bam")
 ```
 
 7. Visualise the result in IGV
+
+[HINT: Check Gene SLC25A3]
 
 ![](spliceHeartLiver.png)

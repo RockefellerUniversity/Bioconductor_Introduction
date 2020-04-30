@@ -1,0 +1,141 @@
+---
+title: "Aligned Data"
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,eval=T)
+```
+
+<p>&nbsp;</p>
+These are answers for exercises that cover the Aligned Data sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
+
+## Aligned data
+
+In these exercises we will review how we can handle reads in BAM format using the **Rsamtools** and **GAlignments** package.
+
+For these exercises we will be using some of the example data available from the BodyMap consortium. 
+
+We have already reviewed this data when looking at IGV in an earlier session.
+
+![](IGV_SplicingExample.png)
+
+The example data can be found in the data directory 
+
+**data/Heart.bam**
+**data/Liver.bam**
+
+
+1. Coordinate sort and index the aligned reads in BAM files **data/Heart.bam** and **data/Liver.bam**.
+
+```{r installdeBSdsed,include=FALSE}
+suppressPackageStartupMessages(library(Rsamtools))
+suppressPackageStartupMessages(library(GenomicAlignments))
+```
+
+
+```{r installBSzded}
+library(Rsamtools)
+library(GenomicAlignments)
+sortedHeart <- sortBam("data/heart.bodyMap.bam","SortedHeart")
+sortedLiver <- sortBam("data/liver.bodyMap.bam","SortedLiver")
+indexBam(sortedHeart)
+indexBam(sortedLiver)
+```
+
+2. Plot the number of mapped reads on every chromsome in the Heart and Liver BAM files using ggplot2
+
+```{r installdaesBSded}
+library(ggplot2)
+idxHeart <- idxstatsBam(sortedHeart)
+idxLiver <- idxstatsBam(sortedLiver)
+idxHeartDF <- data.frame(Sample="Heart",idxHeart)
+idxLiverDF <- data.frame(Sample="Liver",idxLiver)
+toPlot <- rbind(idxHeartDF,idxLiverDF)
+ggplot(toPlot,aes(x=seqnames,y=mapped,fill=seqnames))+
+  geom_bar(stat="identity")+
+  facet_wrap(~Sample)+
+  coord_flip()+
+  theme_bw()+xlab("Chromosome")
+```
+
+3. Using the qwidth() and the width() functions, plot the length of reads vs the length of their alignment for the Heart bam file using ggplot2. Facet the plot by the number of junctions a read spans.
+
+
+```{r instsallssBSded}
+myReads <- readGAlignments("data/heart.bodyMap.bam")
+toPlot <- data.frame(readLength=qwidth(myReads),alignmentLength=width(myReads),junctions=factor(njunc(myReads)))
+ggplot(toPlot,aes(x=readLength,y=alignmentLength))+
+  geom_point()+facet_grid(~junctions)+
+  theme_minimal()+xlab("Read Length")+ylab("Alignment Length")
+```
+
+4. Export any aligned reads spanning more than 40000 bp on the genome to a BAM file and review in IGV.
+
+
+```{r installxssBSded}
+library(rtracklayer)
+export(myReads[width(myReads) > 40000],"longAlignments.bam")
+
+```
+
+![](longSplice.png)
+
+5. Import the read IDs, sequence and qualities from the Heart BAM file
+
+```{r instalasaslBSded}
+myParam <- ScanBamParam(what=c("qname","seq","qual"))
+infoInReads <- readGAlignments("SortedHeart.bam",param = myParam)
+```
+
+6. Find the number of unique read IDs and compare to total reads in file.
+
+```{r instalsavbslBSded}
+readnames <- mcols(infoInReads)$qname
+uniqueIDs <- length(unique(readnames))
+totalReads <- length(infoInReads)
+```
+
+
+7. Plot the A,G,C,T,N content of 75bp reads in file. 
+
+
+```{r insStalsaslBSded}
+uniqueReads <- infoInReads[!duplicated(readnames) & qwidth(infoInReads) == 75]
+seqOfReads <- mcols(uniqueReads)$seq
+alpFreq <- alphabetFrequency(seqOfReads)
+sumedAlpFreq <- colSums(alpFreq)
+mainBases <- sumedAlpFreq[c("A","C","G","T","N")]
+toPlot <- data.frame(Base=names(mainBases),Freq=mainBases)
+ggplot(toPlot,aes(x=Base,y=Freq,fill=Base))+geom_bar(stat="identity")+theme_bw()
+```
+
+8. Using a loop and ScanBamParam, count the number number reads in Heart file overlapping exons for the SLC25A3 gene. Remember we can use TxDb objects to extract GRanges of exon positions for genes.
+
+```{r instalsasSAlBSded}
+library(org.Hs.eg.db)
+myIds <- AnnotationDbi::select(org.Hs.eg.db, keys = "SLC25A3", keytype = "SYMBOL", 
+            columns = c("SYMBOL", "GENENAME","ENTREZID"))
+entrezIDforSLC25A3 <- myIds[,"ENTREZID"]
+library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+allExons <- exonsBy(TxDb.Hsapiens.UCSC.hg19.knownGene,by="gene")
+exonsforSLC25A3 <- allExons[[entrezIDforSLC25A3]]
+
+seqlevels(exonsforSLC25A3) <- "chr12"
+  
+for(i in 1:length(exonsforSLC25A3)){
+  myRegionOfInterest <- exonsforSLC25A3[i]
+  myParam <- ScanBamParam(which = myRegionOfInterest)
+  ReadsInExons <- readGAlignments("SortedHeart.bam",param = myParam)
+  print(length(ReadsInExons))
+  
+}
+
+```
+

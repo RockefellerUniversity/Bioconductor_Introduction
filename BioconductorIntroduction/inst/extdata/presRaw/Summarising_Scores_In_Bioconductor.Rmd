@@ -16,8 +16,8 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
-
-
+params:
+  isSlides: "no"
 ---
 
 ```{r setup, include=FALSE}
@@ -29,10 +29,35 @@ AsSlides <- TRUE
 library(ShortRead)
 temp <- readFastq("~/Projects/Results/RNAseqPipeTest/FirstTest/FQs/ENCFF000CXH.fastq.gz")
 fastqSample <- temp[1:100000]
-writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/sampled_ENCFF000CXH.fastq.gz",mode = "w")
+writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introduction/r_course/data/sampled_ENCFF000CXH.fastq.gz",mode = "w")
 ```
 
-# Raw Sequence data.
+```{r,results='asis',include=TRUE,echo=FALSE}
+if(params$isSlides == "yes"){
+  cat("---
+class: inverse, center, middle
+
+# Summarizing Scores
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
+
+---
+"    
+  )
+}else{
+  cat("---
+
+# Summarizing Scores
+
+---
+"    
+  )
+  
+}
+```
+
+
+# Raw Sequence data
 
 Sequencing data from Illumina sequences machines are often stored in FASTQ format.
 
@@ -42,7 +67,7 @@ Sequencing data from Illumina sequences machines are often stored in FASTQ forma
 
 
 ---
-# Aligned sequence data.
+# Aligned sequence data
 
 Sequence reads aligned to a genome are most often stored in BAM format.
 
@@ -52,7 +77,7 @@ Sequence reads aligned to a genome are most often stored in BAM format.
 
 
 ---
-# Summarizing alignments in/over regions.
+# Summarizing Alignments
 
 A common analysis step in the interpretation of high-throughput sequencing experiments is to quantify the abundance of sequence in/over genomic regions.
 
@@ -61,45 +86,43 @@ A common analysis step in the interpretation of high-throughput sequencing exper
 </div>
 
 ---
-# Summarizing alignments in/over regions.
+# Summarizing for RNAseq
 
-* **In RNA-seq** experiments we assess the abundance of transcripts/genes under differing conditions by assessing the number of reads aligning with the transcript's/gene's exons.
+* **In RNAseq** experiments we assess the abundance of transcripts/genes under differing conditions by assessing the number of reads aligning with the transcript's/gene's exons.
 
 ![](imgs/RNAseq.png)
 ---
-# Summarizing alignments in/over regions.
+# Summarizing for ChIPseq
 
-* **In ChIP-seq** experiments we compare the number of DNA fragments mapping to a genomic locus after an IP for a specific protein or DNA/histone state versus the number of DNA fragments mapping from a background control/input sample.
+* **In ChIPseq** experiments we compare the number of DNA fragments mapping to a genomic locus after an IP for a specific protein or DNA/histone state versus the number of DNA fragments mapping from a background control/input sample.
 
 ![](imgs/chipseq.png)
 ---
-# Summarising alignments over the genome.
-We can provide a summarisation of aligned data per base pair using **wig, bedgraph and bigWig** files.
+# Summarizing Genomic Alignments
+We can provide a summarization of aligned data per base pair using **wig, bedgraph and bigWig** files.
 
 ![](imgs/scoreBP.png)
 
 
 ---
-# Summarising alignments in/over regions.
+# Summarizing alignments in/over regions
 
-We will often summarise our aligned data in BAM format over genomic regions of interest.
+We will often summarize our aligned data in BAM format over genomic regions of interest.
 
 ![](imgs/countss.png)
 
-# Summarising alignments in/over regions.
+# Summarizing alignments in/over regions
 
-The genomic regions may be - 
+The genomic regions may be:
 
 * Simple genomic regions such as peaks or TSS regions are often stored as **BED** files. In Bioconductor these are represented as **GRanges** objects.
 
 * More complex, multi-part regions such as gene models are often stored as **GTF** or **GFF** files. In Bioconductor, gene models are handled as **TxDb** objects.
 
-
-
 ---
-# Summarising alignments in Bioconductor.
+# Summarizing with Bioconductor
 
-We will use two main functions ,available on all systems, to allows us to summarise our aligned data over the genome and within regions.
+We will use two main functions to allows us to summarize our aligned data over the genome and within regions.
 
 These are the **coverage()** and **summarizeOverlaps()** functions from **GenomicsAlignments** package.
 
@@ -107,22 +130,20 @@ These are the **coverage()** and **summarizeOverlaps()** functions from **Genomi
 * **summarizeOverlaps()** - To create counts of signal/alignments within genomic regions.
 
 ---
-
-
 # The Data
 
 In this session we will work with aligned data as BAM files. 
 
 I have provided BAM files we saw in our last session as our test data from today.
 
-This can be found in **Data/liver.bodyMap.bam** and **Data/heart.bodyMap.bam**.
+This can be found in **data/liver.bodyMap.bam** and **data/heart.bodyMap.bam**.
 
-* **Data/liver.bodyMap.bam**
-* **Data/heart.bodyMap.bam**
+* **data/liver.bodyMap.bam**
+* **data/heart.bodyMap.bam**
 
 ---
 
-# GenomicAlignments packages.
+# GenomicAlignments packages
 
 To make use of a GenomicsAlignments package we must first load the library.
 
@@ -134,24 +155,22 @@ library(GenomicAlignments)
 suppressPackageStartupMessages(library(GenomicAlignments))
 ```
 
-
-
 ---
 # Coverage
 
-The **coverage()** function can accept a Bam file path and will return an [Rlelist](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicScores_In_Bioconductor.html#22) of the number of reads at every base pair.
+The **coverage()** function can accept a Bam file path and will return an [Rlelist](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#rle_in_genomics) of the number of reads at every base pair.
 
 We should always work with sorted and indexed BAM files so we will perform these steps first.
 
 
 ```{r a1}
-sortedHeart <- sortBam("../../Data/heart.bodyMap.bam","Heart")
+sortedHeart <- sortBam("data/heart.bodyMap.bam","Heart")
 indexBam(sortedHeart)
 
 ```
 
 ```{r a1232,include=FALSE}
-sortedHeart <- sortBam("../../Data/liver.bodyMap.bam","Liver")
+sortedHeart <- sortBam("data/liver.bodyMap.bam","Liver")
 indexBam(sortedHeart)
 
 ```
@@ -168,36 +187,33 @@ class(heartCoverage)
 ---
 # Coverage as RLElist
 
-As we have seen,  [Rlelist](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicScores_In_Bioconductor.html#22) objects contain compressed vectors carrying the scores, here number of alignments, for every base pair in the genome.
+As we have seen,  [Rlelist](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#rle_in_genomics) objects contain compressed vectors carrying the scores, here number of alignments, for every base pair in the genome.
 
 Here we see scores only on chromosome 12 around the gene we have been reviewing, SLC25A3.
 
-```{r a2,eval=FALSE}
+```{r a2}
 heartCoverage
-```
-
-```{r a22,echo=FALSE}
-heartCoverage[3:4]
 ```
 
 ---
 # Coverage as RLElist
 
-We have seen we can  [index, subset, manipulate and plot our RleList and Rle vector](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicScores_In_Bioconductor.html#24) in a similar manner to standard lists and vectors. 
+We have seen we can [index, subset, manipulate and plot our RleList and Rle vector](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#indexing_an_rle) in a similar manner to standard lists and vectors. 
 
 
 ```{r a3,fig.width=8,fig.height=2}
 chr12Cov <- heartCoverage[["chr12"]]
-signalDepth <- chr12Cov[98986183:98998558]
-signalDepthScaled <- data.frame(Position=98986183:98998558,
+signalDepth <- chr12Cov[98591400:98608400]
+signalDepthScaled <- data.frame(Position=98591400:98608400,
                                 Signal=signalDepth*1000)
 library(ggplot2)
 ggplot(signalDepthScaled,aes(x=Position,y=Signal))+
   geom_line()+theme_minimal()
+
 ```
 
 ---
-# Coverage function.
+# Coverage function
 
 The **coverage()** function will also accept 
 **GAlignments** objects.
@@ -209,8 +225,8 @@ heartCov1 <- coverage(heartAln)
 
 ```{r frfga3,fig.width=8,fig.height=2,echo=FALSE}
 chr12Cov <- heartCov1[["chr12"]]
-signalDepth <- chr12Cov[98986183:98998558]
-signalDepthScaled <- data.frame(Position=98986183:98998558,
+signalDepth <- chr12Cov[98591400:98608400]
+signalDepthScaled <- data.frame(Position=98591400:98608400,
                                 Signal=signalDepth*1000)
 library(ggplot2)
 ggplot(signalDepthScaled,aes(x=Position,y=Signal))+
@@ -218,7 +234,7 @@ ggplot(signalDepthScaled,aes(x=Position,y=Signal))+
 ```
 
 ---
-# Coverage function.
+# Coverage function
 
 As well as **GRanges** and **GRangesList** objects too.
 
@@ -233,8 +249,8 @@ heartCov3 <- coverage(heartGRL)
 
 ```{r frfa3,fig.width=8,fig.height=2,echo=FALSE}
 chr12Cov <- heartCov3[["chr12"]]
-signalDepth <- chr12Cov[98986183:98998558]
-signalDepthScaled <- data.frame(Position=98986183:98998558,
+signalDepth <- chr12Cov[98591400:98608400]
+signalDepthScaled <- data.frame(Position=98591400:98608400,
                                 Signal=signalDepth*1000)
 library(ggplot2)
 ggplot(signalDepthScaled,aes(x=Position,y=Signal))+
@@ -243,7 +259,7 @@ ggplot(signalDepthScaled,aes(x=Position,y=Signal))+
 
 
 ---
-# Coverage function.
+# Coverage function
 
 This means we can perform some operations on our sequence reads in R prior to creating our bigWig.
 
@@ -263,14 +279,12 @@ heartAlnPos["chr12"]
 ```
 
 
-
-
 ---
-# Coverage function.
+# Coverage function
 
 The coverage function allows for the specification of a additional parameter, **weight**.
 
-The **weight** parameter applies a scaling factor to the calculated scores and so can be useful to normalise your signal , e.g. to total mapped reads.
+The **weight** parameter applies a scaling factor to the calculated scores and so can be useful to normalize your signal e.g. to total mapped reads.
 
 ```{r a7,collapse=TRUE}
 heartCoverageX10 <- coverage("Heart.bam",
@@ -281,9 +295,9 @@ heartCoverage["chr12"]
 
 
 ---
-# Coverage function.
+# Coverage function
 
-In combination with **idxstatsBam()** function,  we could use this to normalise your signal to total mapped reads.
+In combination with **idxstatsBam()** function, we could use this to normalize your signal to total mapped reads.
 
 ```{r a8}
 allChromosomeStats <- idxstatsBam("Heart.bam")
@@ -291,8 +305,7 @@ allChromosomeStats
 ```
 
 ---
-# Coverage function.
-
+# Coverage function
 
 ```{r a8k}
 mapped <- sum(allChromosomeStats[,"mapped"])
@@ -302,9 +315,9 @@ heartCoverageNorm["chr12"]
 ```
 
 ---
-# Summarising from scores.
+# summarizing from scores
 
-We can use [RleLists to summarise scores over regions by subsetting with GRanges and using standard arithmetic operations.](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicScores_In_Bioconductor.html#36)
+We can use [RleLists to summarize scores over regions by subsetting with GRanges and using standard arithmetic operations.](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#rlelists_and_granges)
 
 Here we get the mean signal (read depth per base pair) over exons for slc25A3 gene, **Entrez ID 5250**.
 
@@ -313,15 +326,15 @@ suppressPackageStartupMessages(library(TxDb.Hsapiens.UCSC.hg19.knownGene))
 ```
 
 ```{r a9}
-library(TxDb.Hsapiens.UCSC.hg19.knownGene)
-exonsOfGenes <- exonsBy(TxDb.Hsapiens.UCSC.hg19.knownGene,
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+exonsOfGenes <- exonsBy(TxDb.Hsapiens.UCSC.hg38.knownGene,
                         by="gene")
 slc25A3 <- exonsOfGenes[["5250"]]
 slc25A3
 ```
 
 ---
-# Summarising from scores 
+# summarizing from scores 
 
 ```{r a9lk}
 heartCoverageNorm <- coverage("Heart.bam")
@@ -329,26 +342,49 @@ myMeanCovOverExons <- mean(heartCoverageNorm[slc25A3])
 myMeanCovOverExons
 ```
 
+```{r,results='asis',include=TRUE,echo=FALSE}
+if(params$isSlides == "yes"){
+  cat("---
+class: inverse, center, middle
+
+# Summarizing counts in regions from alignments
+
+<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
+
+---
+"    
+  )
+}else{
+  cat("---
+
+# Summarizing counts in regions from alignments
+
+---
+"    
+  )
+  
+}
+```
+
 ---
 # Counting reads in/over regions
 
-To count reads within regions and across gene models we can take advantage of specialist counting tools available within the **summariseOverlaps()** functions.
+To count reads within regions and across gene models we can take advantage of specialist counting tools available within the **summarizeOverlaps()** functions.
 
-This will allow us to importantly
+This is important as it will allow us to:
 
 * Handle reads overlapping multiple regions (features or metafeatures).
 * Assign reads to meta-features (genes instead of exons).
 
 ---
-# Reads over/across exons.
-
+# Reads over/across exons
 
 ![](imgs/exonsAndGenes.png)
 
 
 
 <!-- --- -->
-<!-- # SummariseOverlaps - Modes of counting -->
+<!-- # summarizeOverlaps - Modes of counting -->
 
 <!-- We can control counting behaviour by setting **mode**. Typically we will use the conservative mode **union**. -->
 
@@ -358,37 +394,37 @@ This will allow us to importantly
 
 
 ---
-# SummariseOverlaps - Summarisation to genes (not individual exons)
+# summarizeOverlaps - Genes not exons
 
-Often we will want to summarise to genes, not individual exons.
+Often we will want to summarize to genes, not individual exons.
 
 <div align="center">
 <img src="imgs/withinGenes.png" alt="igv" height="400" width="600">
 </div>
 
 ---
-# SummariseOverlaps - A read only assigned to one feature
+# summarizeOverlaps - A read only assigned to one feature
 
-When using **summariseOverlaps()** function, a read can only be assigned to one feature.
+When using **summarizeOverlaps()** function, a read can only be assigned to one feature.
 
 This is important to note when counting features such as overlapping exons.
 
-We will learn how to deal with counting across overlapping features in later sessions such as in RNA-seq.
+We will learn how to deal with counting across overlapping features in later sessions such as in RNAseq.
 
 
 ---
-# SummariseOverlaps
+# summarizeOverlaps
 
-The **summariseOverlaps()** function is well intergrated with many of the Bioconductor objects we have seen.
+The **summarizeOverlaps()** function is well intergrated with many of the Bioconductor objects we have seen.
 
 As with the **coverage()** function it can count reads from **Bam** files or **GRanges** objects.
 
-The **summariseOverlaps()** function can count over **GRanges (features e.g. exons)** and **GRangesLists (meta-features genes)**. 
+The **summarizeOverlaps()** function can count over **GRanges (features e.g. exons)** and **GRangesLists (meta-features genes)**. 
 
 
 
 ---
-# SummariseOverlaps for regions
+# summarizeOverlaps for regions
 
 To count non-overlapping regions, we can simply specify the path to our BAM file and a GRanges of regions to count over.
 
@@ -396,8 +432,7 @@ The returned object is a **RangedSummarizedExperiment** object.
 
 
 ```{r a11}
-
-geneBody <- genes(TxDb.Hsapiens.UCSC.hg19.knownGene)
+geneBody <- genes(TxDb.Hsapiens.UCSC.hg38.knownGene)
 TSS <- promoters(geneBody,500,500)
 myTSScounts <- summarizeOverlaps(TSS,"Heart.bam")
 class(myTSScounts)
@@ -442,9 +477,8 @@ Granges <- rowRanges(myTSScounts)
 Granges
 ```
 
-
 ---
-# SummariseOverlaps for gene models
+# summarizeOverlaps for gene models
 
 For gene models, we may want to assign reads to each gene and so count all reads overlapping any exons within a gene.
 
@@ -454,14 +488,14 @@ First we extract a GRangesList of exons for every gene.
 
 ```{r a131}
 
-geneExons <- exonsBy(TxDb.Hsapiens.UCSC.hg19.knownGene,by="gene")
+geneExons <- exonsBy(TxDb.Hsapiens.UCSC.hg38.knownGene,by="gene")
 geneExons["5250"]
 ```
 
 ---
-# SummariseOverlaps for gene models
+# summarizeOverlaps for gene models
 
-Now we can summarise counts for every gene by counting in their respective exons.
+Now we can summarize counts for every gene by counting in their respective exons.
 
 ```{r a14a}
 myGeneCounts <- summarizeOverlaps(geneExons,"Heart.bam")
@@ -469,10 +503,9 @@ myGeneCounts
 ```
 
 ---
-# SummariseOverlaps for gene models
+# summarizeOverlaps for gene models
 
 And now we have a count of signal in exons for every gene.
-
 
 ```{r a122a,echo=TRUE,eval=FALSE}
 countMatrix <- assay(myGeneCounts)
@@ -485,7 +518,7 @@ countMatrix["5250",,drop=FALSE]
 ```
 
 ---
-# SummariseOverlaps for gene models
+# summarizeOverlaps for gene models
 
 The **rowRanges()**  contains the original GRangesList of exons by genes.
 
@@ -495,7 +528,7 @@ grgList
 ```
 
 ---
-# SummarizeOverlaps for many files.
+# SummarizeOverlaps for many files
 
 The **summarizeOverlaps()** function can count across multiple BAM files.
 
@@ -507,7 +540,7 @@ allGeneCounts <- summarizeOverlaps(geneExons,
 ```
 
 ---
-# SummarizeOverlaps for many files.
+# SummarizeOverlaps for many files
 
 Now we can return the matrix of counts with samples by columns and genes as rows.
 
@@ -524,11 +557,9 @@ countMatrix["5250",,drop=FALSE]
 
 
 ---
-# Low memory summarisation
+# Low memory summarization
 
-Counting from BAM files, as with sorting, can be configured to trade of memory usage for speed.
-
-i.e. less ram used but takes longer to count.
+Counting from BAM files, as with sorting, can be configured to trade of memory usage for speed i.e. less RAM used, but takes longer to count.
 
 We can control the amount of memory used by creating a **BamFile** object prior to counting using the **BamFile()** function
 
@@ -538,22 +569,22 @@ class(myBam)
 ```
 
 ---
-# Low memory summarisation
+# Low memory summarization
 
 We can additionally specify the **yieldSize** parameter which controls how many reads are held in memory in one time.
 
-Here we set the **yieldSize**  to a very low 1000 reads, this will save a lot of memory but slow down processing.
+Here we set the **yieldSize** to a very low 1000 reads, this will save a lot of memory but slow down processing.
 
 We will often need to test the **yieldSize** which best fits our machine.
 
 ```{r a21q}
-myBam <- BamFile("Heart.bam",yieldSize = 1000)
+myBam <- BamFile("Heart.bam", yieldSize = 1000)
 heartGeneCounts <- summarizeOverlaps(geneExons,myBam)
 heartGeneCounts
 ```
 
 ---
-# Low memory summarisation
+# Low memory summarization
 
 When counting multiple files we can use the **BamFileList()** function in a similar manner but this time we provide a vector of the two BAM file paths.
 

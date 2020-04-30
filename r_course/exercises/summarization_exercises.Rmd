@@ -1,12 +1,20 @@
 ---
-title: "Summarization in Bioconductor exercises"
-author: "Tom Carroll"
-output: html_document
+title: "Summarizing Data"
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T,eval=T)
+knitr::opts_chunk$set(echo = F,eval=T)
 ```
+
+<p>&nbsp;</p>
+These exercises cover the Summarizing Data sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
 
 
 ## Summarizing data
@@ -15,8 +23,8 @@ In these exercises we will review some of the functionality for summarizing coun
 
 The example data can be found in the data directory 
 
-**Data/heart.bodyMap.bam**
-**Data/liver.bodyMap.bam**
+**data/heart.bodyMap.bam**
+**data/liver.bodyMap.bam**
 
 1. Sort and index both the heart.bodyMap.bam and liver.bodyMap.bam files.
 
@@ -27,8 +35,8 @@ suppressPackageStartupMessages(library(GenomicAlignments))
 ```{r installBSded}
 library(GenomicAlignments)
 library(Rsamtools)
-sortBam("../Data/liver.bodyMap.bam","Liver")
-sortBam("../Data/heart.bodyMap.bam","Heart")
+sortBam("data/liver.bodyMap.bam","Liver")
+sortBam("data/heart.bodyMap.bam","Heart")
 indexBam("Liver.bam")
 indexBam("Heart.bam")
 ```
@@ -77,11 +85,11 @@ library(org.Hs.eg.db)
 myIds <- AnnotationDbi::select(org.Hs.eg.db, keys = c("SLC25A3","TMPO","IKBIP"), keytype = "SYMBOL", 
             columns = c("SYMBOL", "GENENAME","ENTREZID"))
 entrezIDforGenes <- myIds[,"ENTREZID"]
-library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 
-hg19Genes <- genes(TxDb.Hsapiens.UCSC.hg19.knownGene)
+hg38Genes <- genes(TxDb.Hsapiens.UCSC.hg38.knownGene)
 
-myPromoters <- promoters(hg19Genes,500,500)
+myPromoters <- promoters(hg38Genes,500,500)
 prms <- myPromoters[myPromoters$gene_id %in% entrezIDforGenes,]
 
 liverSums <- sum(liverCoverageNorm[prms])
@@ -102,14 +110,14 @@ library(org.Hs.eg.db)
 myIds <- AnnotationDbi::select(org.Hs.eg.db, keys = c("SLC25A3","TMPO","IKBIP"), keytype = "SYMBOL", 
             columns = c("SYMBOL", "GENENAME","ENTREZID"))
 entrezIDforGenes <- myIds[,"ENTREZID"]
-library(TxDb.Hsapiens.UCSC.hg19.knownGene)
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 
-hg19Genes <- exonsBy(TxDb.Hsapiens.UCSC.hg19.knownGene,by="gene")
+hg38Genes <- exonsBy(TxDb.Hsapiens.UCSC.hg38.knownGene,by="gene")
 
-exByGenes <- hg19Genes[names(hg19Genes) %in% entrezIDforGenes,]
+exByGenes <- hg38Genes[names(hg38Genes) %in% entrezIDforGenes,]
 
-sortBam("../Data/liver.bodyMap.bam","Liver")
-sortBam("../Data/heart.bodyMap.bam","Heart")
+sortBam("data/liver.bodyMap.bam","Liver")
+sortBam("data/heart.bodyMap.bam","Heart")
 indexBam("Liver.bam")
 indexBam("Heart.bam")
 liverMapped <- idxstatsBam("Liver.bam")

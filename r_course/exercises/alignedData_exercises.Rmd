@@ -1,13 +1,20 @@
 ---
-title: "Aligned data in Bioconductor exercises"
-author: "Tom Carroll"
-output: html_document
+title: "Aligned Data"
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T,eval=T)
+knitr::opts_chunk$set(echo = F,eval=T)
 ```
 
+<p>&nbsp;</p>
+These exercises cover the Aligned Data sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
 
 ## Aligned data
 
@@ -21,11 +28,11 @@ We have already reviewed this data when looking at IGV in an earlier session.
 
 The example data can be found in the data directory 
 
-**Data/Heart.bam**
-**Data/Liver.bam**
+**data/Heart.bam**
+**data/Liver.bam**
 
 
-1. Coordinate sort and index the aligned reads in BAM files **Data/Heart.bam** and **Data/Liver.bam**.
+1. Coordinate sort and index the aligned reads in BAM files **data/Heart.bam** and **data/Liver.bam**.
 
 ```{r installdeBSdsed,include=FALSE}
 suppressPackageStartupMessages(library(Rsamtools))
@@ -36,8 +43,8 @@ suppressPackageStartupMessages(library(GenomicAlignments))
 ```{r installBSzded}
 library(Rsamtools)
 library(GenomicAlignments)
-sortedHeart <- sortBam("../Data/heart.bodyMap.bam","SortedHeart")
-sortedLiver <- sortBam("../Data/liver.bodyMap.bam","SortedLiver")
+sortedHeart <- sortBam("data/heart.bodyMap.bam","SortedHeart")
+sortedLiver <- sortBam("data/liver.bodyMap.bam","SortedLiver")
 indexBam(sortedHeart)
 indexBam(sortedLiver)
 ```
@@ -62,7 +69,7 @@ ggplot(toPlot,aes(x=seqnames,y=mapped,fill=seqnames))+
 
 
 ```{r instsallssBSded}
-myReads <- readGAlignments("../Data/heart.bodyMap.bam")
+myReads <- readGAlignments("data/heart.bodyMap.bam")
 toPlot <- data.frame(readLength=qwidth(myReads),alignmentLength=width(myReads),junctions=factor(njunc(myReads)))
 ggplot(toPlot,aes(x=readLength,y=alignmentLength))+
   geom_point()+facet_grid(~junctions)+
