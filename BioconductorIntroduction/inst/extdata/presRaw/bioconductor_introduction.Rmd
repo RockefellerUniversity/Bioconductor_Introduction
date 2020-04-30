@@ -17,43 +17,14 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
-params:
-  isSlides: "no"
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 AsSlides <- TRUE
 ```
 
-# (PART) Bioconductor {-}
 
-
-```{r,results='asis',include=TRUE,echo=FALSE}
-if(params$isSlides == "yes"){
-  cat("---
-class: inverse, center, middle
-
-# Introduction to Bioconductor
-
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
-
----
-"    
-  )
-}else{
-  cat("---
-
-# Introduction to Bioconductor
-
----
-"    
-  )
-  
-}
-```
-
-
-## Introduction to Bioconductor
+# About Bioconductor
 
 Bioconductor (BioC) is an open source, community driven software project which provides a framework of tools and databases for the analysis of biological data in R.
 
@@ -65,39 +36,40 @@ Bioconductor (BioC) is an open source, community driven software project which p
 
 ---
 
-### Bioconductor Goals.
+# Bioconductor Goals
 
-To provide -
+The broad goals of the Bioconductor project are:
 
-- access to analytical and graphical methods for biological data.
-- methods to integrate metadata from biological data repositories.
-- a software platform enabling the rapid development of new tools.
-- a system for reproducible research and analysis documentation.
-- training and workflows.
+- To provide widespread access to a broad range of powerful statistical and graphical methods for the analysis of genomic data.
+- To facilitate the inclusion of biological metadata in the analysis of genomic data, e.g. literature data from PubMed, annotation data from Entrez genes.
+- To provide a common software platform that enables the rapid development and deployment of extensible, scalable, and interoperable software.
+- To further scientific understanding by producing high-quality documentation and reproducible research.
+- To train researchers on computational and statistical methods for the analysis of genomic data.
 
 ---
 
-### Bioconductor-[website](https://www.bioconductor.org/)
+# Bioconductor [website](https://www.bioconductor.org/)
 
 <div align="center">
-<img src="imgs/bioconductor.png" alt="igv" height="500" width="1000">
+<img src="imgs/bioconductor_2020.png" alt="igv" height="500" width="1000">
 </div>
 
 ---
-### Bioconductor packages
+# Bioconductor packages
 
-Bioconductor packages can be broadly split into 3 groups.
+Bioconductor packages can be broadly split into 4 groups.
 
 - Software (Tools for the analysis/visualisation of biological data)
 - Annotation Data (Tools for the integration of biological metadata)
 - Experiment Data (Example and actual data from experiments)
+- Workflow
 
 ---
-### Bioconductor packages
+# Current Bioconductor Release
 
-Current release is Bioconductor 3.6
+Current release is Bioconductor 3.10
 
-Includes 2712 packages.
+Includes 1823 packages.
 
 All packages have been 
 - Reviewed.
@@ -107,7 +79,7 @@ All packages have been
 
 ---
 
-### Packages review.
+# Packages review
 
 Before being accepted to Bioconductor all new packages are reviewed so as to pass Bioconductor guidelines.
 
@@ -118,6 +90,7 @@ Review includes automatic testing of packages
 
 
 ---
+# Packages review
 
 As well as an open review on [Bioconductor github site](https://github.com/Bioconductor/Contributions/issues).
 
@@ -125,7 +98,7 @@ As well as an open review on [Bioconductor github site](https://github.com/Bioco
 
 ---
 
-### Bioconductor packages
+# Bioconductor packages
 Review ensures
 
 - All packages can be built in latest version R.
@@ -133,53 +106,59 @@ Review ensures
 - Vignette manual code can all be run.
 
 <div align="center">
-<img src="imgs/check.png" alt="igv" height="300" width="600">
+<img src="imgs/check_2020.png" alt="igv" height="160" width="600">
 </div>
 
 
 ---
 
-### A Bioconductor package
+# Bioconductor packages
 
 Example package - [BasecallQC](https://bioconductor.org/packages/release/bioc/html/basecallQC.html)
 
 <div align="center">
-<img src="imgs/basecallQC.png" alt="igv" height="400" width="400">
+<img src="imgs/basecallQC_2020.png" alt="igv" height="400" width="400">
 </div>
 
 
 ---
 
-### Installing a Bioconductor package
+# Installing Bioconductor and packages
 
-Installing a Bioconductor package is quite straight forward. Every Bioconductor package has a description of the installation R command we can simply copy and paste.
+Installing Bioconductor/Bioconductor packages is quite straight forward. Every Bioconductor package has a description of the installation R command we can simply copy and paste.
 
-Here we use **source** function to load a script containing functions for Bioconductor library installation. We then use the newly acquired **biocLite** to install the library of choice in a manner similar to **install.packages**
+Install Bioconductor:
+```{r installBioconductor, echo=TRUE, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.10")
+```
 
-```{r install, echo=TRUE, eval=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("basecallQC")
+Install a package:
+```{r installPackage, echo=TRUE, eval=FALSE}
+BiocManager::install("basecallQC")
 ```
 
 ---
 
-### Bioconductor package dependencies.
+# Bioconductor package dependencies
 
 All dependencies and their required versions are resolved for us. We must be careful however to check the version of Bioconductor we are using.
 
-```{r version1, include=FALSE,echo=FALSE, eval=TRUE}
-source("https://bioconductor.org/biocLite.R")
-```
-
 ```{r version2, echo=TRUE, eval=TRUE}
-biocVersion()
+BiocManager::version()
 ```
 
-If we wish to update to latest Bioconductor release we can use the **biocUpgrade** function.
+If we wish to update to latest Bioconductor release we can install Bioconductor again:
+```{r updateBioconductor, echo=TRUE, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.10")
+```
 
 ---
 
-### Reference Manual
+# Reference Manual
 
 .pull-left[
 
@@ -194,14 +173,14 @@ This will include importantly
 
 .pull-right[
 <div align="center">
-<img src="imgs/manual.png" alt="igv" height="400" width="400">
+<img src="imgs/manual_2020.png" alt="igv" height="400" width="400">
 </div>
 
 ]
 
 ---
 
-### Vignette
+# Vignette
 
 .pull-left[
 
@@ -214,38 +193,15 @@ These vignettes detail a typical usage of the package with working examples incl
 .pull-right[
 
 <div align="center">
-<img src="imgs/vignette.png" alt="igv" height="400" width="400">
+<img src="imgs/vignette_2020.png" alt="igv" height="400" width="410">
 </div>
 
 ]
 
-```{r,results='asis',include=TRUE,echo=FALSE}
-if(params$isSlides == "yes"){
-  cat("---
-class: inverse, center, middle
+---
+
 
 # Genomics data in Bioconductor
-
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
-
----
-"    
-  )
-}else{
-  cat("---
-
-## Genomics data in Bioconductor
-
----
-"    
-  )
-  
-}
-```
-
-
-
-### Genomics data in Bioconductor
 
 Bioconductor packages cover a wide range of biological data types.
 
@@ -260,88 +216,64 @@ This includes methods for handling common genomics data types.
 
 ---
 
-### FASTA in Bioconductor.
+# FASTA in Bioconductor
 
-Genomic sequences stored as [FASTA files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/6) are handled using the [**Biostrings**](https://bioconductor.org/packages/release/bioc/html/Biostrings.html) package.
+Genomic sequences stored as [FASTA files](https://rockefelleruniversity.github.io/Genomic_data/gr_course/presentations/slides/GenomicsData.html#9) are handled using the [**Biostrings**](https://bioconductor.org/packages/release/bioc/html/Biostrings.html) package.
 
 <div align="center">
-<img src="imgs/fasta.png" alt="igv" height="400" width="600">
+<img src="imgs/fasta.png" alt="igv" height="250" width="600">
 </div>
 
 
 ---
 
-### BED/BED6 in Bioconductor.
+# BED/BED6 in Bioconductor
 
-Genomic intervals stored as [BED files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/18) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
+Genomic intervals stored as [BED files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#22) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
 
 <div align="center">
-<img src="imgs/bed6.png" alt="igv" height="300" width="400">
+<img src="imgs/bed6.png" alt="igv" height="260" width="400">
 </div>
 
 ---
 
-### Wigs and BigWigs in Bioconductor.
+# Wigs and BigWigs in Bioconductor
 
-Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/22) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
+Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#25) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
 
 <div align="center">
-<img src="imgs/wiggle.png" alt="igv" height="400" width="400">
+<img src="imgs/wiggle.png" alt="igv" height="500" width="400">
 </div>
 
 ---
-### GFF.
+# GFF
 
-[GFF files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/24) containing gene models are handled using the [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html)  package.
+[GFF files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#29) containing gene models are handled using the [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html)  package.
 
 <div align="center">
 <img src="imgs/gff2.png" alt="igv" height="200" width="600">
 </div>
 
 ---
-### FastQ 
+# FastQ 
 
-[FastQ files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/8) containing gene models are handled using the [**ShortRead**](https://bioconductor.org/packages/release/bioc/html/ShortRead.html) package.
+[FastQ files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#12) containing gene models are handled using the [**ShortRead**](https://bioconductor.org/packages/release/bioc/html/ShortRead.html) package.
 
 <div align="center">
 <img src="imgs/fq1.png" alt="igv" height="200" width="600">
 </div>
 
 ---
-### SAM/BAM
+# SAM/BAM
 
-[SAM and BAM files](https://rockefelleruniversity.github.io/Genomic_Data/genomicFileFormats.html#/13) are handled using the  [**GenomicAlignments**](https://bioconductor.org/packages/release/bioc/html/GenomicAlignments.html) package.
+[SAM and BAM files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#15) are handled using the  [**GenomicAlignments**](https://bioconductor.org/packages/release/bioc/html/GenomicAlignments.html) package.
 
 <div align="center">
 <img src="imgs/sam2.png" alt="igv" height="200" width="600">
 </div>
 
-
-```{r,results='asis',include=TRUE,echo=FALSE}
-if(params$isSlides == "yes"){
-  cat("---
-class: inverse, center, middle
-
-# Reference Data in Bioconductor.
-
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
-
 ---
-"    
-  )
-}else{
-  cat("---
-
-## Reference Data in Bioconductor.
-
----
-"    
-  )
-  
-}
-```
-
-### Reference Data in Bioconductor.
+# Reference Data in Bioconductor
 
 As well as software packages, we know Bioconductor maintains a number of annotation packages.
 
@@ -349,7 +281,7 @@ This includes microarray annotation, gene to ID mappings, genes' functional anno
 
 ---
 
-### Gene annotation.
+# Gene annotation
 
 Information on model organism's gene annotation is contained with the **org.db** packages.
 
@@ -358,13 +290,13 @@ Format is org. **species** . **ID type** .db
 Homo Sapiens annotation with Entrez Gene IDs -- org.Hs.eg.db
 
 <div align="center">
-<img src="imgs/orgdb.png" alt="igv" height="400" width="400">
+<img src="imgs/orgdb_2020.png" alt="igv" height="400" width="390">
 </div>
 
 
 ---
 
-### Genome Sequence
+# Genome Sequence
 
 Genomic sequence information is held within the **BSgenome** packages.
 
@@ -373,12 +305,12 @@ Format is BSgenome. **species**. **source**. **major version**
 Homo Sapiens genome sequence from UCSC's version hg19 -- BSgenome.Hsapiens.UCSC.hg19
 
 <div align="center">
-<img src="imgs/bsgenome.png" alt="igv" height="400" width="400">
+<img src="imgs/bsgenome_2020.png" alt="igv" height="400" width="370">
 </div>
 
 ---
 
-### Gene Models
+# Gene Models
 
 Gene models are held in the **TxDb** packages.
 
@@ -387,12 +319,12 @@ Format is TxDb. **species** . **source** . **major version** . **table**
 Homo Sapiens gene build from UCSC's version hg19 known gene table -- TxDb.Hsapiens.UCSC.hg19.knownGene
 
 <div align="center">
-<img src="imgs/txdb.png" alt="igv" height="400" width="400">
+<img src="imgs/txdb_2020.png" alt="igv" height="400" width="355">
 </div>
 
 ---
 
-### Time for an exercise.
+# Time for an exercise.
 
 [Link_to_exercises](../../exercises/biocIntro_exercises.html)
 

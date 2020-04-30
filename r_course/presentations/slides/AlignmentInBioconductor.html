@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="" xml:lang="">
   <head>
-    <title></title>
-    <meta charset="utf-8">
+    <title>AlignmentInBioconductor.utf8</title>
+    <meta charset="utf-8" />
     <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
@@ -29,6 +29,14 @@ class: center, middle, inverse, title-slide
 
 
 
+---
+class: inverse, center, middle
+
+# Alignment
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=720px&gt;&lt;/html&gt; 
+
+---
 
 ## Alignment - Fasta and fastq
 
@@ -38,13 +46,13 @@ In previous sessions we have seen how to handle unaligned sequence data as well 
 &lt;div align="center"&gt;
 &lt;img src="imgs/newFASTA.png" alt="igv" height="400" width="800"&gt;
 &lt;/div&gt;
-]
+  ]
 
 .pull-right[
 &lt;div align="center"&gt;
 &lt;img src="imgs/fq1.png" alt="igv" height="150" width="400"&gt;
 &lt;/div&gt;
-]
+  ]
 
 ---
 ## Aligned data - SAM/BAM
@@ -56,21 +64,19 @@ We will want to produce a SAM/BAM file containing aligned reads in a format we c
 &lt;img src="imgs/sam2.png" alt="igv" height="300" width="900"&gt;
 &lt;/div&gt;
 
-
-
-
 ---
+## Alignment softwares
 
 We now need a suitable **aligner** software to place unaligned reads onto our reference genome to produce a SAM/BAM file.
 
 Aligner softwares can be broadly placed into two categories.
 
 * Genomic aligner (WGS, ChIP-seq, ATAC-seq etc).
-* Splice Aware aligner (RNA-seq, Ribo-seq)
+* Splice Aware aligner (RNA-seq, Ribo-seq).
 
 Popular genomic aligners include **Bowtie**, **bwa**, **subread**,**GMAP**.
 
-Popular splice aware aligners include **Tophat**, **SpliceMap**, **subjunc**, **GSNAP**, **STAR**.
+Popular splice aware aligners include **hisat2**,**Tophat**, **SpliceMap**, **subjunc**, **GSNAP**, **STAR**.
 
 ---
 
@@ -94,21 +100,20 @@ A few of the popular aligners are wrapped up in R/Bioconductor packages allowing
 * GSNAP/GMAP - **gmapR**
 * SpliceMap - **QuasR**
 * subread/subjunc - **rsubread**
-
+* hisat2 - **Rhisat2**, **QuasR**
 ---
 
 ## Alignment software in R
 
-The **rsubread** and **gampR** packages offer convenient access to subread/subjunc and gmap/gsnap on Mac and Linux but sadly are not implemented on Windows.
+The **gampR** packages offer convenient access to subread/subjunc and gmap/gsnap on Mac and Linux but sadly are not implemented on Windows.
 
 The **QuasR** package offers an interface to Bowtie and SpliceMap on Windows, Mac and Linux and so provides access to a genomic and splice aware aligner on all systems.
 
 The **Rbowtie2** package offers a wrapper to the popular Bowtie2 software and offers significant improvement in memory and CPU usage to Bowtie packaged in QuasR.
 
-In this session we will focus on the **QuasR** package for all users but recommend rsubread for analysis.
+**rsubread** offers convenient access to subread/subjunc, and recently got expanded from Mac and Linux only, to also include Windows. We recommend rsubread for analysis.
 
 ---
-
 ## Data
 
 In this session we will be making use of some public datasets from the Encode consortium.
@@ -121,123 +126,90 @@ This RNAseq data has been generated from the human cell line **GM12878** and the
 
 ## Data
 
-
 To speed up the processing for this practical I have retrieved aligned data from Encode for the sample **ENCSR297UBP** and extracted reads mapping to ActB gene on hg20 human genome build. I have further downsampled these reads to only 10000 reads out of the 200000 mapping to this gene.
 
-This sampled data can be found in **Data/sampledActin.fq.gz**
+This sampled data can be found in **data/sampledActin.fq.gz**
+
 
 ---
-## QuasR packages.
+## The Rsubread package
 
-To make use of a bowtie and SpliceMap aligners we must first install and load the QuasR library.
+The Rsubread package offers a fast aligner for both genomic and splice aware alignment.
+
+Updated refrequently - [Latest paper here](https://academic.oup.com/nar/article/47/8/e47/5345150)
+
 
 
 ```r
-source("https://bioconductor.org/biocLite.R")
-biocLite("QuasR")
-library(QuasR)
+BiocManager::install('Rsubread')
+library(Rsubread)
 ```
 
 
 
 ---
-## BSGenome packages.
+## BSGenome packages
 
-We will also require some reference data so lets install the BSgenome package for hg38
+We will also require some reference data so lets install the BSgenome package for hg38.
 
 
 ```r
-source("https://bioconductor.org/biocLite.R")
-biocLite("BSgenome.Hsapiens.UCSC.hg38")
+BiocManager::install("BSgenome.Hsapiens.UCSC.hg38")
 library(BSgenome.Hsapiens.UCSC.hg38)
 ```
 
 
 
 ---
-## QuasR genomic alignment.
+## Write out FASTA
 
-The main function for alignment in the QuasR package is the **qAlign()** function.
+To build an index for mapping we need our reference sequence in FASTA format. 
 
-The **qAlign()** function requires just two arguments.
-
-* A Samples file - Tab-delimited file containing fastq location and sample names.
-* Reference genome - Character string of **BSgenome** object or FASTA file location.  
-
----
-## QuasR genomic alignment - Sample table
-
-The sample table requires is a tab-delimited file listing the path to fastq(s) to be aligned and the desired sample names.
+Lets extract a FASTA file from out BSgenome object. Here we will create a FASTA file for just Chr7 (the location of ActB)
 
 
 ```r
-FileName &lt;- "Data/sampledActin.fq.gz"
-SampleName &lt;- "sampledActin"
-sampleTable &lt;- data.frame(FileName,SampleName)
-write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
-```
-
-
-```
-##                  FileName   SampleName
-## 1 Data/sampledActin.fq.gz sampledActin
-```
-
----
-## QuasR genomic with BSGenome object
-
-The simplest way to specify a reference genome for alignment in **qAlign()** is to use a BSgenome object.
-
-Here we can simply specify the name of BSgenome object we wish to use for alignment. Here we specify the BSgenome object for hg38 **BSgenome.Hsapiens.UCSC.hg38**.
-
-
-```r
-library(QuasR)
-qAlign("sampleTable.txt","BSgenome.Hsapiens.UCSC.hg38")
-```
-
----
-## QuasR genomic with FASTA file
-
-Internally, QuasR will create a FASTA file from our BSgenome object prior to alignment.
-
-We can also provide a FASTA file directly to the **qAlign()** function. 
-
-First lets extract a FASTA file from out BSgenome object. Here we will create a FASTA file for just Chr7 (the location of ActB)
-
-
-```r
-library(BSgenome.Hsapiens.UCSC.hg38)
 chr7hg38 &lt;- BSgenome.Hsapiens.UCSC.hg38[["chr7"]]
 chr7hg38Set &lt;- DNAStringSet(list(chr7=chr7hg38))
 writeXStringSet(chr7hg38Set,file="chr7.fa")
 ```
 
 ---
-## QuasR genomic with FASTA file
+## Building an index
 
-Now we can align to our Chr7 FASTA file using **qAlign()**.
+The Rsubread package requires we first build an index of our reference genome. This is what we will align our Fastq files to. 
+
+Here we use the **buildindex()** function, specifying the name of index to be built and the FASTA file to build the index from.  
+
+By default the memory (RAM) used when building an index is limited to 8GB. This is often too large for your laptop. You can dial this down using the memory argument. 
+
+This may take some time but you will only need to run this index step once.
 
 
 ```r
-qAlign("sampleTable.txt","chr7.fa")
+buildindex("chr7","chr7.fa", memory=8000)
 ```
 
 ---
-## Aligned data in BAM 
+## Aligning
 
-The **qAlign()** function will allow us to retrieve the aligned data as **BAM**.
+We can now use the **align()** function to align reads to the genome.
 
-Our generated **BAM** file will be in same directory as our fastq file. By default QuasR will add a random string to ensure we do not write over previous files.
+We must specify out index name, fastq file, desired output format and name of BAM file to be created.
 
-**Data/sampledActin_29a3a870bf.bam**
+
+```r
+align("chr7","data/sampledActin.fq.gz",
+        output_format = "BAM",
+        output_file = "data/Rsubread_NoSplicing_sampledActin.bam")
+```
 
 ---
 ## Aligned data in BAM 
 
 Now we have our aligned data as BAM formats we must perform two final operations on our BAM to make it ready for use in external programs.
 
-These are -
+These are:
 
 * Sorting (here by coordinate)
 * Indexing
@@ -253,8 +225,7 @@ First we can install and load the library.
 
 
 ```r
-source("https://bioconductor.org/biocLite.R")
-biocLite("Rsamtools")
+BiocManager::install("Rsamtools")
 library(Rsamtools)
 ```
 
@@ -271,7 +242,7 @@ Note the **prefix** should not contain the *.bam* extension.
 
 
 ```r
-sortBam("Data/sampledActin_29a3a870bf.bam","SortedActB")
+sortBam("data/Rsubread_NoSplicing_sampledActin.bam","SortedActB")
 ```
 
 ```
@@ -315,10 +286,10 @@ quickBamFlagSummary("SortedActB.bam")
 ## Indentation reflects this.
 ## 
 ## Details for group S:
-##   o record is mapped.............. S1 |     8240 |     8240 |    1 / 1
-##       - primary alignment......... S2 |     8240 |     8240 |    1 / 1
+##   o record is mapped.............. S1 |     9748 |     9748 |    1 / 1
+##       - primary alignment......... S2 |     9748 |     9748 |    1 / 1
 ##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
-##   o record is unmapped............ S4 |     1760 |     1760 |    1 / 1
+##   o record is unmapped............ S4 |      252 |      252 |    1 / 1
 ```
 
 ---
@@ -339,15 +310,19 @@ But if we look for splice junctions we see we are missing some information.
 &lt;img src="imgs/alnActBnojunc.png" alt="igv" height="400" width="600"&gt;
 &lt;/div&gt;
 
-
 ---
-## QuasR splice aware with FASTA file
+## Splice aware aligning
 
-We are missing reads which would align across splice junctions. To use the **qAlign()** function to align spliced reads we must simply specify the parameter **splicedAlignment** to be **TRUE**.
+We are missing reads which would align across splice junctions. We can now use the **subjunc()** function to align reads in a splice aware manner.
+
+We must again specify out index name, fastq file, desired output format and name of BAM file to be created.
+
 
 
 ```r
-qAlign("sampleTable.txt","chr7.fa",splicedAlignment = TRUE)
+subjunc("chr7","data/sampledActin.fq.gz",
+        output_format = "BAM",
+        output_file = "data/RsubreadsampledActin.bam")
 ```
 
 ---
@@ -357,7 +332,19 @@ We can now sort and index our splice aware alignment as before.
 
 
 ```r
-sortBam("Data/sampledActin_29a42342e34.bam","SortedActBSpliced")
+sortBam("data/RsubreadsampledActin.bam",
+        "Sorted_RsubreadsampledActin")
+indexBam("Sorted_RsubreadsampledActin.bam")
+```
+
+---
+## Sort and index our file
+
+We can now sort and index our splice aware alignment as before.
+
+
+```r
+sortBam("data/sampledActin_29a42342e34.bam","SortedActBSpliced")
 ```
 
 ```
@@ -407,9 +394,8 @@ quickBamFlagSummary("SortedActBSpliced.bam")
 We can now review our splice aware BAM file in IGV.
 
 &lt;div align="center"&gt;
-&lt;img src="imgs/alnActjunc.png" alt="igv" height="400" width="600"&gt;
+&lt;img src="imgs/2020_alnActjunc.png" alt="igv" height="400" width="600"&gt;
 &lt;/div&gt;
-
 
 ---
 ## Review in IGV
@@ -423,32 +409,68 @@ Now if we compare to the original alignment from Encode we can identify where so
 ---
 ## Review in IGV
 
-STAR aligner has allowed for very long splicing, here over the neighbouring gene to an unrelated region.
+The default parameters for alignment within aligners are carefully selected for alignment with ChIP-seq, ATAC-seq, WGS and splice aware alignment in RNA-seq. We will review this performance over the coming sessions.
 
-The default parameters for alignment within **QuasR** are carefully selected for alignment with ChIP-seq, ATAC-seq, WGS and splice aware alignment in RNA-seq. We will review this performance over the coming sessions.
+An example here shows alignment with STAR, which often allows for very long splicing. Here you can see reads map over the neighbouring gene to an unrelated region.
 
 &lt;div align="center"&gt;
-&lt;img src="imgs/starCrazy.png" alt="igv" height="400" width="600"&gt;
+&lt;img src="imgs/starCrazy.png" alt="igv" height="200" width="300"&gt;
 &lt;/div&gt;
 
-
 ---
-## The Rbowtie2 package
+## The Rsubread package
 
-The **Rbowtie2** library offers a faster alternative to genomic alignment in R using Bowtie2. 
-
+Finally we can assess mapping rate.
 
 
 ```r
-library(Rbowtie2)
+quickBamFlagSummary("data/Sorted_RsubreadsampledActin.bam")
 ```
+
+```
+##                                 group |    nb of |    nb of | mean / max
+##                                    of |  records |   unique | records per
+##                               records | in group |   QNAMEs | unique QNAME
+## All records........................ A |    10000 |    10000 |    1 / 1
+##   o template has single segment.... S |    10000 |    10000 |    1 / 1
+##   o template has multiple segments. M |        0 |        0 |   NA / NA
+##       - first segment.............. F |        0 |        0 |   NA / NA
+##       - last segment............... L |        0 |        0 |   NA / NA
+##       - other segment.............. O |        0 |        0 |   NA / NA
+## 
+## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
+## Indentation reflects this.
+## 
+## Details for group S:
+##   o record is mapped.............. S1 |     9756 |     9756 |    1 / 1
+##       - primary alignment......... S2 |     9756 |     9756 |    1 / 1
+##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ S4 |      244 |      244 |    1 / 1
+```
+
+
+
+
 
 ---
 ## The Rbowtie2 package
 
-As with other aligners we first need to build an index to align too. We can build the index using the **bowtie2_build** function supplying the path to Fasta file to **references** argument and path for bowtie2 index to **bt2Index** command. 
+The **Rbowtie2** library offers an alternative genomic alignment in R using Bowtie2.
 
-This may take some time but you will only need to run this index step once.
+
+```r
+BiocManager::install("Rbowtie2")
+library(Rbowtie2)
+```
+
+
+
+---
+## The Rbowtie2 package
+
+As we saw with **rsubread** we first need to build an index to align too. We can build the index using the **bowtie2_build** function supplying the path to Fasta file to **references** argument and path for bowtie2 index to **bt2Index** command. 
+
+Again, this may take some time but you will only need to run this index step once.
 
 
 
@@ -469,21 +491,20 @@ First however we will need to decompress our compressed fastq files to use them 
 ```r
 library(R.utils)
 
-gunzip("Data/sampledActin.fq.gz")
+gunzip("data/sampledActin.fq.gz")
 ```
-
 
 ---
 ## The Rbowtie2 package
 
-We cqn align our data using the main **bowtie2** function and specifying the index path to  **bt2Index** argument, the output path for sam to **samOutput** argument and the sequence we wish to align to the **seq1** path.
+We can align our data using the main **bowtie2** function and specifying the index path to  **bt2Index** argument, the output path for sam to **samOutput** argument and the sequence we wish to align to the **seq1** path.
 
 
 
 ```r
 bowtie2(bt2Index = "chr7hg38",
           samOutput = "sampledActin.sam",
-          seq1 = "Data/sampledActin.fq")
+          seq1 = "data/sampledActin.fq")
 ```
 
 ---
@@ -513,7 +534,7 @@ indexBam("SortedActBSpliced_bowtie.bam")
 ---
 ## The Rbowtie2 package
 
-Although **Rbowtie2** is a significant improvement over **QuasR** it only allows for genomic alignment and not splice aware alignment.
+Aligners have a variety of costs/benefits. **Rbowtie2** is a significant improvement the original **Bowtie**, but it is not splice aware alignment. It only allows for genomic alignment.
 
 This means that **Rbowtie2** is suitable for 
 - ATAC-seq 
@@ -525,107 +546,90 @@ This means that **Rbowtie2** is suitable for
 - Ribo-seq
 
 ---
-## The Rsubread package
+## QuasR
 
-The Rsubread package offers a fast aligner for both genomic and splice aware alignment.
+Some wrappers have multiple aligners built in to them. 
 
-Updated refrequently - [Latest paper here](https://www.biorxiv.org/content/early/2018/08/15/377762)
+This makes it easy to switch between options.
 
-The Rsubread package is only available on Mac and Linux systems.
-
-
-```r
-library(Rsubread)
-```
+* Bowtie - **QuasR**
+* SpliceMap - **QuasR**
+* hisat2 - **QuasR**
 
 ---
-## The Rsubread package
-
-The Rsubread package requires we first build an index of our reference genome for use during alignment.
-
-Here we use the **buildindex()** function, specifying the name of index to be built and the FASTA file to build the index from.  
+## QuasR
 
 
 ```r
-buildindex("chr7","chr7.fa")
+BiocManager::install("QuasR")
+library(QuasR)
 ```
+
 
 
 ---
-## The Rsubread package
+## QuasR genomic alignment
 
-We can now use the **subread()** function to align reads to the genome in a similar manner to **Rbowtie2**
+The main function for alignment in the QuasR package is the **qAlign()** function.
 
-We must specify out index name, fastq file, desired output format and name of BAM file to be created.
+The **qAlign()** function requires just two arguments.
 
+* A Samples file - Tab-delimited file containing fastq location and sample names.
+* Reference genome - Character string of **BSgenome** object or FASTA file location.
+
+---
+## QuasR genomic alignment - Sample table
+
+The sample table requires is a tab-delimited file listing the path to fastq(s) to be aligned and the desired sample names.
 
 
 ```r
-subread("chr7","Data/sampledActin.fq.gz",
-        output_format = "BAM",
-        output_file = "Data//Rsubread_NoSplicing_sampledActin.bam")
+FileName &lt;- "data/sampledActin.fq.gz"
+SampleName &lt;- "sampledActin"
+sampleTable &lt;- data.frame(FileName,SampleName)
+write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
+```
+
+
+```
+##                  FileName   SampleName
+## 1 data/sampledActin.fq.gz sampledActin
 ```
 
 ---
-## The Rsubread package
+## QuasR genomic with BSGenome object
 
-We can now use the **subjunc()** function to align reads in a splice aware manner.
+The simplest way to specify a reference genome for alignment in **qAlign()** is to use a BSgenome object.
 
-We must again specify out index name, fastq file, desired output format and name of BAM file to be created.
-
+Here we can simply specify the name of BSgenome object we wish to use for alignment. Here we specify the BSgenome object for hg38 **BSgenome.Hsapiens.UCSC.hg38**.
 
 
 ```r
-subjunc("chr7","Data/sampledActin.fq.gz",
-        output_format = "BAM",
-        output_file = "Data//RsubreadsampledActin.bam")
+library(QuasR)
+qAlign("sampleTable.txt", "BSgenome.Hsapiens.UCSC.hg38")
 ```
 
 ---
-## The Rsubread package
+## QuasR genomic with FASTA file
 
-Again we must sort and index our file.
+Internally, QuasR will create a FASTA file from our BSgenome object prior to alignment.
 
+We can also provide a FASTA file directly to the **qAlign()** function.
 
 
 ```r
-sortBam("Data/RsubreadsampledActin.bam",
-        "Sorted_RsubreadsampledActin")
-indexBam("Sorted_RsubreadsampledActin.bam")
+qAlign("sampleTable.txt","chr7.fa")
 ```
 
 ---
-## The Rsubread package
+## Choosing aligner with QuasR 
 
-Finally we can assess mapping rate.
+The aligner argument is used to control which algorithm you were going to use. Here we use Rhisat2 as it is a good algorithm for mapping reads across splice junctions.
 
 
 ```r
-quickBamFlagSummary("Sorted_RsubreadsampledActin.bam")
+qAlign("sampleTable.txt","chr7.fa", aligner="Rhisat2")
 ```
-
-```
-##                                 group |    nb of |    nb of | mean / max
-##                                    of |  records |   unique | records per
-##                               records | in group |   QNAMEs | unique QNAME
-## All records........................ A |    10000 |    10000 |    1 / 1
-##   o template has single segment.... S |    10000 |    10000 |    1 / 1
-##   o template has multiple segments. M |        0 |        0 |   NA / NA
-##       - first segment.............. F |        0 |        0 |   NA / NA
-##       - last segment............... L |        0 |        0 |   NA / NA
-##       - other segment.............. O |        0 |        0 |   NA / NA
-## 
-## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
-## Indentation reflects this.
-## 
-## Details for group S:
-##   o record is mapped.............. S1 |     9726 |     9726 |    1 / 1
-##       - primary alignment......... S2 |     9726 |     9726 |    1 / 1
-##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
-##   o record is unmapped............ S4 |      274 |      274 |    1 / 1
-```
-
-
 
 ---
 
@@ -635,6 +639,7 @@ quickBamFlagSummary("Sorted_RsubreadsampledActin.bam")
 
 [Link_to_answers](../../answers/alignment_answers.html)
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -644,16 +649,89 @@ quickBamFlagSummary("Sorted_RsubreadsampledActin.bam")
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
-})();</script>
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
-(function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -667,7 +745,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

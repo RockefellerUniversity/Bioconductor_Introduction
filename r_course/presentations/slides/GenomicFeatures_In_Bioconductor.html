@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="" xml:lang="">
   <head>
-    <title></title>
-    <meta charset="utf-8">
+    <title>GenomicFeatures_In_Bioconductor.utf8</title>
+    <meta charset="utf-8" />
     <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
@@ -28,7 +28,18 @@ class: center, middle, inverse, title-slide
 
 
 
+---
+class: inverse, center, middle
+
 # Genomic Features
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=720px&gt;&lt;/html&gt; 
+
+---
+
+
+
+## Genomic Features
 
 Genomic Features are often stored as GTF or GFF files.
 
@@ -37,51 +48,57 @@ Genomic Features are often stored as GTF or GFF files.
 &lt;/div&gt;
 
 ---
-# Genes as Genomic Features
+## Genes as Genomic Features
 
 In particular, we often find gene models as GFF or GTF files.
 
 This importantly allows us to associate.
 
-* Exons with transcripts
+* Exons with transcripts.
 * Transcripts with genes.
 
-With this mapping we can perform complex operations such as summarising genome wide RNAseq signal to genes'/transcripts' expressions.  
+With this mapping we can perform complex operations such as summarising genome wide RNAseq signal to genes/transcripts expressions.  
 
 ---
-# IGV and GFF/GTF.
+## IGV and GFF/GTF
 
 We use GFF and GTF in IGV to display gene models. 
 
 
 
-![](imgs/fullGenes.png)
+&lt;div align="center"&gt;
+&lt;img src="imgs/fullGenes.png" height="460" width="800"&gt;
+&lt;/div&gt;
 
 ---
-# A single gene model in GTF format.
+## A Single Gene Model in GTF Format
 
 GTF is perhaps the most common format for gene models. 
 
 In this example we have a GTF file containing a single gene model for the **Xkr4** gene.
 
-This can be found in **Data/Xkr4.gtf**
+This can be found in **data/Xkr4.gtf**
 
-![](imgs/gtfInTerminal.png)
+&lt;div align="center"&gt;
+&lt;img src="imgs/gtfInTerminal.png" height="138" width="800"&gt;
+&lt;/div&gt;
 ---
-# A single gene model in IGV.
+## A Single Gene Model in IGV
 
 IGV parses information from the GTF file to construct the gene model we see containing untranslated regions and directionality of expression.
 
-![](imgs/gtfInIGV.png)
+&lt;div align="center"&gt;
+&lt;img src="imgs/gtfInIGV.png" height="500" width="800"&gt;
+&lt;/div&gt;
 
 ---
-# Genomic Features in Bioconductor .
+## Genomic Features in Bioconductor
 
 In Bioconductor, gene models are prepackaged for us in the **TxDb** packages.
 
 Format is TxDb. **species** . **source** . **major version** . **table**
 
-Homo Sapiens gene build from UCSC's version hg19 known gene table -- TxDb.Hsapiens.UCSC.hg19.knownGene
+Homo Sapiens gene build from UCSC's version hg19 known gene table - TxDb.Hsapiens.UCSC.hg19.knownGene
 
 &lt;div align="center"&gt;
 &lt;img src="imgs/txdb.png" alt="igv" height="400" width="400"&gt;
@@ -89,16 +106,16 @@ Homo Sapiens gene build from UCSC's version hg19 known gene table -- TxDb.Hsapie
 
 
 ---
-# Genomic Features in Bioconductor.
+## Genomic Features in Bioconductor
 
 We can however make use of GTF/GFF files of our own gene models outside of Bioconductor pre-built TxDB packages.
 
 The **GenomicFeatures** package has functions to import a GTF/GFF into a Bioconductor **TxDb** object as well as to interact with **TxDb** objects.
 
-- [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html) -- Import to and handling of **TxDB** objects in R.
+- [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html) - Import to and handling of **TxDB** objects in R.
 
 ---
-# Genomic Features in Bioconductor.
+## Genomic Features in Bioconductor
 
 The first package we will look at is the **TxDB** package - **TxDb.Hsapiens.UCSC.hg19.knownGene**.
 
@@ -106,15 +123,16 @@ Remember we can install Bioconductor packages (fairly) easily  using Bioconducto
 
 
 ```r
-## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("TxDb.Hsapiens.UCSC.hg19.knownGene")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene")
 ```
 
 ---
-# Genomic Intervals in Bioconductor.
+## Genomic Intervals in Bioconductor
 
-Now we have the package installed, we can load the library
+Now we have the package installed, we can load the library.
 
 
 
@@ -124,9 +142,9 @@ library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 ```
 
 ---
-# TxDb
+## TxDb
 
-Once we have loaded the **TxDb.Hsapiens.UCSC.hg19.knownGene** library, we will have a new **TxDb** object available to us called **TxDb.Hsapiens.UCSC.hg19.knownGene** 
+Once we have loaded the **TxDb.Hsapiens.UCSC.hg19.knownGene** library, we will have a new **TxDb** object available to us called **TxDb.Hsapiens.UCSC.hg19.knownGene**.
 
 
 ```r
@@ -139,9 +157,9 @@ class(TxDb.Hsapiens.UCSC.hg19.knownGene)
 ## [1] "GenomicFeatures"
 ```
 ---
-# TxDb
+## TxDb
 
-When this variable name is typed in into console we can retrieve some key information on the Gene Model build as well as summary metrics
+When this variable name is typed in into console we can retrieve some key information on the Gene Model build as well as summary metrics.
 
 
 ```r
@@ -172,17 +190,18 @@ TxDb.Hsapiens.UCSC.hg19.knownGene
 ```
 
 ---
-# Accessing information.
+## Accessing Information
 
 As suggested in the name, **TxDb** objects are a database containing information we would store in GTF/GFF files.
 
 To access information in our **TxDb** object we will need to use special accessor functions.
 
-These accessors return information in **GRanges'** formats allowing us to work with methods from the **GenomicRanges** packages
----
-# Extracting Genomic locations.
+These accessors return information in **GRanges'** formats allowing us to work with methods from the **GenomicRanges** packages.
 
-We have a number of functions which allow us to extract GRanges for our features of interest including
+---
+# Extracting Genomic Locations
+
+We have a number of functions which allow us to extract GRanges for our features of interest including:
 
 * **genes()** - Extract gene locations as a **GRanges**.
 * **transcripts()** - Extract transcript locations  as a **GRanges**.
@@ -192,7 +211,7 @@ We have a number of functions which allow us to extract GRanges for our features
 
 
 ---
-# Extracting genes
+## Extracting Genes
 
 We can extract genes with the **genes()** function and the **TxDb** object as a parameter.
 
@@ -204,24 +223,24 @@ myGenes
 
 ```
 ## GRanges object with 23056 ranges and 1 metadata column:
-##         seqnames                 ranges strand |     gene_id
-##            &lt;Rle&gt;              &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##       1    chr19 [ 58858172,  58874214]      - |           1
-##      10     chr8 [ 18248755,  18258723]      + |          10
-##     100    chr20 [ 43248163,  43280376]      - |         100
-##    1000    chr18 [ 25530930,  25757445]      - |        1000
-##   10000     chr1 [243651535, 244006886]      - |       10000
-##     ...      ...                    ...    ... .         ...
-##    9991     chr9 [114979995, 115095944]      - |        9991
-##    9992    chr21 [ 35736323,  35743440]      + |        9992
-##    9993    chr22 [ 19023795,  19109967]      - |        9993
-##    9994     chr6 [ 90539619,  90584155]      + |        9994
-##    9997    chr22 [ 50961997,  50964905]      - |        9997
+##         seqnames              ranges strand |     gene_id
+##            &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##       1    chr19   58858172-58874214      - |           1
+##      10     chr8   18248755-18258723      + |          10
+##     100    chr20   43248163-43280376      - |         100
+##    1000    chr18   25530930-25757445      - |        1000
+##   10000     chr1 243651535-244006886      - |       10000
+##     ...      ...                 ...    ... .         ...
+##    9991     chr9 114979995-115095944      - |        9991
+##    9992    chr21   35736323-35743440      + |        9992
+##    9993    chr22   19023795-19109967      - |        9993
+##    9994     chr6   90539619-90584155      + |        9994
+##    9997    chr22   50961997-50964905      - |        9997
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 ---
-# Extracting exons
+## Extracting Exons
 
 We can extract exons with the **exons()** function and the **TxDb** object as a parameter in the same way.
 
@@ -233,24 +252,24 @@ myExons
 
 ```
 ## GRanges object with 289969 ranges and 1 metadata column:
-##                  seqnames         ranges strand |   exon_id
-##                     &lt;Rle&gt;      &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;
-##        [1]           chr1 [11874, 12227]      + |         1
-##        [2]           chr1 [12595, 12721]      + |         2
-##        [3]           chr1 [12613, 12721]      + |         3
-##        [4]           chr1 [12646, 12697]      + |         4
-##        [5]           chr1 [13221, 14409]      + |         5
-##        ...            ...            ...    ... .       ...
-##   [289965] chrUn_gl000241 [35706, 35859]      - |    289965
-##   [289966] chrUn_gl000241 [36711, 36875]      - |    289966
-##   [289967] chrUn_gl000243 [11501, 11530]      + |    289967
-##   [289968] chrUn_gl000243 [13608, 13637]      + |    289968
-##   [289969] chrUn_gl000247 [ 5787,  5816]      - |    289969
+##                  seqnames      ranges strand |   exon_id
+##                     &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;
+##        [1]           chr1 11874-12227      + |         1
+##        [2]           chr1 12595-12721      + |         2
+##        [3]           chr1 12613-12721      + |         3
+##        [4]           chr1 12646-12697      + |         4
+##        [5]           chr1 13221-14409      + |         5
+##        ...            ...         ...    ... .       ...
+##   [289965] chrUn_gl000241 35706-35859      - |    289965
+##   [289966] chrUn_gl000241 36711-36875      - |    289966
+##   [289967] chrUn_gl000243 11501-11530      + |    289967
+##   [289968] chrUn_gl000243 13608-13637      + |    289968
+##   [289969] chrUn_gl000247   5787-5816      - |    289969
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 ---
-# Extracting transcripts
+## Extracting Transcripts
 
 We can extract transcripts with the **transcripts()** functions and the **TxDb** object as a parameter.
 
@@ -262,24 +281,24 @@ myTranscripts
 
 ```
 ## GRanges object with 82960 ranges and 2 metadata columns:
-##                 seqnames           ranges strand |     tx_id     tx_name
-##                    &lt;Rle&gt;        &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
-##       [1]           chr1 [ 11874,  14409]      + |         1  uc001aaa.3
-##       [2]           chr1 [ 11874,  14409]      + |         2  uc010nxq.1
-##       [3]           chr1 [ 11874,  14409]      + |         3  uc010nxr.1
-##       [4]           chr1 [ 69091,  70008]      + |         4  uc001aal.1
-##       [5]           chr1 [321084, 321115]      + |         5  uc001aaq.2
-##       ...            ...              ...    ... .       ...         ...
-##   [82956] chrUn_gl000237   [    1,  2686]      - |     82956  uc011mgu.1
-##   [82957] chrUn_gl000241   [20433, 36875]      - |     82957  uc011mgv.2
-##   [82958] chrUn_gl000243   [11501, 11530]      + |     82958  uc011mgw.1
-##   [82959] chrUn_gl000243   [13608, 13637]      + |     82959  uc022brq.1
-##   [82960] chrUn_gl000247   [ 5787,  5816]      - |     82960  uc022brr.1
+##                 seqnames        ranges strand |     tx_id     tx_name
+##                    &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##       [1]           chr1   11874-14409      + |         1  uc001aaa.3
+##       [2]           chr1   11874-14409      + |         2  uc010nxq.1
+##       [3]           chr1   11874-14409      + |         3  uc010nxr.1
+##       [4]           chr1   69091-70008      + |         4  uc001aal.1
+##       [5]           chr1 321084-321115      + |         5  uc001aaq.2
+##       ...            ...           ...    ... .       ...         ...
+##   [82956] chrUn_gl000237        1-2686      - |     82956  uc011mgu.1
+##   [82957] chrUn_gl000241   20433-36875      - |     82957  uc011mgv.2
+##   [82958] chrUn_gl000243   11501-11530      + |     82958  uc011mgw.1
+##   [82959] chrUn_gl000243   13608-13637      + |     82959  uc022brq.1
+##   [82960] chrUn_gl000247     5787-5816      - |     82960  uc022brr.1
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 ---
-# Extracting Coding regions
+## Extracting Coding Regions
 
 We can extract coding regions with the **cds()** functions and the **TxDb** object as a parameter.
 
@@ -291,25 +310,25 @@ myCDS
 
 ```
 ## GRanges object with 237533 ranges and 1 metadata column:
-##                  seqnames           ranges strand |    cds_id
-##                     &lt;Rle&gt;        &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;
-##        [1]           chr1 [ 12190,  12227]      + |         1
-##        [2]           chr1 [ 12595,  12721]      + |         2
-##        [3]           chr1 [ 13403,  13639]      + |         3
-##        [4]           chr1 [ 69091,  70008]      + |         4
-##        [5]           chr1 [324343, 324345]      + |         5
-##        ...            ...              ...    ... .       ...
-##   [237529] chrUn_gl000228   [30530, 31035]      - |    237529
-##   [237530] chrUn_gl000228   [31353, 31430]      - |    237530
-##   [237531] chrUn_gl000228   [31660, 31734]      - |    237531
-##   [237532] chrUn_gl000228   [31660, 31737]      - |    237532
-##   [237533] chrUn_gl000228   [31996, 32173]      - |    237533
+##                  seqnames        ranges strand |    cds_id
+##                     &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;
+##        [1]           chr1   12190-12227      + |         1
+##        [2]           chr1   12595-12721      + |         2
+##        [3]           chr1   13403-13639      + |         3
+##        [4]           chr1   69091-70008      + |         4
+##        [5]           chr1 324343-324345      + |         5
+##        ...            ...           ...    ... .       ...
+##   [237529] chrUn_gl000228   30530-31035      - |    237529
+##   [237530] chrUn_gl000228   31353-31430      - |    237530
+##   [237531] chrUn_gl000228   31660-31734      - |    237531
+##   [237532] chrUn_gl000228   31660-31737      - |    237532
+##   [237533] chrUn_gl000228   31996-32173      - |    237533
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 
 ---
-# Extracting additional information for exons/transcripts/cds regions.
+## Extracting Additional Information
 
 We can control which additional information such as transcript ID and gene ID we retrieve in metadata columns using the **columns** parameter in the **exons()/transcripts()/cds()** functions. 
 
@@ -324,16 +343,16 @@ myTranscripts[1:2]
 
 ```
 ## GRanges object with 2 ranges and 2 metadata columns:
-##       seqnames         ranges strand |         gene_id     tx_id
-##          &lt;Rle&gt;      &lt;IRanges&gt;  &lt;Rle&gt; | &lt;CharacterList&gt; &lt;integer&gt;
-##   [1]     chr1 [11874, 14409]      + |       100287102         1
-##   [2]     chr1 [11874, 14409]      + |       100287102         2
+##       seqnames      ranges strand |         gene_id     tx_id
+##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;CharacterList&gt; &lt;integer&gt;
+##   [1]     chr1 11874-14409      + |       100287102         1
+##   [2]     chr1 11874-14409      + |       100287102         2
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 
 ---
-# Extracting Promoter regions
+## Extracting Promoter Regions
 
 Another useful function is the **promoters()** function.
 
@@ -350,30 +369,30 @@ myPromoters[1:2]
 
 ```
 ## GRanges object with 2 ranges and 2 metadata columns:
-##       seqnames        ranges strand |     tx_id     tx_name
-##          &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
-##   [1]     chr1 [9874, 11923]      + |         1  uc001aaa.3
-##   [2]     chr1 [9874, 11923]      + |         2  uc010nxq.1
+##              seqnames     ranges strand |     tx_id     tx_name
+##                 &lt;Rle&gt;  &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   uc001aaa.3     chr1 9874-11923      + |         1  uc001aaa.3
+##   uc010nxq.1     chr1 9874-11923      + |         2  uc010nxq.1
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 
 ---
-# Extracting groups of genomic features.
+## Extracting Groups of Genomic Features
 
 A major component of gene models in GFF and GTF files is the grouping of exons to transcripts/genes and transcripts to genes.
 
 We can extract lists of GRanges (a GRangesList) containing the grouping of features to metafeatures using additional accessor functions.
 
-These include the **transcriptsBy()**, **exonsBy()** and **cdsBy()**
+These include the **transcriptsBy()**, **exonsBy()** and **cdsBy()**.
 
 
 ---
-# Extracting groups of genomic features.
+## Extracting Groups of Genomic Features
 
 The **transcriptsBy()** function takes as argument a **TxDb** object and a **by** argument specifying the metafeature/feature to group by.
 
-For the **transcriptsBy()**, the **by** argument may be gene, exon or cds
+For the **transcriptsBy()**, the **by** argument may be gene, exon or cds.
 
 
 ```r
@@ -384,24 +403,26 @@ transcriptByGenes[1:2]
 
 ```
 ## GRangesList object of length 2:
-## $1 
+## $`1`
 ## GRanges object with 2 ranges and 2 metadata columns:
-##       seqnames               ranges strand |     tx_id     tx_name
-##          &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
-##   [1]    chr19 [58858172, 58864865]      - |     70455  uc002qsd.4
-##   [2]    chr19 [58859832, 58874214]      - |     70456  uc002qsf.2
+##       seqnames            ranges strand |     tx_id     tx_name
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1]    chr19 58858172-58864865      - |     70455  uc002qsd.4
+##   [2]    chr19 58859832-58874214      - |     70456  uc002qsf.2
+##   -------
+##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ## 
-## $10 
+## $`10`
 ## GRanges object with 1 range and 2 metadata columns:
-##       seqnames               ranges strand | tx_id    tx_name
-##   [1]     chr8 [18248755, 18258723]      + | 31944 uc003wyw.1
-## 
-## -------
-## seqinfo: 93 sequences (1 circular) from hg19 genome
+##       seqnames            ranges strand |     tx_id     tx_name
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1]     chr8 18248755-18258723      + |     31944  uc003wyw.1
+##   -------
+##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 
 ---
-# Extracting groups of genomic features.
+## Extracting Groups of Genomic Features
 
 As with all lists we can extract information from elements in the GRangesList using the **$** and **[[]]** accessors.
 
@@ -415,20 +436,20 @@ transcriptByGenes[[1]]
 
 ```
 ## GRanges object with 2 ranges and 2 metadata columns:
-##       seqnames               ranges strand |     tx_id     tx_name
-##          &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
-##   [1]    chr19 [58858172, 58864865]      - |     70455  uc002qsd.4
-##   [2]    chr19 [58859832, 58874214]      - |     70456  uc002qsf.2
+##       seqnames            ranges strand |     tx_id     tx_name
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1]    chr19 58858172-58864865      - |     70455  uc002qsd.4
+##   [2]    chr19 58859832-58874214      - |     70456  uc002qsf.2
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 
 ---
-# Extracting groups of genomic features.
+## Extracting Groups of Genomic Features
 
 Similarly the very useful **exonsBy()** function takes again an argument for a **TxDb** object and a **by** argument.
 
-For the **exonsBy()** and **cdsBy()** functions, the **by** argument may be gene, or tx
+For the **exonsBy()** and **cdsBy()** functions, the **by** argument may be gene, or transcript.
 
 
 ```r
@@ -439,35 +460,37 @@ exonsByTranscript[1:2]
 
 ```
 ## GRangesList object of length 2:
-## $1 
+## $`1`
 ## GRanges object with 3 ranges and 3 metadata columns:
-##       seqnames         ranges strand |   exon_id   exon_name exon_rank
-##          &lt;Rle&gt;      &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt; &lt;integer&gt;
-##   [1]     chr1 [11874, 12227]      + |         1        &lt;NA&gt;         1
-##   [2]     chr1 [12613, 12721]      + |         3        &lt;NA&gt;         2
-##   [3]     chr1 [13221, 14409]      + |         5        &lt;NA&gt;         3
+##       seqnames      ranges strand |   exon_id   exon_name exon_rank
+##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt; &lt;integer&gt;
+##   [1]     chr1 11874-12227      + |         1        &lt;NA&gt;         1
+##   [2]     chr1 12613-12721      + |         3        &lt;NA&gt;         2
+##   [3]     chr1 13221-14409      + |         5        &lt;NA&gt;         3
+##   -------
+##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ## 
-## $2 
+## $`2`
 ## GRanges object with 3 ranges and 3 metadata columns:
-##       seqnames         ranges strand | exon_id exon_name exon_rank
-##   [1]     chr1 [11874, 12227]      + |       1      &lt;NA&gt;         1
-##   [2]     chr1 [12595, 12721]      + |       2      &lt;NA&gt;         2
-##   [3]     chr1 [13403, 14409]      + |       6      &lt;NA&gt;         3
-## 
-## -------
-## seqinfo: 93 sequences (1 circular) from hg19 genome
+##       seqnames      ranges strand |   exon_id   exon_name exon_rank
+##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt; &lt;integer&gt;
+##   [1]     chr1 11874-12227      + |         1        &lt;NA&gt;         1
+##   [2]     chr1 12595-12721      + |         2        &lt;NA&gt;         2
+##   [3]     chr1 13403-14409      + |         6        &lt;NA&gt;         3
+##   -------
+##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 
 
 ---
-# Creating TxDb from external sources.
+## Creating TxDb from External Sources
 
 Often we will have our favourite gene models stored in a GTF outside of Bioconductor objects. If we wish to take advantage of all the features in Bioconductor we will need to import it into a **TxDb** object.
 
 We can do this using the **makeTxDbFromGFF()** function which will parse GTF or GFF into a **TxDb** object
 
 ```r
-myCustomTxDb &lt;- makeTxDbFromGFF("Data/Xkr4.gtf")
+myCustomTxDb &lt;- makeTxDbFromGFF("data/Xkr4.gtf")
 ```
 
 ```
@@ -487,6 +510,7 @@ class(myCustomTxDb)
 ```
 
 ---
+## Creating TxDb from External Sources
 
 ```r
 myCustomTxDb
@@ -496,7 +520,7 @@ myCustomTxDb
 ## TxDb object:
 ## # Db type: TxDb
 ## # Supporting package: GenomicFeatures
-## # Data source: Data/Xkr4.gtf
+## # Data source: data/Xkr4.gtf
 ## # Organism: NA
 ## # Taxonomy ID: NA
 ## # miRBase build ID: NA
@@ -505,14 +529,14 @@ myCustomTxDb
 ## # exon_nrow: 3
 ## # cds_nrow: 3
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2018-11-05 12:36:15 -0500 (Mon, 05 Nov 2018)
-## # GenomicFeatures version at creation time: 1.28.4
-## # RSQLite version at creation time: 2.0
-## # DBSCHEMAVERSION: 1.1
+## # Creation time: 2020-04-30 19:10:12 -0400 (Thu, 30 Apr 2020)
+## # GenomicFeatures version at creation time: 1.38.2
+## # RSQLite version at creation time: 2.2.0
+## # DBSCHEMAVERSION: 1.2
 ```
 
 ---
-# Creating TxDb from external sources.
+## Creating TxDb from External Sources
 
 Now we have our own custom GTF object we can make use of the functions from **GenomicFeatures** package such as retrieving gene coordinates as a **GRanges**.
 
@@ -523,16 +547,16 @@ genes(myCustomTxDb)
 
 ```
 ## GRanges object with 1 range and 1 metadata column:
-##        seqnames             ranges strand |     gene_id
-##           &lt;Rle&gt;          &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##   Xkr4     chr1 [3214482, 3671498]      - |        Xkr4
+##        seqnames          ranges strand |     gene_id
+##           &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##   Xkr4     chr1 3214482-3671498      - |        Xkr4
 ##   -------
 ##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
 ```
 ---
-# Creating TxDb from external sources.
+## Creating TxDb from External Sources
 
-Or exons grouped by genes as a **GRangesList**
+Or exons grouped by genes as a **GRangesList**.
 
 
 
@@ -542,19 +566,18 @@ exonsBy(myCustomTxDb,by="gene")
 
 ```
 ## GRangesList object of length 1:
-## $Xkr4 
+## $Xkr4
 ## GRanges object with 3 ranges and 2 metadata columns:
-##       seqnames             ranges strand |   exon_id   exon_name
-##          &lt;Rle&gt;          &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
-##   [1]     chr1 [3214482, 3216968]      - |         1        &lt;NA&gt;
-##   [2]     chr1 [3421702, 3421901]      - |         2        &lt;NA&gt;
-##   [3]     chr1 [3670552, 3671498]      - |         3        &lt;NA&gt;
-## 
-## -------
-## seqinfo: 1 sequence from an unspecified genome; no seqlengths
+##       seqnames          ranges strand |   exon_id   exon_name
+##          &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##   [1]     chr1 3214482-3216968      - |         1        &lt;NA&gt;
+##   [2]     chr1 3421702-3421901      - |         2        &lt;NA&gt;
+##   [3]     chr1 3670552-3671498      - |         3        &lt;NA&gt;
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
 ```
 ---
-# Creating TxDb from UCSC.
+## Creating TxDb from UCSC
 
 We can create a TxDb directly from UCSC's database using the **makeTxDbFromUCSC()** function.
 
@@ -578,7 +601,7 @@ availableGenomes[1:4,]
 ## 4 hg17   Human  May 2004                      NCBI Build 35
 ```
 ---
-# Creating TxDb from UCSC.
+## Creating TxDb from UCSC
 
 Once we have identified the genome build we wish to use we can specify the genome parameter in the **makeTxDbFromUCSC()** function.
 
@@ -606,13 +629,13 @@ hg18TxDb
 ## # exon_nrow: 266688
 ## # cds_nrow: 221991
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2018-11-05 12:38:19 -0500 (Mon, 05 Nov 2018)
-## # GenomicFeatures version at creation time: 1.28.4
-## # RSQLite version at creation time: 2.0
-## # DBSCHEMAVERSION: 1.1
+## # Creation time: 2020-04-30 19:10:52 -0400 (Thu, 30 Apr 2020)
+## # GenomicFeatures version at creation time: 1.38.2
+## # RSQLite version at creation time: 2.2.0
+## # DBSCHEMAVERSION: 1.2
 ```
 ---
-# Creating TxDb from UCSC.
+## Creating TxDb from UCSC
 
 And again we can now make use of **GenomicFeatures** package's functions with our new TxDb objects
 
@@ -621,7 +644,7 @@ And again we can now make use of **GenomicFeatures** package's functions with ou
 hg18Promoters &lt;- promoters(hg18TxDb,2000,50)
 ```
 ---
-# Exporting a TxDb object as a GTF/GFF.
+## Exporting a TxDb Object as GTF/GFF File
 
 We can make use of the **export.gff()** in the **rtracklayer** package to export our **TxDb** object to a gtf or gff file. We can include an additional argument of **format** to the **export.gff()** function.
 
@@ -633,7 +656,7 @@ export.gff(myCustomTxDb,con="customTxDbb.gff",format="gff")
 export.gff(myCustomTxDb,con="customTxDbb.gtf",format="gtf")
 ```
 ---
-# Some useful functions for working with gene model in GenomicFeatures.
+## Some Useful Functions in GenomicFeatures
 
 We have seen that we can extract transcripts and exons grouped by their genes/transcripts using the **transcriptsBy()** and **exonsBy()** functions.
 
@@ -649,7 +672,7 @@ length(transcriptByGenes)
 ## [1] 20121
 ```
 ---
-# Some useful functions for working with gene model in GenomicFeatures.
+## Some Useful Functions in GenomicFeatures
 
 To find the number of exons in every group/transcript we can use the function **lengths()**. The **lengths()** function will tell us the length of every group in our **GRangesList**
 
@@ -664,7 +687,7 @@ transcriptNumberPerGene[1:5]
 ##    15     3    12    16    16
 ```
 ---
-# Some useful functions for working with gene model in GenomicFeatures.
+## Some Useful Functions in GenomicFeatures
 
 We may wish to know the total sum length of all exons in every transcript. The **transcriptLengths()** function allows us to find all transcript lengths from a TxDb object as well as additional information.
 
@@ -683,7 +706,7 @@ transcript_Lens[1:5,]
 ## 5     5 uc001aal.1   79501     1    918
 ```
 ---
-# Extracting sequence information.
+## Extracting Sequence Information
 
 As with many Bioconductor packages, there is interoperability between **BSgenome** packages holding genome sequences and **TxDb** objects with gene models. One very useful function is the **extractTranscriptSeqs()** function.
 
@@ -699,21 +722,21 @@ hg19TransSeq
 
 ```
 ##   A DNAStringSet instance of length 82960
-##          width seq                                                                                             names               
-##     [1]   1652 CTTGCCGTCAGCCTTTTCTTTGACCTCTTCTTTCTGTTCATGTGTA...CTGCACAGCTAGAGATCCTTTATTAAAAGCACACTGTTGGTTTCTG 1
-##     [2]   1488 CTTGCCGTCAGCCTTTTCTTTGACCTCTTCTTTCTGTTCATGTGTA...CTGCACAGCTAGAGATCCTTTATTAAAAGCACACTGTTGGTTTCTG 2
-##     [3]   1595 CTTGCCGTCAGCCTTTTCTTTGACCTCTTCTTTCTGTTCATGTGTA...CTGCACAGCTAGAGATCCTTTATTAAAAGCACACTGTTGGTTTCTG 3
-##     [4]    918 ATGGTGACTGAATTCATTTTTCTGGGTCTCTCTGATTCTCAGGAAC...AAGACAGCTGAGAAAATGGGATGCACATTCTAGTGTAAAGTTTTAG 4
-##     [5]     32 TACAGACCAAGCTCATGACTCACAATGGCCTA                                                                5
+##          width seq                       names               
+##     [1]   1652 CTTGCCGTCAG...GTTGGTTTCTG 1
+##     [2]   1488 CTTGCCGTCAG...GTTGGTTTCTG 2
+##     [3]   1595 CTTGCCGTCAG...GTTGGTTTCTG 3
+##     [4]    918 ATGGTGACTGA...TAAAGTTTTAG 4
+##     [5]     32 TACAGACCAAG...ACAATGGCCTA 5
 ##     ...    ... ...
-## [82956]   1217 GCCAGTTTAGGGTCTCTGGTATCTCCCGCTGAGCTGCTCTGTTCCC...GGGCTTCTATGGCCACCGATCACTGCAACCTCCGCCTCCTGAGATC 82956
-## [82957]    737 CTCCACTTCTGATCCTCCCCGCCCTGGTGCTGCTCCGGGTCACATA...AAAATGGCTTTCTCGGCCTCAAATAGCCGCTTTATTAGATGCAGTG 82957
-## [82958]     30 TGGTGAATTTCAGCCAAAGTGGCCAAAGAA                                                                  82958
-## [82959]     30 TTGCAGAGGTGGCTGGTTGCTCTTTGAGCC                                                                  82959
-## [82960]     30 TGGTGAATTTCAGCCAAAGTGGCCAAAGAA                                                                  82960
+## [82956]   1217 GCCAGTTTAGG...CTCCTGAGATC 82956
+## [82957]    737 CTCCACTTCTG...TAGATGCAGTG 82957
+## [82958]     30 TGGTGAATTTC...TGGCCAAAGAA 82958
+## [82959]     30 TTGCAGAGGTG...CTCTTTGAGCC 82959
+## [82960]     30 TGGTGAATTTC...TGGCCAAAGAA 82960
 ```
 ---
-# Extracting sequence information.
+## Extracting Sequence Information
 
 We can then either work with the resulting DNAStringSet then in R or write to Fasta file for analysis in external programs.
 
@@ -723,7 +746,7 @@ writeXStringSet(hg19TransSeq,"myTranscriptSequences.fa")
 ```
 
 ---
-# Changing naming conventions.
+## Changing Naming Conventions
 
 So far we have used the standard UCSC style of chromosome names
 
@@ -736,7 +759,7 @@ Ensembl for instance uses.
 - 1, 2, 3, 4 ...
 
 ---
-# Changing chromosome naming styles.
+## Changing Chromosome Naming Styles
 
 The **GenomeInfoDb** package and associated **GenomeInfoDbData** package contain mappings between differing naming conventions and functions to convert between them.
 
@@ -748,7 +771,7 @@ library(GenomeInfoDb)
 ```
 
 ---
-# Reviewing chromosome naming styles.
+## Reviewing Chromosome Naming Styles
 
 We can review all the mappings for supported organisms' genomes using the **genomeStyles()** function with no arguments.
 
@@ -761,14 +784,14 @@ names(allMappings)
 ```
 
 ```
-##  [1] "Arabidopsis_thaliana"     "Caenorhabditis_elegans"   "Canis_familiaris"         "Cyanidioschyzon_merolae" 
-##  [5] "Drosophila_melanogaster"  "genomeMappingTbl.csv"     "Homo_sapiens"             "Mus_musculus"            
-##  [9] "Oryza_sativa"             "Populus_trichocarpa"      "Rattus_norvegicus"        "Saccharomyces_cerevisiae"
-## [13] "Zea_mays"
+##  [1] "Arabidopsis_thaliana"     "Caenorhabditis_elegans"   "Canis_familiaris"        
+##  [4] "Cyanidioschyzon_merolae"  "Drosophila_melanogaster"  "Homo_sapiens"            
+##  [7] "Mus_musculus"             "Oryza_sativa"             "Populus_trichocarpa"     
+## [10] "Rattus_norvegicus"        "Saccharomyces_cerevisiae" "Zea_mays"
 ```
 
 ---
-# Chromosome naming style data.frame.
+## Chromosome Naming Style
 
 We can then review mappings for our organism of interest's genomes by retrieving the relevant entry from our list returned by the **genomeStyles()** function.
 
@@ -810,7 +833,7 @@ allMappings[["Homo_sapiens"]]
 ```
 
 ---
-# Changing chromosome naming styles.
+## Changing Chromosome Naming Styles
 
 The **seqlevelsStyle()** function allows us to review as well as set the naming convention for our GenomicRanges or TxDb objects.
 
@@ -832,16 +855,16 @@ myGenes[1:2,]
 
 ```
 ## GRanges object with 2 ranges and 1 metadata column:
-##      seqnames               ranges strand |     gene_id
-##         &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##    1    chr19 [58858172, 58874214]      - |           1
-##   10     chr8 [18248755, 18258723]      + |          10
+##      seqnames            ranges strand |     gene_id
+##         &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##    1    chr19 58858172-58874214      - |           1
+##   10     chr8 18248755-18258723      + |          10
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 
 ---
-# Changing chromosome naming styles (2).
+## Changing Chromosome Naming Styles
 
 Now we can update them to **Ensembl**, **NCBI** or **dbSNP** styles. Here we update to **Ensembl** chromosome naming conventions. 
 
@@ -855,17 +878,17 @@ myGenes[1:2,]
 
 ```
 ## GRanges object with 2 ranges and 1 metadata column:
-##      seqnames               ranges strand |     gene_id
-##         &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##    1       19 [58858172, 58874214]      - |           1
-##   10        8 [18248755, 18258723]      + |          10
+##      seqnames            ranges strand |     gene_id
+##         &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##    1       19 58858172-58874214      - |           1
+##   10        8 18248755-18258723      + |          10
 ##   -------
 ##   seqinfo: 93 sequences (1 circular) from hg19 genome
 ```
 
 
 ---
-# Gene annotation.
+## Gene Annotation
 
 Where as the **TxDb** packages hold information on gene models such as exons positions and exon to gene mapping, the **OrgDb** packages contain information on gene's mapping to alternative IDs and any functional annotation. 
 
@@ -880,7 +903,7 @@ Homo Sapiens annotation with Entrez Gene IDs -- org.Hs.eg.db
 &lt;/div&gt;
 
 ---
-# Gene annotation.
+## Gene Annotation
 
 To gain access to gene annotation we must first load the library for the relevant species.
 
@@ -889,7 +912,7 @@ Here we install and load the library for Human, Org.Hs.eg.db.
 
 
 ```r
-biocLite("org.Hs.eg.db")
+BiocManager::install("org.Hs.eg.db")
 library(org.Hs.eg.db)
 class(org.Hs.eg.db)
 ```
@@ -916,7 +939,7 @@ We can use the functions:-
 We will explore how to retrieve annotation from gene-centric organism level annotation package (org.Hs.eg.db) using these functions.
 
 ---
-## Accessing annotation from OrgDb
+## Accessing Annotation from Org.Db
 
 We can use the **columns()** function first to list available annotation.
 
@@ -928,10 +951,12 @@ columns(org.Hs.eg.db)
 ```
 
 ```
-##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT"  "ENSEMBLTRANS" "ENTREZID"     "ENZYME"       "EVIDENCE"    
-##  [9] "EVIDENCEALL"  "GENENAME"     "GO"           "GOALL"        "IPI"          "MAP"          "OMIM"         "ONTOLOGY"    
-## [17] "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"         "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"      
-## [25] "UNIGENE"      "UNIPROT"
+##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT"  "ENSEMBLTRANS"
+##  [6] "ENTREZID"     "ENZYME"       "EVIDENCE"     "EVIDENCEALL"  "GENENAME"    
+## [11] "GO"           "GOALL"        "IPI"          "MAP"          "OMIM"        
+## [16] "ONTOLOGY"     "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"        
+## [21] "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"       "UNIGENE"     
+## [26] "UNIPROT"
 ```
 --
 To know more about the above identifier types
@@ -940,7 +965,7 @@ To know more about the above identifier types
 help(GENENAME)
 ```
 ---
-## Accessing annotation from org.Hs.eg.db {.smaller}
+## Accessing Annotation from org.Hs.eg.db
 
 Which keytypes can be used to query this database can be retrieved using keytypes.
 
@@ -949,14 +974,16 @@ keytypes(org.Hs.eg.db)
 ```
 
 ```
-##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT"  "ENSEMBLTRANS" "ENTREZID"     "ENZYME"       "EVIDENCE"    
-##  [9] "EVIDENCEALL"  "GENENAME"     "GO"           "GOALL"        "IPI"          "MAP"          "OMIM"         "ONTOLOGY"    
-## [17] "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"         "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"      
-## [25] "UNIGENE"      "UNIPROT"
+##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT"  "ENSEMBLTRANS"
+##  [6] "ENTREZID"     "ENZYME"       "EVIDENCE"     "EVIDENCEALL"  "GENENAME"    
+## [11] "GO"           "GOALL"        "IPI"          "MAP"          "OMIM"        
+## [16] "ONTOLOGY"     "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"        
+## [21] "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"       "UNIGENE"     
+## [26] "UNIPROT"
 ```
 ---
 
-## Accessing annotation from OrgDb
+## Accessing Annotation from Org.Db
 
 If we want to extract few identifiers of a particular keytype, we can use keys() function
 
@@ -965,122 +992,177 @@ keys(org.Hs.eg.db, keytype="SYMBOL")
 ```
 
 ```
-##    [1] "A1BG"       "A2M"        "A2MP1"      "NAT1"       "NAT2"       "NATP"       "SERPINA3"   "AADAC"      "AAMP"      
-##   [10] "AANAT"      "AARS"       "AAVS1"      "ABAT"       "ABCA1"      "ABCA2"      "ABCA3"      "ABCB7"      "ABCF1"     
-##   [19] "ABCA4"      "ABL1"       "AOC1"       "ABL2"       "ABO"        "ABR"        "ACAA1"      "ACACA"      "ACACB"     
-##   [28] "ACADL"      "ACADM"      "ACADS"      "ACADSB"     "ACADVL"     "ACAT1"      "ACAT2"      "ASIC2"      "ASIC1"     
-##   [37] "ACHE"       "ACLS"       "ACLY"       "ACO1"       "ACR"        "ACO2"       "ACOX1"      "ACP1"       "ACP2"      
-##   [46] "ACP5"       "ACPP"       "ACRV1"      "ACTA1"      "ACTA2"      "ACTB"       "ACTBP2"     "ACTBP3"     "ACTBP4"    
-##   [55] "ACTBP6"     "ACTBP7"     "ACTBP8"     "ACTBP9"     "ACTC1"      "ACTG1"      "ACTG2"      "ACTG1P1"    "ACTG1P2"   
-##   [64] "ACTG1P3"    "ACTG1P6"    "ACTG1P7"    "ACTG1P8"    "ACTN4"      "ACTG1P9"    "ACTG1P10"   "ACTL6A"     "ACTN1"     
-##   [73] "ACTN2"      "ACTN3"      "ACVR1"      "ACVR1B"     "ACVR2A"     "ACVR2B"     "ACVRL1"     "ACY1"       "ACYP1"     
-##   [82] "ACYP2"      "ADA"        "ADAM8"      "ADAM10"     "ADAR"       "ADARB1"     "ADARB2"     "ADCP1"      "ADCY1"     
-##   [91] "ADCY2"      "ADCY3"      "ADCY5"      "ADCY6"      "ADCY7"      "ADCY8"      "ADCY9"      "ADCYAP1"    "ADCYAP1R1" 
-##  [100] "ADD1"       "ADD2"       "ADD3"       "ADFN"       "PLIN2"      "ADH1A"      "ADH1B"      "ADH1C"      "ADH4"      
-##  [109] "ADH5"       "ADH6"       "ADH7"       "ADK"        "ADM"        "ADORA1"     "ADORA2A"    "ADORA2B"    "ADORA2BP1" 
-##  [118] "ADORA3"     "ADPRH"      "PARP1"      "PARP4"      "PARP1P1"    "PARP1P2"    "ADRA1D"     "ADRA1B"     "ADRA1A"    
-##  [127] "ADRA2A"     "ADRA2B"     "ADRA2C"     "ADRB1"      "ADRB2"      "ADRB3"      "GRK2"       "GRK3"       "ADSL"      
-##  [136] "ADSS"       "AP2A1"      "AP2A2"      "AP1B1"      "AP2B1"      "AP1G1"      "AEBP1"      "AES"        "CRISP1"    
-##  [145] "AF8T"       "AFA"        "AFD1"       "AFG3L1P"    "AFM"        "AFP"        "AGA"        "ACAN"       "AGER"      
-##  [154] "AGL"        "AGMX2"      "AGRP"       "JAG1"       "AGT"        "AGTR1"      "AGTR2"      "APLNR"      "AGXT"      
-##  [163] "NR0B1"      "AHCY"       "AIC"        "AHR"        "AHSG"       "AIF1"       "AIH3"       "CRYBG1"     "AK1"       
-##  [172] "AK2"        "AK4"        "AK4P1"      "AKT1"       "AKT2"       "ALAD"       "ALAS1"      "ALAS2"      "ALB"       
-##  [181] "ALCAM"      "ABCD1"      "ALDH1A1"    "ALDH2"      "ALDH3A1"    "ALDH1B1"    "ALDH1A3"    "ALDH3B1"    "ALDH3B2"   
-##  [190] "ALDH9A1"    "ALDH3A2"    "ABCD2"      "ALDOA"      "ALDOAP2"    "ALDOB"      "ALDOC"      "AKR1B1"     "AKR1B1P2"  
-##  [199] "ALK"        "ALOX12"     "ALOX5"      "ALOX5AP"    "ALOX12B"    "ALOX12P1"   "ALOX12P2"   "ALOX15"     "ALOX15B"   
-##  [208] "ALPI"       "ALPL"       "ALPP"       "ALPPL2"     "ALS3"       "ALS5"       "ALX3"       "AMBN"       "AMBP"      
-##  [217] "AMCN"       "AMD1"       "AMD1P2"     "AMELX"      "AMELY"      "AMFR"       "AMH"        "AMHR2"      "AMPD1"     
-##  [226] "AMPD2"      "AMPD3"      "AMPH"       "BIN1"       "AMT"        "AMY1A"      "AMY1B"      "AMY1C"      "AMY2A"     
-##  [235] "AMY2B"      "AMYP1"      "ANCR"       "ANG"        "ANGPT1"     "ANGPT2"     "ANK1"       "ANK2"       "ANK3"      
-##  [244] "ANOP1"      "ANPEP"      "SLC25A4"    "SLC25A5"    "SLC25A6"    "ANXA1"      "ANXA2"      "ANXA2P1"    "ANXA2P2"   
-##  [253] "ANXA2P3"    "ANXA3"      "ANXA4"      "ANXA5"      "ANXA6"      "ANXA7"      "ANXA11"     "ANXA13"     "AOAH"      
-##  [262] "AOC2"       "AOX1"       "APAF1"      "NUDT2"      "APOF"       "APBA1"      "APBA2"      "APBB1"      "APBB2"     
-##  [271] "APC"        "APCS"       "AIRE"       "APEH"       "APEX1"      "BIRC2"      "BIRC3"      "XIAP"       "BIRC5"     
-##  [280] "APLP1"      "APLP2"      "APOA1"      "APOA2"      "APOA4"      "APOB"       "APOBEC1"    "APOC1"      "APOC1P1"   
-##  [289] "AQP8"       "APOC2"      "APOC3"      "APOC4"      "APOD"       "APOE"       "APOH"       "APP"        "APRT"      
-##  [298] "KLK3"       "FAS"        "FASLG"      "SHROOM2"    "AQP1"       "AQP2"       "AQP3"       "AQP4"       "AQP5"      
-##  [307] "AQP6"       "AQP7"       "AQP9"       "AR"         "ABCC6"      "ARAF"       "ARCN1"      "TRIM23"     "AREG"      
-##  [316] "ARF1"       "ARF3"       "ARF4"       "ARL4D"      "ARF4P1"     "ARF5"       "ARF6"       "ARG1"       "ARG2"      
-##  [325] "RHOA"       "RHOB"       "RHOC"       "RND3"       "RHOG"       "ARHGAP1"    "ARHGAP4"    "ARHGAP5"    "ARHGAP6"   
-##  [334] "ARHGDIA"    "ARHGDIB"    "ARHGDIG"    "RHOH"       "ARL1"       "PHOX2A"     "ARL2"       "ARL3"       "ARNT"      
-##  [343] "ARNTL"      "ARR3"       "ARRB1"      "ARRB2"      "ARSA"       "ARSB"       "STS"        "ARSC2"      "ARSD"      
-##  [352] "ARSE"       "ARSF"       "ART1"       "ART2P"      "ART3"       "ART4"       "ARVCF"      "ARVD3"      "ARVD4"     
-##  [361] "ASAH1"      "ASCL1"      "ASCL2"      "ASD1"       "ASGR1"      "ASGR2"      "ASIP"       "ASL"        "ASLP1"     
-##  [370] "ASMT"       "ASNA1"      "ASNS"       "ASNSP2"     "ASPA"       "ASPH"       "ASS1"       "ASS1P2"     "ASS1P4"    
-##  [379] "ASS1P5"     "ASS1P6"     "ASS1P8"     "ASS1P9"     "ASS1P10"    "ASS1P14"    "ASTN1"      "SERPINC1"   "ZFHX3"     
-##  [388] "ATD"        "ATF1"       "ATF3"       "ATF4"       "ATF4P1"     "ATHS"       "ATIC"       "ATM"        "RERE"      
-##  [397] "ATOH1"      "ATOX1"      "ATP1A1"     "ATP1A2"     "ATP1A3"     "ATP12A"     "ATP1A4"     "ATP1B1"     "ATP1B2"    
-##  [406] "ATP1B3"     "ATP1B3P1"   "ATP1B1P1"   "FXYD2"      "ATP2A1"     "ATP2A2"     "ATP2A3"     "ATP2B1"     "ATP2B2"    
-##  [415] "ATP2B3"     "ATP2B4"     "ATP4A"      "ATP4B"      "ATP5A1"     "ALDH7A1"    "ATP5A1P2"   "ATP5B"      "ATP5BP1"   
-##  [424] "ATP5C1"     "ATP5D"      "ATP5E"      "ATP5F1"     "ATP5G1"     "ATP5G2"     "ATP5G3"     "ATP5G2P1"   "ATP5I"     
-##  [433] "ATP5J"      "ATP6V1A"    "ATP6V1B1"   "ATP6V1B2"   "ATP6V0C"    "ATP6V1C1"   "ATP6V1E1"   "ATP6V0B"    "ATP6V1G2"  
-##  [442] "ATP6V0A1"   "ATP6AP1"    "ATP7A"      "ATP5O"      "ATP7B"      "ALDH7A1P1"  "ALDH7A1P2"  "ALDH7A1P3"  "ALDH7A1P4" 
-##  [451] "ATR"        "ATRX"       "KIF1A"      "AUH"        "AUP1"       "AVP"        "AVPR1A"     "AVPR1B"     "AVPR2"     
-##  [460] "AXL"        "AZF1"       "AZGP1"      "AZU1"       "B2M"        "B2MR"       "BAAT"       "BACH1"      "BAD"       
-##  [469] "BAG1"       "BAGE"       "ADGRB1"     "ADGRB2"     "ADGRB3"     "BAK1"       "NKX3-2"     "BARD1"      "BAX"       
-##  [478] "BBS1"       "BBS2"       "BBS4"       "BCAT1"      "BCAT2"      "BCHE"       "BCKDHA"     "BCKDHB"     "CCND1"     
-##  [487] "BCL2"       "BCL2A1"     "BCL2L1"     "BCL2L2"     "BAK1P1"     "BAK1P2"     "BCL3"       "BCL5"       "BCL6"      
-##  [496] "BCL7A"      "NBEAP1"     "BCL9"       "TNFRSF17"   "HCN2"       "OPN1SW"     "BCR"        "BCRP4"      "BCS1L"     
-##  [505] "BCYRN1"     "BCYRN1P1"   "BCYRN1P2"   "BDH1"       "BDKRB1"     "BDKRB2"     "BDNF"       "BEVI"       "CFB"       
-##  [514] "BFSP1"      "BGLAP"      "BGN"        "CEACAM1"    "BHMT"       "BICD1"      "BID"        "BIK"        "PRDM1"     
-##  [523] "BLK"        "BLM"        "BLMH"       "CXCR5"      "BLVRA"      "BLVRB"      "BNC1"       "BMI1"       "BMP1"      
-##  [532] "BMP2"       "BMP3"       "BMP4"       "BMP5"       "BMP6"       "BMP7"       "BMP8B"      "BMPR1A"     "BMPR1B"    
-##  [541] "BMPR2"      "BMX"        "POLR3D"     "BNIP1"      "BNIP2"      "BNIP3"      "BNIP3L"     "BOK"        "DST"       
-##  [550] "FOXL2"      "BPGM"       "BPHL"       "BPI"        "BRCA1"      "BRAF"       "BRCA2"      "BRDT"       "ZFP36L1"   
-##  [559] "ZFP36L2"    "BRS3"       "BSG"        "BST1"       "BST2"       "BTC"        "BTD"        "KLF9"       "KLF5"      
-##  [568] "BTF3"       "BTF3P11"    "BTF3P1"     "BTG1"       "BTK"        "BTN1A1"     "BTS1"       "BUB1"       "BVR1"      
-##  [577] "BUB1B"      "BYSL"       "TSPO"       "C1QBP"      "SERPING1"   "ERC2-IT1"   "C1QA"       "C1QB"       "C1QC"      
-##  [586] "C1R"        "C1S"        "C2"         "C3"         "C3AR1"      "C4A"        "C4B"        "C4BPA"      "C4BPAP2"   
-##  [595] "C4BPB"      "CAPN5"      "C5"         "C5AR1"      "C6"         "C7"         "C8A"        "C8B"        "C8G"       
-##  [604] "OSGIN2"     "C9"         "VPS51"      "MRPL49"     "ZNHIT2"     "MPPED2"     "MYRF"       "TMEM258"    "DAGLA"     
-##  [613] "GAS8-AS1"   "FMNL1"      "LDLRAD4"    "PTTG1IP"    "C21orf2"    "TMEM50B"    "MPPED1"     "CA1"        "CA2"       
-##  [622] "CA3"        "CA4"        "CA5A"       "CA5AP1"     "CA6"        "CA7"        "CA8"        "CA9"        "CA11"      
-##  [631] "CA12"       "CACD"       "CACNA1A"    "CACNA1B"    "CACNA1C"    "CACNA1D"    "CACNA1E"    "CACNA1F"    "CACNA1S"   
-##  [640] "DDR1"       "CACNA2D1"   "CACNB1"     "CACNB2"     "CACNB3"     "CACNB4"     "CACNG1"     "SLC25A20"   "SLC25A20P1"
-##  [649] "CAD"        "CALB1"      "CALB2"      "S100G"      "CALCA"      "CALCB"      "CALCP"      "CALCR"      "CALD1"     
-##  [658] "CALM1"      "CALM1P1"    "CALM1P2"    "CALM2"      "CALM2P2"    "CALM2P3"    "CALM3"      "CALML3"     "CALR"      
-##  [667] "CALU"       "CAMK4"      "CAMK2A"     "CAMK2B"     "CAMK2D"     "CAMK2G"     "CAMLG"      "CAMP"       "CANX"      
-##  [676] "CAPG"       "CAPN1"      "CAPN2"      "CAPN3"      "CAPNS1"     "CAPN6"      "CAPS"       "CAPZA1"     "CAPZA2"    
-##  [685] "CAST"       "CAPZB"      "CARS"       "CASP1"      "CASP2"      "CASP3"      "CASP4"      "CASP5"      "CASP6"     
-##  [694] "CASP7"      "CASP8"      "CASP9"      "CASP10"     "CASQ1"      "CASQ2"      "CASR"       "CAT"        "CATR1"     
-##  [703] "CAV1"       "CAV2"       "CAV3"       "RUNX2"      "RUNX1"      "RUNX1T1"    "CBFA2T3"    "RUNX3"      "CBFB"      
-##  [712] "SERPINA6"   "CBL"        "CBLB"       "CBLN1"      "SERPINH1"   "CBR1"       "CBR3"       "CBS"        "CCA1"      
-##  [721] "CCIN"       "CCAL1"      "KYAT1"      "CCK"        "CCKAR"      "CCKBR"      "KRIT1"      "CCNA2"      "CCNB1"     
-##  [730] "CCNC"       "CCND2"      "CCND2P1"    "CCND3"      "CCND3P1"    "CCNE1"      "CCNF"       "CCNG1"      "CCNG2"     
-##  [739] "CCNH"       "CCNT1"      "CCNT2"      "CCT"        "CCT6A"      "CD1A"       "CD1B"       "CD1C"       "CD1D"      
-##  [748] "CD1E"       "CD2"        "CD3D"       "CD3E"       "CD3G"       "CD247"      "CD4"        "CD5"        "CD5L"      
-##  [757] "CD6"        "CD7"        "CD8A"       "CD8B"       "CD8BP"      "CD9"        "CD14"       "CD19"       "MS4A1"     
-##  [766] "MS4A3"      "CD22"       "CD24P1"     "CD24P2"     "CD24P3"     "CD24P4"     "CD27"       "CD28"       "CD80"      
-##  [775] "CD86"       "TNFRSF8"    "TNFSF8"     "CD33"       "SIGLEC6"    "CD34"       "CD36"       "SCARB1"     "SCARB2"    
-##  [784] "CD37"       "CD38"       "ENTPD1"     "ENTPD2"     "ENTPD6"     "ENTPD3"     "ENTPD5"     "CD40"       "CD40LG"    
-##  [793] "CD44"       "CD47"       "CD48"       "CD53"       "CD58"       "CD59"       "CD63"       "CD68"       "CD69"      
-##  [802] "CD70"       "CD72"       "CD74"       "CD79A"      "CD79B"      "CD81"       "ADGRE5"     "CD151"      "CDA"       
-##  [811] "CDAN3"      "CDB2"       "CDK1"       "CDK11B"     "LRBA"       "CDC5L"      "SEPT7"      "CDC6"       "CDC20"     
-##  [820] "CDC25A"     "CDC25B"     "CDC25C"     "CDC27"      "CDC34"      "CDC42"      "CDH1"       "CDH2"       "CDH3"      
-##  [829] "CDH4"       "CDH5"       "CDH6"       "CDH7"       "CDH8"       "CDH9"       "CDH10"      "CDH11"      "CDH12"     
-##  [838] "CDH12P2"    "CDH13"      "CDH15"      "CDH16"      "CDH17"      "CDH18"      "CDK2"       "CDK3"       "CDK4"      
-##  [847] "CDK5"       "CDK6"       "CDK7"       "CDL2"       "CDK8"       "CDK9"       "CDKN1A"     "CDKN1B"     "CDKN1C"    
-##  [856] "CDKN2A"     "CDKN2B"     "CDKN2C"     "CDKN2D"     "CDKN3"      "CDO1"       "CDR1"       "CDR2"       "CDS1"      
-##  [865] "CDSN"       "CD52"       "CDX1"       "CDX2"       "CDX4"       "CLGN"       "CEACAM5"    "CEBPA"      "CEBPB"     
-##  [874] "CEBPD"      "CEBPE"      "CEBPG"      "CECR"       "CEL"        "CELP"       "CENPA"      "CENPB"      "CENPC"     
-##  [883] "CENPCP1"    "CENPE"      "CENPF"      "CES1"       "CETN1"      "CETN2"      "CETN3"      "CETP"       "CFL1"      
-##  [892] "CFL2"       "CFL1P5"     "CTSC"       "CFTR"       "CGA"        "CGB3"       "CGF1"       "CEACAM3"    "CEACAMP5"  
-##  [901] "CEACAMP11"  "CEACAM7"    "CEACAM8"    "CEACAM4"    "CEACAMP1"   "CEACAMP2"   "CEACAMP3"   "CEACAMP4"   "CEACAMP6"  
-##  [910] "CEACAMP7"   "CEACAMP8"   "CEACAMP9"   "CEACAMP10"  "CHAD"       "RCBTB2"     "CHAT"       "RCC1"       "CHD1"      
-##  [919] "CHD2"       "CHD3"       "CHD4"       "AKR1C4"     "CHEK1"      "FOXN3"      "CHGA"       "CHGB"       "CHI3L1"    
-##  [928] "CHI3L2"     "CHIT1"      "CHKA"       "CHKB"       "CHM"        "CHML"       "CHN1"       "CHN2"       "CHR"       
-##  [937] "CHRM1"      "CHRM2"      "LYST"       "CHRM3"      "CHRM4"      "CHRM5"      "CHRNA1"     "CHRNA2"     "CHRNA3"    
-##  [946] "CHRNA4"     "CHRNA5"     "CHRNA7"     "CHRNB1"     "CHRNB2"     "CHRNB3"     "CHRNB4"     "CHRND"      "CHRNE"     
-##  [955] "CHRNG"      "CHUK"       "CIDEA"      "CKB"        "CIRBP"      "CISH"       "TBCB"       "CKBE"       "CKBP1"     
-##  [964] "CKM"        "CKMT1B"     "CKMT2"      "ERCC8"      "CKS1B"      "CKS2"       "SCAR2"      "CLA3"       "AP2M1"     
-##  [973] "AP1S1"      "AP2S1"      "AP3S1"      "CLC"        "CLCA1"      "CLCN1"      "CLCN2"      "CLCN3"      "CLCN4"     
-##  [982] "CLCN5"      "CLCN6"      "CLCN7"      "CLCNKA"     "CLCNKB"     "CLU"        "CLIC1"      "CLIC2"      "CLK1"      
-##  [991] "CLK2"       "CLK2P1"     "CLK3"       "TPP1"       "CLN3"       "CLN5"       "CLNS1AP1"   "CLNS1A"     "CLPS"      
-## [1000] "CLPTM1"    
-##  [ reached getOption("max.print") -- omitted 58682 entries ]
+##    [1] "A1BG"       "A2M"        "A2MP1"      "NAT1"       "NAT2"       "NATP"      
+##    [7] "SERPINA3"   "AADAC"      "AAMP"       "AANAT"      "AARS1"      "AAVS1"     
+##   [13] "ABAT"       "ABCA1"      "ABCA2"      "ABCA3"      "ABCB7"      "ABCF1"     
+##   [19] "ABCA4"      "ABL1"       "AOC1"       "ABL2"       "ABO"        "ABR"       
+##   [25] "ACAA1"      "ACACA"      "ACACB"      "ACADL"      "ACADM"      "ACADS"     
+##   [31] "ACADSB"     "ACADVL"     "ACAT1"      "ACAT2"      "ASIC2"      "ASIC1"     
+##   [37] "ACHE"       "ACLS"       "ACLY"       "ACO1"       "ACR"        "ACO2"      
+##   [43] "ACOX1"      "ACP1"       "ACP2"       "ACP5"       "ACPP"       "ACRV1"     
+##   [49] "ACTA1"      "ACTA2"      "ACTB"       "ACTBP2"     "ACTBP3"     "ACTBP4"    
+##   [55] "ACTBP6"     "ACTBP7"     "ACTBP8"     "ACTBP9"     "ACTC1"      "ACTG1"     
+##   [61] "ACTG2"      "ACTG1P1"    "ACTG1P2"    "ACTG1P3"    "ACTG1P6"    "ACTG1P7"   
+##   [67] "ACTG1P8"    "ACTN4"      "ACTG1P9"    "ACTG1P10"   "ACTL6A"     "ACTN1"     
+##   [73] "ACTN2"      "ACTN3"      "ACVR1"      "ACVR1B"     "ACVR2A"     "ACVR2B"    
+##   [79] "ACVRL1"     "ACY1"       "ACYP1"      "ACYP2"      "ADA"        "ADAM8"     
+##   [85] "ADAM10"     "ADAR"       "ADARB1"     "ADARB2"     "ADCP1"      "ADCY1"     
+##   [91] "ADCY2"      "ADCY3"      "ADCY5"      "ADCY6"      "ADCY7"      "ADCY8"     
+##   [97] "ADCY9"      "ADCYAP1"    "ADCYAP1R1"  "ADD1"       "ADD2"       "ADD3"      
+##  [103] "ADFN"       "PLIN2"      "ADH1A"      "ADH1B"      "ADH1C"      "ADH4"      
+##  [109] "ADH5"       "ADH6"       "ADH7"       "ADK"        "ADM"        "ADORA1"    
+##  [115] "ADORA2A"    "ADORA2B"    "ADORA2BP1"  "ADORA3"     "ADPRH"      "PARP1"     
+##  [121] "PARP4"      "PARP1P1"    "PARP1P2"    "ADRA1D"     "ADRA1B"     "ADRA1A"    
+##  [127] "ADRA2A"     "ADRA2B"     "ADRA2C"     "ADRB1"      "ADRB2"      "ADRB3"     
+##  [133] "GRK2"       "GRK3"       "ADSL"       "ADSS2"      "AP2A1"      "AP2A2"     
+##  [139] "AP1B1"      "AP2B1"      "AP1G1"      "AEBP1"      "TLE5"       "CRISP1"    
+##  [145] "AF8T"       "AFA"        "AFD1"       "AFG3L1P"    "AFM"        "AFP"       
+##  [151] "AGA"        "ACAN"       "AGER"       "AGL"        "AGMX2"      "AGRP"      
+##  [157] "JAG1"       "AGT"        "AGTR1"      "AGTR2"      "APLNR"      "AGXT"      
+##  [163] "NR0B1"      "AHCY"       "AIC"        "AHR"        "AHSG"       "AIF1"      
+##  [169] "AIH3"       "CRYBG1"     "AK1"        "AK2"        "AK4"        "AK4P1"     
+##  [175] "AKT1"       "AKT2"       "ALAD"       "ALAS1"      "ALAS2"      "ALB"       
+##  [181] "ALCAM"      "ABCD1"      "ALDH1A1"    "ALDH2"      "ALDH3A1"    "ALDH1B1"   
+##  [187] "ALDH1A3"    "ALDH3B1"    "ALDH3B2"    "ALDH9A1"    "ALDH3A2"    "ABCD2"     
+##  [193] "ALDOA"      "ALDOAP2"    "ALDOB"      "ALDOC"      "AKR1B1"     "AKR1B1P2"  
+##  [199] "ALK"        "ALOX12"     "ALOX5"      "ALOX5AP"    "ALOX12B"    "ALOX12P1"  
+##  [205] "ALOX12P2"   "ALOX15"     "ALOX15B"    "ALPI"       "ALPL"       "ALPP"      
+##  [211] "ALPG"       "ALS3"       "ALX3"       "AMBN"       "AMBP"       "AMCN"      
+##  [217] "AMD1"       "AMD1P2"     "AMELX"      "AMELY"      "AMFR"       "AMH"       
+##  [223] "AMHR2"      "AMPD1"      "AMPD2"      "AMPD3"      "AMPH"       "BIN1"      
+##  [229] "AMT"        "AMY1A"      "AMY1B"      "AMY1C"      "AMY2A"      "AMY2B"     
+##  [235] "AMYP1"      "ANCR"       "ANG"        "ANGPT1"     "ANGPT2"     "ANK1"      
+##  [241] "ANK2"       "ANK3"       "ANOP1"      "ANPEP"      "SLC25A4"    "SLC25A5"   
+##  [247] "SLC25A6"    "ANXA1"      "ANXA2"      "ANXA2P1"    "ANXA2P2"    "ANXA2P3"   
+##  [253] "ANXA3"      "ANXA4"      "ANXA5"      "ANXA6"      "ANXA7"      "ANXA11"    
+##  [259] "ANXA13"     "AOAH"       "AOC2"       "AOX1"       "APAF1"      "NUDT2"     
+##  [265] "APOF"       "APBA1"      "APBA2"      "APBB1"      "APBB2"      "APC"       
+##  [271] "APCS"       "AIRE"       "APEH"       "APEX1"      "BIRC2"      "BIRC3"     
+##  [277] "XIAP"       "BIRC5"      "APLP1"      "APLP2"      "APOA1"      "APOA2"     
+##  [283] "APOA4"      "APOB"       "APOBEC1"    "APOC1"      "APOC1P1"    "AQP8"      
+##  [289] "APOC2"      "APOC3"      "APOC4"      "APOD"       "APOE"       "APOH"      
+##  [295] "APP"        "APRT"       "KLK3"       "FAS"        "FASLG"      "SHROOM2"   
+##  [301] "AQP1"       "AQP2"       "AQP3"       "AQP4"       "AQP5"       "AQP6"      
+##  [307] "AQP7"       "AQP9"       "AR"         "ABCC6"      "ARAF"       "ARCN1"     
+##  [313] "TRIM23"     "AREG"       "ARF1"       "ARF3"       "ARF4"       "ARL4D"     
+##  [319] "ARF4P1"     "ARF5"       "ARF6"       "ARG1"       "ARG2"       "RHOA"      
+##  [325] "RHOB"       "RHOC"       "RND3"       "RHOG"       "ARHGAP1"    "ARHGAP4"   
+##  [331] "ARHGAP5"    "ARHGAP6"    "ARHGDIA"    "ARHGDIB"    "ARHGDIG"    "RHOH"      
+##  [337] "ARL1"       "PHOX2A"     "ARL2"       "ARL3"       "ARNT"       "ARNTL"     
+##  [343] "ARR3"       "ARRB1"      "ARRB2"      "ARSA"       "ARSB"       "STS"       
+##  [349] "ARSC2"      "ARSD"       "ARSL"       "ARSF"       "ART1"       "ART2P"     
+##  [355] "ART3"       "ART4"       "ARVCF"      "ARVD3"      "ARVD4"      "ASAH1"     
+##  [361] "ASCL1"      "ASCL2"      "ASD1"       "ASGR1"      "ASGR2"      "ASIP"      
+##  [367] "ASL"        "ASLP1"      "ASMT"       "GET3"       "ASNS"       "ASNSP2"    
+##  [373] "ASPA"       "ASPH"       "ASS1"       "ASS1P2"     "ASS1P4"     "ASS1P5"    
+##  [379] "ASS1P6"     "ASS1P8"     "ASS1P9"     "ASS1P10"    "ASS1P14"    "ASTN1"     
+##  [385] "SERPINC1"   "ZFHX3"      "ATD"        "ATF1"       "ATF3"       "ATF4"      
+##  [391] "ATF4P1"     "ATHS"       "ATIC"       "ATM"        "RERE"       "ATOH1"     
+##  [397] "ATOX1"      "ATP1A1"     "ATP1A2"     "ATP1A3"     "ATP12A"     "ATP1A4"    
+##  [403] "ATP1B1"     "ATP1B2"     "ATP1B3"     "ATP1B3P1"   "ATP1B1P1"   "FXYD2"     
+##  [409] "ATP2A1"     "ATP2A2"     "ATP2A3"     "ATP2B1"     "ATP2B2"     "ATP2B3"    
+##  [415] "ATP2B4"     "ATP4A"      "ATP4B"      "ATP5F1A"    "ALDH7A1"    "ATP5F1AP2" 
+##  [421] "ATP5F1B"    "ATP5F1BP1"  "ATP5F1C"    "ATP5F1D"    "ATP5F1E"    "ATP5PB"    
+##  [427] "ATP5MC1"    "ATP5MC2"    "ATP5MC3"    "ATP5MC2P1"  "ATP5ME"     "ATP5PF"    
+##  [433] "ATP6V1A"    "ATP6V1B1"   "ATP6V1B2"   "ATP6V0C"    "ATP6V1C1"   "ATP6V1E1"  
+##  [439] "ATP6V0B"    "ATP6V1G2"   "ATP6V0A1"   "ATP6AP1"    "ATP7A"      "ATP5PO"    
+##  [445] "ATP7B"      "ALDH7A1P1"  "ALDH7A1P2"  "ALDH7A1P3"  "ALDH7A1P4"  "ATR"       
+##  [451] "ATRX"       "KIF1A"      "AUH"        "AUP1"       "AVP"        "AVPR1A"    
+##  [457] "AVPR1B"     "AVPR2"      "AXL"        "AZF1"       "AZGP1"      "AZU1"      
+##  [463] "B2M"        "B2MR"       "BAAT"       "BACH1"      "BAD"        "BAG1"      
+##  [469] "BAGE"       "ADGRB1"     "ADGRB2"     "ADGRB3"     "BAK1"       "NKX3-2"    
+##  [475] "BARD1"      "BAX"        "BBS1"       "BBS2"       "BBS4"       "BCAT1"     
+##  [481] "BCAT2"      "BCHE"       "BCKDHA"     "BCKDHB"     "CCND1"      "BCL2"      
+##  [487] "BCL2A1"     "BCL2L1"     "BCL2L2"     "BAK1P1"     "BAK1P2"     "BCL3"      
+##  [493] "BCL5"       "BCL6"       "BCL7A"      "NBEAP1"     "BCL9"       "TNFRSF17"  
+##  [499] "HCN2"       "OPN1SW"     "BCR"        "BCRP4"      "BCS1L"      "BCYRN1"    
+##  [505] "BCYRN1P1"   "BCYRN1P2"   "BDH1"       "BDKRB1"     "BDKRB2"     "BDNF"      
+##  [511] "BEVI"       "CFB"        "BFSP1"      "BGLAP"      "BGN"        "CEACAM1"   
+##  [517] "BHMT"       "BICD1"      "BID"        "BIK"        "PRDM1"      "BLK"       
+##  [523] "BLM"        "BLMH"       "CXCR5"      "BLVRA"      "BLVRB"      "BNC1"      
+##  [529] "BMI1"       "BMP1"       "BMP2"       "BMP3"       "BMP4"       "BMP5"      
+##  [535] "BMP6"       "BMP7"       "BMP8B"      "BMPR1A"     "BMPR1B"     "BMPR2"     
+##  [541] "BMX"        "POLR3D"     "BNIP1"      "BNIP2"      "BNIP3"      "BNIP3L"    
+##  [547] "BOK"        "DST"        "FOXL2"      "BPGM"       "BPHL"       "BPI"       
+##  [553] "BRCA1"      "BRAF"       "BRCA2"      "BRDT"       "ZFP36L1"    "ZFP36L2"   
+##  [559] "BRS3"       "BSG"        "BST1"       "BST2"       "BTC"        "BTD"       
+##  [565] "KLF9"       "KLF5"       "BTF3"       "BTF3P11"    "BTF3P1"     "BTG1"      
+##  [571] "BTK"        "BTN1A1"     "BTS1"       "BUB1"       "BVR1"       "BUB1B"     
+##  [577] "BYSL"       "TSPO"       "C1QBP"      "SERPING1"   "ERC2-IT1"   "C1QA"      
+##  [583] "C1QB"       "C1QC"       "C1R"        "C1S"        "C2"         "C3"        
+##  [589] "C3AR1"      "C4A"        "C4B"        "C4BPA"      "C4BPAP2"    "C4BPB"     
+##  [595] "CAPN5"      "C5"         "C5AR1"      "C6"         "C7"         "C8A"       
+##  [601] "C8B"        "C8G"        "OSGIN2"     "C9"         "VPS51"      "MRPL49"    
+##  [607] "ZNHIT2"     "MPPED2"     "MYRF"       "TMEM258"    "DAGLA"      "GAS8-AS1"  
+##  [613] "FMNL1"      "LDLRAD4"    "PTTG1IP"    "CFAP410"    "TMEM50B"    "MPPED1"    
+##  [619] "CA1"        "CA2"        "CA3"        "CA4"        "CA5A"       "CA5AP1"    
+##  [625] "CA6"        "CA7"        "CA8"        "CA9"        "CA11"       "CA12"      
+##  [631] "CACD"       "CACNA1A"    "CACNA1B"    "CACNA1C"    "CACNA1D"    "CACNA1E"   
+##  [637] "CACNA1F"    "CACNA1S"    "DDR1"       "CACNA2D1"   "CACNB1"     "CACNB2"    
+##  [643] "CACNB3"     "CACNB4"     "CACNG1"     "SLC25A20"   "SLC25A20P1" "CAD"       
+##  [649] "CALB1"      "CALB2"      "S100G"      "CALCA"      "CALCB"      "CALCP"     
+##  [655] "CALCR"      "CALD1"      "CALM1"      "CALM1P1"    "CALM1P2"    "CALM2"     
+##  [661] "CALM2P2"    "CALM2P3"    "CALM3"      "CALML3"     "CALR"       "CALU"      
+##  [667] "CAMK4"      "CAMK2A"     "CAMK2B"     "CAMK2D"     "CAMK2G"     "CAMLG"     
+##  [673] "CAMP"       "CANX"       "CAPG"       "CAPN1"      "CAPN2"      "CAPN3"     
+##  [679] "CAPNS1"     "CAPN6"      "CAPS"       "CAPZA1"     "CAPZA2"     "CAST"      
+##  [685] "CAPZB"      "CARS1"      "CASP1"      "CASP2"      "CASP3"      "CASP4"     
+##  [691] "CASP5"      "CASP6"      "CASP7"      "CASP8"      "CASP9"      "CASP10"    
+##  [697] "CASQ1"      "CASQ2"      "CASR"       "CAT"        "CATR1"      "CAV1"      
+##  [703] "CAV2"       "CAV3"       "RUNX2"      "RUNX1"      "RUNX1T1"    "CBFA2T3"   
+##  [709] "RUNX3"      "CBFB"       "SERPINA6"   "CBL"        "CBLB"       "CBLN1"     
+##  [715] "SERPINH1"   "CBR1"       "CBR3"       "CBS"        "CCA1"       "CCIN"      
+##  [721] "CCAL1"      "KYAT1"      "CCK"        "CCKAR"      "CCKBR"      "KRIT1"     
+##  [727] "CCNA2"      "CCNB1"      "CCNC"       "CCND2"      "CCND2P1"    "CCND3"     
+##  [733] "CCND3P1"    "CCNE1"      "CCNF"       "CCNG1"      "CCNG2"      "CCNH"      
+##  [739] "CCNT1"      "CCNT2"      "CCT"        "CCT6A"      "CD1A"       "CD1B"      
+##  [745] "CD1C"       "CD1D"       "CD1E"       "CD2"        "CD3D"       "CD3E"      
+##  [751] "CD3G"       "CD247"      "CD4"        "CD5"        "CD5L"       "CD6"       
+##  [757] "CD7"        "CD8A"       "CD8B"       "CD8B2"      "CD9"        "CD14"      
+##  [763] "CD19"       "MS4A1"      "MS4A3"      "CD22"       "CD24P1"     "CD24P2"    
+##  [769] "CD24P3"     "CD24P4"     "CD27"       "CD28"       "CD80"       "CD86"      
+##  [775] "TNFRSF8"    "TNFSF8"     "CD33"       "SIGLEC6"    "CD34"       "CD36"      
+##  [781] "SCARB1"     "SCARB2"     "CD37"       "CD38"       "ENTPD1"     "ENTPD2"    
+##  [787] "ENTPD6"     "ENTPD3"     "ENTPD5"     "CD40"       "CD40LG"     "CD44"      
+##  [793] "CD47"       "CD48"       "CD53"       "CD58"       "CD59"       "CD63"      
+##  [799] "CD68"       "CD69"       "CD70"       "CD72"       "CD74"       "CD79A"     
+##  [805] "CD79B"      "CD81"       "ADGRE5"     "CD151"      "CDA"        "CDAN3"     
+##  [811] "CDB2"       "CDK1"       "CDK11B"     "LRBA"       "CDC5L"      "SEPTIN7"   
+##  [817] "CDC6"       "CDC20"      "CDC25A"     "CDC25B"     "CDC25C"     "CDC27"     
+##  [823] "CDC34"      "CDC42"      "CDH1"       "CDH2"       "CDH3"       "CDH4"      
+##  [829] "CDH5"       "CDH6"       "CDH7"       "CDH8"       "CDH9"       "CDH10"     
+##  [835] "CDH11"      "CDH12"      "CDH12P2"    "CDH13"      "CDH15"      "CDH16"     
+##  [841] "CDH17"      "CDH18"      "CDK2"       "CDK3"       "CDK4"       "CDK5"      
+##  [847] "CDK6"       "CDK7"       "CDL2"       "CDK8"       "CDK9"       "CDKN1A"    
+##  [853] "CDKN1B"     "CDKN1C"     "CDKN2A"     "CDKN2B"     "CDKN2C"     "CDKN2D"    
+##  [859] "CDKN3"      "CDO1"       "CDR1"       "CDR2"       "CDS1"       "CDSN"      
+##  [865] "CD52"       "CDX1"       "CDX2"       "CDX4"       "CLGN"       "CEACAM5"   
+##  [871] "CEBPA"      "CEBPB"      "CEBPD"      "CEBPE"      "CEBPG"      "CECR"      
+##  [877] "CEL"        "CELP"       "CENPA"      "CENPB"      "CENPC"      "CENPCP1"   
+##  [883] "CENPE"      "CENPF"      "CES1"       "CETN1"      "CETN2"      "CETN3"     
+##  [889] "CETP"       "CFL1"       "CFL2"       "CFL1P5"     "CTSC"       "CFTR"      
+##  [895] "CGA"        "CGB3"       "CGF1"       "CEACAM3"    "CEACAMP5"   "CEACAMP11" 
+##  [901] "CEACAM7"    "CEACAM8"    "CEACAM4"    "CEACAMP1"   "CEACAMP2"   "CEACAMP3"  
+##  [907] "CEACAMP4"   "CEACAMP6"   "CEACAMP7"   "CEACAMP8"   "CEACAMP9"   "CEACAMP10" 
+##  [913] "CHAD"       "RCBTB2"     "CHAT"       "RCC1"       "CHD1"       "CHD2"      
+##  [919] "CHD3"       "CHD4"       "AKR1C4"     "CHEK1"      "FOXN3"      "CHGA"      
+##  [925] "CHGB"       "CHI3L1"     "CHI3L2"     "CHIT1"      "CHKA"       "CHKB"      
+##  [931] "CHM"        "CHML"       "CHN1"       "CHN2"       "CHRM1"      "CHRM2"     
+##  [937] "LYST"       "CHRM3"      "CHRM4"      "CHRM5"      "CHRNA1"     "CHRNA2"    
+##  [943] "CHRNA3"     "CHRNA4"     "CHRNA5"     "CHRNA7"     "CHRNB1"     "CHRNB2"    
+##  [949] "CHRNB3"     "CHRNB4"     "CHRND"      "CHRNE"      "CHRNG"      "CHUK"      
+##  [955] "CIDEA"      "CKB"        "CIRBP"      "CISH"       "TBCB"       "CKBE"      
+##  [961] "CKBP1"      "CKM"        "CKMT1B"     "CKMT2"      "ERCC8"      "CKS1B"     
+##  [967] "CKS2"       "CLA3"       "AP2M1"      "AP1S1"      "AP2S1"      "AP3S1"     
+##  [973] "CLC"        "CLCA1"      "CLCN1"      "CLCN2"      "CLCN3"      "CLCN4"     
+##  [979] "CLCN5"      "CLCN6"      "CLCN7"      "CLCNKA"     "CLCNKB"     "CLU"       
+##  [985] "CLIC1"      "CLIC2"      "CLK1"       "CLK2"       "CLK2P1"     "CLK3"      
+##  [991] "TPP1"       "CLN3"       "CLN5"       "CLNS1AP1"   "CLNS1A"     "CLPS"      
+##  [997] "CLPTM1"     "CLTA"       "CLTB"       "CLTC"      
+##  [ reached getOption("max.print") -- omitted 60164 entries ]
 ```
 ---
-## Accessing annotation from OrgDb
+## Accessing Annotation from Org.Db
 
 We can extract other annotations for a particular identifier using &lt;b&gt;select&lt;/b&gt; function
 
@@ -1095,7 +1177,7 @@ select(org.Hs.eg.db, keys = "A1BG", keytype = "SYMBOL",
 ```
 
 ---
-## Annotating results
+## Annotating Results
 
 We can use this now to translate our Entrez IDs from TxDb object to a gene name
 
@@ -1106,25 +1188,25 @@ geneLocations
 
 ```
 ## GRanges object with 19742 ranges and 1 metadata column:
-##         seqnames                 ranges strand |     gene_id
-##            &lt;Rle&gt;              &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##       1    chr19 [ 63549984,  63565932]      - |           1
-##      10     chr8 [ 18293035,  18303003]      + |          10
-##     100    chr20 [ 42681577,  42713790]      - |         100
-##    1000    chr18 [ 23784933,  24011189]      - |        1000
-##   10000     chr1 [241718158, 242073207]      - |       10000
-##     ...      ...                    ...    ... .         ...
-##    9991     chr9 [114020538, 114135733]      - |        9991
-##    9992    chr21 [ 34658193,  34665310]      + |        9992
-##    9993    chr22 [ 17403795,  17489967]      - |        9993
-##    9994     chr6 [ 90596334,  90640876]      + |        9994
-##    9997    chr22 [ 49308863,  49310900]      - |        9997
+##         seqnames              ranges strand |     gene_id
+##            &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##       1    chr19   63549984-63565932      - |           1
+##      10     chr8   18293035-18303003      + |          10
+##     100    chr20   42681577-42713790      - |         100
+##    1000    chr18   23784933-24011189      - |        1000
+##   10000     chr1 241718158-242073207      - |       10000
+##     ...      ...                 ...    ... .         ...
+##    9991     chr9 114020538-114135733      - |        9991
+##    9992    chr21   34658193-34665310      + |        9992
+##    9993    chr22   17403795-17489967      - |        9993
+##    9994     chr6   90596334-90640876      + |        9994
+##    9997    chr22   49308863-49310900      - |        9997
 ##   -------
 ##   seqinfo: 49 sequences (1 circular) from hg18 genome
 ```
 
 ---
-## Annotating results
+## Annotating Results
 
 
 ```r
@@ -1141,12 +1223,13 @@ myTable[1:2,]
 ```
 ---
 
-# Time for an exercise.
+## Time for an Exercise
 
 [Link_to_exercises](../../exercises/GenomicFeatures_exercises.html)
 
 [Link_to_answers](../../answers/GenomicFeatures_answers.html)
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -1156,26 +1239,111 @@ myTable[1:2,]
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
-})();</script>
+})(document);
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
   }
-});
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
 (function () {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
   if (location.protocol !== 'file:' && /^https?:/.test(script.src))
     script.src  = script.src.replace(/^https?:/, '');
   document.getElementsByTagName('head')[0].appendChild(script);

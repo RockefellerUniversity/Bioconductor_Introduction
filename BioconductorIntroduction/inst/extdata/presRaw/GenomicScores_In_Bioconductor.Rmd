@@ -17,8 +17,7 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
-params:
-  isSlides: "no"
+
 ---
 
 ```{r setup, include=FALSE}
@@ -26,46 +25,20 @@ knitr::opts_chunk$set(echo = TRUE)
 AsSlides <- TRUE
 ```
 
-```{r makingData, include=FALSE,cache=TRUE,eval=FALSE}
-library(rtracklayer)
-myRanges <- GRanges("chr1",ranges = IRanges(72811055,72856974))
-myRanges2 <- c(myRanges,GRanges("chr1",ranges = IRanges(1,100)))
-mycPeaks <- import.bed("Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
-mycPeaks[mycPeaks %over% myRanges]
-toRun <- import("~/Downloads/ENCFF940MBK.bigWig",selection=BigWigSelection(myRanges),as="RleList")
-export(toRun,con="Data/TSS_ENCFF940MBK.bedGraph")
-export(toRun,con="Data/TSS_ENCFF940MBK.bw")
-#xport.ucsc(toRun,con="Data/TSS_ENCFF940MBK.wig",subformat ="wig")
-```
+# ```{r makingData, include=FALSE,cache=TRUE,eval=FALSE}
+# library(rtracklayer)
+# myRanges <- GRanges("chr1",ranges = IRanges(72811055,72856974))
+# myRanges2 <- c(myRanges,GRanges("chr1",ranges = IRanges(1,100)))
+# mycPeaks <- import.bed("data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+# mycPeaks[mycPeaks %over% myRanges]
+# toRun <- import("~/Downloads/ENCFF940MBK.bigWig",selection=BigWigSelection(myRanges),as="RleList")
+# export(toRun,con="data/TSS_ENCFF940MBK.bedGraph")
+# export(toRun,con="data/TSS_ENCFF940MBK.bw")
+# #xport.ucsc(toRun,con="data/TSS_ENCFF940MBK.wig",subformat ="wig")
+# ```
 
-
-```{r,results='asis',include=TRUE,echo=FALSE}
-if(params$isSlides == "yes"){
-  cat("---
-class: inverse, center, middle
 
 # Genomic Scores
-
-<html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
-
----
-"    
-  )
-}else{
-  cat("---
-
-## Genomic Scores
-
----
-"    
-  )
-  
-}
-```
-
-
-
-### Genomic Scores in Wiggle
 
 As we have seen earlier, genomic scores are often stored in wiggle format.
 
@@ -74,16 +47,16 @@ As we have seen earlier, genomic scores are often stored in wiggle format.
 </div>
 
 ---
-
-### Genomic Scores in bedGraph
+# Genomic Scores
 
 A perhaps more common human readable format is bedGraph.
 
 <div align="center">
 <img src="imgs/bedgraph3.png" alt="igv" height="200" width="400">
 </div>
+
 ---
-### Genomic Scores
+# Genomic Scores
 
 But in many situations we would want a highly compressed format such as bigWig.
 
@@ -94,21 +67,15 @@ We used a bigWig from Encode in our last session.
 </div>
 
 ---
-### Genomic Scores
+# Genomic Scores
 
 Genomic Scores are heavily used in Genomics and High throughput sequencing as they offer a simple mechanism to review a defined metric over the linear genome at a specified resolution.
 
 - RNA-seq, ChIP-seq, ATAC-seq signals (as well many other *seq* types).
 - Phylogenetic conservation.
 
-
-
-
-
-
-
 ---
-### Our Genomic Scores data.
+# Our Genomic Scores data.
 
 In our last session [Genomic Intervals In Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html#1) we reviewed some of the Myc ChIP-seq signal available to us on encode. 
 
@@ -117,7 +84,7 @@ This was the data from Experiment [ENCSR000ERN](https://www.encodeproject.org/ex
 If you have not already downloaded the bigWig file then download it from [this link](https://www.encodeproject.org/files/ENCFF940MBK/@@download/ENCFF940MBK.bigWig) for our exercise later
 
 ---
-### Our Genomic Scores data.
+# Our Genomic Scores data.
 
 From our last session we identified Myc peaks within the Igfbp2 locus and in IGV compared Myc ChIP-seq signal from Encode over our peaks.
 
@@ -126,18 +93,18 @@ From our last session we identified Myc peaks within the Igfbp2 locus and in IGV
 </div>
 
 ---
-### Our Genomic Scores data
+# Our Genomic Scores data
 
-For this course i have provided bedGraph and bigWig files from this data for the window with the IGV image.
+For this course I have provided bedGraph and bigWig files from this data for the window with the IGV image.
 
 We will demonstrate how to create this later in today's session but for now data is available in
 
-- **Data/TSS_ENCFF940MBK.bedGraph** - bedGraph of region.
-- **Data/TSS_ENCFF940MBK.bw** - bigWig of region.
+- **data/TSS_ENCFF940MBK.bedGraph** - bedGraph of region.
+- **data/TSS_ENCFF940MBK.bw** - bigWig of region.
 
 
 ---
-### Genomic Scores in Bioconductor.
+# Genomic Scores in Bioconductor.
 
 Two popular Bioconductor packages for dealing with Genomics Scores are:
 
@@ -146,7 +113,7 @@ Two popular Bioconductor packages for dealing with Genomics Scores are:
 
 ---
 
-### Genomic Scores in Bioconductor.
+# Genomic Scores in Bioconductor.
 
 Now we have the package installed, we can load the library **rtracklayer** which we will use to import and export from/to bedGraph and bigWig.
 
@@ -159,7 +126,7 @@ library(rtracklayer)
 ```
 ---
 
-### Genomic Scores in Bioconductor.
+# Genomic Scores in Bioconductor.
 
 We will also be making use of the functions in the **GenomicRanges** package. We dont need to load **GenomicRanges** directly here because the **rtracklayer** does this for us.
 
@@ -171,17 +138,17 @@ Package dependencies and imports allow one package to make use of functions from
 
 ---
 
-### Reading in a bedGraph.
+# Reading in a bedGraph.
 
 The rtracklayer package provides functions to import genomic scores from a bedGraph using the **import.bedGraph()** function.
 
 
 
 ```{r c,eval=TRUE}
-myBedG <- import.bedGraph("Data/TSS_ENCFF940MBK.bedGraph")
+myBedG <- import.bedGraph("data/TSS_ENCFF940MBK.bedGraph")
 ```
 ---
-### Reading in a bedGraph.
+# Reading in a bedGraph.
 
 The genomic scores by default are stored as a familiar [**GRanges object**](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html#9) containing the original 4 columns of information, **contig**, **start**, **end** and **score**. 
 
@@ -190,7 +157,7 @@ The genomic scores by default are stored as a familiar [**GRanges object**](http
 myBedG[1:3]
 ```
 ---
-### Reading in a bedGraph.
+# Reading in a bedGraph.
 
 Because we only have 4 columns in a bedGraph and no strand information, the **GRanges** intervals are unstranded with * in their strand column
 
@@ -201,17 +168,17 @@ strand(myBedG)
 
 
 ---
-### Reading in a bigWig
+# Reading in a bigWig
 
 Much of the genomic scores we will be working with are infact stored in the compressed bigWig format.
 
 We can also import bigWigs into R using the **import.bw** function.
 
 ```{r e,eval=TRUE}
-myBigWig <- import.bw("Data/TSS_ENCFF940MBK.bw")
+myBigWig <- import.bw("data/TSS_ENCFF940MBK.bw")
 ```
 ---
-### Reading in a bigWig
+# Reading in a bigWig
 
 The import bigWig's genomic scores are again imported as a **GRanges** object containing the same information as the imported bedGraph.
 
@@ -220,7 +187,7 @@ myBigWig[1:3]
 ```
 
 ---
-### GenomicScores as a GRanges
+# GenomicScores as a GRanges
 
 So far we have retrieved our genomic scores from bedGraphs and bigWigs as **GRanges** objects.
 
@@ -234,20 +201,20 @@ filteredBigWig[1:3]
 
 
 ---
-### GenomicScores as a RLE
+# GenomicScores as a RLE
 
 We can however specify the type of objects we would like to return from the import.bedGraph and import.bw functions.
 
 Here we will import the bigWig as a object we have briefly seen, the **Rle** object (run length encoding). Here we have an **Rlelist** (a list of **Rle** objects)
 
 ```{r h,eval=TRUE}
-myBigWig <- import.bw("Data/TSS_ENCFF940MBK.bw",
+myBigWig <- import.bw("data/TSS_ENCFF940MBK.bw",
                       as = "RleList")
 class(myBigWig)
 ```
 ---
 
-### Rle in genomics
+# Rle in genomics
 
 Run length encoding allows for a very efficient storage of long stretchs of repeated values.
 
@@ -259,19 +226,19 @@ We have already seen an rle in our cigar string from SAM files.
 ![](imgs/cigar.png)
 
 ---
-### Rle in genomics
+# Rle in genomics
 
 We have also seen **Rle** objects [within the GRanges objects we reviewed last session.](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html#18)
 
 Chromosome/contig names in **GRanges** objects are stored as **Rle** objects for instance.
 
 ```{r hqqk,eval=TRUE}
-mycPeaks <- import.bed("Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+mycPeaks <- import.bed("data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
 seqnames(mycPeaks)
 ```
 
 ---
-### Rle in genomics
+# Rle in genomics
 For genomic scores we will be storing long stretchs of numbers as an **Rle**.
 
 To store genomic scores across chromosomes/contig we will use an **RleList**.
@@ -284,7 +251,7 @@ Rle(myNumbers)
 ```
 
 ---
-### Rle in genomics
+# Rle in genomics
 
 Now can construct a named **RleList** containing the **Rle** objects using the **RleList()** function.
 
@@ -297,7 +264,7 @@ myRleList
 ```
 
 ---
-### Rle in genomics
+# Rle in genomics
 
 **Rle** allows for us to compress space needed to store genomic scores and so the Bioconductor **Rle** and **RleList** objects allows us make use of this in R. 
 
@@ -309,7 +276,7 @@ myBigWig[1:2]
 
 
 ---
-### Indexing an RLElist
+# Indexing an RLElist
 
 To access elements of a **RleList** we can use our regular accessors for lists **$** and **[[]]**.
 
@@ -325,7 +292,7 @@ chr1_rle
 
 
 ---
-### Indexing an RLE
+# Indexing an RLE
 
 Now we have an **Rle** object of our genomic scores on chromosome 1 we can index it just like we have for standard vectors.
 Here i retrieve values for all basepairs between 1 and 10
@@ -336,7 +303,7 @@ chr1_rle[1:10]
 
 
 ---
-### Replacement in an RLE.
+# Replacement in an RLE.
 
 We can also replace values in a **Rle**, just as we would with a vector.
 
@@ -348,7 +315,7 @@ chr1_rle
 ```
 
 ---
-### Converting to other data types
+# Converting to other data types
 
 We can convert **Rle's** to standard vectors.
 
@@ -358,7 +325,7 @@ rleAsVector
 ```
 
 ---
-### Converting to other data types
+# Converting to other data types
 
 Or to a data.frame
 
@@ -368,7 +335,7 @@ rleAsDF
 ```
 
 ---
-### Working with Rle
+# Working with Rle
 
 Many vector operations and function work with **Rle** objects.
 
@@ -380,7 +347,7 @@ These include
 
 
 ---
-### Operations on RLE. (Arithmetric and Mathematical)
+# Operations on RLE. (Arithmetric and Mathematical)
 
 We can use many simple arithmetric operations such as **+**, **-**, **/** and *****
 
@@ -389,7 +356,7 @@ chr1_rle+1000
 (chr1_rle+1000)*10
 ```
 ---
-### Operations on RLE. (Arithmetric and Mathematical)
+# Operations on RLE. (Arithmetric and Mathematical)
 
 Logical operations can be used with **Rle** objects just as with vectors.
 
@@ -400,7 +367,7 @@ For **Rle** objects, logical opertations return a logical Rle instead of standar
 chr1_rle < 10
 ```
 ---
-### Operations on RLE. (Arithmetric and Mathematical)
+# Operations on RLE. (Arithmetric and Mathematical)
 
 We use this **logical Rle** to replace values less than 10 with 0 as we would use a [logical vector with standard vectors](https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/32).
 
@@ -410,7 +377,7 @@ chr1_rle
 ```
 
 ---
-### Operations on RLE. (Summaries)
+# Operations on RLE. (Summaries)
 
 Many functions providing summary statisitics are also available to us including **mean()**, **max()** and **sum()** functions.
 
@@ -421,16 +388,16 @@ sum(chr1_rle)
 ```
 
 ---
-### Operations on RLELists
+# Operations on RLELists
 
 Very usefully, We can also apply arithmetic and mathematical operations to whole RleLists as imported from the bigWig file.
 
 ```{r o4,eval=TRUE}
-myBigWig <- import.bw("Data/TSS_ENCFF940MBK.bw",as="RleList")
+myBigWig <- import.bw("data/TSS_ENCFF940MBK.bw",as="RleList")
 myBigWig+10
 ```
 ---
-### Summaries on RLELists
+# Summaries on RLELists
 
 Summary functions return a summary for every Rle object (here for chromosomes) within the RleList.
 
@@ -441,7 +408,7 @@ chromosomeMax[1:4]
 ```
 
 ---
-### Subsetting RleLists with a GRanges.
+# Subsetting RleLists with a GRanges.
 
 We can in fact use **GRanges** objects to index our **RleList** objects.The **GRanges** provides the intervals from which genomic scores are retrieved. The resulting **RleList** object contains an entry with the scores for each interval in the **GRanges** object.
 
@@ -449,14 +416,14 @@ To demonstrate first we can retrieve the Myc Peaks calls which overlap the regio
 
 ```{r oa4,eval=TRUE}
 myRanges <- GRanges("chr1",ranges = IRanges(72811055,72856974))
-mycPeaks <- import.bed("Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+mycPeaks <- import.bed("data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
 mycPeaks <- resize(mycPeaks,50,fix="center")
 newMycPeaks <- mycPeaks[mycPeaks %over% myRanges]
 newMycPeaks
 ```
 
 ---
-### RleLists and GRanges.
+# RleLists and GRanges.
 
 Now we can simply index our RleList object by providing our **GRanges** as an index in **[]** brackets.
 
@@ -464,10 +431,8 @@ Now we can simply index our RleList object by providing our **GRanges** as an in
 rleOverGranges <- myBigWig[newMycPeaks]
 rleOverGranges
 ```
-
 ---
-
-### RleLists and GRanges.
+# RleLists and GRanges.
 
 With the **RleList** containing our scores over the Myc peaks we can now gather summary statistics as with all RleList objects 
 
@@ -476,7 +441,7 @@ sum(rleOverGranges)
 ```
 
 ---
-### Exporting an RLElist
+# Exporting an RLElist
 
 We may wish to export our **RleList** or **Rle** objects back to a bigWig file.
 
@@ -489,7 +454,7 @@ myRleList
 
 ---
 
-### Exporting an RLElist
+# Exporting an RLElist
 
 Now we have our **RleList** object we export this to a bigWig using the **export.bw()** function.
 
@@ -497,7 +462,7 @@ Now we have our **RleList** object we export this to a bigWig using the **export
 export.bw(myRleList,con="chr1_Myc.bw")
 ```
 ---
-### Importing large files
+# Importing large files
 
 In some cases we will only wish to import portions of a BigWig file for use in our analysis. This will save us memory and time when loading in big files.
 
@@ -505,7 +470,7 @@ In some cases we will only wish to import portions of a BigWig file for use in o
 To do this we can take advantage of the **selection** parameter in the **import.bw** function and the **BigWigSelection()** function. 
 
 ---
-### Importing large files
+# Importing large files
 
 When importing only a portion of a bigWig we simply need to specify a GRanges of regions we wish to retrieve to the **BigWigSelection()** function.
 
@@ -515,7 +480,7 @@ Here we will use the Myc Peaks in our window as the GRanges of regions for selec
 newMycPeaks
 ```
 ---
-### Importing large files
+# Importing large files
 
 Now we pass the Myc peak **GRanges** object to the **BigWigSelection()** function.
 
@@ -524,13 +489,13 @@ We then supply the resulting **BigWigSelection** selection object to the **selec
 ```{r z,eval=TRUE}
 
 mySelection <- BigWigSelection(newMycPeaks)
-import.bw("Data/TSS_ENCFF940MBK.bw", 
+import.bw("data/TSS_ENCFF940MBK.bw", 
           selection=mySelection, 
           as="RleList")
 ```
 
 ---
-### Time for an exercise.
+# Time for an exercise.
 
 [Link_to_exercises](../../exercises/GS_exercises.html)
 

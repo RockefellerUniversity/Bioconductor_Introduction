@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="" xml:lang="">
   <head>
-    <title></title>
-    <meta charset="utf-8">
+    <title>SequencesInBioconductor.utf8</title>
+    <meta charset="utf-8" />
     <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
@@ -20,7 +20,7 @@ class: center, middle, inverse, title-slide
 <hr color='#EB811B' size=1px width=796px>
 </html>
 ### Rockefeller University, Bioinformatics Resource Centre
-### <a href="http://rockefelleruniversity.github.io/SequencesInBioconductor/" class="uri">http://rockefelleruniversity.github.io/SequencesInBioconductor/</a>
+### <a href="http://rockefelleruniversity.github.io/Bioconductor_Introduction/" class="uri">http://rockefelleruniversity.github.io/Bioconductor_Introduction/</a>
 
 ---
 
@@ -40,19 +40,19 @@ As we have seen earlier, genomic sequences are often stored in FASTA format.
 
 ---
 
-# Genomic Sequences in Bioconductor.
+# Genomic Sequences in Bioconductor
 
 Genomic sequences can be handled in Bioconductor using the functions in the **Biostrings** package and full genome sequences for many model organisms are contained within the [**BSgenome** packages](https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData).
 
 &lt;div align="center"&gt;
-&lt;img src="imgs/bsgenomeExample.png" alt="igv" height="400" width="400"&gt;
+&lt;img src="imgs/bsgenomeExample_2020.png" alt="igv" height="415" width="400"&gt;
 &lt;/div&gt;
 
 
 
 ---
 
-# BSgenome packages.
+# BSgenome packages
 
 To make use of a BSgenome package we must first install and load the library.
 
@@ -71,7 +71,7 @@ class(BSgenome.Mmusculus.UCSC.mm10)
 ## [1] "BSgenome"
 ```
 ---
-
+# BSgenome.Mmusculus.UCSC.mm10
 
 ```r
 BSgenome.Mmusculus.UCSC.mm10
@@ -96,11 +96,11 @@ BSgenome.Mmusculus.UCSC.mm10
 ## #   chrUn_GL456385       chrUn_GL456387       chrUn_GL456389      
 ## #   chrUn_GL456390       chrUn_GL456392       chrUn_GL456393      
 ## #   chrUn_GL456394       chrUn_GL456396       chrUn_JH584304      
-## # (use 'seqnames()' to see all the sequence names, use the '$' or '[['
-## # operator to access a given sequence)
+## # (use 'seqnames()' to see all the sequence names, use the '$' or '[[' operator to
+## # access a given sequence)
 ```
 ---
-# Data in BSgenome objects.
+# Data in BSgenome objects
 
 Simply by typing the object name we have retrieved some important information.
 
@@ -109,7 +109,7 @@ Importantly it tells us how we can access information in the object.
 - **seqnames()** function to retrieve all contig names.
 - **$** and **[[]]** accessors to retrieve a given contig's sequence.
 ---
-# Contig names.
+# Contig Names
 
 We can retrieve contig names using **seqnames()** function.
 
@@ -120,13 +120,13 @@ contigNames[1:22]
 ```
 
 ```
-##  [1] "chr1"  "chr2"  "chr3"  "chr4"  "chr5"  "chr6"  "chr7"  "chr8" 
-##  [9] "chr9"  "chr10" "chr11" "chr12" "chr13" "chr14" "chr15" "chr16"
-## [17] "chr17" "chr18" "chr19" "chrX"  "chrY"  "chrM"
+##  [1] "chr1"  "chr2"  "chr3"  "chr4"  "chr5"  "chr6"  "chr7"  "chr8"  "chr9"  "chr10"
+## [11] "chr11" "chr12" "chr13" "chr14" "chr15" "chr16" "chr17" "chr18" "chr19" "chrX" 
+## [21] "chrY"  "chrM"
 ```
 ---
 
-# Contig lengths
+# Contig Lengths
 
 We can also retrieve contig lengths using **seqlengths()** function.
 
@@ -143,7 +143,7 @@ contigLengths[1:4]
 
 ---
 
-# retrieving sequence information.
+# Retrieving Sequence Information
 
 Now we know sequence names, we can retrieve sequence information using either the **$** or **[[]]** accessors.
 
@@ -156,10 +156,10 @@ chr19_Seq
 
 ```
 ##   61431566-letter "DNAString" instance
-## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 ```
 ---
-# retrieving sequence information.
+# Retrieving Sequence Information
 
 
 now we use list accessor **[[]]** with name of contig of interest
@@ -171,7 +171,7 @@ chr19_Seq
 
 ```
 ##   61431566-letter "DNAString" instance
-## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 ```
 
 ---
@@ -194,7 +194,7 @@ class(chr19_Seq)
 **?DNAString** for full help on DNAString objects.
 ---
 
-# Subsetting a DNAString set 
+# Subsetting a DNAString Set 
 
 We can subset a DNAString object just like indexing a normal vector
 
@@ -205,12 +205,12 @@ chr19_Seq[1:10000000]
 
 ```
 ##   10000000-letter "DNAString" instance
-## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GACCCAACTTGCCCAGGTGCGGGTTTTCCATTG
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GGGGCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG
 ```
 
 ---
 
-# Subsetting a DNAString set 
+# Subsetting a DNAString Set 
 
 Or we can use the Biostrings function **subseq()** on our DNAString.
 
@@ -223,12 +223,12 @@ subseq(chr19_Seq,start=1,end=10000000)
 
 ```
 ##   10000000-letter "DNAString" instance
-## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GACCCAACTTGCCCAGGTGCGGGTTTTCCATTG
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GGGGCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG
 ```
 
 ---
 
-# Useful functions.
+# Useful Functions
 
 The Biostrings package has many useful functions for handling sequence data.
 
@@ -240,17 +240,15 @@ alphabetFrequency(chr19_Seq)
 ```
 
 ```
-##        A        C        G        T        M        R        W        S 
-## 16732680 12449343 12420880 16602953        0        0        0        0 
-##        Y        K        V        H        D        B        N        - 
-##        0        0        0        0        0        0  3225710        0 
-##        +        . 
-##        0        0
+##        A        C        G        T        M        R        W        S        Y 
+## 16732680 12449343 12420880 16602953        0        0        0        0        0 
+##        K        V        H        D        B        N        -        +        . 
+##        0        0        0        0        0  3225710        0        0        0
 ```
 
 ---
 
-# Useful functions. 2
+# Useful Functions
 
 We can get the complement,reverse and reverse complement of sequence using the **complement()**, **reverse()**, **reverseComplement()**.
 
@@ -278,7 +276,7 @@ chr19_SeqRevComp
 
 ---
 
-# Useful functions.
+# Useful Functions
 
 We can get the translation of our sequence using the **translate()**.
 
@@ -303,7 +301,7 @@ chr19_SeqTranslation
 
 ---
 
-# Useful functions.
+# Useful Functions
 
 We can get also match and count the occurrence of patterns in our sequence using **matchPattern()** and **countPattern()**.
 
@@ -322,7 +320,7 @@ chr19_Count
 
 ---
 
-# Useful functions.
+# Useful Functions
 
 We may not always expect a perfect match for our sequence. We can search for close matches by setting the degree of specificity to the **max.mismatch** and **min.mismatch** arguments. 
 
@@ -343,7 +341,7 @@ chr19_Count
 
 ---
 
-# Useful functions.
+# Useful Functions
 
 We can also use IUPAC codes to account for ambiguity in the sequence we will match.
 
@@ -355,15 +353,15 @@ IUPAC_CODE_MAP
 ```
 
 ```
-##      A      C      G      T      M      R      W      S      Y      K 
-##    "A"    "C"    "G"    "T"   "AC"   "AG"   "AT"   "CG"   "CT"   "GT" 
-##      V      H      D      B      N 
-##  "ACG"  "ACT"  "AGT"  "CGT" "ACGT"
+##      A      C      G      T      M      R      W      S      Y      K      V      H 
+##    "A"    "C"    "G"    "T"   "AC"   "AG"   "AT"   "CG"   "CT"   "GT"  "ACG"  "ACT" 
+##      D      B      N 
+##  "AGT"  "CGT" "ACGT"
 ```
 
 ---
 
-# Useful functions.
+# Useful Functions
 
 We can make use of IUPAC codes in our search by setting the **fixed** argument to false.
 
@@ -381,7 +379,7 @@ chr19_Count
 
 ---
 
-# Useful functions.
+# Useful Functions
 
 Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns. 
 
@@ -398,7 +396,7 @@ Total_chr19_Count &lt;- chr19_Count_Watson+chr19_Count_Crick
 
 ---
 
-#Writing to a FASTA file.
+#Writing to a FASTA File
 
 The **Biostrings** package contains useful functions to read and write to a FASTA file.
 
@@ -411,14 +409,14 @@ First we will convert our DNAString to a DNAStringSet object using the **DNAStri
 ```r
 chr19_SeqSet &lt;- DNAStringSet(chr19_Seq[10000000:10000010])
 names(chr19_SeqSet) &lt;- "chr19"
-writeXStringSet(chr19_SeqSet,filepath = "Data/chr19_Seq.fa")
+writeXStringSet(chr19_SeqSet,filepath = "data/chr19_Seq.fa")
 ```
 
 
 
 ---
 
-#Reading a FASTA file.
+#Reading a FASTA File
 
 Now we can read our a FASTA file back to DNAStringSet object using the **readDNAStringSet()** function. 
 
@@ -427,7 +425,7 @@ We can access our DNAString from the DNAStringSet object again using **$** and *
 
 
 ```r
-chr19_FromFASTA &lt;- readDNAStringSet(filepath = "Data/chr19_Seq.fa")
+chr19_FromFASTA &lt;- readDNAStringSet(filepath = "data/chr19_Seq.fa")
 chr19_FromFASTA$chr19
 ```
 
@@ -446,6 +444,7 @@ chr19_FromFASTA$chr19
 
 [Link_to_answers](../../answers/fastaAndBiostrings_answers.html)
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -455,26 +454,111 @@ chr19_FromFASTA$chr19
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
-})();</script>
+})(document);
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
   }
-});
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
 (function () {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
   if (location.protocol !== 'file:' && /^https?:/.test(script.src))
     script.src  = script.src.replace(/^https?:/, '');
   document.getElementsByTagName('head')[0].appendChild(script);
