@@ -29,12 +29,12 @@ AsSlides <- TRUE
 # library(rtracklayer)
 # myRanges <- GRanges("chr1",ranges = IRanges(72811055,72856974))
 # myRanges2 <- c(myRanges,GRanges("chr1",ranges = IRanges(1,100)))
-# mycPeaks <- import.bed("Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+# mycPeaks <- import.bed("data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
 # mycPeaks[mycPeaks %over% myRanges]
 # toRun <- import("~/Downloads/ENCFF940MBK.bigWig",selection=BigWigSelection(myRanges),as="RleList")
-# export(toRun,con="Data/TSS_ENCFF940MBK.bedGraph")
-# export(toRun,con="Data/TSS_ENCFF940MBK.bw")
-# #xport.ucsc(toRun,con="Data/TSS_ENCFF940MBK.wig",subformat ="wig")
+# export(toRun,con="data/TSS_ENCFF940MBK.bedGraph")
+# export(toRun,con="data/TSS_ENCFF940MBK.bw")
+# #xport.ucsc(toRun,con="data/TSS_ENCFF940MBK.wig",subformat ="wig")
 # ```
 
 
@@ -99,8 +99,8 @@ For this course I have provided bedGraph and bigWig files from this data for the
 
 We will demonstrate how to create this later in today's session but for now data is available in
 
-- **Data/TSS_ENCFF940MBK.bedGraph** - bedGraph of region.
-- **Data/TSS_ENCFF940MBK.bw** - bigWig of region.
+- **data/TSS_ENCFF940MBK.bedGraph** - bedGraph of region.
+- **data/TSS_ENCFF940MBK.bw** - bigWig of region.
 
 
 ---
@@ -145,7 +145,7 @@ The rtracklayer package provides functions to import genomic scores from a bedGr
 
 
 ```{r c,eval=TRUE}
-myBedG <- import.bedGraph("Data/TSS_ENCFF940MBK.bedGraph")
+myBedG <- import.bedGraph("data/TSS_ENCFF940MBK.bedGraph")
 ```
 ---
 # Reading in a bedGraph.
@@ -175,7 +175,7 @@ Much of the genomic scores we will be working with are infact stored in the comp
 We can also import bigWigs into R using the **import.bw** function.
 
 ```{r e,eval=TRUE}
-myBigWig <- import.bw("Data/TSS_ENCFF940MBK.bw")
+myBigWig <- import.bw("data/TSS_ENCFF940MBK.bw")
 ```
 ---
 # Reading in a bigWig
@@ -208,7 +208,7 @@ We can however specify the type of objects we would like to return from the impo
 Here we will import the bigWig as a object we have briefly seen, the **Rle** object (run length encoding). Here we have an **Rlelist** (a list of **Rle** objects)
 
 ```{r h,eval=TRUE}
-myBigWig <- import.bw("Data/TSS_ENCFF940MBK.bw",
+myBigWig <- import.bw("data/TSS_ENCFF940MBK.bw",
                       as = "RleList")
 class(myBigWig)
 ```
@@ -233,7 +233,7 @@ We have also seen **Rle** objects [within the GRanges objects we reviewed last s
 Chromosome/contig names in **GRanges** objects are stored as **Rle** objects for instance.
 
 ```{r hqqk,eval=TRUE}
-mycPeaks <- import.bed("Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+mycPeaks <- import.bed("data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
 seqnames(mycPeaks)
 ```
 
@@ -393,7 +393,7 @@ sum(chr1_rle)
 Very usefully, We can also apply arithmetic and mathematical operations to whole RleLists as imported from the bigWig file.
 
 ```{r o4,eval=TRUE}
-myBigWig <- import.bw("Data/TSS_ENCFF940MBK.bw",as="RleList")
+myBigWig <- import.bw("data/TSS_ENCFF940MBK.bw",as="RleList")
 myBigWig+10
 ```
 ---
@@ -416,7 +416,7 @@ To demonstrate first we can retrieve the Myc Peaks calls which overlap the regio
 
 ```{r oa4,eval=TRUE}
 myRanges <- GRanges("chr1",ranges = IRanges(72811055,72856974))
-mycPeaks <- import.bed("Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+mycPeaks <- import.bed("data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
 mycPeaks <- resize(mycPeaks,50,fix="center")
 newMycPeaks <- mycPeaks[mycPeaks %over% myRanges]
 newMycPeaks
@@ -489,7 +489,7 @@ We then supply the resulting **BigWigSelection** selection object to the **selec
 ```{r z,eval=TRUE}
 
 mySelection <- BigWigSelection(newMycPeaks)
-import.bw("Data/TSS_ENCFF940MBK.bw", 
+import.bw("data/TSS_ENCFF940MBK.bw", 
           selection=mySelection, 
           as="RleList")
 ```

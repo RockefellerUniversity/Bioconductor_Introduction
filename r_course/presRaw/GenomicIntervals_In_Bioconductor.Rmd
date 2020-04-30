@@ -688,7 +688,7 @@ The **rtracklayer** package provide mechanisms to import and export from BED3/6 
 
 ```{r revruujje,error=TRUE}
 library(rtracklayer)
-mySicerPeaks <- import.bed(con="Data/SicerPeaks.bed")
+mySicerPeaks <- import.bed(con="data/SicerPeaks.bed")
 mySicerPeaks
 ```
 

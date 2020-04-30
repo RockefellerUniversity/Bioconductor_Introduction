@@ -35,14 +35,14 @@ temp <- readFastq("~/Downloads/out.fq")
 tAlin <- temp[sample(1:length(temp),10000)]
 writeFastq(tAlin,"~/Downloads/sampledActin.fq.gz")
 BiocInstaller::biocLite("QuasR")
-myFile <- data.frame(FileName="Data/sampled_ENCFF000CXH.fastq.gz",SampleName="ENCFF000CXH")
+myFile <- data.frame(FileName="data/sampled_ENCFF000CXH.fastq.gz",SampleName="ENCFF000CXH")
 library("BSgenome.Hsapiens.UCSC.hg19")
 tis <- BSgenome.Hsapiens.UCSC.hg19[["chr5"]]
 writeXStringSet(DNAStringSet(list(chr5=tis)),"chr5.fa")
 write.table(myFile,"samples.txt",sep="\t",row.names=FALSE,quote=FALSE)
 qAlign("samples.txt","chr5.fa")
 library(Rsamtools)
-Rsamtools::sortBam("Data/sampled_ENCFF000CXH_29a7bd074f7.bam","Sorted_sampled_ENCFF000CXH")
+Rsamtools::sortBam("data/sampled_ENCFF000CXH_29a7bd074f7.bam","Sorted_sampled_ENCFF000CXH")
 Rsamtools::indexBam("Sorted_sampled_ENCFF000CXH.bam")
 myCoverage <- coverage("Sorted_sampled_ENCFF000CXH.bam")
 export.bw(myCoverage,con = "Sorted_sampled_ENCFF000CXH.bw")
@@ -151,7 +151,7 @@ In this session we will work with aligned data as BAM files.
 
 I have provided BAM files we saw in our last session as our test data from today.
 
-This can be found in **Data/liver.bodyMap.bam**
+This can be found in **data/liver.bodyMap.bam**
 
 ---
 # Rsamtools
@@ -180,7 +180,7 @@ By default the file is sorted by chromosome name and then by coordinates of read
 
 
 ```{r b1,echo=TRUE,eval=TRUE}
-coordSorted <- sortBam("Data/liver.bodyMap.bam",
+coordSorted <- sortBam("data/liver.bodyMap.bam",
                        "Sorted_liver")
 coordSorted
 ```
@@ -193,7 +193,7 @@ To sort by read name we can set the **sortBam** arguement **byQname** to **TRUE*
 
 
 ```{r c1,echo=TRUE,eval=TRUE}
-readnameSorted <- sortBam("Data/liver.bodyMap.bam",
+readnameSorted <- sortBam("data/liver.bodyMap.bam",
                           "SortedByName_liver",
                           byQname=TRUE)
 readnameSorted
@@ -211,7 +211,7 @@ Here in this example, we sort our file in 1MB of memory and it will produce 10 t
 
 
 ```{r d1,echo=TRUE,eval=TRUE}
-coordSorted <- sortBam("Data/liver.bodyMap.bam",
+coordSorted <- sortBam("data/liver.bodyMap.bam",
                           "Sorted_liver",
                           maxMemory=1)
 coordSorted

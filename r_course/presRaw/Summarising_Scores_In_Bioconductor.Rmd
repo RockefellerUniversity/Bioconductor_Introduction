@@ -29,7 +29,7 @@ AsSlides <- TRUE
 library(ShortRead)
 temp <- readFastq("~/Projects/Results/RNAseqPipeTest/FirstTest/FQs/ENCFF000CXH.fastq.gz")
 fastqSample <- temp[1:100000]
-writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/sampled_ENCFF000CXH.fastq.gz",mode = "w")
+writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introduction/r_course/data/sampled_ENCFF000CXH.fastq.gz",mode = "w")
 ```
 
 ```{r,results='asis',include=TRUE,echo=FALSE}
@@ -136,10 +136,10 @@ In this session we will work with aligned data as BAM files.
 
 I have provided BAM files we saw in our last session as our test data from today.
 
-This can be found in **Data/liver.bodyMap.bam** and **Data/heart.bodyMap.bam**.
+This can be found in **data/liver.bodyMap.bam** and **data/heart.bodyMap.bam**.
 
-* **Data/liver.bodyMap.bam**
-* **Data/heart.bodyMap.bam**
+* **data/liver.bodyMap.bam**
+* **data/heart.bodyMap.bam**
 
 ---
 
@@ -164,13 +164,13 @@ We should always work with sorted and indexed BAM files so we will perform these
 
 
 ```{r a1}
-sortedHeart <- sortBam("Data/heart.bodyMap.bam","Heart")
+sortedHeart <- sortBam("data/heart.bodyMap.bam","Heart")
 indexBam(sortedHeart)
 
 ```
 
 ```{r a1232,include=FALSE}
-sortedHeart <- sortBam("Data/liver.bodyMap.bam","Liver")
+sortedHeart <- sortBam("data/liver.bodyMap.bam","Liver")
 indexBam(sortedHeart)
 
 ```

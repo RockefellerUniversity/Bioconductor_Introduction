@@ -35,14 +35,14 @@ temp <- readFastq("~/Downloads/out.fq")
 tAlin <- temp[sample(1:length(temp),10000)]
 writeFastq(tAlin,"~/Downloads/sampledActin.fq.gz")
 BiocInstaller::biocLite("QuasR")
-myFile <- data.frame(FileName="Data/sampled_ENCFF000CXH.fastq.gz",SampleName="ENCFF000CXH")
+myFile <- data.frame(FileName="data/sampled_ENCFF000CXH.fastq.gz",SampleName="ENCFF000CXH")
 library("BSgenome.Hsapiens.UCSC.hg19")
 tis <- BSgenome.Hsapiens.UCSC.hg19[["chr5"]]
 writeXStringSet(DNAStringSet(list(chr5=tis)),"chr5.fa")
 write.table(myFile,"samples.txt",sep="\t",row.names=FALSE,quote=FALSE)
 qAlign("samples.txt","chr5.fa")
 library(Rsamtools)
-Rsamtools::sortBam("Data/sampled_ENCFF000CXH_29a7bd074f7.bam","Sorted_sampled_ENCFF000CXH")
+Rsamtools::sortBam("data/sampled_ENCFF000CXH_29a7bd074f7.bam","Sorted_sampled_ENCFF000CXH")
 Rsamtools::indexBam("Sorted_sampled_ENCFF000CXH.bam")
 myCoverage <- coverage("Sorted_sampled_ENCFF000CXH.bam")
 export.bw(myCoverage,con = "Sorted_sampled_ENCFF000CXH.bw")
@@ -179,7 +179,7 @@ This RNAseq data has been generated from the human cell line **GM12878** and the
 
 To speed up the processing for this practical I have retrieved aligned data from Encode for the sample **ENCSR297UBP** and extracted reads mapping to ActB gene on hg20 human genome build. I have further downsampled these reads to only 10000 reads out of the 200000 mapping to this gene.
 
-This sampled data can be found in **Data/sampledActin.fq.gz**
+This sampled data can be found in **data/sampledActin.fq.gz**
 
 
 ---
@@ -249,9 +249,9 @@ We can now use the **align()** function to align reads to the genome.
 We must specify out index name, fastq file, desired output format and name of BAM file to be created.
 
 ```{r sum2waacww, echo=TRUE,eval=FALSE,include=TRUE}
-align("chr7","Data/sampledActin.fq.gz",
+align("chr7","data/sampledActin.fq.gz",
         output_format = "BAM",
-        output_file = "Data/Rsubread_NoSplicing_sampledActin.bam")
+        output_file = "data/Rsubread_NoSplicing_sampledActin.bam")
 ```
 
 ---
@@ -293,7 +293,7 @@ The  **sortBam()** function take as arguments the path to BAM file to sort and t
 Note the **prefix** should not contain the *.bam* extension.
 
 ```{r sort, echo=TRUE,eval=TRUE}
-sortBam("Data/Rsubread_NoSplicing_sampledActin.bam","SortedActB")
+sortBam("data/Rsubread_NoSplicing_sampledActin.bam","SortedActB")
 ```
 
 ---
@@ -341,9 +341,9 @@ We must again specify out index name, fastq file, desired output format and name
 
 
 ```{r sum2wkaacww, echo=TRUE,eval=FALSE,include=TRUE}
-subjunc("chr7","Data/sampledActin.fq.gz",
+subjunc("chr7","data/sampledActin.fq.gz",
         output_format = "BAM",
-        output_file = "Data/RsubreadsampledActin.bam")
+        output_file = "data/RsubreadsampledActin.bam")
 ```
 
 ---
@@ -352,7 +352,7 @@ subjunc("chr7","Data/sampledActin.fq.gz",
 We can now sort and index our splice aware alignment as before.
 
 ```{r sum2wcaww, echo=TRUE,eval=FALSE,include=TRUE}
-sortBam("Data/RsubreadsampledActin.bam",
+sortBam("data/RsubreadsampledActin.bam",
         "Sorted_RsubreadsampledActin")
 indexBam("Sorted_RsubreadsampledActin.bam")
 ```
@@ -363,7 +363,7 @@ indexBam("Sorted_RsubreadsampledActin.bam")
 We can now sort and index our splice aware alignment as before.
 
 ```{r sortS, echo=TRUE,eval=TRUE}
-sortBam("Data/sampledActin_29a42342e34.bam","SortedActBSpliced")
+sortBam("data/sampledActin_29a42342e34.bam","SortedActBSpliced")
 indexBam("SortedActBSpliced.bam")
 ```
 
@@ -411,7 +411,7 @@ An example here shows alignment with STAR, which often allows for very long spli
 Finally we can assess mapping rate.
 
 ```{r sum2wcwsssw, echo=TRUE,eval=TRUE,include=TRUE}
-quickBamFlagSummary("Data/Sorted_RsubreadsampledActin.bam")
+quickBamFlagSummary("data/Sorted_RsubreadsampledActin.bam")
 ```
 
 
@@ -425,9 +425,9 @@ export(temp3,"missing.bam")
 
 library(Rsubread)
 Rsubread::buildindex("chr7","chr7.fa",gappedIndex = FALSE,indexSplit = FALSE)
-Rsubread::subjunc("/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/presentations/slides/chr7","/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/sampledActin.fq.gz",output_format = "BAM",output_file = "/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/RsubreadsampledActin.bam")
+Rsubread::subjunc("/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/presentations/slides/chr7","/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/data/sampledActin.fq.gz",output_format = "BAM",output_file = "/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/data/RsubreadsampledActin.bam")
 
-temp <- scanBam("Data/RsubreadsampledActin.bam")
+temp <- scanBam("data/RsubreadsampledActin.bam")
 reads <- temp[[1]]$qname[is.na(temp[[1]]$mapq)]
 temp2 <- readGAlignments("~/Downloads/out.bam",param=ScanBamParam(what=c("qname", "strand", "pos", "qwidth")))
 temp3 <- temp2[temp2@elementMetadata$qname %in% reads]
@@ -477,7 +477,7 @@ First however we will need to decompress our compressed fastq files to use them 
 ```{r sumww2zzzzwcwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE}
 library(R.utils)
 
-gunzip("Data/sampledActin.fq.gz")
+gunzip("data/sampledActin.fq.gz")
 ```
 
 ---
@@ -489,7 +489,7 @@ We can align our data using the main **bowtie2** function and specifying the ind
 ```{r sumww2wxxcwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE}
 bowtie2(bt2Index = "chr7hg38",
           samOutput = "sampledActin.sam",
-          seq1 = "Data/sampledActin.fq")
+          seq1 = "data/sampledActin.fq")
 ```
 
 ---
@@ -567,14 +567,14 @@ The **qAlign()** function requires just two arguments.
 The sample table requires is a tab-delimited file listing the path to fastq(s) to be aligned and the desired sample names.
 
 ```{r sampleTable1, echo=TRUE,eval=FALSE}
-FileName <- "Data/sampledActin.fq.gz"
+FileName <- "data/sampledActin.fq.gz"
 SampleName <- "sampledActin"
 sampleTable <- data.frame(FileName,SampleName)
 write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
 ```
 
 ```{r sampleTable1s, echo=FALSE,eval=TRUE}
-FileName <- "Data/sampledActin.fq.gz"
+FileName <- "data/sampledActin.fq.gz"
 SampleName <- "sampledActin"
 data.frame(FileName,SampleName)
 ```

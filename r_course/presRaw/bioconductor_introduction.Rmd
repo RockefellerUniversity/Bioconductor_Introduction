@@ -218,7 +218,7 @@ This includes methods for handling common genomics data types.
 
 # FASTA in Bioconductor
 
-Genomic sequences stored as [FASTA files](https://rockefelleruniversity.github.io/Genomic_Data/gr_course/presentations/slides/GenomicsData.html#9) are handled using the [**Biostrings**](https://bioconductor.org/packages/release/bioc/html/Biostrings.html) package.
+Genomic sequences stored as [FASTA files](https://rockefelleruniversity.github.io/Genomic_data/gr_course/presentations/slides/GenomicsData.html#9) are handled using the [**Biostrings**](https://bioconductor.org/packages/release/bioc/html/Biostrings.html) package.
 
 <div align="center">
 <img src="imgs/fasta.png" alt="igv" height="250" width="600">
@@ -229,7 +229,7 @@ Genomic sequences stored as [FASTA files](https://rockefelleruniversity.github.i
 
 # BED/BED6 in Bioconductor
 
-Genomic intervals stored as [BED files](https://rockefelleruniversity.github.io/Genomic_Data/r_course/presentations/slides/GenomicsData.html#22) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
+Genomic intervals stored as [BED files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#22) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
 
 <div align="center">
 <img src="imgs/bed6.png" alt="igv" height="260" width="400">
@@ -239,7 +239,7 @@ Genomic intervals stored as [BED files](https://rockefelleruniversity.github.io/
 
 # Wigs and BigWigs in Bioconductor
 
-Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.github.io/Genomic_Data/r_course/presentations/slides/GenomicsData.html#25) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
+Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#25) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
 
 <div align="center">
 <img src="imgs/wiggle.png" alt="igv" height="500" width="400">
@@ -248,7 +248,7 @@ Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.git
 ---
 # GFF
 
-[GFF files](https://rockefelleruniversity.github.io/Genomic_Data/r_course/presentations/slides/GenomicsData.html#29) containing gene models are handled using the [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html)  package.
+[GFF files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#29) containing gene models are handled using the [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html)  package.
 
 <div align="center">
 <img src="imgs/gff2.png" alt="igv" height="200" width="600">
@@ -257,7 +257,7 @@ Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.git
 ---
 # FastQ 
 
-[FastQ files](https://rockefelleruniversity.github.io/Genomic_Data/r_course/presentations/slides/GenomicsData.html#12) containing gene models are handled using the [**ShortRead**](https://bioconductor.org/packages/release/bioc/html/ShortRead.html) package.
+[FastQ files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#12) containing gene models are handled using the [**ShortRead**](https://bioconductor.org/packages/release/bioc/html/ShortRead.html) package.
 
 <div align="center">
 <img src="imgs/fq1.png" alt="igv" height="200" width="600">
@@ -266,7 +266,7 @@ Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.git
 ---
 # SAM/BAM
 
-[SAM and BAM files](https://rockefelleruniversity.github.io/Genomic_Data/r_course/presentations/slides/GenomicsData.html#15) are handled using the  [**GenomicAlignments**](https://bioconductor.org/packages/release/bioc/html/GenomicAlignments.html) package.
+[SAM and BAM files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#15) are handled using the  [**GenomicAlignments**](https://bioconductor.org/packages/release/bioc/html/GenomicAlignments.html) package.
 
 <div align="center">
 <img src="imgs/sam2.png" alt="igv" height="200" width="600">

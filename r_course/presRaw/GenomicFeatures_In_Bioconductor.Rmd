@@ -80,7 +80,7 @@ We use GFF and GTF in IGV to display gene models.
 
 ```{r setssssup, eval=FALSE,echo=FALSE}
 library(TxDb.Hsapiens.UCSC.hg19.knownGene)
-export.gff(TxDb.Hsapiens.UCSC.hg19.knownGene,con = "Data/test.gff")
+export.gff(TxDb.Hsapiens.UCSC.hg19.knownGene,con = "data/test.gff")
 ```
 
 <div align="center">
@@ -94,7 +94,7 @@ GTF is perhaps the most common format for gene models.
 
 In this example we have a GTF file containing a single gene model for the **Xkr4** gene.
 
-This can be found in **Data/Xkr4.gtf**
+This can be found in **data/Xkr4.gtf**
 
 <div align="center">
 <img src="imgs/gtfInTerminal.png" height="138" width="800">
@@ -317,7 +317,7 @@ Often we will have our favourite gene models stored in a GTF outside of Biocondu
 
 We can do this using the **makeTxDbFromGFF()** function which will parse GTF or GFF into a **TxDb** object
 ```{r ssslkzzzzfkkjkjj,eval=TRUE}
-myCustomTxDb <- makeTxDbFromGFF("Data/Xkr4.gtf")
+myCustomTxDb <- makeTxDbFromGFF("data/Xkr4.gtf")
 class(myCustomTxDb)
 ```
 
