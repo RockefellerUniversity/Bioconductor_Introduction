@@ -122,7 +122,7 @@ The **ShortRead** package allows us to import FastQ files into R using the **rea
 
 ```{r setup2112,eval=TRUE,echo=TRUE}
 library(ShortRead)
-fastQ <- readFastq("../Data/sampled_ENCFF000CXH.fastq.gz")
+fastQ <- readFastq("Data/sampled_ENCFF000CXH.fastq.gz")
 class(fastQ)
 ```
 
@@ -232,9 +232,9 @@ Ids[1:4]
 
 A fundamental difference betweem Fasta and FastQ files is the **Q**uality scores containined in FastQ.
 
-As we have seen, quality scores are stored as ASCI characters representing -log10 probability of base being wrong (Larger scores would be associated to more confident base calls.)
+As we have seen, quality scores are stored as ASCI characters representing -log10 probability of base being wrong (Larger scores would be associated to more confident base calls).
 
-A comprehensive description of phred quality can be found on the wiki page for [FastQ](https://en.wikipedia.org/wiki/FASTQ_format#Quality)
+A comprehensive description of phred quality can be found on the wiki page for [FastQ](https://en.wikipedia.org/wiki/FASTQ_format#Quality).
 
 ---
 ##FastQ Quality
@@ -387,7 +387,7 @@ The **ShortRead** package also contains a function to generate a simple quality 
 The **qa()** function accepts a FastQ file and returns a **FastqQA**  object.
 
 ```{r setup2355a}
-my_QA <- qa("../Data/sampled_ENCFF000CXH.fastq.gz")
+my_QA <- qa("Data/sampled_ENCFF000CXH.fastq.gz")
 my_QA
 ```
 
@@ -452,7 +452,7 @@ The **FastqSampler()** function allows us to specifiy how many reads we wish to 
 
 
 ```{r setup237fef}
-sampleToRead <- FastqSampler("../Data/sampled_ENCFF000CXH.fastq.gz",
+sampleToRead <- FastqSampler("Data/sampled_ENCFF000CXH.fastq.gz",
                              n=100)
 yield(sampleToRead)
 ```
@@ -463,7 +463,7 @@ yield(sampleToRead)
 The **FastqStreamer()** function works in a similar manner accept isntead of randomly sampling the file, it allows us to read chunks of the file at a time.
 
 ```{r setup23kk7ssa}
-sampleToRead <- FastqStreamer("../Data/sampled_ENCFF000CXH.fastq.gz",
+sampleToRead <- FastqStreamer("Data/sampled_ENCFF000CXH.fastq.gz",
                               n=100)
 first100Reads <- yield(sampleToRead)
 second100Reads <- yield(sampleToRead)

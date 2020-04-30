@@ -1,7 +1,7 @@
 ---
 title: "Sequences In Bioconductor <html><div style='float:left'></div><hr color='#EB811B' size=1px width=796px></html>"
 author: "Rockefeller University, Bioinformatics Resource Centre"
-date: "http://rockefelleruniversity.github.io/SequencesInBioconductor/"
+date: "http://rockefelleruniversity.github.io/Bioconductor_Introduction/"
 output: 
   xaringan::moon_reader:
     css: ["default", "metropolisCustom.css", "metropolis-fontsCustom.css"]

@@ -316,7 +316,7 @@ Often we will have our favourite gene models stored in a GTF outside of Biocondu
 
 We can do this using the **makeTxDbFromGFF()** function which will parse GTF or GFF into a **TxDb** object
 ```{r ssslkzzzzfkkjkjj,eval=TRUE}
-myCustomTxDb <- makeTxDbFromGFF("../Data/Xkr4.gtf")
+myCustomTxDb <- makeTxDbFromGFF("Data/Xkr4.gtf")
 class(myCustomTxDb)
 ```
 
