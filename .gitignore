@@ -1,3 +1,4 @@
 .DS_Store
 *.fa
 .Rproj.user
+*_cache*
