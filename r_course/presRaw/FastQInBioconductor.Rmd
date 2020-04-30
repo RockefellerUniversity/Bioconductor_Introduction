@@ -35,7 +35,7 @@ writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introdu
 
 - We can now massively, parallel sequence DNA fragments using illumina/solexa sequencing.
 - This allows us to rapidly profile abundance of specific DNA sequences in a pool of DNA sequences (or cDNA sequences).
-- With the full genome sequence we can identify where our abundant sequences are in linear genome
+- With the full genome sequence we can identify where our abundant sequences are in linear genome.
 - And/or with transcriptome models we can estimate abundance of transcripts/genes.
 
 ---
@@ -241,7 +241,7 @@ A comprehensive description of phred quality can be found on the wiki page for [
 
 We can also extract the qualities for every read using the **quality()** function.
 
-The returned object is a special extension of **BStringSet** object, the **FastqQuality** object
+The returned object is a special extension of **BStringSet** object, the **FastqQuality** object.
 
 ```{r setup23s3wwdre}
 quals <- quality(fastQ)
@@ -314,7 +314,7 @@ sum(qualityEncoding[toTranslate])
 ---
 ##FastQ Quality
 
-We can also obtain the quality scores over cycles for all reads using the function **as(_myQualities_,"matrix")**
+We can also obtain the quality scores over cycles for all reads using the function **as(_myQualities_, "matrix")**
 
 
 
