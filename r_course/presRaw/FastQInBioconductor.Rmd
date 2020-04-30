@@ -31,7 +31,7 @@ fastqSample <- temp[1:100000]
 writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/sampled_ENCFF000CXH.fastq.gz",mode = "w")
 ```
 
-## Why we use illumina sequencing
+## Why We Use Illumina Sequencing
 
 - We can now massively, parallel sequence DNA fragments using illumina/solexa sequencing.
 - This allows us to rapidly profile abundance of specific DNA sequences in a pool of DNA sequences (or cDNA sequences).
@@ -40,7 +40,7 @@ writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introdu
 
 ---
 
-##Principals of illumina sequencing
+##Principals of Illumina Sequencing
 
 <div align="center">
 <img src="imgs/wps.png" alt="igv" height="500" width="800">
@@ -65,13 +65,15 @@ Illumina sequences as FastQ files can be handled in Bioconductor using the funct
 
 ---
 
-##ShortRead packages.
+##ShortRead Packages
 
 To make use of a ShortRead package we must first install and load the library.
 
 ```{r load, echo=TRUE,eval=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("ShortRead")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("ShortRead")
 ```
 
 ```{r load1, echo=FALSE,eval=TRUE}
@@ -94,7 +96,7 @@ This RNAseq data has been generated from the human cell line **GM12878** and the
 
 ---
 
-##Data locally
+##Data Locally
 
 For this session, i have taken the first 100,000 reads from the fastQ file **ENCFF000CXH.fastq.gz** to create **Data/sampled_ENCFF000CXH.fastq.gz**. This should allow us to quickly perform some processing and analysis of this data as well as include the smaller file size example data in our zip archive.
 
@@ -105,7 +107,7 @@ This can be found in
 
 ---
 
-##Data locally
+##Data Locally
 
 Even though we will work with smaller sample for the presentation, the ShortRead allows us to handle large sequencing datasets in a memory efficient manner.
 
@@ -114,19 +116,19 @@ We will review this at the end of the session.
 
 ---
 
-##Reading in FastQ data
+##Reading in FastQ File
 
 The **ShortRead** package allows us to import FastQ files into R using the **readFastq()** function. This function returns a **ShortReadQ** storing the information from the fastQ file (sequence, quality of sequence and unique read identifiers).
 
 ```{r setup2112,eval=TRUE,echo=TRUE}
 library(ShortRead)
-fastQ <- readFastq("Data/sampled_ENCFF000CXH.fastq.gz")
+fastQ <- readFastq("../Data/sampled_ENCFF000CXH.fastq.gz")
 class(fastQ)
 ```
 
 ---
 
-##FastQ data object
+##FastQ Data Object
 
 We can get a very simple summary of the **ShortReadQ** object by typing in the variable name.
 ```{r setup22}
@@ -134,7 +136,7 @@ fastQ
 ```
 
 ---
-##FastQ data object
+##FastQ Data Object
 
 We can use the familiar **length()** function to report the total number of reads as we have done for vectors or GRanges objects.
 
@@ -144,7 +146,7 @@ length(fastQ)
 
 
 ---
-##FastQ data object
+##FastQ Data Object
 
 Or we can use the **width()** function to find the size of each read/sequence in fastQ as we have done with DNAstringSet and GRanges objects
 
@@ -154,7 +156,7 @@ readLengths[1:10]
 ```
 
 ---
-##FastQ data object
+##FastQ Data Object
 
 We can subset or index **ShortReadQ** objects using the same methods as we have for vectors and GRanges.
 
@@ -164,7 +166,7 @@ fastQ[1:10]
 ```
 
 ---
-##FastQ accessors
+##FastQ Accessors
 
 As we have seen, just typing the object name provide a summary of total reads and maximum read length but to retrieve information such a the sequence, quality or ID we will need to use some special accessors.
 
@@ -172,7 +174,8 @@ As we have seen, just typing the object name provide a summary of total reads an
 * **quality()** - Retrieve quality of reads as ASCI scores.
 * **ids()** - Retrieve IDs of reads.
 ---
-##FastQ sequences
+
+##FastQ Sequences
 
 We can retrieve all read sequences using the **sread()** accessor function and the **ShortReadQ** object.
 
@@ -181,7 +184,7 @@ sequenceOfReads <- sread(fastQ)
 class(sequenceOfReads)
 ```
 ---
-##FastQ sequences
+##FastQ Sequences
 
 The sequences in reads are themselves held in an object we are quite familiar with, a **DNAStringSet** object.
 
@@ -189,7 +192,7 @@ The sequences in reads are themselves held in an object we are quite familiar wi
 sequenceOfReads 
 ```
 ---
-##FastQ sequences
+##FastQ Sequences
 
 This means we can use all the great functions from the **Biostrings** library on this **DNAStringSet** object.
 
@@ -321,7 +324,7 @@ rowSums(matrixOfQualities)[1]
 ```
 
 ---
-##ShortRead functions.
+##ShortRead Functions
 
 The **ShortRead** package has many functions available to allow us to collect useful metrics from our ShortRead object.
 
@@ -334,7 +337,7 @@ alpByCyc <- alphabetByCycle(sequenceOfReads)
 alpByCyc[1:4,1:15]
 ```
 ---
-##ShortRead functions.
+##ShortRead Functions
 
 We can also apply our new  **alphabetByCycle()** function to the quality scores. 
 
@@ -343,7 +346,7 @@ qualsByCyc <- alphabetByCycle(quals)
 qualsByCyc[1:4,1:15]
 ```
 ---
-##ShortRead functions.
+##ShortRead Functions
 
 We can use the **table** function to identify the number of times a sequence appears in our FastQ file's sequence reads.
 ```{r setup23sswedccrssrjjd4,eval=FALSE,echo=TRUE}
@@ -357,7 +360,7 @@ data.frame(Occurrence=sort(readOccurence,decreasing = TRUE)[1:2])
 ```
 
 ---
-##ShortRead functions.
+##ShortRead Functions
 
 We can identify duplicated reads (potentially arising from PCR over amplification) by using the **srduplicated()** function and the **ShortReadQ** object.
 
@@ -368,7 +371,7 @@ duplicates <- srduplicated(fastQ)
 duplicates[1:3]
 ```
 ---
-##ShortRead functions.
+##ShortRead Functions
 
 We can use this now to get a quick measure of sequence duplication rate using the **table** function.
 
@@ -377,19 +380,19 @@ table(duplicates)
 ```
 
 ---
-##ShortReads' qa function
+##ShortReads' qa() Function
 
 The **ShortRead** package also contains a function to generate a simple quality control report.
 
 The **qa()** function accepts a FastQ file and returns a **FastqQA**  object.
 
 ```{r setup2355a}
-my_QA <- qa("Data/sampled_ENCFF000CXH.fastq.gz")
+my_QA <- qa("../Data/sampled_ENCFF000CXH.fastq.gz")
 my_QA
 ```
 
 ---
-##ShortReads' qa function
+##ShortReads' qa() Function
 
 We can then use the **report()** function to generate a simple report.
 
@@ -399,7 +402,7 @@ myReport
 ```
 
 ---
-##ShortReads' qa function
+##ShortReads' qa() Function
 
 Finally we can review the report in a browser or use the browseURL function to open it in a browser from R. 
 ```{r setup23q7,eval=FALSE}
@@ -420,7 +423,7 @@ TrimmedFastq
 ```
 
 ---
-##Exporting Fastq files.
+##Exporting Fastq Files
 
 Now we have trimmed our FastQ reads, we can export these reads for further analysis using the **writeFastq()** function.
 
@@ -435,13 +438,13 @@ writeFastq(TrimmedFastq,"myTrimmed_Fastq.fastq.gz",mode="w")
 
 
 ---
-##Handling large files
+##Handling Large Files
 
 So far we have used a subsampled FastQ file to review some of the functions available to us in the ShortRead package.
 
 The **FastqSampler()** and **FastqStreamer()** functions allow us to read portions of a FastQ file. 
 ---
-##Handling large files
+##Handling Large Files
 
 For evaluating quality of our FastQ, we do not require the entire file but perhaps only 100,000 random reads to assess quality.
 
@@ -449,25 +452,25 @@ The **FastqSampler()** function allows us to specifiy how many reads we wish to 
 
 
 ```{r setup237fef}
-sampleToRead <- FastqSampler("Data/sampled_ENCFF000CXH.fastq.gz",
+sampleToRead <- FastqSampler("../Data/sampled_ENCFF000CXH.fastq.gz",
                              n=100)
 yield(sampleToRead)
 ```
 
 ---
-##Handling large files
+##Handling Large Files
 
 The **FastqStreamer()** function works in a similar manner accept isntead of randomly sampling the file, it allows us to read chunks of the file at a time.
 
 ```{r setup23kk7ssa}
-sampleToRead <- FastqStreamer("Data/sampled_ENCFF000CXH.fastq.gz",
+sampleToRead <- FastqStreamer("../Data/sampled_ENCFF000CXH.fastq.gz",
                               n=100)
 first100Reads <- yield(sampleToRead)
 second100Reads <- yield(sampleToRead)
 ```
 ---
 
-##Handling large files
+##Handling Large Files
 
 We can stream over entire files using a loop, here in chunks of 25000
 
@@ -483,7 +486,7 @@ while (length(fq <- yield(f)) > 0) {
 
 ---
 
-##Time for an exercise.
+##Time for an Exercise
 
 [Link_to_exercises](../../exercises/fastq_exercises.html)
 
