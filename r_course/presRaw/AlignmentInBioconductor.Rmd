@@ -17,6 +17,8 @@ output:
     number_sections: false  #### if you want number sections at each table header
     theme: united  ## many options for theme, this one is my favorite.
     highlight: tango  ## specifies the syntax highlighting style
+params:
+  isSlides: "no"
 ---
 
 ```{r setup, include=FALSE}
@@ -193,7 +195,7 @@ BiocManager::install('Rsubread')
 library(Rsubread)
 ```
 
-```{r sum2wcww, echo=TRUE,eval=FALSE,include=TRUE}
+```{r sum2wcwwa, echo=FALSE,eval=TRUE,include=FALSE}
 suppressPackageStartupMessages(library(Rsubread))
 ```
 
@@ -409,7 +411,7 @@ An example here shows alignment with STAR, which often allows for very long spli
 Finally we can assess mapping rate.
 
 ```{r sum2wcwsssw, echo=TRUE,eval=TRUE,include=TRUE}
-quickBamFlagSummary("Sorted_RsubreadsampledActin.bam")
+quickBamFlagSummary("Data/Sorted_RsubreadsampledActin.bam")
 ```
 
 
@@ -605,7 +607,7 @@ qAlign("sampleTable.txt","chr7.fa")
 
 The aligner argument is used to control which algorithm you were going to use. Here we use Rhisat2 as it is a good algorithm for mapping reads across splice junctions.
 
-```{r bsgenomek, echo=TRUE,eval=FALSE}
+```{r bsgenomeka, echo=TRUE,eval=FALSE}
 qAlign("sampleTable.txt","chr7.fa", aligner="Rhisat2")
 ```
 

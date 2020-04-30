@@ -25,17 +25,17 @@ knitr::opts_chunk$set(echo = TRUE)
 AsSlides <- TRUE
 ```
 
-```{r makingData, include=FALSE,cache=TRUE,eval=FALSE}
-library(rtracklayer)
-myRanges <- GRanges("chr1",ranges = IRanges(72811055,72856974))
-myRanges2 <- c(myRanges,GRanges("chr1",ranges = IRanges(1,100)))
-mycPeaks <- import.bed("Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
-mycPeaks[mycPeaks %over% myRanges]
-toRun <- import("~/Downloads/ENCFF940MBK.bigWig",selection=BigWigSelection(myRanges),as="RleList")
-export(toRun,con="Data/TSS_ENCFF940MBK.bedGraph")
-export(toRun,con="Data/TSS_ENCFF940MBK.bw")
-#xport.ucsc(toRun,con="Data/TSS_ENCFF940MBK.wig",subformat ="wig")
-```
+# ```{r makingData, include=FALSE,cache=TRUE,eval=FALSE}
+# library(rtracklayer)
+# myRanges <- GRanges("chr1",ranges = IRanges(72811055,72856974))
+# myRanges2 <- c(myRanges,GRanges("chr1",ranges = IRanges(1,100)))
+# mycPeaks <- import.bed("Data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
+# mycPeaks[mycPeaks %over% myRanges]
+# toRun <- import("~/Downloads/ENCFF940MBK.bigWig",selection=BigWigSelection(myRanges),as="RleList")
+# export(toRun,con="Data/TSS_ENCFF940MBK.bedGraph")
+# export(toRun,con="Data/TSS_ENCFF940MBK.bw")
+# #xport.ucsc(toRun,con="Data/TSS_ENCFF940MBK.wig",subformat ="wig")
+# ```
 
 
 # Genomic Scores
@@ -47,7 +47,6 @@ As we have seen earlier, genomic scores are often stored in wiggle format.
 </div>
 
 ---
-
 # Genomic Scores
 
 A perhaps more common human readable format is bedGraph.
@@ -55,6 +54,7 @@ A perhaps more common human readable format is bedGraph.
 <div align="center">
 <img src="imgs/bedgraph3.png" alt="igv" height="200" width="400">
 </div>
+
 ---
 # Genomic Scores
 
@@ -73,12 +73,6 @@ Genomic Scores are heavily used in Genomics and High throughput sequencing as th
 
 - RNA-seq, ChIP-seq, ATAC-seq signals (as well many other *seq* types).
 - Phylogenetic conservation.
-
-
-
-
-
-
 
 ---
 # Our Genomic Scores data.
@@ -101,7 +95,7 @@ From our last session we identified Myc peaks within the Igfbp2 locus and in IGV
 ---
 # Our Genomic Scores data
 
-For this course i have provided bedGraph and bigWig files from this data for the window with the IGV image.
+For this course I have provided bedGraph and bigWig files from this data for the window with the IGV image.
 
 We will demonstrate how to create this later in today's session but for now data is available in
 

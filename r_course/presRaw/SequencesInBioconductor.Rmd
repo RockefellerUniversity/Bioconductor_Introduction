@@ -276,14 +276,14 @@ First we will convert our DNAString to a DNAStringSet object using the **DNAStri
 ```{r DNAStringSub611, echo=TRUE,eval=FALSE,collapse=FALSE}
 chr19_SeqSet <- DNAStringSet(chr19_Seq[10000000:10000010])
 names(chr19_SeqSet) <- "chr19"
-writeXStringSet(chr19_SeqSet,filepath = "../Data/chr19_Seq.fa")
+writeXStringSet(chr19_SeqSet,filepath = "Data/chr19_Seq.fa")
 
 ```
 
 ```{r DNAStringSub61s1, echo=FALSE,eval=TRUE,collapse=FALSE}
 chr19_SeqSet <- DNAStringSet(chr19_Seq[10000000:10000010])
 names(chr19_SeqSet) <- "chr19"
-writeXStringSet(chr19_SeqSet,filepath = "../Data/chr19_Seq.fa")
+writeXStringSet(chr19_SeqSet,filepath = "Data/chr19_Seq.fa")
 
 ```
 
@@ -297,12 +297,12 @@ We can access our DNAString from the DNAStringSet object again using **$** and *
 
 
 ```{r DNAStringSub62, echo=TRUE,eval=FALSE,tidy=TRUE}
-chr19_FromFASTA <- readDNAStringSet(filepath = "../Data/chr19_Seq.fa" )
+chr19_FromFASTA <- readDNAStringSet(filepath = "Data/chr19_Seq.fa" )
 chr19_FromFASTA$chr19
 ```
 
 ```{r DNAStringSubxzz62, echo=FALSE,eval=TRUE,tidy=TRUE}
-chr19_FromFASTA <- readDNAStringSet(filepath = "../Data/chr19_Seq.fa" )
+chr19_FromFASTA <- readDNAStringSet(filepath = "Data/chr19_Seq.fa" )
 chr19_FromFASTA$chr19
 ```
 

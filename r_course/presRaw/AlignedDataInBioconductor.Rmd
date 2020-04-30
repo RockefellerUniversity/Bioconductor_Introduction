@@ -17,6 +17,8 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
+params:
+  isSlides: "no"
 ---
 
 ```{r setup, include=FALSE}
@@ -66,7 +68,7 @@ Rsamtools::indexBam("~/Downloads/ENCFF846QSN.bam")
 
 ```{r,results='asis',include=TRUE,echo=FALSE}
 if(params$isSlides == "yes"){
-  cat("---
+  cat("
 class: inverse, center, middle
 
 # Aligned Sequences
@@ -77,7 +79,7 @@ class: inverse, center, middle
 "    
   )
 }else{
-  cat("---
+  cat("
 
 # Aligned Sequences
 
