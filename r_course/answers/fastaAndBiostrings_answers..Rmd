@@ -1,0 +1,101 @@
+---
+title: "Introduction to Bioconductor exercises"
+author: "Tom Carroll"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,eval=T)
+```
+
+
+## Working with BSgenome objects using Biostrings
+
+In these exercises will gain some experience working with the BSgenome packages.
+
+1. Load the library BSgenome.Hsapiens.UCSC.hg19
+
+```{r installBS, eval=TRUE,echo=FALSE}
+suppressPackageStartupMessages(library(BSgenome.Hsapiens.UCSC.hg19))
+```
+
+```{r installBSs, eval=FALSE}
+library(BSgenome.Hsapiens.UCSC.hg19)
+```
+
+2. Count the number of contigs.
+
+```{r installBS2}
+length(seqnames(BSgenome.Hsapiens.UCSC.hg19))
+```
+
+3. Give the sum of lengths of the 3 smallest chromosomes.
+
+```{r installBS2dd3}
+contigLengths <- seqlengths(BSgenome.Hsapiens.UCSC.hg19)
+sum(contigLengths[order(contigLengths,decreasing = FALSE)][1:3])
+```
+
+4. How many unknown bases - base *N* -  are in chromosome 20
+
+```{r installBS23}
+alpFreq <-alphabetFrequency(BSgenome.Hsapiens.UCSC.hg19$chr20)
+alpFreq["N"]
+```
+
+5. Create a barchart of the total number of the A,T,C,G bases on chromosome 20.
+
+```{r installBSs23,eval=TRUE}
+library(ggplot2)
+alpFreq <-alphabetFrequency(BSgenome.Hsapiens.UCSC.hg19$chr20)
+atcgFreq <- alpFreq[c("A","T","C","G")]
+atcgFreqDF <- data.frame(Bases=names(atcgFreq),Frequency=atcgFreq)
+ggplot(atcgFreqDF,aes(y=Frequency,x=Bases,fill=Bases))+geom_bar(stat = "identity")+theme_minimal()
+```
+
+6. Extract the sequence from chromosome 20 at position 1,000,000 to 1,000,020 and retrieve the complement sequence
+
+```{r installBS2ss3}
+mySeq <- BSgenome.Hsapiens.UCSC.hg19$chr20[1000000:1000020]
+complement(mySeq)
+```
+
+7. Write this complement sequence to a FASTA file.
+
+```{r installBS2ssaa3ee, eval=FALSE}
+mySet <- DNAStringSet(complement(mySeq))
+names(mySet) <- "testFasta"
+writeXStringSet(mySet,filepath ="data/testFasta.fa")
+```
+
+
+8. Look up the position of MYC in IGV (Human hg19) and find the genomic coordinates of its first exon.
+
+```{r installBS2ss3ssee, eval=FALSE}
+chr8:128748315-128748869
+```
+
+9. Extract the sequence for the first exon.
+
+```{r installBS2sssss3ee}
+mySeq <- BSgenome.Hsapiens.UCSC.hg19$chr8[128748315:128748869]
+
+```
+
+10. Compare the sequence to that found in IGV and identify start of translated region in gene 
+
+
+11. Count the number of classical start codons (ATG) in the first exon.
+
+```{r installBS2ss3aaee}
+countPattern("ATG",mySeq)
+```
+
+12. Use IGV to review translation start codon for Gapdh and similarly count occurrence of ATG in exon 2 of NM_001289745 transcript. (chr12:6643976-6644027)
+
+```{r installBS2ss3saasee}
+gapdhSeq <- BSgenome.Hsapiens.UCSC.hg19$chr12[6643976:6644027]
+countPattern("ATG",gapdhSeq)
+
+```
+
