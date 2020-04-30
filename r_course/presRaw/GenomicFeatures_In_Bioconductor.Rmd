@@ -74,7 +74,7 @@ This importantly allows us to associate.
 With this mapping we can perform complex operations such as summarising genome wide RNAseq signal to genes'/transcripts' expressions.  
 
 ---
-### IGV and GFF/GTF.
+### IGV and GFF/GTF
 
 We use GFF and GTF in IGV to display gene models. 
 
@@ -83,10 +83,12 @@ library(TxDb.Hsapiens.UCSC.hg19.knownGene)
 export.gff(TxDb.Hsapiens.UCSC.hg19.knownGene,con = "Data/test.gff")
 ```
 
-![](imgs/fullGenes.png)
+<div align="center">
+<img src="imgs/fullGenes.png" height="460" width="800">
+</div>
 
 ---
-### A single gene model in GTF format.
+### A Single Gene Model in GTF Format
 
 GTF is perhaps the most common format for gene models. 
 
@@ -94,16 +96,20 @@ In this example we have a GTF file containing a single gene model for the **Xkr4
 
 This can be found in **Data/Xkr4.gtf**
 
-![](imgs/gtfInTerminal.png)
+<div align="center">
+<img src="imgs/gtfInTerminal.png" height="138" width="800">
+</div>
 ---
-### A single gene model in IGV.
+### A Single Gene Model in IGV
 
 IGV parses information from the GTF file to construct the gene model we see containing untranslated regions and directionality of expression.
 
-![](imgs/gtfInIGV.png)
+<div align="center">
+<img src="imgs/gtfInIGV.png" height="500" width="800">
+</div>
 
 ---
-### Genomic Features in Bioconductor .
+### Genomic Features in Bioconductor
 
 In Bioconductor, gene models are prepackaged for us in the **TxDb** packages.
 
@@ -117,7 +123,7 @@ Homo Sapiens gene build from UCSC's version hg19 known gene table -- TxDb.Hsapie
 
 
 ---
-### Genomic Features in Bioconductor.
+### Genomic Features in Bioconductor
 
 We can however make use of GTF/GFF files of our own gene models outside of Bioconductor pre-built TxDB packages.
 
@@ -126,20 +132,21 @@ The **GenomicFeatures** package has functions to import a GTF/GFF into a Biocond
 - [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html) -- Import to and handling of **TxDB** objects in R.
 
 ---
-### Genomic Features in Bioconductor.
+### Genomic Features in Bioconductor
 
 The first package we will look at is the **TxDB** package - **TxDb.Hsapiens.UCSC.hg19.knownGene**.
 
 Remember we can install Bioconductor packages (fairly) easily  using Bioconductor package pages' provided commands. 
 
 ```{r setssssuxxp, eval=FALSE}
-## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("TxDb.Hsapiens.UCSC.hg19.knownGene")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene")
 ```
 
 ---
-### Genomic Intervals in Bioconductor.
+### Genomic Intervals in Bioconductor
 
 Now we have the package installed, we can load the library
 
@@ -169,7 +176,7 @@ TxDb.Hsapiens.UCSC.hg19.knownGene
 ```
 
 ---
-### Accessing information.
+### Accessing Information
 
 As suggested in the name, **TxDb** objects are a database containing information we would store in GTF/GFF files.
 
@@ -177,7 +184,7 @@ To access information in our **TxDb** object we will need to use special accesso
 
 These accessors return information in **GRanges'** formats allowing us to work with methods from the **GenomicRanges** packages
 ---
-# Extracting Genomic locations.
+# Extracting Genomic Locations
 
 We have a number of functions which allow us to extract GRanges for our features of interest including
 
@@ -189,7 +196,7 @@ We have a number of functions which allow us to extract GRanges for our features
 
 
 ---
-### Extracting genes
+### Extracting Genes
 
 We can extract genes with the **genes()** function and the **TxDb** object as a parameter.
 
@@ -198,7 +205,7 @@ myGenes <- genes(TxDb.Hsapiens.UCSC.hg19.knownGene)
 myGenes
 ```
 ---
-### Extracting exons
+### Extracting Exons
 
 We can extract exons with the **exons()** function and the **TxDb** object as a parameter in the same way.
 
@@ -207,7 +214,7 @@ myExons <- exons(TxDb.Hsapiens.UCSC.hg19.knownGene)
 myExons
 ```
 ---
-### Extracting transcripts
+### Extracting Transcripts
 
 We can extract transcripts with the **transcripts()** functions and the **TxDb** object as a parameter.
 
@@ -216,7 +223,7 @@ myTranscripts <- transcripts(TxDb.Hsapiens.UCSC.hg19.knownGene)
 myTranscripts
 ```
 ---
-### Extracting Coding regions
+### Extracting Coding Regions
 
 We can extract coding regions with the **cds()** functions and the **TxDb** object as a parameter.
 
@@ -226,7 +233,7 @@ myCDS
 ```
 
 ---
-### Extracting additional information for exons/transcripts/cds regions.
+### Extracting Additional Information
 
 We can control which additional information such as transcript ID and gene ID we retrieve in metadata columns using the **columns** parameter in the **exons()/transcripts()/cds()** functions. 
 
@@ -239,7 +246,7 @@ myTranscripts[1:2]
 ```
 
 ---
-### Extracting Promoter regions
+### Extracting Promoter Regions
 
 Another useful function is the **promoters()** function.
 
@@ -254,7 +261,7 @@ myPromoters[1:2]
 ```
 
 ---
-### Extracting groups of genomic features.
+### Extracting Groups of Genomic Features
 
 A major component of gene models in GFF and GTF files is the grouping of exons to transcripts/genes and transcripts to genes.
 
@@ -264,7 +271,7 @@ These include the **transcriptsBy()**, **exonsBy()** and **cdsBy()**
 
 
 ---
-### Extracting groups of genomic features.
+### Extracting Groups of Genomic Features
 
 The **transcriptsBy()** function takes as argument a **TxDb** object and a **by** argument specifying the metafeature/feature to group by.
 
@@ -277,7 +284,7 @@ transcriptByGenes[1:2]
 ```
 
 ---
-### Extracting groups of genomic features.
+### Extracting Groups of Genomic Features
 
 As with all lists we can extract information from elements in the GRangesList using the **$** and **[[]]** accessors.
 
@@ -289,7 +296,7 @@ transcriptByGenes[[1]]
 ```
 
 ---
-### Extracting groups of genomic features.
+### Extracting Groups of Genomic Features
 
 Similarly the very useful **exonsBy()** function takes again an argument for a **TxDb** object and a **by** argument.
 
@@ -303,23 +310,24 @@ exonsByTranscript[1:2]
 
 
 ---
-### Creating TxDb from external sources.
+### Creating TxDb from External Sources
 
 Often we will have our favourite gene models stored in a GTF outside of Bioconductor objects. If we wish to take advantage of all the features in Bioconductor we will need to import it into a **TxDb** object.
 
 We can do this using the **makeTxDbFromGFF()** function which will parse GTF or GFF into a **TxDb** object
 ```{r ssslkzzzzfkkjkjj,eval=TRUE}
-myCustomTxDb <- makeTxDbFromGFF("Data/Xkr4.gtf")
+myCustomTxDb <- makeTxDbFromGFF("../Data/Xkr4.gtf")
 class(myCustomTxDb)
 ```
 
 ---
+### Creating TxDb from External Sources
 ```{r ssslkzzzzfkaakjkjaj,eval=TRUE}
 myCustomTxDb
 ```
 
 ---
-### Creating TxDb from external sources.
+### Creating TxDb from External Sources
 
 Now we have our own custom GTF object we can make use of the functions from **GenomicFeatures** package such as retrieving gene coordinates as a **GRanges**.
 
@@ -327,7 +335,7 @@ Now we have our own custom GTF object we can make use of the functions from **Ge
 genes(myCustomTxDb)
 ```
 ---
-### Creating TxDb from external sources.
+### Creating TxDb from External Sources
 
 Or exons grouped by genes as a **GRangesList**
 
@@ -336,7 +344,7 @@ Or exons grouped by genes as a **GRangesList**
 exonsBy(myCustomTxDb,by="gene")
 ```
 ---
-### Creating TxDb from UCSC.
+### Creating TxDb from UCSC
 
 We can create a TxDb directly from UCSC's database using the **makeTxDbFromUCSC()** function.
 
@@ -351,7 +359,7 @@ availableGenomes <- ucscGenomes()
 availableGenomes[1:4,]
 ```
 ---
-### Creating TxDb from UCSC.
+### Creating TxDb from UCSC
 
 Once we have identified the genome build we wish to use we can specify the genome parameter in the **makeTxDbFromUCSC()** function.
 
@@ -360,7 +368,7 @@ hg18TxDb <- makeTxDbFromUCSC(genome="hg18")
 hg18TxDb
 ```
 ---
-### Creating TxDb from UCSC.
+### Creating TxDb from UCSC
 
 And again we can now make use of **GenomicFeatures** package's functions with our new TxDb objects
 
@@ -368,7 +376,7 @@ And again we can now make use of **GenomicFeatures** package's functions with ou
 hg18Promoters <- promoters(hg18TxDb,2000,50)
 ```
 ---
-### Exporting a TxDb object as a GTF/GFF.
+### Exporting a TxDb Object as GTF/GFF File
 
 We can make use of the **export.gff()** in the **rtracklayer** package to export our **TxDb** object to a gtf or gff file. We can include an additional argument of **format** to the **export.gff()** function.
 
@@ -379,7 +387,7 @@ export.gff(myCustomTxDb,con="customTxDbb.gff",format="gff")
 export.gff(myCustomTxDb,con="customTxDbb.gtf",format="gtf")
 ```
 ---
-### Some useful functions for working with gene model in GenomicFeatures.
+### Some Useful Functions in GenomicFeatures
 
 We have seen that we can extract transcripts and exons grouped by their genes/transcripts using the **transcriptsBy()** and **exonsBy()** functions.
 
@@ -390,7 +398,7 @@ transcriptByGenes <- exonsBy(hg18TxDb,by="gene")
 length(transcriptByGenes)
 ```
 ---
-### Some useful functions for working with gene model in GenomicFeatures.
+### Some Useful Functions in GenomicFeatures
 
 To find the number of exons in every group/transcript we can use the function **lengths()**. The **lengths()** function will tell us the length of every group in our **GRangesList**
 
@@ -399,7 +407,7 @@ transcriptNumberPerGene <- lengths(transcriptByGenes)
 transcriptNumberPerGene[1:5]
 ```
 ---
-### Some useful functions for working with gene model in GenomicFeatures.
+### Some Useful Functions in GenomicFeatures
 
 We may wish to know the total sum length of all exons in every transcript. The **transcriptLengths()** function allows us to find all transcript lengths from a TxDb object as well as additional information.
 
@@ -408,7 +416,7 @@ transcript_Lens <- transcriptLengths(hg18TxDb)
 transcript_Lens[1:5,]
 ```
 ---
-### Extracting sequence information.
+### Extracting Sequence Information
 
 As with many Bioconductor packages, there is interoperability between **BSgenome** packages holding genome sequences and **TxDb** objects with gene models. One very useful function is the **extractTranscriptSeqs()** function.
 
@@ -421,7 +429,7 @@ hg19TransSeq <- extractTranscriptSeqs(BSgenome.Hsapiens.UCSC.hg19,
 hg19TransSeq
 ```
 ---
-### Extracting sequence information.
+### Extracting Sequence Information
 
 We can then either work with the resulting DNAStringSet then in R or write to Fasta file for analysis in external programs.
 
@@ -430,7 +438,7 @@ writeXStringSet(hg19TransSeq,"myTranscriptSequences.fa")
 ```
 
 ---
-### Changing naming conventions.
+### Changing Naming Conventions
 
 So far we have used the standard UCSC style of chromosome names
 
@@ -443,7 +451,7 @@ Ensembl for instance uses.
 - 1, 2, 3, 4 ...
 
 ---
-### Changing chromosome naming styles.
+### Changing Chromosome Naming Styles
 
 The **GenomeInfoDb** package and associated **GenomeInfoDbData** package contain mappings between differing naming conventions and functions to convert between them.
 
@@ -454,7 +462,7 @@ library(GenomeInfoDb)
 ```
 
 ---
-### Reviewing chromosome naming styles.
+### Reviewing Chromosome Naming Styles
 
 We can review all the mappings for supported organisms' genomes using the **genomeStyles()** function with no arguments.
 
@@ -466,7 +474,7 @@ names(allMappings)
 ```
 
 ---
-### Chromosome naming style data.frame.
+### Chromosome Naming Style
 
 We can then review mappings for our organism of interest's genomes by retrieving the relevant entry from our list returned by the **genomeStyles()** function.
 
@@ -478,7 +486,7 @@ allMappings[["Homo_sapiens"]]
 ```
 
 ---
-### Changing chromosome naming styles.
+### Changing Chromosome Naming Styles
 
 The **seqlevelsStyle()** function allows us to review as well as set the naming convention for our GenomicRanges or TxDb objects.
 
@@ -492,7 +500,7 @@ myGenes[1:2,]
 ```
 
 ---
-### Changing chromosome naming styles (2).
+### Changing Chromosome Naming Styles
 
 Now we can update them to **Ensembl**, **NCBI** or **dbSNP** styles. Here we update to **Ensembl** chromosome naming conventions. 
 
@@ -506,7 +514,7 @@ myGenes[1:2,]
 
 
 ---
-### Gene annotation.
+### Gene Annotation
 
 Where as the **TxDb** packages hold information on gene models such as exons positions and exon to gene mapping, the **OrgDb** packages contain information on gene's mapping to alternative IDs and any functional annotation. 
 
@@ -521,7 +529,7 @@ Homo Sapiens annotation with Entrez Gene IDs -- org.Hs.eg.db
 </div>
 
 ---
-### Gene annotation.
+### Gene Annotation
 
 To gain access to gene annotation we must first load the library for the relevant species.
 
@@ -529,7 +537,7 @@ Here we install and load the library for Human, Org.Hs.eg.db.
 
 
 ```{r ssslkdszzzdsdzddfkjjsds,eval=FALSE,echo=TRUE,cache=TRUE,message=FALSE,warning=FALSE}
-biocLite("org.Hs.eg.db")
+BiocManager::install("org.Hs.eg.db")
 library(org.Hs.eg.db)
 class(org.Hs.eg.db)
 ```
@@ -554,7 +562,7 @@ We can use the functions:-
 We will explore how to retrieve annotation from gene-centric organism level annotation package (org.Hs.eg.db) using these functions.
 
 ---
-### Accessing annotation from OrgDb
+### Accessing Annotation from Org.Db
 
 We can use the **columns()** function first to list available annotation.
 
@@ -569,7 +577,7 @@ To know more about the above identifier types
 help(GENENAME)
 ```
 ---
-### Accessing annotation from org.Hs.eg.db {.smaller}
+### Accessing Annotation from org.Hs.eg.db
 
 Which keytypes can be used to query this database can be retrieved using keytypes.
 ```{r, echo=TRUE, eval=TRUE}
@@ -577,14 +585,14 @@ keytypes(org.Hs.eg.db)
 ```
 ---
 
-### Accessing annotation from OrgDb
+### Accessing Annotation from Org.Db
 
 If we want to extract few identifiers of a particular keytype, we can use keys() function
 ```{r, echo=TRUE, eval=TRUE}
 keys(org.Hs.eg.db, keytype="SYMBOL")
 ```
 ---
-### Accessing annotation from OrgDb
+### Accessing Annotation from Org.Db
 
 We can extract other annotations for a particular identifier using <b>select</b> function
 ```{r, echo=TRUE, eval=TRUE,message=FALSE,warning=FALSE}
@@ -593,7 +601,7 @@ select(org.Hs.eg.db, keys = "A1BG", keytype = "SYMBOL",
 ```
 
 ---
-### Annotating results
+### Annotating Results
 
 We can use this now to translate our Entrez IDs from TxDb object to a gene name
 ```{r sqsq, echo=TRUE, eval=TRUE, dependson="ssslkzzzzfkssjj"}
@@ -602,7 +610,7 @@ geneLocations
 ```
 
 ---
-### Annotating results
+### Annotating Results
 
 ```{r sqsaq, echo=TRUE, eval=TRUE, dependson="ssslkzzzzfkssjj",message=FALSE,warning=FALSE}
 IDs <- geneLocations$gene_id
@@ -613,7 +621,7 @@ myTable[1:2,]
 ```
 ---
 
-### Time for an exercise.
+### Time for an Exercise
 
 [Link_to_exercises](../../exercises/GenomicFeatures_exercises.html)
 
