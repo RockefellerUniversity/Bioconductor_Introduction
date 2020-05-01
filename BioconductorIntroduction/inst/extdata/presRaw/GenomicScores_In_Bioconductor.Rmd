@@ -25,7 +25,8 @@ knitr::opts_chunk$set(echo = TRUE)
 AsSlides <- TRUE
 ```
 
-# ```{r makingData, include=FALSE,cache=TRUE,eval=FALSE}
+
+```{r makingData, include=FALSE,cache=FALSE,eval=FALSE}
 # library(rtracklayer)
 # myRanges <- GRanges("chr1",ranges = IRanges(72811055,72856974))
 # myRanges2 <- c(myRanges,GRanges("chr1",ranges = IRanges(1,100)))
@@ -34,8 +35,9 @@ AsSlides <- TRUE
 # toRun <- import("~/Downloads/ENCFF940MBK.bigWig",selection=BigWigSelection(myRanges),as="RleList")
 # export(toRun,con="data/TSS_ENCFF940MBK.bedGraph")
 # export(toRun,con="data/TSS_ENCFF940MBK.bw")
-# #xport.ucsc(toRun,con="data/TSS_ENCFF940MBK.wig",subformat ="wig")
-# ```
+# export.ucsc(toRun,con="data/TSS_ENCFF940MBK.wig",subformat ="wig")
+```
+
 
 
 # Genomic Scores
