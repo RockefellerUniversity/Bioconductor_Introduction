@@ -460,7 +460,7 @@ yield(sampleToRead)
 ---
 ##Handling Large Files
 
-The **FastqStreamer()** function works in a similar manner accept isntead of randomly sampling the file, it allows us to read chunks of the file at a time.
+The **FastqStreamer()** function works in a similar manner accept instead of randomly sampling the file, it allows us to read chunks of the file at a time.
 
 ```{r setup23kk7ssa}
 sampleToRead <- FastqStreamer("data/sampled_ENCFF000CXH.fastq.gz",
