@@ -1667,17 +1667,17 @@ div.tocify {
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">sequenceOfReads </a></code></pre></div>
 <pre><code>##   A DNAStringSet instance of length 100000
 ##          width seq
-##      [1]    76 NNNNNNAANNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNCTCTGCNN
-##      [2]    76 NNNNNNTTNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNCGGCGCNN
-##      [3]    76 NNNNNNCANNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNGGATTANN
-##      [4]    76 NNNNNNTANNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNAGCGCANN
-##      [5]    76 NNNNNNACNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNTCCTGCNN
+##      [1]    76 NNNNNNAANNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNCTCTGCNN
+##      [2]    76 NNNNNNTTNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNCGGCGCNN
+##      [3]    76 NNNNNNCANNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNGGATTANN
+##      [4]    76 NNNNNNTANNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNAGCGCANN
+##      [5]    76 NNNNNNACNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNTCCTGCNN
 ##      ...   ... ...
-##  [99996]    76 ACTGCTAAATGCACAACATCGGGCAGGGAAGGAG...ACAGCCCAAGGGGAAGAAATCCGCAGCTCAACAG
-##  [99997]    76 CAACAGGACTCGGTGGAGTGCGCTACTCAGGCGC...TACAACATAGAGAAGGACATTGCGGCTCATATCA
-##  [99998]    76 CCCCGCCGGCGGCAGCGGCTTTGGACGAGGGCAG...CGTGCAAGGGGTCCACCCCTACCGACGCTAGACC
-##  [99999]    76 GAGATTGGCATTCCCGTGGCCCTGCTCAGCTACA...CTGGACATCTTCTCGCGTTTCGGCCGCACGGGGA
-## [100000]    76 ATCTCGTATGCCCTCTTCTGCTTTTAAAAAAAAA...TGNNTGNCGGTTNCGGCGGTCACCACACGCAGCA</code></pre>
+##  [99996]    76 ACTGCTAAATGCACAACATCGGGCAGGGAAGGA...CAGCCCAAGGGGAAGAAATCCGCAGCTCAACAG
+##  [99997]    76 CAACAGGACTCGGTGGAGTGCGCTACTCAGGCG...ACAACATAGAGAAGGACATTGCGGCTCATATCA
+##  [99998]    76 CCCCGCCGGCGGCAGCGGCTTTGGACGAGGGCA...GTGCAAGGGGTCCACCCCTACCGACGCTAGACC
+##  [99999]    76 GAGATTGGCATTCCCGTGGCCCTGCTCAGCTAC...TGGACATCTTCTCGCGTTTCGGCCGCACGGGGA
+## [100000]    76 ATCTCGTATGCCCTCTTCTGCTTTTAAAAAAAA...GNNTGNCGGTTNCGGCGGTCACCACACGCAGCA</code></pre>
 <p>##FastQ Sequences</p>
 <p>This means we can use all the great functions from the <strong>Biostrings</strong> library on this <strong>DNAStringSet</strong> object.</p>
 <p>Here we get the occurrence of nucleotide bases in reads. Here we get the alphabet frequency of the first two.</p>
@@ -1725,17 +1725,17 @@ div.tocify {
 ## quality:
 ##   A BStringSet instance of length 100000
 ##          width seq
-##      [1]    76 ##################################...##################################
-##      [2]    76 ##################################...##################################
-##      [3]    76 ##################################...##################################
-##      [4]    76 ##################################...##################################
-##      [5]    76 ##################################...##################################
+##      [1]    76 #################################...#################################
+##      [2]    76 #################################...#################################
+##      [3]    76 #################################...#################################
+##      [4]    76 #################################...#################################
+##      [5]    76 #################################...#################################
 ##      ...   ... ...
-##  [99996]    76 ##################################...##################################
-##  [99997]    76 BBBABB@?BABC?=@B?A8??B8???@?8@A=A=...=?6?=?=8=46&lt;;8?;315689/&lt;5,5468856&lt;
-##  [99998]    76 BBBBABBBBBBB@BA@AB9=B@';+0:3;=B,50...##################################
-##  [99999]    76 B==35;:1&lt;;;54;;845555;545436435554...55545444455544####################
-## [100000]    76 ?BB&lt;C&gt;/6A@AC6=BB@A75B#############...##################################</code></pre>
+##  [99996]    76 #################################...#################################
+##  [99997]    76 BBBABB@?BABC?=@B?A8??B8???@?8@A=A...?6?=?=8=46&lt;;8?;315689/&lt;5,5468856&lt;
+##  [99998]    76 BBBBABBBBBBB@BA@AB9=B@';+0:3;=B,5...#################################
+##  [99999]    76 B==35;:1&lt;;;54;;845555;54543643555...5545444455544####################
+## [100000]    76 ?BB&lt;C&gt;/6A@AC6=BB@A75B############...#################################</code></pre>
 <p>##FastQ Quality</p>
 <p>We can find out how to translate from these ASCI characters into their corresponding -log10 pvalues using the <strong>encoding()</strong> function on our <strong>FastqQuality</strong> object of qualities.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">qualityEncoding &lt;-<span class="st"> </span><span class="kw">encoding</span>(quals)</a>
@@ -1757,7 +1757,7 @@ div.tocify {
 ## quality:
 ##   A BStringSet instance of length 1
 ##     width seq
-## [1]    76 ############################################################################</code></pre>
+## [1]    76 ####################################...###################################</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">quals[[<span class="dv">1</span>]]</a></code></pre></div>
 <pre><code>##   76-letter &quot;BString&quot; instance
 ## seq: ############################################################################</code></pre>
@@ -1774,10 +1774,10 @@ div.tocify {
 <p>##FastQ Quality</p>
 <p>And finally we can translate vector of characters to scores using the named vector of quality encoding.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">qualityEncoding[toTranslate]</a></code></pre></div>
-<pre><code>## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-## 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-## 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</code></pre>
+<pre><code>## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+## 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+## 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</code></pre>
 <p>##FastQ Quality</p>
 <p>Thankfully, there are some functions available in the <strong>ShortRead</strong> package which will perform this translation for us.</p>
 <p>We can obtain the sum -log10 pvalues using the <strong>alphabetScore()</strong> function for all reads.</p>
@@ -1872,7 +1872,7 @@ div.tocify {
 <p>We can then use the <strong>report()</strong> function to generate a simple report.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">myReport &lt;-<span class="st"> </span><span class="kw">report</span>(my_QA)</a>
 <a class="sourceLine" id="cb56-2" data-line-number="2">myReport</a></code></pre></div>
-<pre><code>## [1] &quot;/var/folders/zy/x35d37h50sq2_fp3zrjydcl00000gn/T//Rtmpc78RL9/file1710c55071b6f/index.html&quot;</code></pre>
+<pre><code>## [1] &quot;/var/folders/zy/x35d37h50sq2_fp3zrjydcl00000gn/T//RtmpZeCA8q/file2139f09e4b3/index.html&quot;</code></pre>
 <p>##ShortReads’ qa() Function</p>
 <p>Finally we can review the report in a browser or use the browseURL function to open it in a browser from R.</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">browseURL</span>(myReport)</a></code></pre></div>
@@ -1897,7 +1897,7 @@ div.tocify {
 <pre><code>## class: ShortReadQ
 ## length: 100 reads; width: 76 cycles</code></pre>
 <p>##Handling Large Files</p>
-<p>The <strong>FastqStreamer()</strong> function works in a similar manner accept isntead of randomly sampling the file, it allows us to read chunks of the file at a time.</p>
+<p>The <strong>FastqStreamer()</strong> function works in a similar manner accept instead of randomly sampling the file, it allows us to read chunks of the file at a time.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">sampleToRead &lt;-<span class="st"> </span><span class="kw">FastqStreamer</span>(<span class="st">&quot;data/sampled_ENCFF000CXH.fastq.gz&quot;</span>,</a>
 <a class="sourceLine" id="cb64-2" data-line-number="2">                              <span class="dt">n=</span><span class="dv">100</span>)</a>
 <a class="sourceLine" id="cb64-3" data-line-number="3">first100Reads &lt;-<span class="st"> </span><span class="kw">yield</span>(sampleToRead)</a>

@@ -156,7 +156,7 @@ A few of the popular aligners are wrapped up in R/Bioconductor packages allowing
 
 ## Alignment software in R
 
-The **gampR** packages offer convenient access to subread/subjunc and gmap/gsnap on Mac and Linux but sadly are not implemented on Windows.
+The **gampR** packages offer convenient access to gmap/gsnap on Mac and Linux but sadly are not implemented on Windows.
 
 The **QuasR** package offers an interface to Bowtie and SpliceMap on Windows, Mac and Linux and so provides access to a genomic and splice aware aligner on all systems.
 
@@ -351,19 +351,9 @@ subjunc("chr7","data/sampledActin.fq.gz",
 
 We can now sort and index our splice aware alignment as before.
 
-```{r sum2wcaww, echo=TRUE,eval=FALSE,include=TRUE}
+```{r sum2wcaww, echo=TRUE,eval=T,include=TRUE}
 sortBam("data/RsubreadsampledActin.bam",
-        "Sorted_RsubreadsampledActin")
-indexBam("Sorted_RsubreadsampledActin.bam")
-```
-
----
-## Sort and index our file
-
-We can now sort and index our splice aware alignment as before.
-
-```{r sortS, echo=TRUE,eval=TRUE}
-sortBam("data/sampledActin_29a42342e34.bam","SortedActBSpliced")
+        "SortedActBSpliced")
 indexBam("SortedActBSpliced.bam")
 ```
 
@@ -404,16 +394,6 @@ An example here shows alignment with STAR, which often allows for very long spli
 <div align="center">
 <img src="imgs/starCrazy.png" alt="igv" height="200" width="300">
 </div>
-
----
-## The Rsubread package
-
-Finally we can assess mapping rate.
-
-```{r sum2wcwsssw, echo=TRUE,eval=TRUE,include=TRUE}
-quickBamFlagSummary("data/Sorted_RsubreadsampledActin.bam")
-```
-
 
 ```{r sum2ww, echo=FALSE,eval=FALSE,collapse=TRUE,include=FALSE}
 temp <- scanBam("SortedActBSpliced.bam")

@@ -1,9 +1,10 @@
 ---
 title: "Summarizing Scores In Bioconductor"
 author: "Rockefeller University, Bioinformatics Resource Centre"
-date: "http://rockefelleruniversity.github.io/SequencesInBioconductor/"
+date: "http://rockefelleruniversity.github.io/Bioconductor_Introduction/"
 output: 
   xaringan::moon_reader:
+    css: ["default", "metropolisCustom.css", "metropolis-fontsCustom.css"]
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -15,9 +16,7 @@ output:
     depth: 3  # upto three depths of headings (specified by #, ## and ###)
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
-    highlight: tango  # specifies the syntax highlighting style
-params:
-  isSlides: "no"
+    highlight: tango 
 ---
 
 ```{r setup, include=FALSE}

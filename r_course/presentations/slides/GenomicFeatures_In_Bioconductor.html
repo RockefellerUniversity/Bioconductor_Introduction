@@ -332,7 +332,7 @@ myCDS
 
 We can control which additional information such as transcript ID and gene ID we retrieve in metadata columns using the **columns** parameter in the **exons()/transcripts()/cds()** functions. 
 
-For a full list of available columsn see **?transcripts()** function help.
+For a full list of available columns see **?transcripts()** function help.
 
 
 ```r
@@ -529,7 +529,7 @@ myCustomTxDb
 ## # exon_nrow: 3
 ## # cds_nrow: 3
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2020-04-30 19:10:12 -0400 (Thu, 30 Apr 2020)
+## # Creation time: 2020-05-07 15:59:23 -0400 (Thu, 07 May 2020)
 ## # GenomicFeatures version at creation time: 1.38.2
 ## # RSQLite version at creation time: 2.2.0
 ## # DBSCHEMAVERSION: 1.2
@@ -629,7 +629,7 @@ hg18TxDb
 ## # exon_nrow: 266688
 ## # cds_nrow: 221991
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2020-04-30 19:10:52 -0400 (Thu, 30 Apr 2020)
+## # Creation time: 2020-05-07 16:00:38 -0400 (Thu, 07 May 2020)
 ## # GenomicFeatures version at creation time: 1.38.2
 ## # RSQLite version at creation time: 2.2.0
 ## # DBSCHEMAVERSION: 1.2
@@ -656,7 +656,7 @@ export.gff(myCustomTxDb,con="customTxDbb.gff",format="gff")
 export.gff(myCustomTxDb,con="customTxDbb.gtf",format="gtf")
 ```
 ---
-## Some Useful Functions in GenomicFeatures
+## Useful Functions in GenomicFeatures
 
 We have seen that we can extract transcripts and exons grouped by their genes/transcripts using the **transcriptsBy()** and **exonsBy()** functions.
 
@@ -672,7 +672,7 @@ length(transcriptByGenes)
 ## [1] 20121
 ```
 ---
-## Some Useful Functions in GenomicFeatures
+## Useful Functions in GenomicFeatures
 
 To find the number of exons in every group/transcript we can use the function **lengths()**. The **lengths()** function will tell us the length of every group in our **GRangesList**
 
@@ -687,7 +687,7 @@ transcriptNumberPerGene[1:5]
 ##    15     3    12    16    16
 ```
 ---
-## Some Useful Functions in GenomicFeatures
+## Useful Functions in GenomicFeatures
 
 We may wish to know the total sum length of all exons in every transcript. The **transcriptLengths()** function allows us to find all transcript lengths from a TxDb object as well as additional information.
 
@@ -784,10 +784,12 @@ names(allMappings)
 ```
 
 ```
-##  [1] "Arabidopsis_thaliana"     "Caenorhabditis_elegans"   "Canis_familiaris"        
-##  [4] "Cyanidioschyzon_merolae"  "Drosophila_melanogaster"  "Homo_sapiens"            
-##  [7] "Mus_musculus"             "Oryza_sativa"             "Populus_trichocarpa"     
-## [10] "Rattus_norvegicus"        "Saccharomyces_cerevisiae" "Zea_mays"
+##  [1] "Arabidopsis_thaliana"     "Caenorhabditis_elegans"  
+##  [3] "Canis_familiaris"         "Cyanidioschyzon_merolae" 
+##  [5] "Drosophila_melanogaster"  "Homo_sapiens"            
+##  [7] "Mus_musculus"             "Oryza_sativa"            
+##  [9] "Populus_trichocarpa"      "Rattus_norvegicus"       
+## [11] "Saccharomyces_cerevisiae" "Zea_mays"
 ```
 
 ---
@@ -929,7 +931,7 @@ class(org.Hs.eg.db)
 
 As with the TxDb packages, we will need to use special accessors to retrieve information from Org.db.
 
-We can use the functions:-
+We can use the functions:
 
 - **columns()** - Display what kind of annotation is available in OrgDb objects.
 - **keytypes()** - Displays which type of identifiers can be used with **select** function. 

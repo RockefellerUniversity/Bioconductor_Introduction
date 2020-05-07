@@ -229,17 +229,17 @@ sequenceOfReads
 ```
 ##   A DNAStringSet instance of length 100000
 ##          width seq
-##      [1]    76 NNNNNNAANNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNCTCTGCNN
-##      [2]    76 NNNNNNTTNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNCGGCGCNN
-##      [3]    76 NNNNNNCANNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNGGATTANN
-##      [4]    76 NNNNNNTANNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNAGCGCANN
-##      [5]    76 NNNNNNACNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNTCCTGCNN
+##      [1]    76 NNNNNNAANNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNCTCTGCNN
+##      [2]    76 NNNNNNTTNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNCGGCGCNN
+##      [3]    76 NNNNNNCANNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNGGATTANN
+##      [4]    76 NNNNNNTANNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNAGCGCANN
+##      [5]    76 NNNNNNACNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNTCCTGCNN
 ##      ...   ... ...
-##  [99996]    76 ACTGCTAAATGCACAACATCGGGCAGGGAAGGAG...ACAGCCCAAGGGGAAGAAATCCGCAGCTCAACAG
-##  [99997]    76 CAACAGGACTCGGTGGAGTGCGCTACTCAGGCGC...TACAACATAGAGAAGGACATTGCGGCTCATATCA
-##  [99998]    76 CCCCGCCGGCGGCAGCGGCTTTGGACGAGGGCAG...CGTGCAAGGGGTCCACCCCTACCGACGCTAGACC
-##  [99999]    76 GAGATTGGCATTCCCGTGGCCCTGCTCAGCTACA...CTGGACATCTTCTCGCGTTTCGGCCGCACGGGGA
-## [100000]    76 ATCTCGTATGCCCTCTTCTGCTTTTAAAAAAAAA...TGNNTGNCGGTTNCGGCGGTCACCACACGCAGCA
+##  [99996]    76 ACTGCTAAATGCACAACATCGGGCAGGGAAGGA...CAGCCCAAGGGGAAGAAATCCGCAGCTCAACAG
+##  [99997]    76 CAACAGGACTCGGTGGAGTGCGCTACTCAGGCG...ACAACATAGAGAAGGACATTGCGGCTCATATCA
+##  [99998]    76 CCCCGCCGGCGGCAGCGGCTTTGGACGAGGGCA...GTGCAAGGGGTCCACCCCTACCGACGCTAGACC
+##  [99999]    76 GAGATTGGCATTCCCGTGGCCCTGCTCAGCTAC...TGGACATCTTCTCGCGTTTCGGCCGCACGGGGA
+## [100000]    76 ATCTCGTATGCCCTCTTCTGCTTTTAAAAAAAA...GNNTGNCGGTTNCGGCGGTCACCACACGCAGCA
 ```
 ---
 ##FastQ Sequences
@@ -350,17 +350,17 @@ quals
 ## quality:
 ##   A BStringSet instance of length 100000
 ##          width seq
-##      [1]    76 ##################################...##################################
-##      [2]    76 ##################################...##################################
-##      [3]    76 ##################################...##################################
-##      [4]    76 ##################################...##################################
-##      [5]    76 ##################################...##################################
+##      [1]    76 #################################...#################################
+##      [2]    76 #################################...#################################
+##      [3]    76 #################################...#################################
+##      [4]    76 #################################...#################################
+##      [5]    76 #################################...#################################
 ##      ...   ... ...
-##  [99996]    76 ##################################...##################################
-##  [99997]    76 BBBABB@?BABC?=@B?A8??B8???@?8@A=A=...=?6?=?=8=46&lt;;8?;315689/&lt;5,5468856&lt;
-##  [99998]    76 BBBBABBBBBBB@BA@AB9=B@';+0:3;=B,50...##################################
-##  [99999]    76 B==35;:1&lt;;;54;;845555;545436435554...55545444455544####################
-## [100000]    76 ?BB&lt;C&gt;/6A@AC6=BB@A75B#############...##################################
+##  [99996]    76 #################################...#################################
+##  [99997]    76 BBBABB@?BABC?=@B?A8??B8???@?8@A=A...?6?=?=8=46&lt;;8?;315689/&lt;5,5468856&lt;
+##  [99998]    76 BBBBABBBBBBB@BA@AB9=B@';+0:3;=B,5...#################################
+##  [99999]    76 B==35;:1&lt;;;54;;845555;54543643555...5545444455544####################
+## [100000]    76 ?BB&lt;C&gt;/6A@AC6=BB@A75B############...#################################
 ```
 
 ---
@@ -402,7 +402,7 @@ quals[1]
 ## quality:
 ##   A BStringSet instance of length 1
 ##     width seq
-## [1]    76 ############################################################################
+## [1]    76 ####################################...###################################
 ```
 
 ```r
@@ -444,10 +444,10 @@ qualityEncoding[toTranslate]
 ```
 
 ```
-## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-## 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-## 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+## 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+## 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
 ```
 
 ---
@@ -641,7 +641,7 @@ myReport
 ```
 
 ```
-## [1] "/var/folders/zy/x35d37h50sq2_fp3zrjydcl00000gn/T//Rtmpc78RL9/file1710c30eb28fe/index.html"
+## [1] "/var/folders/zy/x35d37h50sq2_fp3zrjydcl00000gn/T//RtmpZeCA8q/file2139178f1105/index.html"
 ```
 
 ---
@@ -714,7 +714,7 @@ yield(sampleToRead)
 ---
 ##Handling Large Files
 
-The **FastqStreamer()** function works in a similar manner accept isntead of randomly sampling the file, it allows us to read chunks of the file at a time.
+The **FastqStreamer()** function works in a similar manner accept instead of randomly sampling the file, it allows us to read chunks of the file at a time.
 
 
 ```r
