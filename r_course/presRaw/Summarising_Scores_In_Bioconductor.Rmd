@@ -16,7 +16,9 @@ output:
     depth: 3  # upto three depths of headings (specified by #, ## and ###)
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
-    highlight: tango 
+    highlight: tango
+params:
+  isSlides: "no"
 ---
 
 ```{r setup, include=FALSE}
