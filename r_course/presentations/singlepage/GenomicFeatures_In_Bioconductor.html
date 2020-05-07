@@ -1798,7 +1798,7 @@ div.tocify {
 <div id="extracting-additional-information" class="section level2">
 <h2>Extracting Additional Information</h2>
 <p>We can control which additional information such as transcript ID and gene ID we retrieve in metadata columns using the <strong>columns</strong> parameter in the <strong>exons()/transcripts()/cds()</strong> functions.</p>
-<p>For a full list of available columsn see <strong>?transcripts()</strong> function help.</p>
+<p>For a full list of available columns see <strong>?transcripts()</strong> function help.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">myTranscripts &lt;-<span class="st"> </span><span class="kw">transcripts</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">                             <span class="dt">columns=</span><span class="kw">c</span>(<span class="st">&quot;gene_id&quot;</span>,<span class="st">&quot;tx_id&quot;</span>))</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3">myTranscripts[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a></code></pre></div>
@@ -1927,7 +1927,7 @@ div.tocify {
 ## # exon_nrow: 3
 ## # cds_nrow: 3
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2020-04-30 19:11:04 -0400 (Thu, 30 Apr 2020)
+## # Creation time: 2020-05-07 16:00:45 -0400 (Thu, 07 May 2020)
 ## # GenomicFeatures version at creation time: 1.38.2
 ## # RSQLite version at creation time: 2.2.0
 ## # DBSCHEMAVERSION: 1.2</code></pre>
@@ -1994,7 +1994,7 @@ div.tocify {
 ## # exon_nrow: 266688
 ## # cds_nrow: 221991
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2020-04-30 19:11:42 -0400 (Thu, 30 Apr 2020)
+## # Creation time: 2020-05-07 16:01:41 -0400 (Thu, 07 May 2020)
 ## # GenomicFeatures version at creation time: 1.38.2
 ## # RSQLite version at creation time: 2.2.0
 ## # DBSCHEMAVERSION: 1.2</code></pre>
@@ -2011,24 +2011,24 @@ div.tocify {
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">export.gff</span>(myCustomTxDb,<span class="dt">con=</span><span class="st">&quot;customTxDbb.gff&quot;</span>,<span class="dt">format=</span><span class="st">&quot;gff&quot;</span>)</a>
 <a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">export.gff</span>(myCustomTxDb,<span class="dt">con=</span><span class="st">&quot;customTxDbb.gtf&quot;</span>,<span class="dt">format=</span><span class="st">&quot;gtf&quot;</span>)</a></code></pre></div>
 </div>
-<div id="some-useful-functions-in-genomicfeatures" class="section level2">
-<h2>Some Useful Functions in GenomicFeatures</h2>
+<div id="useful-functions-in-genomicfeatures" class="section level2">
+<h2>Useful Functions in GenomicFeatures</h2>
 <p>We have seen that we can extract transcripts and exons grouped by their genes/transcripts using the <strong>transcriptsBy()</strong> and <strong>exonsBy()</strong> functions.</p>
 <p>To identify the total number of groups we can simply use the <strong>length()</strong> function. Here we have 23459 transcipts or groups of exons.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">transcriptByGenes &lt;-<span class="st"> </span><span class="kw">exonsBy</span>(hg18TxDb,<span class="dt">by=</span><span class="st">&quot;gene&quot;</span>)</a>
 <a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw">length</span>(transcriptByGenes)</a></code></pre></div>
 <pre><code>## [1] 20121</code></pre>
 </div>
-<div id="some-useful-functions-in-genomicfeatures-1" class="section level2">
-<h2>Some Useful Functions in GenomicFeatures</h2>
+<div id="useful-functions-in-genomicfeatures-1" class="section level2">
+<h2>Useful Functions in GenomicFeatures</h2>
 <p>To find the number of exons in every group/transcript we can use the function <strong>lengths()</strong>. The <strong>lengths()</strong> function will tell us the length of every group in our <strong>GRangesList</strong></p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">transcriptNumberPerGene &lt;-<span class="st"> </span><span class="kw">lengths</span>(transcriptByGenes)</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2">transcriptNumberPerGene[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
 <pre><code>##     1    10   100  1000 10000 
 ##    15     3    12    16    16</code></pre>
 </div>
-<div id="some-useful-functions-in-genomicfeatures-2" class="section level2">
-<h2>Some Useful Functions in GenomicFeatures</h2>
+<div id="useful-functions-in-genomicfeatures-2" class="section level2">
+<h2>Useful Functions in GenomicFeatures</h2>
 <p>We may wish to know the total sum length of all exons in every transcript. The <strong>transcriptLengths()</strong> function allows us to find all transcript lengths from a TxDb object as well as additional information.</p>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">transcript_Lens &lt;-<span class="st"> </span><span class="kw">transcriptLengths</span>(hg18TxDb)</a>
 <a class="sourceLine" id="cb45-2" data-line-number="2">transcript_Lens[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]</a></code></pre></div>
@@ -2090,10 +2090,12 @@ div.tocify {
 <p>The <strong>genomeStyles()</strong> function returns a list of mapping data.frames of each organism.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">allMappings &lt;-<span class="st"> </span><span class="kw">genomeStyles</span>()</a>
 <a class="sourceLine" id="cb51-2" data-line-number="2"><span class="kw">names</span>(allMappings)</a></code></pre></div>
-<pre><code>##  [1] &quot;Arabidopsis_thaliana&quot;     &quot;Caenorhabditis_elegans&quot;   &quot;Canis_familiaris&quot;        
-##  [4] &quot;Cyanidioschyzon_merolae&quot;  &quot;Drosophila_melanogaster&quot;  &quot;Homo_sapiens&quot;            
-##  [7] &quot;Mus_musculus&quot;             &quot;Oryza_sativa&quot;             &quot;Populus_trichocarpa&quot;     
-## [10] &quot;Rattus_norvegicus&quot;        &quot;Saccharomyces_cerevisiae&quot; &quot;Zea_mays&quot;</code></pre>
+<pre><code>##  [1] &quot;Arabidopsis_thaliana&quot;     &quot;Caenorhabditis_elegans&quot;  
+##  [3] &quot;Canis_familiaris&quot;         &quot;Cyanidioschyzon_merolae&quot; 
+##  [5] &quot;Drosophila_melanogaster&quot;  &quot;Homo_sapiens&quot;            
+##  [7] &quot;Mus_musculus&quot;             &quot;Oryza_sativa&quot;            
+##  [9] &quot;Populus_trichocarpa&quot;      &quot;Rattus_norvegicus&quot;       
+## [11] &quot;Saccharomyces_cerevisiae&quot; &quot;Zea_mays&quot;</code></pre>
 </div>
 <div id="chromosome-naming-style" class="section level2">
 <h2>Chromosome Naming Style</h2>
@@ -2182,7 +2184,7 @@ div.tocify {
 <div id="org.db-annotationdbi-accessor-functions" class="section level2">
 <h2>Org.db AnnotationDbi Accessor Functions</h2>
 <p>As with the TxDb packages, we will need to use special accessors to retrieve information from Org.db.</p>
-<p>We can use the functions:-</p>
+<p>We can use the functions:</p>
 <ul>
 <li><strong>columns()</strong> - Display what kind of annotation is available in OrgDb objects.</li>
 <li><strong>keytypes()</strong> - Displays which type of identifiers can be used with <strong>select</strong> function.</li>
@@ -2244,7 +2246,7 @@ div.tocify {
 ##  [127] &quot;ADRA2A&quot;     &quot;ADRA2B&quot;     &quot;ADRA2C&quot;     &quot;ADRB1&quot;      &quot;ADRB2&quot;      &quot;ADRB3&quot;     
 ##  [133] &quot;GRK2&quot;       &quot;GRK3&quot;       &quot;ADSL&quot;       &quot;ADSS2&quot;      &quot;AP2A1&quot;      &quot;AP2A2&quot;     
 ##  [139] &quot;AP1B1&quot;      &quot;AP2B1&quot;      &quot;AP1G1&quot;      &quot;AEBP1&quot;      &quot;TLE5&quot;       &quot;CRISP1&quot;    
-##  [145] &quot;AF8T&quot;       &quot;AFA&quot;        &quot;AFD1&quot;       &quot;AFG3L1P&quot;    &quot;AFM&quot;        &quot;AFP&quot;       
+##  [145] &quot;AF8T&quot;       &quot;AFA&quot;        &quot;AFD1&quot;       &quot;AFG3L1P&quot;    &quot;rval&quot; &quot;AFP&quot;       
 ##  [151] &quot;AGA&quot;        &quot;ACAN&quot;       &quot;AGER&quot;       &quot;AGL&quot;        &quot;AGMX2&quot;      &quot;AGRP&quot;      
 ##  [157] &quot;JAG1&quot;       &quot;AGT&quot;        &quot;AGTR1&quot;      &quot;AGTR2&quot;      &quot;APLNR&quot;      &quot;AGXT&quot;      
 ##  [163] &quot;NR0B1&quot;      &quot;AHCY&quot;       &quot;AIC&quot;        &quot;AHR&quot;        &quot;AHSG&quot;       &quot;AIF1&quot;      

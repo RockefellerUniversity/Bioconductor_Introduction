@@ -1584,9 +1584,6 @@ div.tocify {
 </div>
 
 
-<div id="r-makingdata-includefalsecachetrueevalfalse-libraryrtracklayer-myranges---grangeschr1ranges-iranges7281105572856974-myranges2---cmyrangesgrangeschr1ranges-iranges1100-mycpeaks---import.beddatamyc_ch12_1_withinput_input_ch12_summits.bed-mycpeaksmycpeaks-over-myranges-torun---importdownloadsencff940mbk.bigwigselectionbigwigselectionmyrangesasrlelist-exporttoruncondatatss_encff940mbk.bedgraph-exporttoruncondatatss_encff940mbk.bw-xport.ucsctoruncondatatss_encff940mbk.wigsubformat-wig" class="section level1">
-<h1><code>{r makingData, include=FALSE,cache=TRUE,eval=FALSE} # library(rtracklayer) # myRanges &lt;- GRanges(&quot;chr1&quot;,ranges = IRanges(72811055,72856974)) # myRanges2 &lt;- c(myRanges,GRanges(&quot;chr1&quot;,ranges = IRanges(1,100))) # mycPeaks &lt;- import.bed(&quot;data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed&quot;) # mycPeaks[mycPeaks %over% myRanges] # toRun &lt;- import(&quot;~/Downloads/ENCFF940MBK.bigWig&quot;,selection=BigWigSelection(myRanges),as=&quot;RleList&quot;) # export(toRun,con=&quot;data/TSS_ENCFF940MBK.bedGraph&quot;) # export(toRun,con=&quot;data/TSS_ENCFF940MBK.bw&quot;) # #xport.ucsc(toRun,con=&quot;data/TSS_ENCFF940MBK.wig&quot;,subformat =&quot;wig&quot;) #</code></h1>
-</div>
 <div id="genomic-scores" class="section level1">
 <h1>Genomic Scores</h1>
 <p>As we have seen earlier, genomic scores are often stored in wiggle format.</p>
@@ -1792,8 +1789,8 @@ div.tocify {
 <pre><code>## RleList of length 2
 ## $chr1
 ## numeric-Rle of length 195471971 with 2108 runs
-##   Lengths:            72811054                  65 ...           122614997
-##   Values :                   0   0.690400004386902 ...                   0
+##   Lengths:           72811054                 65 ...          122614997
+##   Values :                  0  0.690400004386902 ...                  0
 ## 
 ## $chr10
 ## numeric-Rle of length 130694993 with 1 run
@@ -1809,8 +1806,8 @@ div.tocify {
 <a class="sourceLine" id="cb22-3" data-line-number="3">chr1_rle &lt;-<span class="st"> </span>myBigWig[[<span class="st">&quot;chr1&quot;</span>]]</a>
 <a class="sourceLine" id="cb22-4" data-line-number="4">chr1_rle</a></code></pre></div>
 <pre><code>## numeric-Rle of length 195471971 with 2108 runs
-##   Lengths:            72811054                  65 ...           122614997
-##   Values :                   0   0.690400004386902 ...                   0</code></pre>
+##   Lengths:           72811054                 65 ...          122614997
+##   Values :                  0  0.690400004386902 ...                  0</code></pre>
 </div>
 <div id="indexing-an-rle" class="section level1">
 <h1>Indexing an RLE</h1>
@@ -1827,8 +1824,8 @@ div.tocify {
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">100</span></a>
 <a class="sourceLine" id="cb26-2" data-line-number="2">chr1_rle</a></code></pre></div>
 <pre><code>## numeric-Rle of length 195471971 with 2109 runs
-##   Lengths:                  10            72811044 ...           122614997
-##   Values :                 100                   0 ...                   0</code></pre>
+##   Lengths:                 10           72811044 ...          122614997
+##   Values :                100                  0 ...                  0</code></pre>
 </div>
 <div id="converting-to-other-data-types" class="section level1">
 <h1>Converting to other data types</h1>
@@ -1882,8 +1879,8 @@ div.tocify {
 <p>For <strong>Rle</strong> objects, logical opertations return a logical Rle instead of standard logical vector.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">chr1_rle <span class="op">&lt;</span><span class="st"> </span><span class="dv">10</span></a></code></pre></div>
 <pre><code>## logical-Rle of length 195471971 with 20 runs
-##   Lengths:        10  72823081        55       802 ...        65         2 122627007
-##   Values :     FALSE      TRUE     FALSE      TRUE ...      TRUE     FALSE      TRUE</code></pre>
+##   Lengths:        10  72823081        55 ...        65         2 122627007
+##   Values :     FALSE      TRUE     FALSE ...      TRUE     FALSE      TRUE</code></pre>
 </div>
 <div id="operations-on-rle.-arithmetric-and-mathematical-2" class="section level1">
 <h1>Operations on RLE. (Arithmetric and Mathematical)</h1>

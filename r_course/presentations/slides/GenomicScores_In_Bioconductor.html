@@ -27,17 +27,7 @@ class: center, middle, inverse, title-slide
 
 
 
-# ```{r makingData, include=FALSE,cache=TRUE,eval=FALSE}
-# library(rtracklayer)
-# myRanges &lt;- GRanges("chr1",ranges = IRanges(72811055,72856974))
-# myRanges2 &lt;- c(myRanges,GRanges("chr1",ranges = IRanges(1,100)))
-# mycPeaks &lt;- import.bed("data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
-# mycPeaks[mycPeaks %over% myRanges]
-# toRun &lt;- import("~/Downloads/ENCFF940MBK.bigWig",selection=BigWigSelection(myRanges),as="RleList")
-# export(toRun,con="data/TSS_ENCFF940MBK.bedGraph")
-# export(toRun,con="data/TSS_ENCFF940MBK.bw")
-# #xport.ucsc(toRun,con="data/TSS_ENCFF940MBK.wig",subformat ="wig")
-# ```
+
 
 
 # Genomic Scores
@@ -362,8 +352,8 @@ myBigWig[1:2]
 ## RleList of length 2
 ## $chr1
 ## numeric-Rle of length 195471971 with 2108 runs
-##   Lengths:            72811054                  65 ...           122614997
-##   Values :                   0   0.690400004386902 ...                   0
+##   Lengths:           72811054                 65 ...          122614997
+##   Values :                  0  0.690400004386902 ...                  0
 ## 
 ## $chr10
 ## numeric-Rle of length 130694993 with 1 run
@@ -390,8 +380,8 @@ chr1_rle
 
 ```
 ## numeric-Rle of length 195471971 with 2108 runs
-##   Lengths:            72811054                  65 ...           122614997
-##   Values :                   0   0.690400004386902 ...                   0
+##   Lengths:           72811054                 65 ...          122614997
+##   Values :                  0  0.690400004386902 ...                  0
 ```
 
 
@@ -428,8 +418,8 @@ chr1_rle
 
 ```
 ## numeric-Rle of length 195471971 with 2109 runs
-##   Lengths:                  10            72811044 ...           122614997
-##   Values :                 100                   0 ...                   0
+##   Lengths:                 10           72811044 ...          122614997
+##   Values :                100                  0 ...                  0
 ```
 
 ---
@@ -524,8 +514,8 @@ chr1_rle &lt; 10
 
 ```
 ## logical-Rle of length 195471971 with 20 runs
-##   Lengths:        10  72823081        55       802 ...        65         2 122627007
-##   Values :     FALSE      TRUE     FALSE      TRUE ...      TRUE     FALSE      TRUE
+##   Lengths:        10  72823081        55 ...        65         2 122627007
+##   Values :     FALSE      TRUE     FALSE ...      TRUE     FALSE      TRUE
 ```
 ---
 # Operations on RLE. (Arithmetric and Mathematical)

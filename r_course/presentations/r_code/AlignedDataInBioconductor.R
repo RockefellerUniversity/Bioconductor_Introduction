@@ -1,12 +1,12 @@
 params <-
 list(isSlides = "no")
 
-## ----setup, include=FALSE-----------------------------------------------------------
+## ----setup, include=FALSE---------------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 AsSlides <- TRUE
 
 
-## ----setup2, include=FALSE,eval=FALSE,echo=FALSE------------------------------------
+## ----setup2, include=FALSE,eval=FALSE,echo=FALSE----------------------------------
 ## library(ShortRead)
 ## temp <- readFastq("~/Projects/Results/RNAseqPipeTest/FirstTest/FQs/ENCFF000CXH.fastq.gz")
 ## 
@@ -45,7 +45,7 @@ AsSlides <- TRUE
 ## 
 
 
-## ----results='asis',include=TRUE,echo=FALSE-----------------------------------------
+## ----results='asis',include=TRUE,echo=FALSE---------------------------------------
 if(params$isSlides == "yes"){
   cat("
 class: inverse, center, middle
@@ -69,124 +69,124 @@ class: inverse, center, middle
 }
 
 
-## ----a1,echo=TRUE,eval=FALSE--------------------------------------------------------
+## ----a1,echo=TRUE,eval=FALSE------------------------------------------------------
 ## library(Rsamtools)
 
 
-## ----a2,echo=FALSE,eval=TRUE--------------------------------------------------------
+## ----a2,echo=FALSE,eval=TRUE------------------------------------------------------
 suppressPackageStartupMessages(library(Rsamtools))
 
 
-## ----b1,echo=TRUE,eval=TRUE---------------------------------------------------------
+## ----b1,echo=TRUE,eval=TRUE-------------------------------------------------------
 coordSorted <- sortBam("data/liver.bodyMap.bam",
                        "Sorted_liver")
 coordSorted
 
 
-## ----c1,echo=TRUE,eval=TRUE---------------------------------------------------------
+## ----c1,echo=TRUE,eval=TRUE-------------------------------------------------------
 readnameSorted <- sortBam("data/liver.bodyMap.bam",
                           "SortedByName_liver",
                           byQname=TRUE)
 readnameSorted
 
 
-## ----d1,echo=TRUE,eval=TRUE---------------------------------------------------------
+## ----d1,echo=TRUE,eval=TRUE-------------------------------------------------------
 coordSorted <- sortBam("data/liver.bodyMap.bam",
                           "Sorted_liver",
                           maxMemory=1)
 coordSorted
 
 
-## ----e1,echo=TRUE,eval=TRUE---------------------------------------------------------
+## ----e1,echo=TRUE,eval=TRUE-------------------------------------------------------
 indexBam("Sorted_liver.bam")
 
 
-## ----f1,echo=TRUE,eval=TRUE---------------------------------------------------------
+## ----f1,echo=TRUE,eval=TRUE-------------------------------------------------------
 quickBamFlagSummary("Sorted_liver.bam")
 
 
-## ----g1,echo=TRUE,eval=TRUE---------------------------------------------------------
+## ----g1,echo=TRUE,eval=TRUE-------------------------------------------------------
 idxstatsBam("Sorted_liver.bam")
 
 
-## ----aa1,echo=TRUE,eval=FALSE-------------------------------------------------------
+## ----aa1,echo=TRUE,eval=FALSE-----------------------------------------------------
 ## BiocManager::install('GenomicAlignments')
 ## library(GenomicAlignments)
 
 
-## ----aa2,echo=FALSE,eval=TRUE-------------------------------------------------------
+## ----aa2,echo=FALSE,eval=TRUE-----------------------------------------------------
 suppressPackageStartupMessages(library(GenomicAlignments))
 
 
-## ----ba2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ba2,echo=TRUE,eval=TRUE------------------------------------------------------
 myHeader <- scanBamHeader("Sorted_liver.bam")
 str(myHeader)
 
 
-## ----ca2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ca2,echo=TRUE,eval=TRUE------------------------------------------------------
 names(myHeader)
 names(myHeader$Sorted_liver.bam)
 
 
-## ----da2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----da2,echo=TRUE,eval=TRUE------------------------------------------------------
 myHeader$Sorted_liver.bam$targets
 
 
-## ----ea2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ea2,echo=TRUE,eval=TRUE------------------------------------------------------
 myHeader$Sorted_liver.bam$text
 
 
-## ----fa2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----fa2,echo=TRUE,eval=TRUE------------------------------------------------------
 myHeader$Sorted_liver.bam$text["@HD"]
 
 
-## ----ga2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ga2,echo=TRUE,eval=TRUE------------------------------------------------------
 myHeader <- scanBamHeader("SortedByName_liver.bam")
 myHeader$SortedByName_liver.bam$text["@HD"]
 
 
-## ----ha2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ha2,echo=TRUE,eval=TRUE------------------------------------------------------
 myHeader <- scanBamHeader("Sorted_liver.bam")
 myHeader$Sorted_liver.bam$text["@PG"]
 
 
-## ----ia2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ia2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReads <- readGAlignments("Sorted_liver.bam")
 class(myReads)
 
 
-## ----ja2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ja2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReads[1:2,]
 
 
-## ----la2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----la2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReads[1:2,]
 
 
-## ----ma2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ma2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReads[1:2,]
 
 
-## ----na2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----na2,echo=TRUE,eval=TRUE------------------------------------------------------
 seqnames(myReads)
 start(myReads)[1:2]
 
 
-## ----na222,echo=TRUE,eval=TRUE------------------------------------------------------
+## ----na222,echo=TRUE,eval=TRUE----------------------------------------------------
 cigar(myReads)[1:2]
 njunc(myReads)[1:2]
 
 
-## ----oa2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----oa2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReads[strand(myReads) == "+"]
 
 
-## ----pa2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----pa2,echo=TRUE,eval=TRUE------------------------------------------------------
 my5primeReads <- narrow(myReads, start=1, width = 1)
 my5primeReads[1:2]
 
 
-## ----qa2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----qa2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReadsPos <- narrow(myReads[strand(myReads) == "+"],
                      start=1, width = 1)
 myReadsNeg <- narrow(myReads[strand(myReads) == "-"],
@@ -196,56 +196,56 @@ my5primeReads <- c(myReadsPos,myReadsNeg)
 my5primeReads[1:2]
 
 
-## ----ra2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ra2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReadAsGRanges <- granges(myReads,use.mcols = TRUE)
 myReadAsGRanges
 
 
-## ----sa2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----sa2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReadAsGRangesList <- grglist(myReads,use.mcols = TRUE)
 myReadAsGRangesList[njunc(myReads) == 1]
 
 
-## ----ta2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ta2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReadAsGRanges <- granges(myReads, use.mcols = TRUE)
 myReadsAgain <- as(myReadAsGRanges, "GAlignments")
 myReadsAgain[1:2]
 
 
-## ----ua2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ua2,echo=TRUE,eval=TRUE------------------------------------------------------
 myReadAsGRanges <- granges(myReads, use.mcols = TRUE)
 my5Prime <- resize(myReadAsGRanges, fix = "start", width = 1)
 my5PrimeAsReads <- as(my5Prime, "GAlignments")
 my5PrimeAsReads
 
 
-## ----va2,echo=TRUE,eval=FALSE-------------------------------------------------------
+## ----va2,echo=TRUE,eval=FALSE-----------------------------------------------------
 ## library(rtracklayer)
 ## export(my5PrimeAsReads, con="myModifiedReads.bam")
 
 
-## ----wa2,echo=TRUE,eval=TRUE--------------------------------------------------------
-myRanges <- GRanges("chr12", IRanges(98987153,98988394))
+## ----wa2,echo=TRUE,eval=TRUE------------------------------------------------------
+myRanges <- GRanges("chr12", IRanges(98591400,98608400))
 myParam <- ScanBamParam(which=myRanges)
 myParam
 
 
-## ----xa2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----xa2,echo=TRUE,eval=TRUE------------------------------------------------------
 filteredReads <- readGAlignments("Sorted_liver.bam", param = myParam)
 filteredReads
 
 
-## ----ya2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----ya2,echo=TRUE,eval=TRUE------------------------------------------------------
 myParam <- ScanBamParam(what=c("qname", "seq", "qual"))
 infoInReads <- readGAlignments("Sorted_liver.bam", param = myParam)
 infoInReads[1]
 
 
-## ----za2,echo=TRUE,eval=TRUE--------------------------------------------------------
+## ----za2,echo=TRUE,eval=TRUE------------------------------------------------------
 mcols(infoInReads)
 
 
-## ----aaa1,echo=TRUE,eval=TRUE-------------------------------------------------------
+## ----aaa1,echo=TRUE,eval=TRUE-----------------------------------------------------
 bamHeader <- scanBamHeader("Sorted_liver.bam")
 myChromosomes <- bamHeader$Sorted_liver.bam$targets
 for(i in 1:length(myChromosomes)){

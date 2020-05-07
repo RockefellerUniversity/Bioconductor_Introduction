@@ -1,12 +1,12 @@
 params <-
 list(isSlides = "no")
 
-## ----setup, include=FALSE-----------------------------------------------------------
+## ----setup, include=FALSE---------------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 AsSlides <- TRUE
 
 
-## ----setup2, include=FALSE,eval=FALSE,echo=FALSE------------------------------------
+## ----setup2, include=FALSE,eval=FALSE,echo=FALSE----------------------------------
 ## library(ShortRead)
 ## temp <- readFastq("~/Projects/Results/RNAseqPipeTest/FirstTest/FQs/ENCFF000CXH.fastq.gz")
 ## 
@@ -45,7 +45,7 @@ AsSlides <- TRUE
 ## 
 
 
-## ----results='asis',include=TRUE,echo=FALSE-----------------------------------------
+## ----results='asis',include=TRUE,echo=FALSE---------------------------------------
 if(params$isSlides == "yes"){
   cat("
 class: inverse, center, middle
@@ -69,88 +69,79 @@ class: inverse, center, middle
 }
 
 
-## ----sum2wcww, echo=TRUE,eval=FALSE,include=TRUE------------------------------------
+## ----sum2wcww, echo=TRUE,eval=FALSE,include=TRUE----------------------------------
 ## BiocManager::install('Rsubread')
 ## library(Rsubread)
 
 
-## ----sum2wcwwa, echo=FALSE,eval=TRUE,include=FALSE----------------------------------
+## ----sum2wcwwa, echo=FALSE,eval=TRUE,include=FALSE--------------------------------
 suppressPackageStartupMessages(library(Rsubread))
 
 
-## ----load11, echo=TRUE,eval=FALSE---------------------------------------------------
+## ----load11, echo=TRUE,eval=FALSE-------------------------------------------------
 ## BiocManager::install("BSgenome.Hsapiens.UCSC.hg38")
 ## library(BSgenome.Hsapiens.UCSC.hg38)
 
 
-## ----load1, echo=FALSE,eval=TRUE----------------------------------------------------
+## ----load1, echo=FALSE,eval=TRUE--------------------------------------------------
 suppressPackageStartupMessages(library(BSgenome.Hsapiens.UCSC.hg38))
 
 
-## ----bsgenomeffft, echo=TRUE,eval=FALSE---------------------------------------------
+## ----bsgenomeffft, echo=TRUE,eval=FALSE-------------------------------------------
 ## chr7hg38 <- BSgenome.Hsapiens.UCSC.hg38[["chr7"]]
 ## chr7hg38Set <- DNAStringSet(list(chr7=chr7hg38))
 ## writeXStringSet(chr7hg38Set,file="chr7.fa")
 
 
-## ----sum2wcwssw, echo=TRUE,eval=FALSE,include=TRUE----------------------------------
+## ----sum2wcwssw, echo=TRUE,eval=FALSE,include=TRUE--------------------------------
 ## buildindex("chr7","chr7.fa", memory=8000)
 
 
-## ----sum2waacww, echo=TRUE,eval=FALSE,include=TRUE----------------------------------
+## ----sum2waacww, echo=TRUE,eval=FALSE,include=TRUE--------------------------------
 ## align("chr7","data/sampledActin.fq.gz",
 ##         output_format = "BAM",
 ##         output_file = "data/Rsubread_NoSplicing_sampledActin.bam")
 
 
-## ----loadq, echo=TRUE,eval=FALSE----------------------------------------------------
+## ----loadq, echo=TRUE,eval=FALSE--------------------------------------------------
 ## 
 ## BiocManager::install("Rsamtools")
 ## library(Rsamtools)
 
 
-## ----loadq1, echo=FALSE,eval=TRUE---------------------------------------------------
+## ----loadq1, echo=FALSE,eval=TRUE-------------------------------------------------
 suppressPackageStartupMessages(library(Rsamtools))
 
 
-## ----sort, echo=TRUE,eval=TRUE------------------------------------------------------
+## ----sort, echo=TRUE,eval=TRUE----------------------------------------------------
 sortBam("data/Rsubread_NoSplicing_sampledActin.bam","SortedActB")
 
 
-## ----index, echo=TRUE,eval=TRUE-----------------------------------------------------
+## ----index, echo=TRUE,eval=TRUE---------------------------------------------------
 indexBam("SortedActB.bam")
 
 
-## ----sum, echo=TRUE,eval=TRUE,collapse=TRUE-----------------------------------------
+## ----sum, echo=TRUE,eval=TRUE,collapse=TRUE---------------------------------------
 quickBamFlagSummary("SortedActB.bam")
 
 
-## ----sum2wkaacww, echo=TRUE,eval=FALSE,include=TRUE---------------------------------
+## ----sum2wkaacww, echo=TRUE,eval=FALSE,include=TRUE-------------------------------
 ## subjunc("chr7","data/sampledActin.fq.gz",
 ##         output_format = "BAM",
 ##         output_file = "data/RsubreadsampledActin.bam")
 
 
-## ----sum2wcaww, echo=TRUE,eval=FALSE,include=TRUE-----------------------------------
-## sortBam("data/RsubreadsampledActin.bam",
-##         "Sorted_RsubreadsampledActin")
-## indexBam("Sorted_RsubreadsampledActin.bam")
-
-
-## ----sortS, echo=TRUE,eval=TRUE-----------------------------------------------------
-sortBam("data/sampledActin_29a42342e34.bam","SortedActBSpliced")
+## ----sum2wcaww, echo=TRUE,eval=T,include=TRUE-------------------------------------
+sortBam("data/RsubreadsampledActin.bam",
+        "SortedActBSpliced")
 indexBam("SortedActBSpliced.bam")
 
 
-## ----sum2, echo=TRUE,eval=TRUE,collapse=TRUE----------------------------------------
+## ----sum2, echo=TRUE,eval=TRUE,collapse=TRUE--------------------------------------
 quickBamFlagSummary("SortedActBSpliced.bam")
 
 
-## ----sum2wcwsssw, echo=TRUE,eval=TRUE,include=TRUE----------------------------------
-quickBamFlagSummary("data/Sorted_RsubreadsampledActin.bam")
-
-
-## ----sum2ww, echo=FALSE,eval=FALSE,collapse=TRUE,include=FALSE----------------------
+## ----sum2ww, echo=FALSE,eval=FALSE,collapse=TRUE,include=FALSE--------------------
 ## temp <- scanBam("SortedActBSpliced.bam")
 ## reads <- temp[[1]]$qname[is.na(temp[[1]]$mapq)]
 ## temp2 <- readGAlignments("~/Downloads/out.bam",param=ScanBamParam(what=c("qname", "strand", "pos", "qwidth")))
@@ -172,74 +163,74 @@ quickBamFlagSummary("data/Sorted_RsubreadsampledActin.bam")
 ## 
 
 
-## ----loadbw2, echo=TRUE,eval=FALSE--------------------------------------------------
+## ----loadbw2, echo=TRUE,eval=FALSE------------------------------------------------
 ## 
 ## BiocManager::install("Rbowtie2")
 ## library(Rbowtie2)
 
 
-## ----loadbw2_, echo=FALSE,eval=TRUE-------------------------------------------------
+## ----loadbw2_, echo=FALSE,eval=TRUE-----------------------------------------------
 suppressPackageStartupMessages(library(Rbowtie2))
 
 
-## ----sumww2wvvcdhywwss, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE----------------
+## ----sumww2wvvcdhywwss, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE--------------
 ## bowtie2_build(references="chr7.fa",
 ##                        bt2Index=file.path("chr7hg38"))
 
 
-## ----sumww2zzzzwcwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE-----------
+## ----sumww2zzzzwcwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE---------
 ## library(R.utils)
 ## 
 ## gunzip("data/sampledActin.fq.gz")
 
 
-## ----sumww2wxxcwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE-------------
+## ----sumww2wxxcwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE-----------
 ## bowtie2(bt2Index = "chr7hg38",
 ##           samOutput = "sampledActin.sam",
 ##           seq1 = "data/sampledActin.fq")
 
 
-## ----sumww2zzwcwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE-------------
+## ----sumww2zzwcwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE-----------
 ## bamFile_Bowtie2 <- asBam("sampledActin.sam")
 ## bamFile_Bowtie2
 
 
-## ----sumww2wcxxwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE-------------
+## ----sumww2wcxxwwsslkkass, echo=TRUE,eval=FALSE,include=TRUE,tidy=FALSE-----------
 ## sortBam(bamFile_Bowtie2,"SortedActBSpliced_bowtie")
 ## indexBam("SortedActBSpliced_bowtie.bam")
 
 
-## ----load, echo=TRUE,eval=FALSE-----------------------------------------------------
+## ----load, echo=TRUE,eval=FALSE---------------------------------------------------
 ## BiocManager::install("QuasR")
 ## library(QuasR)
 
 
-## ----load1q, echo=FALSE,eval=TRUE---------------------------------------------------
+## ----load1q, echo=FALSE,eval=TRUE-------------------------------------------------
 suppressPackageStartupMessages(library(QuasR))
 
 
-## ----sampleTable1, echo=TRUE,eval=FALSE---------------------------------------------
+## ----sampleTable1, echo=TRUE,eval=FALSE-------------------------------------------
 ## FileName <- "data/sampledActin.fq.gz"
 ## SampleName <- "sampledActin"
 ## sampleTable <- data.frame(FileName,SampleName)
 ## write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
 
 
-## ----sampleTable1s, echo=FALSE,eval=TRUE--------------------------------------------
+## ----sampleTable1s, echo=FALSE,eval=TRUE------------------------------------------
 FileName <- "data/sampledActin.fq.gz"
 SampleName <- "sampledActin"
 data.frame(FileName,SampleName)
 
 
-## ----bsgenome, echo=TRUE,eval=FALSE-------------------------------------------------
+## ----bsgenome, echo=TRUE,eval=FALSE-----------------------------------------------
 ## library(QuasR)
 ## qAlign("sampleTable.txt", "BSgenome.Hsapiens.UCSC.hg38")
 
 
-## ----bsgenomek, echo=TRUE,eval=FALSE------------------------------------------------
+## ----bsgenomek, echo=TRUE,eval=FALSE----------------------------------------------
 ## qAlign("sampleTable.txt","chr7.fa")
 
 
-## ----bsgenomeka, echo=TRUE,eval=FALSE-----------------------------------------------
+## ----bsgenomeka, echo=TRUE,eval=FALSE---------------------------------------------
 ## qAlign("sampleTable.txt","chr7.fa", aligner="Rhisat2")
 

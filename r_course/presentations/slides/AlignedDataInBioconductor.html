@@ -165,7 +165,7 @@ We can control how much memory we use with the **maxMemory** parameter. This all
 
 The maxMemory is specified as the maximum MB of RAM which our **sortBam()** function call can use. In sorting **Rsamtools** will produce mulitple smaller BAM files, the smaller the maxMemory value the greater then number of temporary files.
 
-Here in this example, we sort our file in 1MB of memory and it will produce 10 tempory files.
+Here in this example, we sort our file in 1MB of memory and it will produce several temporary files.
 
 
 
@@ -447,7 +447,7 @@ class(myReads)
 
 The resulting **GAlignments** object contains much of the information we saw in the SAM file earlier on. 
 
-This include the chromomome, strand, start and end position of alignment.
+This include the chromosome, strand, start and end position of alignment.
 
 
 
@@ -839,7 +839,7 @@ We can specify to import information from only specific regions by providing a *
 
 
 ```r
-myRanges &lt;- GRanges("chr12", IRanges(98987153,98988394))
+myRanges &lt;- GRanges("chr12", IRanges(98591400,98608400))
 myParam &lt;- ScanBamParam(which=myRanges)
 myParam
 ```
@@ -870,9 +870,33 @@ filteredReads
 ```
 
 ```
-## GAlignments object with 0 alignments and 0 metadata columns:
-##    seqnames strand       cigar    qwidth     start       end     width     njunc
-##       &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+## GAlignments object with 48147 alignments and 0 metadata columns:
+##           seqnames strand       cigar    qwidth     start       end     width
+##              &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##       [1]    chr12      +         50M        50  98593646  98593695        50
+##       [2]    chr12      +         50M        50  98593646  98593695        50
+##       [3]    chr12      +         50M        50  98593646  98593695        50
+##       [4]    chr12      +         50M        50  98593647  98593696        50
+##       [5]    chr12      +         50M        50  98593647  98593696        50
+##       ...      ...    ...         ...       ...       ...       ...       ...
+##   [48143]    chr12      -         50M        50  98606306  98606355        50
+##   [48144]    chr12      -         50M        50  98606306  98606355        50
+##   [48145]    chr12      -         50M        50  98606306  98606355        50
+##   [48146]    chr12      -         50M        50  98606311  98606360        50
+##   [48147]    chr12      -         50M        50  98606311  98606360        50
+##               njunc
+##           &lt;integer&gt;
+##       [1]         0
+##       [2]         0
+##       [3]         0
+##       [4]         0
+##       [5]         0
+##       ...       ...
+##   [48143]         0
+##   [48144]         0
+##   [48145]         0
+##   [48146]         0
+##   [48147]         0
 ##   -------
 ##   seqinfo: 1 sequence from an unspecified genome
 ```
@@ -893,12 +917,12 @@ infoInReads[1]
 
 ```
 ## GAlignments object with 1 alignment and 3 metadata columns:
-##       seqnames strand       cigar    qwidth     start       end     width     njunc |
-##          &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; |
-##   [1]    chr12      -      31M19S        50    956642    956672        31         0 |
-##                                       qname                     seq
-##                                 &lt;character&gt;          &lt;DNAStringSet&gt;
-##   [1] HWI-BRUNOP16X_0001:8:1:13022:116605#0 GCTCAAGCGA...CACAATTGNG
+##       seqnames strand       cigar    qwidth     start       end     width     njunc
+##          &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
+##   [1]    chr12      -      31M19S        50    956642    956672        31         0
+##       |                                 qname                     seq
+##       |                           &lt;character&gt;          &lt;DNAStringSet&gt;
+##   [1] | HWI-BRUNOP16X_0001:8:1:13022:116605#0 GCTCAAGCGA...CACAATTGNG
 ##                           qual
 ##                 &lt;PhredQuality&gt;
 ##   [1] gg^eg]\\[Z[...SSTTTTSSBT

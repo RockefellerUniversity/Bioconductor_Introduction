@@ -1665,7 +1665,7 @@ div.tocify {
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">chr19_Seq &lt;-<span class="st"> </span>BSgenome.Mmusculus.UCSC.mm10<span class="op">$</span>chr19</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">chr19_Seq</a></code></pre></div>
 <pre><code>##   61431566-letter &quot;DNAString&quot; instance
-## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code></pre>
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code></pre>
 </div>
 <div id="retrieving-sequence-information-1" class="section level1">
 <h1>Retrieving Sequence Information</h1>
@@ -1673,7 +1673,7 @@ div.tocify {
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">chr19_Seq &lt;-<span class="st"> </span>BSgenome.Mmusculus.UCSC.mm10[[<span class="st">&quot;chr19&quot;</span>]]</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">chr19_Seq</a></code></pre></div>
 <pre><code>##   61431566-letter &quot;DNAString&quot; instance
-## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code></pre>
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code></pre>
 </div>
 <div id="biostrings-and-dnastring" class="section level1">
 <h1>Biostrings and DNAString</h1>
@@ -1689,7 +1689,7 @@ div.tocify {
 <p>We can subset a DNAString object just like indexing a normal vector</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">chr19_Seq[<span class="dv">1</span><span class="op">:</span><span class="dv">10000000</span>]</a></code></pre></div>
 <pre><code>##   10000000-letter &quot;DNAString&quot; instance
-## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GGGGCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG</code></pre>
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GGGCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG</code></pre>
 </div>
 <div id="subsetting-a-dnastring-set-1" class="section level1">
 <h1>Subsetting a DNAString Set</h1>
@@ -1697,7 +1697,7 @@ div.tocify {
 <p>Note that <strong>subseq()</strong> is a faster implementation of subsetting for DNAString objects.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">subseq</span>(chr19_Seq,<span class="dt">start=</span><span class="dv">1</span>,<span class="dt">end=</span><span class="dv">10000000</span>)</a></code></pre></div>
 <pre><code>##   10000000-letter &quot;DNAString&quot; instance
-## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GGGGCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG</code></pre>
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GGGCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG</code></pre>
 </div>
 <div id="useful-functions" class="section level1">
 <h1>Useful Functions</h1>

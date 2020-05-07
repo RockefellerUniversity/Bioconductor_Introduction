@@ -207,7 +207,7 @@ We can control how much memory we use with the **maxMemory** parameter. This all
 
 The maxMemory is specified as the maximum MB of RAM which our **sortBam()** function call can use. In sorting **Rsamtools** will produce mulitple smaller BAM files, the smaller the maxMemory value the greater then number of temporary files.
 
-Here in this example, we sort our file in 1MB of memory and it will produce 10 tempory files.
+Here in this example, we sort our file in 1MB of memory and it will produce several temporary files.
 
 
 ```{r d1,echo=TRUE,eval=TRUE}
@@ -378,7 +378,7 @@ class(myReads)
 
 The resulting **GAlignments** object contains much of the information we saw in the SAM file earlier on. 
 
-This include the chromomome, strand, start and end position of alignment.
+This include the chromosome, strand, start and end position of alignment.
 
 
 ```{r ja2,echo=TRUE,eval=TRUE}
@@ -555,7 +555,7 @@ Most importantly we can specify the **what** and **which** parameters to control
 We can specify to import information from only specific regions by providing a **GRanges** of regions of interest to the **which** parameter in the **ScanBamParam()** function.
 
 ```{r wa2,echo=TRUE,eval=TRUE}
-myRanges <- GRanges("chr12", IRanges(98987153,98988394))
+myRanges <- GRanges("chr12", IRanges(98591400,98608400))
 myParam <- ScanBamParam(which=myRanges)
 myParam
 ```
