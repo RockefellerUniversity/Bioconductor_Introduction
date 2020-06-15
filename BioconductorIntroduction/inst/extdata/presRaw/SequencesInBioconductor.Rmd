@@ -311,8 +311,8 @@ chr19_FromFASTA$chr19
 
 # Time for an exercise.
 
-[Link_to_exercises](../../exercises/fastaAndBiostrings_exercises.html)
+[Link_to_exercises](../../exercises/exercises/fastaAndBiostrings_exercises.html)
 
-[Link_to_answers](../../answers/fastaAndBiostrings_answers.html)
+[Link_to_answers](../../exercises/answers/fastaAndBiostrings_answers.html)
 
 

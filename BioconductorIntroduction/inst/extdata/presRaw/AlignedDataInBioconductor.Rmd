@@ -617,8 +617,8 @@ for(i in 1:length(myChromosomes)){
 
 # Time for an exercise.
 
-[Link_to_exercises](../../exercises/alignedData_exercises.html)
+[Link_to_exercises](../../exercises/exercises/alignedData_exercises.html)
 
-[Link_to_answers](../../answers/alignedData_answers.html)
+[Link_to_answers](../../exercises/answers/alignedData_answers.html)
 
 

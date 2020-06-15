@@ -599,8 +599,8 @@ allGeneCounts
 ---
 # Time for an exercise.
 
-[Link_to_exercises](../../exercises/summarization_exercises.html)
+[Link_to_exercises](../../exercises/exercises/summarization_exercises.html)
 
-[Link_to_answers](../../answers/summarization_answers.html)
+[Link_to_answers](../../exercises/answers/summarization_answers.html)
 
 
