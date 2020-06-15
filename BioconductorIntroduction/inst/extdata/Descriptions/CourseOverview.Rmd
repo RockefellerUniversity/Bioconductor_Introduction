@@ -1,0 +1,14 @@
+## Course Overview
+
+<br>
+[<img src="https://github.com/RockefellerUniversity/Bioconductor_Introduction/workflows/R-CMD-check-bioc/badge.svg">](https://github.com/RockefellerUniversity/Bioconductor_Introduction/actions?query=workflow%3AR-CMD-check-bioc)
+
+
+This course introduces the Bioconductor set of R packages.
+
+The course consists of multiple sections, the first section introduces Bioconductor and remaining sections discuss the handling of Genomics data and metadata in R using Bioconductor packages.
+Each section is presented as HTMl presentations or single page document. Exercises and answer sheets are included after all subsections to practice techniques and provide future reference examples..
+
+Course material and exercises are available to view as rendered HTML at https://rockefelleruniversity.github.io/Bioconductor_Introduction/.
+All material is available to download under GPL v2 license.
+

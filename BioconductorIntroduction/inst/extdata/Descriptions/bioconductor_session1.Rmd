@@ -1,0 +1,10 @@
+<br>
+
+#### **Introduction to Bioconductor**
+
+This section introduces the Bioconductor set of R packages.
+Session sections:
+
+* Bioconductor overview
+* Packages for Genomics data
+* Package installation

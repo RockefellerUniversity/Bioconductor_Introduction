@@ -1,13 +1,20 @@
 ---
 title: "Genomic Intervals in Bioconductor exercises"
-author: "Tom Carroll"
-output: html_document
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
+params:
+  toMessage: false    
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F,eval=T)
+```{r, setup,include=FALSE}
+toMessage <- ifelse(!is.null(params$toMessage),params$toMessage,FALSE)
+message(toMessage)
 ```
-
 
 ## Working with Genomic Intervals
 
@@ -15,7 +22,7 @@ In this exercise we will work with some ChIP-seq peak calls for the Encode exper
 
 1. Install the GenomicRanges and rtracklayer package
 
-```{r installBS, eval=FALSE}
+```{r installBS, eval=FALSE,  echo=toMessage}
 source("https://bioconductor.org/biocLite.R")
 biocLite("GenomicRanges")
 biocLite("rtracklayer")
@@ -23,12 +30,12 @@ biocLite("rtracklayer")
 
 2. Read in the file **data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls** and create a GRanges object which includes values of fold_enrichment and - log10 pvalue provided in file.
 
-```{r installBS2z,echo=FALSE}
+```{r installBS2z,echo=FALSE,  echo=toMessage}
 suppressPackageStartupMessages(library(rtracklayer))
 suppressPackageStartupMessages(library(GenomicRanges))
 ```
 
-```{r installBS2}
+```{r installBS2,  echo=toMessage}
 library(rtracklayer)
 library(GenomicRanges)
 MYCpeaks <- read.delim("data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls",sep="\t",comment.char = "#")
@@ -40,7 +47,7 @@ MYCgranges <- GRanges(MYCpeaks$chr,IRanges(MYCpeaks$start,MYCpeaks$end),
 
 3. Create a boxplot of the fold enrichments in genomic intervals over every chromosome.
 
-```{r instsaallBsS2,fig.width=10,fig.height=10}
+```{r instsaallBsS2,fig.width=10,fig.height=10,  echo=toMessage}
 MYCDF <- as.data.frame(MYCgranges)
 library(ggplot2)
 ggplot(MYCDF,aes(x=seqnames,y=FE,color=seqnames))+geom_boxplot()+theme_bw()
@@ -49,7 +56,7 @@ ggplot(MYCDF,aes(x=seqnames,y=FE,color=seqnames))+geom_boxplot()+theme_bw()
 
 4. Create a GRanges object of genomic intervals on chromosome 1 with scores greater than 10 and pvalue less than 0.0001 and export as BED file **filteredMyc.bed**.
 
-```{r instadllBsssS2}
+```{r instadllBsssS2,  echo=toMessage}
 MYCfilteredGRanges <- MYCgranges[MYCgranges$FE > 10 & MYCgranges$minuslog10Pval > -log10(0.0001)]
 MYCfilteredGRangesChr1 <- MYCfilteredGRanges[seqnames(MYCfilteredGRanges) %in% "chr1"]
 export.bed(MYCfilteredGRangesChr1,"filteredMyc.bed")
@@ -59,7 +66,7 @@ export.bed(MYCfilteredGRangesChr1,"filteredMyc.bed")
 5. Read in TXT file of gene positions (containing contig - named as seqnames column-, genomic start and end) from the file **data/mm10_GenePosForIGV.txt** and export to a BED file **Genes.bed**
 
 
-```{r instasssllBsssS2}
+```{r instasssllBsssS2,  echo=toMessage}
 IGVGenePositions <- read.delim("data/mm10_GenePosForIGV.txt",sep="\t")
 
 genePos <- GRanges(IGVGenePositions$seqnames,
@@ -73,21 +80,21 @@ export.bed(genePos,con="Genes.bed")
 
 6. Create a GRanges of the transcriptional start site positions of every gene (1bp exact TSS).
 
-```{r installfffBsssssS2}
+```{r installfffBsssssS2,  echo=toMessage}
 tssPos <- resize(genePos,width = 1,fix = "start")
 ```
 
 7. Extend this GRanges to be +/- 500 bp around the transciptional start sites.
 
 
-```{r instddallBsssssS2}
+```{r instddallBsssssS2,  echo=toMessage}
 tssPosExt <- resize(tssPos,width = 1000,fix = "center")
 ```
 
 
 8. Create a BED file (called **filteredMycOnTSS.bed**) of our Myc peaks from question 4 which overlap our new GRanges of +/- 500 bp around transciptional start sites.
 
-```{r installssBsssssS2}
+```{r installssBsssssS2,  echo=toMessage}
 MYCforBED <- MYCfilteredGRangesChr1[MYCfilteredGRangesChr1 %over% tssPosExt]
 export.bed(MYCforBED,con="filteredMycOnTSS.bed")
 ```
@@ -100,20 +107,20 @@ export.bed(MYCforBED,con="filteredMycOnTSS.bed")
 Download the signal p-value bigwig from the encode portal for replicate 1 from experiment **ENCSR000ERN** and capture an image of bigWig signal over our BED intervals over igfbp2 gene.
 
 
-```{r installBssaasaaS2}
+```{r installBssaasaaS2,  echo=toMessage}
 
 ```
 
 ![](IGV.png)
 10. Import the **data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed** BED file to a GRanges. The 5th column in file represents summit height.
 
-```{r installBsaaaaassS2}
+```{r installBsaaaaassS2,  echo=toMessage}
 mySummits <- import.bed("data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed")
 ```
 
 11. Generate density plots of summit heights for summits overlapping and not overlapping our extended TSS positions
 
-```{r installBxxsssS2,fig.width=10,fig.height=10}
+```{r installBxxsssS2,fig.width=10,fig.height=10,  echo=toMessage}
 mySummits$Overlap <- ifelse(mySummits %over% tssPosExt,"TSS","Not_TSS")
 mySummitsDF <- as.data.frame(mySummits)
 ggplot(mySummitsDF,aes(x=score,fill=Overlap))+geom_density(alpha=0.5)+
@@ -121,13 +128,13 @@ ggplot(mySummitsDF,aes(x=score,fill=Overlap))+geom_density(alpha=0.5)+
 ```
 
 12. Filter the Summits GRanges to the top 500 ranked by the GRanges score column.
-```{r installBzsaaassS2}
+```{r installBzsaaassS2,  echo=toMessage}
 orderSummits500 <- mySummits[order(mySummits$score,decreasing = TRUE)][1:500,]
 ```
 
 13. Extend these top 500 Summits GRanges to 50bps around the centre of the GRanges intervals. Extract the sequences under the peaks and write to a file. 
 
-```{r installBjsazzaassS2}
+```{r installBjsazzaassS2,  echo=toMessage}
 centredSummits <- resize(orderSummits500,width = 50,fix="center")
 library(BSgenome.Mmusculus.UCSC.mm10)
 centredSummitsSeq <- getSeq(BSgenome.Mmusculus.UCSC.mm10,centredSummits)

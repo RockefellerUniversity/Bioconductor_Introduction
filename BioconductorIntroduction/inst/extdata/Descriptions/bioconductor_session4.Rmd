@@ -1,0 +1,10 @@
+<br>
+
+#### **Genomic Features in Bioconductor**
+
+In this session we introduce genomic features handling and import/export.
+Session sections:
+
+* Importing and exporting Gene models as GTF/GFF
+* Working with TxDb objects
+* Retrieving annotation from OrgDb packages

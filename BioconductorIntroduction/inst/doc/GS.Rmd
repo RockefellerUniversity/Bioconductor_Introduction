@@ -1,13 +1,20 @@
 ---
 title: "Genomic Scores in Bioconductor exercises"
-author: "Tom Carroll"
-output: html_document
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
+params:
+  toMessage: false    
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F,eval=T)
+```{r, setup,include=FALSE}
+toMessage <- ifelse(!is.null(params$toMessage),params$toMessage,FALSE)
+message(toMessage)
 ```
-
 
 ## Working with Genomic Scores
 
@@ -17,7 +24,7 @@ In this exercise we will work with some ChIP-seq data for the Encode experiment 
 
 This data can be found at the Encode experiment here or at the direct link [here](https://www.encodeproject.org/files/ENCFF940MBK/@@download/ENCFF940MBK.bigWig).
 
-```{r installBS2z,echo=FALSE}
+```{r installBS2z,echo=FALSE,  echo=toMessage}
 suppressPackageStartupMessages(library(rtracklayer))
 suppressPackageStartupMessages(library(GenomicRanges))
 ```
@@ -26,7 +33,7 @@ suppressPackageStartupMessages(library(GenomicRanges))
 2. Read in the bigWig signal for the region (chr1:133040000-133149400) as an RleList.
 ![](data.png)
 
-```{r e2}
+```{r e2,  echo=toMessage}
 library(rtracklayer)
 regionToImport <- GRanges(seqnames="chr1",
                           ranges=IRanges(133040000,133149400))
@@ -39,14 +46,14 @@ bigWigRegion <- import.bw("~/Downloads/ENCFF940MBK.bigWig",
 
 3. Find the maximum and minimum of value of bigWig signal in the region.
 
-```{r e2.2}
+```{r e2.2,  echo=toMessage}
 myMax <- max(bigWigRegion$chr1[133040000:133149400])
 myMax <- max(bigWigRegion)["chr1"]
 ```
 
 4. Produce an area plot (using geom_area) of the signal over the transcriptional start site (+/- 500bp of gene start) for the Ppp1r15b gene using ggplot2.
 
-```{r e3}
+```{r e3,  echo=toMessage}
 TSSpos <- seq(133131166-500,133131166+500)
 tssDF <- as.data.frame(bigWigRegion$chr1[TSSpos])
 tssDF$position <- TSSpos
@@ -55,13 +62,13 @@ ggplot(tssDF,aes(y=value,x=position))+geom_area()+theme_minimal()+xlab("Genome")
 ```
 
 4. Apply a log2 transformation to the genomic scores and save as a new variable.
-```{r e4}
+```{r e4,  echo=toMessage}
 newBigWigRegion <- bigWigRegion
 newBigWigRegion <- log2(newBigWigRegion)
 ```
 
 5. Export this as bigWig and visualise signal over Ppp1r15b gene in IGV.
-```{r e5}
+```{r e5,  echo=toMessage}
 export.bw(newBigWigRegion,"log2.bw")
 ```
 
@@ -69,7 +76,7 @@ export.bw(newBigWigRegion,"log2.bw")
 
 6. Read in the file **data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls** and create a GRanges object of all peaks on chromosome 1.
 
-```{r e6}
+```{r e6,  echo=toMessage}
 library(rtracklayer)
 library(GenomicRanges)
 MYCpeaks <- read.delim("data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls",sep="\t",comment.char = "#")
@@ -81,7 +88,7 @@ MYCgrangesChr1 <- MYCgranges[seqnames(MYCgranges) %in% "chr1"]
 
 
 7. Using this GRanges of Myc peaks, import in the Myc ChIPseq bigwig signal over the peaks on chromosome 1.
-```{r es}
+```{r es,  echo=toMessage}
 library(rtracklayer)
 library(GenomicRanges)
 
@@ -94,7 +101,7 @@ bigWigPeaks <- import.bw("~/Downloads/ENCFF940MBK.bigWig",
 8. Import the gene positions from mm10_GenePosForIGV.txt as a GRanges. Filter to genes on chromosome 1 and identify peaks overlapping the gene's promoter (here defined as a region ranging between 2000bp upstream from a gene's transcriptional start site to the transcriptional start site) and those not overlapping a promoter.
 
 
-```{r instasssllBsssS2}
+```{r instasssllBsssS2,  echo=toMessage}
 IGVGenePositions <- read.delim("data/mm10_GenePosForIGV.txt",sep="\t")
 
 genePos <- GRanges(IGVGenePositions$seqnames,
@@ -112,7 +119,7 @@ nonPromoterPeaks <- MYCgrangesChr1[!MYCgrangesChr1 %over% promoterPos]
 
 9. Create a violin plot of sum of bigWig signal within peaks at promoters and those not at promoters using ggplot2.
 
-```{r eskd}
+```{r eskd,  echo=toMessage}
 
 PeakCoveragePromoter <- bigWigPeaks[promoterPeaks]
 PeakMaxs_Promoter <- sum(PeakCoveragePromoter)
@@ -133,7 +140,7 @@ ggplot(toPlot_SumSignal,aes(x=PromoterOrNot,y=Sum,fill=PromoterOrNot))+geom_viol
 
 
 
-```{r eskkd}
+```{r eskkd,  echo=toMessage}
 toExport <- bigWigPeaks
 peakSumMedian <- median(c(sum(PeakCoveragePromoter),sum(PeakCoverageNonPromoter)))
 filteredPeaks <- promoterPeaks[PeakMaxs_Promoter > peakSumMedian*2]
@@ -155,7 +162,7 @@ Import into IGV and find some areas of high conservation (closer to 1).
 
 12. Plot the a scatter of mean conservation scores versus the log10  sum ChIP-seq signal for Myc peaks on chromosome 1 using ggplot2. Scale points in the plot depending on their maximum ChIP-seq signal.
 
-```{r ejsd}
+```{r ejsd,  echo=toMessage}
 
 mySelection <- BigWigSelection(MYCgrangesChr1)
 phastcons <- import.bw("~/Downloads/mm10.60way.phastCons.bw",

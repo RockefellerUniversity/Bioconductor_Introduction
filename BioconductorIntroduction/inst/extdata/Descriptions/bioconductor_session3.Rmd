@@ -1,0 +1,10 @@
+<br>
+
+#### **Genomic Intervals in Bioconductor**
+
+In this session we introduce genomic interval handling and import/export.
+Session sections:
+
+* Introduction to GenomicRanges packages
+* Manipulating genomic intervals
+* Export/Import of BED files

@@ -1,0 +1,10 @@
+<br>
+
+#### **Alignment in Bioconductor**
+
+In this session we introduce alignment in Bioconductor.
+Session sections:
+
+* Genomic and Splice aware alignment
+* QuasR, Rbowtie2 and Rsubread packages
+* Sorting and indexing BAM files

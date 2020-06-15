@@ -1,0 +1,10 @@
+<br>
+
+#### **Summarizing aligned data in Bioconductor**
+
+In this session we introduce summarization of aligned data in Bioconductor.
+Session sections:
+
+* Creating coverage from BAM
+* Counting reads in regions
+* Summarising counts from large BAM files
