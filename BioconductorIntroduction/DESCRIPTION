@@ -1,14 +1,18 @@
 Package: BioconductorIntroduction
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
-Date: 2018-03-17
-Author: Thomas Carroll
-Authors@R: c(person("Tom", "Developer", role = c("aut", "cre"),
-                     email = "thomas.carroll@rockefeller.edu"))
-Maintainer: Thomas Carroll <tcarroll@rockefeller.edu>
-Description: Course for plotting in R
+Title: Introduction to Bioconductor
+Version: 0.1.0
+Author: Thomas Carroll.
+Maintainer: Thomas Carroll <tc.infomatics@gmail>
+Description: More about what it does (maybe more than one line)
 License: What license is it under?
-biocViews: Sequencing, Infrastructure, DataImport
-Imports: BSgenome.Mmusculus.UCSC.mm10, BSgenome.Hsapiens.UCSC.hg19, Biostrings, rtracklayer, GenomicRanges
+LazyData: TRUE
+biocViews: Training
+Depends: methods, rmarkdown, BSgenome.Mmusculus.UCSC.mm10, BSgenome.Hsapiens.UCSC.hg19, Biostrings, rtracklayer, GenomicRanges
+Suggests: knitr,
+    rmarkdown,
+    testthat,
+    yaml
+SystemRequirements: R, RStudio
+VignetteBuilder: knitr
 RoxygenNote: 6.0.1
