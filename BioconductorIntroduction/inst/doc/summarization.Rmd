@@ -1,5 +1,5 @@
 ---
-title: "Summarizing Data"
+title: "Summarizing Data in Bioconductor exercises"
 author: "Rockefeller University, Bioinformatics Resource Centre"
 date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
 output: 
@@ -7,14 +7,14 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
+params:
+  toMessage: false    
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F,eval=T)
+```{r, setup,include=FALSE}
+toMessage <- ifelse(!is.null(params$toMessage),params$toMessage,FALSE)
+message(toMessage)
 ```
-
-<p>&nbsp;</p>
-These exercises cover the Summarizing Data sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
 
 
 ## Summarizing data
@@ -32,7 +32,7 @@ The example data can be found in the data directory
 suppressPackageStartupMessages(library(GenomicAlignments))
 ```
 
-```{r installBSded}
+```{r installBSded,  echo=toMessage}
 library(GenomicAlignments)
 library(Rsamtools)
 sortBam("data/liver.bodyMap.bam","Liver")
@@ -43,7 +43,7 @@ indexBam("Heart.bam")
 
 2. Calculate the coverage from the sorted, indexed BAM files normalised to the total mapped reads per sample.
 
-```{r installBSx2w}
+```{r installBSx2w,  echo=toMessage}
 liverMapped <- idxstatsBam("Liver.bam")
 heartMapped <- idxstatsBam("Heart.bam")
 totalLiver <- sum(liverMapped[,"mapped"])
@@ -57,7 +57,7 @@ heartCoverageNorm <- coverage("Heart.bam",weight = 1/totalHeart)
 
 3. Plot the coverage for Heart and Liver samples over region Chr12 98,986,183-98,998,558 using ggplot2 
 
-```{r installBSaa2w}
+```{r installBSaa2w,  echo=toMessage}
 heartCoverageNorm12 <- heartCoverageNorm[["chr12"]]
 signalDepthHeart <- heartCoverageNorm12[98986183:98998558]
 signalDepthScaled <- data.frame(Sample="Heart",
@@ -80,7 +80,7 @@ ggplot(toPlot,aes(x=Position,y=Signal,colour=Sample))+
 
 4. Using the normalised coverage for heart and liver samples, calculate the sum coverage within TSS (+500bp/-500bp) of the TMPO, SLC25A3 and IKBIP genes. Create a barplot of the sum coverage for each gene using ggplot2.
 
-```{r instalssdflBS2w}
+```{r instalssdflBS2w,  echo=toMessage}
 library(org.Hs.eg.db)
 myIds <- AnnotationDbi::select(org.Hs.eg.db, keys = c("SLC25A3","TMPO","IKBIP"), keytype = "SYMBOL", 
             columns = c("SYMBOL", "GENENAME","ENTREZID"))
@@ -105,7 +105,7 @@ ggplot(toPlot,aes(x=SYMBOL,y=Coverage,fill=Sample))+geom_bar(stat="identity",pos
 
 5. Using the summarizeOverlaps() function, count reads from Heart and liver samples in the TMPO, SLC25A3 and IKBIP genes. Normalise reads to total number of mapped reads in the sample per million mapped reads and plot the mean counts per gene versus the log2 fold difference between heart and liver samples.
 
-```{r instalssdflBSss2w}
+```{r instalssdflBSss2w,  echo=toMessage}
 library(org.Hs.eg.db)
 myIds <- AnnotationDbi::select(org.Hs.eg.db, keys = c("SLC25A3","TMPO","IKBIP"), keytype = "SYMBOL", 
             columns = c("SYMBOL", "GENENAME","ENTREZID"))

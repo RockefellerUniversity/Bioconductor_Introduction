@@ -1,0 +1,10 @@
+<br>
+
+#### **FastQs in Bioconductor**
+
+In this session we introduce FastQ handling and import/export.
+Session sections:
+
+* Importing and exporting FastQ files
+* Quality assessment of FastQ files
+* Trimming and duplicate removal

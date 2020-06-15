@@ -1,5 +1,5 @@
 ---
-title: "Alignment"
+title: "Alignment in Bioconductor exercises"
 author: "Rockefeller University, Bioinformatics Resource Centre"
 date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
 output: 
@@ -7,14 +7,14 @@ output:
     number_sections: false  ## if you want number sections at each table header
     theme: united  # many options for theme, this one is my favorite.
     highlight: tango  # specifies the syntax highlighting style
+params:
+  toMessage: false    
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = F,eval=T)
+```{r, setup,include=FALSE}
+toMessage <- ifelse(!is.null(params$toMessage),params$toMessage,FALSE)
+message(toMessage)
 ```
-
-<p>&nbsp;</p>
-These exercises cover the Alignment sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
 
 
 ## Alignment
@@ -35,14 +35,14 @@ The example data can be found in the data directory
 
 1. Identify the number of reads in heart.bodyMap.fq and  liver.bodyMap.fq files.
 
-```{r installdeBSded,include=FALSE}
+```{r installdeBSded,include=FALSE,  echo=toMessage}
 suppressPackageStartupMessages(library(Rsubread))
 suppressPackageStartupMessages(library(ShortRead))
 suppressPackageStartupMessages(library(Rsamtools))
 suppressPackageStartupMessages(library(ggplot2))
 ```
 
-```{r installBSded}
+```{r installBSded,  echo=toMessage}
 library(Rsubread)
 library(ShortRead)
 library(ggplot2)
@@ -55,7 +55,7 @@ liverQ <- readFastq("data/liver.bodyMap.fq")
 
 2. Create a violin plot of summed read qualities for the two samples in ggplot2
 
-```{r installdesBSded}
+```{r installdesBSded,  echo=toMessage}
 heartQualities <- alphabetScore(quality(heartQ))
 LiverQualities <- alphabetScore(quality(liverQ))
 HFrame <- data.frame(Sample="Heart",Qualities=heartQualities)
@@ -65,7 +65,7 @@ ggplot(toPlot,aes(x=Sample,y=Qualities,fill=Sample))+geom_violin()+theme_minimal
 ```
 
 3. Plot the overall frequency of A, C, G, T and N in the two samples using ggplot2
-```{r installssBSded}
+```{r installssBSded,  echo=toMessage}
 myFreqHeart <- colSums(alphabetFrequency(sread(heartQ)))
 myFreqLiver <- colSums(alphabetFrequency(sread(liverQ)))
 myFreqHeartFilt <- myFreqHeart[c("A","C","G","T","N")]
@@ -79,7 +79,7 @@ ggplot(toPlot,aes(x=Bases,y=Frequency,fill=Bases))+geom_bar(stat="identity")+the
 
 4. Create a FASTA file containing sequence for chromosome 12 from Human Hg38 genome build, with contig sequence named "chr12". Build an index with this FASTA. 
 
-```{r instalsaslBSded,eval=FALSE}
+```{r instalsaslBSded,eval=FALSE,  echo=toMessage}
 library(Rsubread)
 
 library(BSgenome.Hsapiens.UCSC.hg38)
@@ -91,7 +91,7 @@ buildindex("chr12","chr12.fa")
 
 5. Align the two samples to the chromosome 12 FASTA file using Rsubread in a splice aware mode. Sort and index the resulting alignments
 
-```{r instalssxlBSded,eval=FALSE}
+```{r instalssxlBSded,eval=FALSE,  echo=toMessage}
 
 FileName <- c("data/heart.bodyMap.fq","data/liver.bodyMap.fq")
 OutputName <- c("data/heart.bodyMap.bam","data/liver.bodyMap.bam")
@@ -109,7 +109,7 @@ indexBam("Liver.bam")
 
 6. Count the number of unaligned reads in both samples. How many unique read IDs (QNAMEs) are there?
 
-```{r instalslBSzzdxed,eval=FALSE}
+```{r instalslBSzzdxed,eval=FALSE,  echo=toMessage}
 quickBamFlagSummary("Heart.bam")
 quickBamFlagSummary("Liver.bam")
 ```

@@ -1,0 +1,14 @@
+<br>
+
+#### **Aligned data in Bioconductor**
+
+In this session we introduce aligned data in Bioconductor.
+Session sections:
+
+* Import and export of BAM files
+* Reads as GAlignment objects
+* Conversion between GAlignment and GRanges objects
+
+
+
+

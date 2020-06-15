@@ -1,0 +1,10 @@
+<br>
+
+#### **Sequences in Bioconductor**
+
+In this session we introduce genomic sequence handling and import/export.
+Session sections:
+
+* Introduction to BSgenome packages
+* Manipulating sequence data using Biostrings package
+* Export/Import of FASTA files

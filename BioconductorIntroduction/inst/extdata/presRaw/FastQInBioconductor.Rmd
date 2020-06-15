@@ -488,8 +488,8 @@ while (length(fq <- yield(f)) > 0) {
 
 ##Time for an Exercise
 
-[Link_to_exercises](../../exercises/fastq_exercises.html)
+[Link_to_exercises](../../exercises/exercises/fastq_exercises.html)
 
-[Link_to_answers](../../answers/fastq_answers.html)
+[Link_to_answers](../../exercises/answers/fastq_answers.html)
 
 

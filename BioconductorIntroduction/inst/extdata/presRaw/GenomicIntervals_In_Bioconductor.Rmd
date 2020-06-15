@@ -743,8 +743,8 @@ writeXStringSet(sicerSeq,"sicerSeq.fa")
 ---
 # Time for an exercise.
 
-[Link_to_exercises](../../exercises/GI_exercises.html)
+[Link_to_exercises](../../exercises/exercises/GI_exercises.html)
 
-[Link_to_answers](../../answers/GI_answers.html)
+[Link_to_answers](../../exercises/answers/GI_answers.html)
 
 

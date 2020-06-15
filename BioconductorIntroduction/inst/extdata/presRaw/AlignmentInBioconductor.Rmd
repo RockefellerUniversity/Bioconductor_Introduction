@@ -595,8 +595,8 @@ qAlign("sampleTable.txt","chr7.fa", aligner="Rhisat2")
 
 ## Time for an exercise.
 
-[Link_to_exercises](../../exercises/alignment_exercises.html)
+[Link_to_exercises](../../exercises/exercises/alignment_exercises.html)
 
-[Link_to_answers](../../answers/alignment_answers.html)
+[Link_to_answers](../../exercises/answers/alignment_answers.html)
 
 
