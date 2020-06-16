@@ -22,6 +22,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 AsSlides <- TRUE
+
 ```
 
 ```{r setup2, include=FALSE,eval=FALSE,echo=FALSE}
@@ -356,7 +357,8 @@ sort(readOccurence,decreasing = TRUE)[1:2]
 
 ```{r setup23sswedccrssrdjjd44,eval=TRUE,echo=FALSE}
 readOccurence <- table(sequenceOfReads)
-data.frame(Occurrence=sort(readOccurence,decreasing = TRUE)[1:2])
+as.data.frame(sort(readOccurence,decreasing = TRUE)[1:2])
+print("test")
 ```
 
 ---
