@@ -323,7 +323,7 @@ We can use [RleLists to summarize scores over regions by subsetting with GRanges
 Here we get the mean signal (read depth per base pair) over exons for slc25A3 gene, **Entrez ID 5250**.
 
 ```{r a91,echo=FALSE}
-suppressPackageStartupMessages(library(TxDb.Hsapiens.UCSC.hg19.knownGene))
+suppressPackageStartupMessages(library(TxDb.Hsapiens.UCSC.hg38.knownGene))
 ```
 
 ```{r a9}
