@@ -307,7 +307,7 @@ chr1_rle[1:10]
 
 We can also replace values in a **Rle**, just as we would with a vector.
 
-Here i replace values for all basepairs between 1 and 10 to 100
+Here I replace values for all basepairs between 1 and 10 to 100
 
 ```{r l,eval=TRUE}
 chr1_rle[1:10] <- 100
@@ -347,7 +347,7 @@ These include
 
 
 ---
-# Operations on RLE. (Arithmetric and Mathematical)
+# Operations on RLE
 
 We can use many simple arithmetric operations such as **+**, **-**, **/** and *****
 
@@ -356,7 +356,7 @@ chr1_rle+1000
 (chr1_rle+1000)*10
 ```
 ---
-# Operations on RLE. (Arithmetric and Mathematical)
+# Operations on RLE
 
 Logical operations can be used with **Rle** objects just as with vectors.
 

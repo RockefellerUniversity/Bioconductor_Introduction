@@ -211,7 +211,7 @@ start(myGenomicIntervals) <- c(10,50,150)
 ```
 
 ---
-# Retrieving chromosome/contig information
+# Retrieving chromosome/contig info
 
 We can retrieve the chromosome names from GenomicRanges in a similar manner to **start()** and **end()** functions using the **seqnames()** function.
 
