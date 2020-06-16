@@ -354,7 +354,7 @@ readOccurence <- table(sequenceOfReads)
 sort(readOccurence,decreasing = TRUE)[1:2]
 ```
 
-```{r setup23sswedccrssrdjjd4,eval=TRUE,echo=FALSE}
+```{r setup23sswedccrssrdjjd44,eval=TRUE,echo=FALSE}
 readOccurence <- table(sequenceOfReads)
 data.frame(Occurrence=sort(readOccurence,decreasing = TRUE)[1:2])
 ```
