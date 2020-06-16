@@ -356,9 +356,10 @@ sort(readOccurence,decreasing = TRUE)[1:2]
 ```
 
 ```{r setup23sswedccrssrdjjd44,eval=TRUE,echo=FALSE}
-readOccurence <- table(sequenceOfReads)
+readOccurence <- BiocGenerics::table(sequenceOfReads)
+```
+```{r setup23sswedccrssrdjjd44_2,eval=TRUE,echo=FALSE}
 as.data.frame(sort(readOccurence,decreasing = TRUE)[1:2])
-print("test")
 ```
 
 ---
@@ -478,14 +479,15 @@ We can stream over entire files using a loop, here in chunks of 25000
 
 
 ```{r setup2kk37}
-f <- FastqStreamer("data/sampled_ENCFF000CXH.fastq.gz",
+fq <- FastqStreamer("data/sampled_ENCFF000CXH.fastq.gz",
                    n=25000)
-while (length(fq <- yield(f)) > 0) {
-    print(length(fq))
+while (length(fq_stream <- yield(fq)) > 0) {
+    print(length(fq_stream ))
 }
 ```
-
-
+```{r closeconn, echo=F}
+close(fq)
+```
 ---
 
 ##Time for an Exercise
