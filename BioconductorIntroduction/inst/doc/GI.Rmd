@@ -111,7 +111,7 @@ Download the signal p-value bigwig from the encode portal for replicate 1 from e
 
 ```
 
-![](../../presentations/slides/imgs/IGV.png)
+![](imgs/IGV.png)
 10. Import the **data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed** BED file to a GRanges. The 5th column in file represents summit height.
 
 ```{r installBsaaaaassS2,  echo=toMessage}

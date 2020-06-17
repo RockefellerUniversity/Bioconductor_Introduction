@@ -104,7 +104,7 @@ selectedPromoters <- myPromoters[as.vector(myPromoters$gene_id) %in% genesToSele
 reducedselectedPromoters <- reduce(selectedPromoters)
 export.bed(reducedselectedPromoters,con="DE_Promoters.bed")
 ```
-![](../../presentations/slides/imgs/igvRes.png)
+![](imgs/igvRes.png)
 
 
 
