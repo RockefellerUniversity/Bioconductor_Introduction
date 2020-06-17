@@ -25,7 +25,7 @@ For these exercises we will be using some of the example data available from the
 
 We have already reviewed this data when looking at IGV in an earlier session.
 
-![](.../extdata/presRaw/imgs/IGV_SplicingExample.png)
+![](../../presentations/slides/imgs/IGV_SplicingExample.png)
 
 The example data can be found in the data directory 
 
@@ -86,7 +86,7 @@ export(myReads[width(myReads) > 40000],"longAlignments.bam")
 
 ```
 
-![](../extdata/presRaw/imgs/longSplice.png)
+![](../../presentations/slides/imgs/longSplice.png)
 
 5. Import the read IDs, sequence and qualities from the Heart BAM file
 
