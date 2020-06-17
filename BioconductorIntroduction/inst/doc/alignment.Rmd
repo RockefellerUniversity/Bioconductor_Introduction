@@ -25,7 +25,7 @@ For these exercises we will be using some of the example data available from the
 
 We have already reviewed this data when looking at IGV in an earlier session.
 
-![](IGV_SplicingExample.png)
+![](imgs/IGV_SplicingExample.png)
 
 The example data can be found in the data directory 
 
@@ -118,4 +118,4 @@ quickBamFlagSummary("Liver.bam")
 
 [HINT: Check Gene SLC25A3]
 
-![](spliceHeartLiver.png)
+![](imgs/spliceHeartLiver.png)
