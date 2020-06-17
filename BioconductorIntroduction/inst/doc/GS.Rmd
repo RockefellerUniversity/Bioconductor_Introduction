@@ -31,7 +31,7 @@ suppressPackageStartupMessages(library(GenomicRanges))
 
 
 2. Read in the bigWig signal for the region (chr1:133040000-133149400) as an RleList.
-![](../../presentations/slides/imgs/data.png)
+![](../extdata/presRaw/imgs/data.png)
 
 ```{r e2,  echo=toMessage}
 library(rtracklayer)
@@ -72,7 +72,7 @@ newBigWigRegion <- log2(newBigWigRegion)
 export.bw(newBigWigRegion,"log2.bw")
 ```
 
-![](../../presentations/slides/imgs/log2.png)
+![](../extdata/presRaw/imgs/log2.png)
 
 6. Read in the file **data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls** and create a GRanges object of all peaks on chromosome 1.
 
