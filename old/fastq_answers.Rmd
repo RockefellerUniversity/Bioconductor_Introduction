@@ -1,0 +1,132 @@
+---
+title: "FastQ exercises"
+author: "Rockefeller University, Bioinformatics Resource Centre"
+date: "https://rockefelleruniversity.github.io/Bioconductor_Introduction/"
+output: 
+  html_document:
+    number_sections: false  ## if you want number sections at each table header
+    theme: united  # many options for theme, this one is my favorite.
+    highlight: tango  # specifies the syntax highlighting style
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,eval=T)
+```
+
+<p>&nbsp;</p>
+These are answers for exercises that cover the FastQ sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
+
+
+## Installing Bioconductor packages
+
+In these exercises we will review some of the **ShortRead** packages functionality with handling fastQ files.
+
+The example data can be found in the data directory 
+
+**data/sampled_ENCFF000CXH.fastq.gz**
+
+We will also use the full FastQ file from this dataset which you can download from [here.](https://www.encodeproject.org/files/ENCFF000CXH/@@download/ENCFF000CXH.fastq.gz).
+
+1. Align the data from heart.bodyMap.fq with QuasR.
+
+```{r installdeBSded,include=FALSE}
+suppressPackageStartupMessages(library(QuasR))
+```
+
+```{r installBSded}
+library(QuasR)
+
+library(BSgenome.Hsapiens.UCSC.hg38)
+chr12hg38 <- BSgenome.Hsapiens.UCSC.hg38[["chr12"]]
+chr12hg38Set <- DNAStringSet(list(chr12=chr12hg38))
+writeXStringSet(chr12hg38Set,file="chr12.fa")
+FileName <- c("data/heart.bodyMap.fq","data/liver.bodyMap.fq")
+SampleName <- c("Heart","Liver")
+toSampleTable <- data.frame(FileName,SampleName)
+write.table(toSampleTable,file="SampleTable.txt",sep="\t",row.names = FALSE,quote = FALSE)
+fastqFile <- qAlign("SampleTable.txt","chr12.fa")
+
+library(Rsamtools)
+
+sortBam("data/liver.bodyMap.bam", "data/sorted_liver.bodyMap.bam")
+```
+
+2. Plot the occurrence of A, G, T, C and N in the read with ID **"HWI-BRUNOP16X_0001:7:66:3246:157000#0/1"** using ggplot2
+
+```{r installBS2w}
+library(ShortRead)
+my_fastq <- readFastq(FileName[1])
+fastqRead <- my_fastq[as.character(id(my_fastq)) == "HWI-BRUNOP16X_0001:7:66:3246:157000#0/1"]
+fastqReadSeq <- sread(fastqRead)
+alpFreq <- alphabetFrequency(fastqReadSeq)
+alpFreq5 <- alpFreq[,c("A","C","G","T","N")]
+toPlot <- data.frame(bases=names(alpFreq5),Freq=alpFreq5)
+library(ggplot2)
+ggplot(toPlot,aes(x=bases,y=Freq,fill=bases))+geom_bar(stat="identity") + theme_bw()
+```
+
+3. Create a boxplot of quality scores over cycles for reads using base graphics.
+
+```{r installBSww2}
+allQuals <- quality(my_fastq)
+forBox <- as(allQuals,"matrix")
+colnames(forBox) <- paste0("Cycle",1:ncol(forBox))
+boxplot(forBox)
+```
+
+4. Plot the frequency of A, G, C, T and N bases over cycles using ggplot2/
+
+```{r installBS2de}
+alpByCyle <- alphabetByCycle(sread(my_fastq))
+alpByCyleFilt <-  alpByCyle[c("A","G","C","T","N"),]
+AbyCycFrame <- data.frame(Base="A",Freq=alpByCyleFilt["A",],Cycle=1:75)
+CbyCycFrame <- data.frame(Base="C",Freq=alpByCyleFilt["C",],Cycle=1:75)
+TbyCycFrame <- data.frame(Base="T",Freq=alpByCyleFilt["T",],Cycle=1:75)
+GbyCycFrame <- data.frame(Base="G",Freq=alpByCyleFilt["G",],Cycle=1:75)
+NbyCycFrame <- data.frame(Base="N",Freq=alpByCyleFilt["N",],Cycle=1:75)
+myFrame <- rbind(AbyCycFrame,CbyCycFrame,TbyCycFrame,GbyCycFrame,NbyCycFrame)
+ggplot(myFrame,aes(x=Cycle,y=Freq,colour=Base))+geom_line()+theme_bw()
+
+```
+
+5. Read in a random 10000 bases from the downloaded **ENCFF000CXH.fastq.gz** file
+
+```{r installBS2ecdde,cache=TRUE}
+mySampledFile <- FastqSampler("data/sampled_ENCFF000CXH.fastq.gz",n=10000)
+myFastQ <- yield(mySampledFile)
+```
+
+6. Count the number of duplicate sequences and filter file to only the non-duplicated sequences
+
+
+```{r instjnknallBS2drre,dependson="installBS2ecdde"}
+dupLogical <- srduplicated(myFastQ)
+numberOfDups <- table(dupLogical)
+nonDups <- myFastQ[dupLogical]
+```
+
+7. Trim the resulting non-duplicated reads to remove reads when a succession of 10 bases fall below quality of 5. 
+
+```{r instaljnkklBS2drre,dependson="instjnknallBS2drre"}
+trimmedNonDups <- trimTails(nonDups,10,"5")
+```
+
+8. Plot a histogram of the resulting read lengths using base graphics
+
+```{r installBSi2drre,dependson="instaljnkklBS2drre"}
+hist(width(trimmedNonDups),xlab="Trimmed Length",main="Histogram of trimmed lengths")
+```
+
+9.Filter out reads less than 32 bases and write to file
+```{r installswswBS2kjdrre,dependson="installBSi2drre"}
+
+unlink("filteredFastq.fq.gz")
+```
+
+```{r installBS2kjdrre,dependson="installswswBS2kjdrre"}
+filteredFastq <- trimmedNonDups[width(trimmedNonDups) >= 32]
+writeFastq(filteredFastq,file="filteredFastq.fq.gz")
+```
+
+
+

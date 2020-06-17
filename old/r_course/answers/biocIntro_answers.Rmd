@@ -1,0 +1,34 @@
+---
+title: "Introduction to Bioconductor exercises"
+author: "Tom Carroll"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,eval=T)
+```
+
+
+## Installing Bioconductor packages
+
+These exercises will run us through the installation of some key packages.
+
+1. Install the Biostrings package
+
+```{r installBS, eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("Biostrings")
+```
+
+2. Check your Bioconductor version (should be 3.6)
+
+```{r installBS2, eval=FALSE}
+biocVersion()
+```
+
+3. Install the BSgenome annotation package for mouse UCSC mm10 and human UCSC hg19.
+
+```{r installBS23, eval=FALSE}
+biocLite("BSgenome.Hsapiens.UCSC.hg19")
+biocLite("BSgenome.Mmusculus.UCSC.mm10")
+```

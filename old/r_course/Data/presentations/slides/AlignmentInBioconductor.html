@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Alignment In Bioconductor</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Alignment In Bioconductor
+### Rockefeller University, Bioinformatics Resource Centre
+### <a href="http://rockefelleruniversity.github.io/SequencesInBioconductor/" class="uri">http://rockefelleruniversity.github.io/SequencesInBioconductor/</a>
+
+---
+
+
+
+
+
+
+# FastQ Sequences
+
+Sequences returned from the Illumina sequences machines are often stored in FASTQ format.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/fastq.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+
+# Aligned Sequences
+
+Aligned sequence reads are stored in BAM format.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/sam.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+---
+
+# From unaligned sequence reads to aligned data,
+
+To convert our unaligned sequence reads to aligned sequence reads we will need to use an **aligner** sotware to assign reads onto **a reference genome**.
+
+We have already reviewed the FASTA format which is used to store reference genome
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/fasta.png" alt="igv" height="300" width="400"&gt;
+&lt;/div&gt;
+
+---
+
+# From unaligned sequence reads to aligned data,
+
+We have also reviewed reference genomes in Bioconductor stored in the BSgenome packages.
+
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bsgenome.png" alt="igv" height="400" width="400"&gt;
+&lt;/div&gt;
+
+---
+
+# Alignment software
+
+In previous sessions we have seen how to handle unaligned sequence data as well as where and how to retrieve genome reference data. 
+
+We now need a suitable **aligner** software to place unaligned reads onto our reference genome.
+
+Aligner softwares can be broadly placed into two categories.
+
+* Genomic aligner (WGS, ChIP-seq, ATAC-seq etc).
+* Splice Aware aligner (RNA-seq, Ribo-seq)
+
+Popular genomic aligners include **Bowtie**, **bwa**, **subread**,**GMAP**.
+
+Popular splice aware aligners include **Tophat**, **SpliceMap**, **subjunc**, **GSNAP**, **STAR**.
+
+---
+
+# Splice alignment
+
+A splice aware aligner is important for analysis of RNAseq where mRNA's introns are spliced to stitch exons into continuous sequence.
+
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/splice.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+
+# Alignment software in R
+
+A few of the popular aligners are wrapped up in R/Bioconductor packages allowing us to use our **aligner** software from R as well as make use of some of the R/Bioconductor objects we are growing to love.
+
+* Bowtie - **rbowtie**, **rbowtie2**, **QuasR**
+* GSNAP/GMAP - **gmapR**
+* SpliceMap - **QuasR**
+* subread/subjunc - **rsubread**
+
+---
+
+# Alignment software in R
+
+The **rsubread** and **gampR** packages offer convenient access to subread/subjunc and gmap/gsnap on Mac and Linux but sadly are not implemented on Windows.
+
+The **QuasR** package offers an interface to Bowtie and SpliceMap on Windows, Mac and Linux and so provides access to a genomic and splice aware aligner on all systems.
+
+In this session we will focus on the **QuasR** package.
+
+---
+
+# Data
+
+In this session we will be making use of some public datasets from the Encode consortium.
+
+We will be using raw sequence reads in fastQ format which have been generated from an RNAseq experiment.
+
+This RNAseq data has been generated from the human cell line **GM12878** and the link to experiment can be found [here](https://www.encodeproject.org/experiments/ENCSR297UBP/) or a direct link to FastQ for replicate 2 we are using can be found [here.](https://www.encodeproject.org/files/ENCFF000CXH/@@download/ENCFF000CXH.fastq.gz)
+
+---
+
+# Data
+
+
+To speed up the processing for this practical I have retrieved aligned data from Encode for the sample **ENCSR297UBP** and extracted reads mapping to ActB gene on hg20 human genome build. I have further downsampled these reads to only 10000 reads out of the 200000 mapping to this gene.
+
+This sampled data can be found in **Data/sampledActin.fq.gz**
+
+---
+# QuasR packages.
+
+To make use of a bowtie and SpliceMap aligners we must first install and load the QuasR library.
+
+
+```r
+source("https://bioconductor.org/biocLite.R")
+biocLite("QuasR")
+library(QuasR)
+```
+
+
+
+---
+# BSGenome packages.
+
+We will also require some reference data so lets install the BSgenome package for hg38
+
+
+```r
+source("https://bioconductor.org/biocLite.R")
+biocLite("BSgenome.Hsapiens.UCSC.hg38")
+library(BSgenome.Hsapiens.UCSC.hg38)
+```
+
+
+
+---
+# QuasR genomic alignment.
+
+The main function for alignment in the QuasR package is the **qAlign()** function.
+
+The **qAlign()** function requires just two arguments.
+
+* A Samples file - Tab-delimited file containing fastq location and sample names.
+* Reference genome - Character string of **BSgenome** object or FASTA file location.  
+
+---
+# QuasR genomic alignment - Sample table
+
+The sample table requires is a tab-delimited file listing the path to fastq(s) to be aligned and the desired sample names.
+
+
+```r
+FileName &lt;- "../../Data/sampledActin.fq.gz"
+SampleName &lt;- "sampledActin"
+sampleTable &lt;- data.frame(FileName,SampleName)
+write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
+```
+
+
+```
+##                        FileName   SampleName
+## 1 ../../Data/sampledActin.fq.gz sampledActin
+```
+
+---
+# QuasR genomic with BSGenome object
+
+The simplest way to specify a reference genome for alignment in **qAlign()** is to use a BSgenome object.
+
+Here we can simply specify the name of BSgenome object we wish to use for alignment. Here we specify the BSgenome object for hg38 **BSgenome.Hsapiens.UCSC.hg38**.
+
+
+```r
+library(QuasR)
+qAlign("sampleTable.txt","BSgenome.Hsapiens.UCSC.hg38")
+```
+
+---
+# QuasR genomic with FASTA file
+
+Internally, QuasR will create a FASTA file from our BSgenome object prior to alignment.
+
+We can also provide a FASTA file directly to the **qAlign()** function. 
+
+First lets extract a FASTA file from out BSgenome object. Here we will create a FASTA file for just Chr7 (the location of ActB)
+
+
+```r
+library(BSgenome.Hsapiens.UCSC.hg38)
+chr7hg38 &lt;- BSgenome.Hsapiens.UCSC.hg38[["chr7"]]
+chr7hg38Set &lt;- DNAStringSet(list(chr7=chr7hg38))
+writeXStringSet(chr7hg38Set,file="chr7.fa")
+```
+
+---
+# QuasR genomic with FASTA file
+
+Now we can align to our Chr7 FASTA file using **qAlign()**.
+
+
+```r
+qAlign("sampleTable.txt","chr7.fa")
+```
+
+---
+# Aligned data in BAM 
+
+The **qAlign()** function will allow us to retrieve the aligned data as **BAM**.
+
+Our generated **BAM** file will be in same directory as our fastq file. By default QuasR will add a random string to ensure we do not write over previous files.
+
+**Data/sampledActin_29a3a870bf.bam**
+
+---
+# Aligned data in BAM 
+
+Now we have our aligned data as BAM formats we must perform two final operations on our BAM to make it ready for use in external programs.
+
+These are -
+
+* Sorting (here by coordinate)
+* Indexing
+
+---
+# Rsamtools
+
+The **samtools** software provide command line tools to handle SAM and BAM files such as indexing and sorting.
+
+The **Rsamtools** package allows us to make us of the samtools functions within R.
+
+First we can install and load the library.
+
+
+```r
+source("https://bioconductor.org/biocLite.R")
+biocLite("Rsamtools")
+library(Rsamtools)
+```
+
+
+
+---
+# Rsamtools sorting
+
+We can use the **Rsamtools** function **sortBam()** to sort our BAM file. 
+
+The  **sortBam()** function take as arguments the path to BAM file to sort and the **prefix** of sorted BAM output.
+
+Note the **prefix** should not contain the *.bam* extension.
+
+
+```r
+sortBam("../../Data/sampledActin_29a3a870bf.bam","SortedActB")
+```
+
+```
+## [1] "SortedActB.bam"
+```
+
+---
+# Rsamtools sorting
+
+After sorting, we can now index our sorted BAM file using the **indexBAM()** function.
+
+
+```r
+indexBam("SortedActB.bam")
+```
+
+```
+##       SortedActB.bam 
+## "SortedActB.bam.bai"
+```
+
+---
+# Rsamtools BAM overview
+
+We can get an overview of BAM file information using the **quickBamFlagSummary()** function.
+
+
+```r
+quickBamFlagSummary("SortedActB.bam")
+##                                 group |    nb of |    nb of | mean / max
+##                                    of |  records |   unique | records per
+##                               records | in group |   QNAMEs | unique QNAME
+## All records........................ A |    10000 |    10000 |    1 / 1
+##   o template has single segment.... S |    10000 |    10000 |    1 / 1
+##   o template has multiple segments. M |        0 |        0 |   NA / NA
+##       - first segment.............. F |        0 |        0 |   NA / NA
+##       - last segment............... L |        0 |        0 |   NA / NA
+##       - other segment.............. O |        0 |        0 |   NA / NA
+## 
+## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
+## Indentation reflects this.
+## 
+## Details for group S:
+##   o record is mapped.............. S1 |     8240 |     8240 |    1 / 1
+##       - primary alignment......... S2 |     8240 |     8240 |    1 / 1
+##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ S4 |     1760 |     1760 |    1 / 1
+```
+
+---
+# Review in IGV
+
+We can now review our BAM file in IGV.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/alnActB.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+---
+# Review in IGV
+
+But if we look for splice junctions we see we are missing some information.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/alnActBnojunc.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+# QuasR splice aware with FASTA file
+
+We are missing reads which would align across splice junctions. To use the **qAlign()** function to align spliced reads we must simply specify the parameter **splicedAlignment** to be **TRUE**.
+
+
+```r
+qAlign("sampleTable.txt","chr7.fa",splicedAlignment = TRUE)
+```
+
+---
+# Sort and index our file
+
+We can now sort and index our splice aware alignment as before.
+
+
+```r
+sortBam("../../Data/sampledActin_29a42342e34.bam","SortedActBSpliced")
+```
+
+```
+## [1] "SortedActBSpliced.bam"
+```
+
+```r
+indexBam("SortedActBSpliced.bam")
+```
+
+```
+##       SortedActBSpliced.bam 
+## "SortedActBSpliced.bam.bai"
+```
+
+---
+# Rsamtools BAM overview
+
+We can get an overview of BAM file information using the **quickBamFlagSummary()** function.
+
+
+```r
+quickBamFlagSummary("SortedActBSpliced.bam")
+##                                 group |    nb of |    nb of | mean / max
+##                                    of |  records |   unique | records per
+##                               records | in group |   QNAMEs | unique QNAME
+## All records........................ A |    10000 |    10000 |    1 / 1
+##   o template has single segment.... S |    10000 |    10000 |    1 / 1
+##   o template has multiple segments. M |        0 |        0 |   NA / NA
+##       - first segment.............. F |        0 |        0 |   NA / NA
+##       - last segment............... L |        0 |        0 |   NA / NA
+##       - other segment.............. O |        0 |        0 |   NA / NA
+## 
+## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
+## Indentation reflects this.
+## 
+## Details for group S:
+##   o record is mapped.............. S1 |     9037 |     9037 |    1 / 1
+##       - primary alignment......... S2 |     9037 |     9037 |    1 / 1
+##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ S4 |      963 |      963 |    1 / 1
+```
+
+---
+# Review in IGV
+
+We can now review our splice aware BAM file in IGV.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/alnActjunc.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+# Review in IGV
+
+Now if we compare to the original alignment from Encode we can identify where some of our unaligned reads may have gone.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/originalVsNew.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+---
+# Review in IGV
+
+STAR aligner has allowed for very long splicing, here over the neighbouring gene to an unrelated region.
+
+The default parameters for alignment within **QuasR** are carefully selected for alignment with ChIP-seq, ATAC-seq, WGS and splice aware alignment in RNA-seq. We will review this performance over the coming sessions.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/starCrazy.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+# The Rsubread package
+
+The Rsubread package offers a fast aligner for both genomic and splice aware alignment.
+
+The Rsubread package is only available on Mac and Linux systems.
+
+
+```r
+library(Rsubread)
+```
+
+---
+# The Rsubread package
+
+The Rsubread package requires we first build an index of our reference genome for use during alignment.
+
+Here we use the **buildindex()** function, specifying the name of index to be built and the FASTA file to build the index from.  
+
+
+```r
+buildindex("chr7","chr7.fa")
+```
+
+
+---
+# The Rsubread package
+
+We can now use the **subjunc()** function to align reads in a splice aware manner.
+
+We must specify out index name, fastq file, desired output format and name of BAM file to be created.
+
+
+
+```r
+subjunc("chr7","../../Data/sampledActin.fq.gz",
+        output_format = "BAM",
+        output_file = "../../Data/RsubreadsampledActin.bam")
+```
+
+---
+# The Rsubread package
+
+Again we must sort and index our file.
+
+
+
+```r
+sortBam("../../Data/RsubreadsampledActin.bam",
+        "Sorted_RsubreadsampledActin")
+indexBam("Sorted_RsubreadsampledActin.bam")
+```
+
+---
+# The Rsubread package
+
+Finally we can assess mapping rate.
+
+
+```r
+quickBamFlagSummary("Sorted_RsubreadsampledActin.bam")
+```
+
+```
+##                                 group |    nb of |    nb of | mean / max
+##                                    of |  records |   unique | records per
+##                               records | in group |   QNAMEs | unique QNAME
+## All records........................ A |    10000 |    10000 |    1 / 1
+##   o template has single segment.... S |    10000 |    10000 |    1 / 1
+##   o template has multiple segments. M |        0 |        0 |   NA / NA
+##       - first segment.............. F |        0 |        0 |   NA / NA
+##       - last segment............... L |        0 |        0 |   NA / NA
+##       - other segment.............. O |        0 |        0 |   NA / NA
+## 
+## Note that (S, M) is a partitioning of A, and (F, L, O) is a partitioning of M.
+## Indentation reflects this.
+## 
+## Details for group S:
+##   o record is mapped.............. S1 |     9720 |     9720 |    1 / 1
+##       - primary alignment......... S2 |     9720 |     9720 |    1 / 1
+##       - secondary alignment....... S3 |        0 |        0 |   NA / NA
+##   o record is unmapped............ S4 |      280 |      280 |    1 / 1
+```
+
+
+
+---
+
+# Time for an exercise.
+
+[Link_to_exercises](../../exercises/alignment_exercises.html)
+
+[Link_to_answers](../../answers/alignment_answers.html)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

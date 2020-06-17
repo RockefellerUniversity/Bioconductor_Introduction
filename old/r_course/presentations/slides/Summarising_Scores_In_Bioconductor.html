@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Summarizing Scores In Bioconductor</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
+    <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Summarizing Scores In Bioconductor
+### Rockefeller University, Bioinformatics Resource Centre
+### <a href="http://rockefelleruniversity.github.io/Bioconductor_Introduction/" class="uri">http://rockefelleruniversity.github.io/Bioconductor_Introduction/</a>
+
+---
+
+
+
+
+
+
+---
+class: inverse, center, middle
+
+# Summarizing Scores
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=720px&gt;&lt;/html&gt; 
+
+---
+
+
+# Raw Sequence data
+
+Sequencing data from Illumina sequences machines are often stored in FASTQ format.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/fastq.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+# Aligned sequence data
+
+Sequence reads aligned to a genome are most often stored in BAM format.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/sam.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+# Summarizing Alignments
+
+A common analysis step in the interpretation of high-throughput sequencing experiments is to quantify the abundance of sequence in/over genomic regions.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/sum.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+---
+# Summarizing for RNAseq
+
+* **In RNAseq** experiments we assess the abundance of transcripts/genes under differing conditions by assessing the number of reads aligning with the transcript's/gene's exons.
+
+![](imgs/RNAseq.png)
+---
+# Summarizing for ChIPseq
+
+* **In ChIPseq** experiments we compare the number of DNA fragments mapping to a genomic locus after an IP for a specific protein or DNA/histone state versus the number of DNA fragments mapping from a background control/input sample.
+
+![](imgs/chipseq.png)
+---
+# Summarizing Genomic Alignments
+We can provide a summarization of aligned data per base pair using **wig, bedgraph and bigWig** files.
+
+![](imgs/scoreBP.png)
+
+
+---
+# Summarizing alignments in/over regions
+
+We will often summarize our aligned data in BAM format over genomic regions of interest.
+
+![](imgs/countss.png)
+
+# Summarizing alignments in/over regions
+
+The genomic regions may be:
+
+* Simple genomic regions such as peaks or TSS regions are often stored as **BED** files. In Bioconductor these are represented as **GRanges** objects.
+
+* More complex, multi-part regions such as gene models are often stored as **GTF** or **GFF** files. In Bioconductor, gene models are handled as **TxDb** objects.
+
+---
+# Summarizing with Bioconductor
+
+We will use two main functions to allows us to summarize our aligned data over the genome and within regions.
+
+These are the **coverage()** and **summarizeOverlaps()** functions from **GenomicsAlignments** package.
+
+* **coverage()** - To create per base pair signal/alignments scores across genome i.e. bigWigs.
+* **summarizeOverlaps()** - To create counts of signal/alignments within genomic regions.
+
+---
+# The Data
+
+In this session we will work with aligned data as BAM files. 
+
+I have provided BAM files we saw in our last session as our test data from today.
+
+This can be found in **data/liver.bodyMap.bam** and **data/heart.bodyMap.bam**.
+
+* **data/liver.bodyMap.bam**
+* **data/heart.bodyMap.bam**
+
+---
+
+# GenomicAlignments packages
+
+To make use of a GenomicsAlignments package we must first load the library.
+
+
+```r
+library(GenomicAlignments)
+```
+
+
+
+---
+# Coverage
+
+The **coverage()** function can accept a Bam file path and will return an [Rlelist](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#rle_in_genomics) of the number of reads at every base pair.
+
+We should always work with sorted and indexed BAM files so we will perform these steps first.
+
+
+
+```r
+sortedHeart &lt;- sortBam("data/heart.bodyMap.bam","Heart")
+indexBam(sortedHeart)
+```
+
+```
+##       Heart.bam 
+## "Heart.bam.bai"
+```
+
+
+---
+# Coverage
+
+Now we simply use the **coverage()** function with the path to our sorted file.
+
+
+```r
+heartCoverage &lt;- coverage("Heart.bam")
+class(heartCoverage)
+```
+
+```
+## [1] "SimpleRleList"
+## attr(,"package")
+## [1] "IRanges"
+```
+
+---
+# Coverage as RLElist
+
+As we have seen,  [Rlelist](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#rle_in_genomics) objects contain compressed vectors carrying the scores, here number of alignments, for every base pair in the genome.
+
+Here we see scores only on chromosome 12 around the gene we have been reviewing, SLC25A3.
+
+
+```r
+heartCoverage
+```
+
+```
+## RleList of length 1
+## $chr12
+## integer-Rle of length 133275309 with 4553 runs
+##   Lengths:    33666       50  3194555       35 ...  7200240       38  2762799
+##   Values :        0        2        0        3 ...        0        1        0
+```
+
+---
+# Coverage as RLElist
+
+We have seen we can [index, subset, manipulate and plot our RleList and Rle vector](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#indexing_an_rle) in a similar manner to standard lists and vectors. 
+
+
+
+```r
+chr12Cov &lt;- heartCoverage[["chr12"]]
+signalDepth &lt;- chr12Cov[98591400:98608400]
+signalDepthScaled &lt;- data.frame(Position=98591400:98608400,
+                                Signal=signalDepth*1000)
+library(ggplot2)
+ggplot(signalDepthScaled,aes(x=Position,y=Signal))+
+  geom_line()+theme_minimal()
+```
+
+![](Summarising_Scores_In_Bioconductor_files/figure-html/a3-1.png)&lt;!-- --&gt;
+
+---
+# Coverage function
+
+The **coverage()** function will also accept 
+**GAlignments** objects.
+
+
+```r
+heartAln &lt;- readGAlignments("Heart.bam")
+heartCov1 &lt;- coverage(heartAln)
+```
+
+![](Summarising_Scores_In_Bioconductor_files/figure-html/frfga3-1.png)&lt;!-- --&gt;
+
+---
+# Coverage function
+
+As well as **GRanges** and **GRangesList** objects too.
+
+For RNAseq we should generate coverage from a [**GRangesList** object to account for reads spannning exons](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/AlignedDataInBioconductor.html#36).
+
+
+```r
+heartGR &lt;- granges(heartAln)
+heartCov2 &lt;- coverage(heartGR)
+heartGRL &lt;- grglist(heartAln)
+heartCov3 &lt;- coverage(heartGRL)
+```
+
+![](Summarising_Scores_In_Bioconductor_files/figure-html/frfa3-1.png)&lt;!-- --&gt;
+
+
+---
+# Coverage function
+
+This means we can perform some operations on our sequence reads in R prior to creating our bigWig.
+
+Here we simply select only reads aligning to the positive strand prior to creating our signal scores..
+
+
+```r
+heartAlnPos &lt;- heartAln[strand(heartAln) == "+"]
+heartAlnPos &lt;- coverage(heartAlnPos)
+heartAlnPos["chr12"]
+export.bw(heartAlnPos,con="heartPos.bw")
+```
+
+
+```
+## RleList of length 1
+## $chr12
+## integer-Rle of length 133275309 with 3135 runs
+##   Lengths:    33666       50  3194555       35 ...  1530798       40  9963077
+##   Values :        0        2        0        3 ...        0        1        0
+```
+
+
+---
+# Coverage function
+
+The coverage function allows for the specification of a additional parameter, **weight**.
+
+The **weight** parameter applies a scaling factor to the calculated scores and so can be useful to normalize your signal e.g. to total mapped reads.
+
+
+```r
+heartCoverageX10 &lt;- coverage("Heart.bam",
+                          weight = 10)
+heartCoverageX10["chr12"]
+## RleList of length 1
+## $chr12
+## numeric-Rle of length 133275309 with 4553 runs
+##   Lengths:    33666       50  3194555       35 ...  7200240       38  2762799
+##   Values :        0       20        0       30 ...        0       10        0
+heartCoverage["chr12"]
+## RleList of length 1
+## $chr12
+## integer-Rle of length 133275309 with 4553 runs
+##   Lengths:    33666       50  3194555       35 ...  7200240       38  2762799
+##   Values :        0        2        0        3 ...        0        1        0
+```
+
+
+---
+# Coverage function
+
+In combination with **idxstatsBam()** function, we could use this to normalize your signal to total mapped reads.
+
+
+```r
+allChromosomeStats &lt;- idxstatsBam("Heart.bam")
+allChromosomeStats
+```
+
+```
+##   seqnames seqlength mapped unmapped
+## 1    chr12 133275309 132381        0
+```
+
+---
+# Coverage function
+
+
+```r
+mapped &lt;- sum(allChromosomeStats[,"mapped"])
+heartCoverageNorm &lt;- coverage("Heart.bam",
+                          weight = (10^6)/mapped)
+heartCoverageNorm["chr12"]
+```
+
+```
+## RleList of length 1
+## $chr12
+## numeric-Rle of length 133275309 with 4553 runs
+##   Lengths:                 33666                    50 ...               2762799
+##   Values :                     0      15.1079082345654 ... -1.10187414747998e-11
+```
+
+---
+# summarizing from scores
+
+We can use [RleLists to summarize scores over regions by subsetting with GRanges and using standard arithmetic operations.](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#rlelists_and_granges)
+
+Here we get the mean signal (read depth per base pair) over exons for slc25A3 gene, **Entrez ID 5250**.
+
+
+
+
+```r
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+exonsOfGenes &lt;- exonsBy(TxDb.Hsapiens.UCSC.hg38.knownGene,
+                        by="gene")
+slc25A3 &lt;- exonsOfGenes[["5250"]]
+slc25A3
+```
+
+```
+## GRanges object with 39 ranges and 2 metadata columns:
+##        seqnames            ranges strand |   exon_id   exon_name
+##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##    [1]    chr12 98593591-98593740      + |    376828        &lt;NA&gt;
+##    [2]    chr12 98593625-98593740      + |    376829        &lt;NA&gt;
+##    [3]    chr12 98593625-98594135      + |    376830        &lt;NA&gt;
+##    [4]    chr12 98593650-98593740      + |    376831        &lt;NA&gt;
+##    [5]    chr12 98593655-98593740      + |    376832        &lt;NA&gt;
+##    ...      ...               ...    ... .       ...         ...
+##   [35]    chr12 98601368-98601707      + |    376863        &lt;NA&gt;
+##   [36]    chr12 98601368-98601708      + |    376864        &lt;NA&gt;
+##   [37]    chr12 98601368-98601997      + |    376865        &lt;NA&gt;
+##   [38]    chr12 98601368-98602168      + |    376866        &lt;NA&gt;
+##   [39]    chr12 98601368-98606379      + |    376867        &lt;NA&gt;
+##   -------
+##   seqinfo: 595 sequences (1 circular) from hg38 genome
+```
+
+---
+# summarizing from scores 
+
+
+```r
+heartCoverageNorm &lt;- coverage("Heart.bam")
+myMeanCovOverExons &lt;- mean(heartCoverageNorm[slc25A3])
+myMeanCovOverExons
+```
+
+```
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+##  197.3933  255.2500  633.2740  323.8462  341.8605  345.5647  361.1852  510.2909 
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+##  715.6889  601.2222  554.0204  756.4282 1757.2919  473.0144 1770.5732  539.0552 
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+## 4232.1680 2317.5153  204.4162  299.2623 2600.1274 6779.2570 6785.8833 6749.0552 
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+## 5607.1697 2104.1342 6218.8696 6158.3462 4092.3000 6375.2486 3771.8433 7370.8919 
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+## 7180.3787 7139.7459 6667.7147 6648.3255 3626.9619 2858.4856  476.9898
+```
+
+---
+class: inverse, center, middle
+
+# Summarizing counts in regions from alignments
+
+&lt;html&gt;&lt;div style='float:left'&gt;&lt;/div&gt;&lt;hr color='#EB811B' size=1px width=720px&gt;&lt;/html&gt; 
+
+---
+
+---
+# Counting reads in/over regions
+
+To count reads within regions and across gene models we can take advantage of specialist counting tools available within the **summarizeOverlaps()** functions.
+
+This is important as it will allow us to:
+
+* Handle reads overlapping multiple regions (features or metafeatures).
+* Assign reads to meta-features (genes instead of exons).
+
+---
+# Reads over/across exons
+
+![](imgs/exonsAndGenes.png)
+
+
+
+&lt;!-- --- --&gt;
+&lt;!-- # summarizeOverlaps - Modes of counting --&gt;
+
+&lt;!-- We can control counting behaviour by setting **mode**. Typically we will use the conservative mode **union**. --&gt;
+
+&lt;!-- &lt;div align="center"&gt; --&gt;
+&lt;!-- &lt;img src="imgs/count_modes.png" alt="igv" height="400" width="400"&gt; --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+
+
+---
+# summarizeOverlaps - Genes not exons
+
+Often we will want to summarize to genes, not individual exons.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/withinGenes.png" alt="igv" height="400" width="600"&gt;
+&lt;/div&gt;
+
+---
+# summarizeOverlaps - A read only assigned to one feature
+
+When using **summarizeOverlaps()** function, a read can only be assigned to one feature.
+
+This is important to note when counting features such as overlapping exons.
+
+We will learn how to deal with counting across overlapping features in later sessions such as in RNAseq.
+
+
+---
+# summarizeOverlaps
+
+The **summarizeOverlaps()** function is well intergrated with many of the Bioconductor objects we have seen.
+
+As with the **coverage()** function it can count reads from **Bam** files or **GRanges** objects.
+
+The **summarizeOverlaps()** function can count over **GRanges (features e.g. exons)** and **GRangesLists (meta-features genes)**. 
+
+
+
+---
+# summarizeOverlaps for regions
+
+To count non-overlapping regions, we can simply specify the path to our BAM file and a GRanges of regions to count over.
+
+The returned object is a **RangedSummarizedExperiment** object.
+
+
+
+```r
+geneBody &lt;- genes(TxDb.Hsapiens.UCSC.hg38.knownGene)
+TSS &lt;- promoters(geneBody,500,500)
+myTSScounts &lt;- summarizeOverlaps(TSS,"Heart.bam")
+class(myTSScounts)
+```
+
+```
+## [1] "RangedSummarizedExperiment"
+## attr(,"package")
+## [1] "SummarizedExperiment"
+```
+
+---
+# SummarizedExperiment object
+
+The resulting **SummarizedExperiment** object contains a matrix of our counts over regions and the original GRanges object we used for counting.
+
+As with other Bioconductor objects, the object shows some useful summary information
+
+
+```r
+myTSScounts
+```
+
+```
+## class: RangedSummarizedExperiment 
+## dim: 25750 1 
+## metadata(0):
+## assays(1): counts
+## rownames(25750): 1 10 ... 9994 9997
+## rowData names(1): gene_id
+## colnames(1): Heart.bam
+## colData names(0):
+```
+
+---
+# SummarizedExperiment object
+
+We can access the count matrix using the accessor function **assay()** with our **SummarizedExperiment** object.
+
+Here we see total counts for SLC25A3 genes' TSS region
+
+
+
+```r
+countMatrix &lt;- assay(myTSScounts)
+countMatrix["5250",]
+```
+
+
+```
+##      Heart.bam
+## 5250      2934
+```
+
+---
+# SummarizedExperiment object
+
+The **rowRanges()** function will access the original **GRanges** we used for counting.
+
+
+```r
+Granges &lt;- rowRanges(myTSScounts)
+Granges
+```
+
+```
+## GRanges object with 25750 ranges and 1 metadata column:
+##             seqnames              ranges strand |     gene_id
+##                &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##           1    chr19   58362252-58363251      - |           1
+##          10     chr8   18390782-18391781      + |          10
+##         100    chr20   44651734-44652733      - |         100
+##        1000    chr18   28176631-28177630      - |        1000
+##   100009613    chr11   70074934-70075933      - |   100009613
+##         ...      ...                 ...    ... .         ...
+##        9991     chr9 112333168-112334167      - |        9991
+##        9992    chr21   34363524-34364523      + |        9992
+##        9993    chr22   19121955-19122954      - |        9993
+##        9994     chr6   89829394-89830393      + |        9994
+##        9997    chr22   50525962-50526961      - |        9997
+##   -------
+##   seqinfo: 595 sequences (1 circular) from hg38 genome
+```
+
+---
+# summarizeOverlaps for gene models
+
+For gene models, we may want to assign reads to each gene and so count all reads overlapping any exons within a gene.
+
+We can count reads in meta-features such as genes using **GRangesLists**.
+
+First we extract a GRangesList of exons for every gene.
+
+
+```r
+geneExons &lt;- exonsBy(TxDb.Hsapiens.UCSC.hg38.knownGene,by="gene")
+geneExons["5250"]
+```
+
+```
+## GRangesList object of length 1:
+## $`5250`
+## GRanges object with 39 ranges and 2 metadata columns:
+##        seqnames            ranges strand |   exon_id   exon_name
+##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##    [1]    chr12 98593591-98593740      + |    376828        &lt;NA&gt;
+##    [2]    chr12 98593625-98593740      + |    376829        &lt;NA&gt;
+##    [3]    chr12 98593625-98594135      + |    376830        &lt;NA&gt;
+##    [4]    chr12 98593650-98593740      + |    376831        &lt;NA&gt;
+##    [5]    chr12 98593655-98593740      + |    376832        &lt;NA&gt;
+##    ...      ...               ...    ... .       ...         ...
+##   [35]    chr12 98601368-98601707      + |    376863        &lt;NA&gt;
+##   [36]    chr12 98601368-98601708      + |    376864        &lt;NA&gt;
+##   [37]    chr12 98601368-98601997      + |    376865        &lt;NA&gt;
+##   [38]    chr12 98601368-98602168      + |    376866        &lt;NA&gt;
+##   [39]    chr12 98601368-98606379      + |    376867        &lt;NA&gt;
+##   -------
+##   seqinfo: 595 sequences (1 circular) from hg38 genome
+```
+
+---
+# summarizeOverlaps for gene models
+
+Now we can summarize counts for every gene by counting in their respective exons.
+
+
+```r
+myGeneCounts &lt;- summarizeOverlaps(geneExons,"Heart.bam")
+myGeneCounts
+```
+
+```
+## class: RangedSummarizedExperiment 
+## dim: 27363 1 
+## metadata(0):
+## assays(1): counts
+## rownames(27363): 1 10 ... 9994 9997
+## rowData names(0):
+## colnames(1): Heart.bam
+## colData names(0):
+```
+
+---
+# summarizeOverlaps for gene models
+
+And now we have a count of signal in exons for every gene.
+
+
+```r
+countMatrix &lt;- assay(myGeneCounts)
+countMatrix["5250",]
+```
+
+
+```
+##      Heart.bam
+## 5250     65799
+```
+
+---
+# summarizeOverlaps for gene models
+
+The **rowRanges()**  contains the original GRangesList of exons by genes.
+
+
+```r
+grgList &lt;- rowRanges(myGeneCounts)
+grgList
+```
+
+```
+## GRangesList object of length 27363:
+## $`1`
+## GRanges object with 29 ranges and 2 metadata columns:
+##        seqnames            ranges strand |   exon_id   exon_name
+##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
+##    [1]    chr19 58345178-58347029      - |    573605        &lt;NA&gt;
+##    [2]    chr19 58345183-58347029      - |    573606        &lt;NA&gt;
+##    [3]    chr19 58346854-58347029      - |    573607        &lt;NA&gt;
+##    [4]    chr19 58346858-58347029      - |    573608        &lt;NA&gt;
+##    [5]    chr19 58346860-58347029      - |    573609        &lt;NA&gt;
+##    ...      ...               ...    ... .       ...         ...
+##   [25]    chr19 58357585-58357649      - |    573632        &lt;NA&gt;
+##   [26]    chr19 58357952-58358286      - |    573633        &lt;NA&gt;
+##   [27]    chr19 58358489-58358585      - |    573634        &lt;NA&gt;
+##   [28]    chr19 58359197-58359323      - |    573635        &lt;NA&gt;
+##   [29]    chr19 58362677-58362751      - |    573636        &lt;NA&gt;
+##   -------
+##   seqinfo: 595 sequences (1 circular) from hg38 genome
+## 
+## ...
+## &lt;27362 more elements&gt;
+```
+
+---
+# SummarizeOverlaps for many files
+
+The **summarizeOverlaps()** function can count across multiple BAM files.
+
+We can specify a vector of BAM file paths we wish to count from to **summarizeOverlaps()** function.
+
+
+```r
+allGeneCounts &lt;- summarizeOverlaps(geneExons,
+                                   c("Heart.bam","Liver.bam"))
+```
+
+---
+# SummarizeOverlaps for many files
+
+Now we can return the matrix of counts with samples by columns and genes as rows.
+
+
+
+```r
+countMatrix &lt;- assay(allGeneCounts)
+countMatrix["5250",]
+```
+
+
+```
+##      Heart.bam Liver.bam
+## 5250     65799     24296
+```
+
+
+---
+# Low memory summarization
+
+Counting from BAM files, as with sorting, can be configured to trade of memory usage for speed i.e. less RAM used, but takes longer to count.
+
+We can control the amount of memory used by creating a **BamFile** object prior to counting using the **BamFile()** function
+
+
+```r
+myBam &lt;- BamFile("Heart.bam")
+class(myBam)
+```
+
+```
+## [1] "BamFile"
+## attr(,"package")
+## [1] "Rsamtools"
+```
+
+---
+# Low memory summarization
+
+We can additionally specify the **yieldSize** parameter which controls how many reads are held in memory in one time.
+
+Here we set the **yieldSize** to a very low 1000 reads, this will save a lot of memory but slow down processing.
+
+We will often need to test the **yieldSize** which best fits our machine.
+
+
+```r
+myBam &lt;- BamFile("Heart.bam", yieldSize = 1000)
+heartGeneCounts &lt;- summarizeOverlaps(geneExons,myBam)
+heartGeneCounts
+```
+
+```
+## class: RangedSummarizedExperiment 
+## dim: 27363 1 
+## metadata(0):
+## assays(1): counts
+## rownames(27363): 1 10 ... 9994 9997
+## rowData names(0):
+## colnames(1): Heart.bam
+## colData names(0):
+```
+
+---
+# Low memory summarization
+
+When counting multiple files we can use the **BamFileList()** function in a similar manner but this time we provide a vector of the two BAM file paths.
+
+
+```r
+myBam &lt;- BamFileList(c("Heart.bam","Liver.bam"),
+                     yieldSize = 1000)
+allGeneCounts &lt;- summarizeOverlaps(geneExons,myBam)
+allGeneCounts
+```
+
+```
+## class: RangedSummarizedExperiment 
+## dim: 27363 2 
+## metadata(0):
+## assays(1): counts
+## rownames(27363): 1 10 ... 9994 9997
+## rowData names(0):
+## colnames(2): Heart.bam Liver.bam
+## colData names(0):
+```
+
+---
+# Time for an exercise.
+
+[Link_to_exercises](../../exercises/summarization_exercises.html)
+
+[Link_to_answers](../../answers/summarization_answers.html)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

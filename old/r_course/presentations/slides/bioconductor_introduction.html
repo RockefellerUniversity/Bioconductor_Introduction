@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>bioconductor_introduction.utf8</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
+    <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to Bioconductor
+<html>
+<div style="float:left">
+
+</div>
+<hr color='#EB811B' size=1px width=796px>
+</html>
+### Rockefeller University, Bioinformatics Resource Centre
+### <a href="http://rockefelleruniversity.github.io/Bioconductor_Introduction/" class="uri">http://rockefelleruniversity.github.io/Bioconductor_Introduction/</a>
+
+---
+
+
+
+
+# About Bioconductor
+
+Bioconductor (BioC) is an open source, community driven software project which provides a framework of tools and databases for the analysis of biological data in R.
+
+- Started in 2001 with Robert Gentleman.
+- Gained popularity through microarray analysis packages (**MArray/Limma**).
+- Core reviewed and versioned R packages.
+- Two major releases every year (R has one major release).
+- Great support for High Throughput sequencing.
+
+---
+
+# Bioconductor Goals
+
+The broad goals of the Bioconductor project are:
+
+- To provide widespread access to a broad range of powerful statistical and graphical methods for the analysis of genomic data.
+- To facilitate the inclusion of biological metadata in the analysis of genomic data, e.g. literature data from PubMed, annotation data from Entrez genes.
+- To provide a common software platform that enables the rapid development and deployment of extensible, scalable, and interoperable software.
+- To further scientific understanding by producing high-quality documentation and reproducible research.
+- To train researchers on computational and statistical methods for the analysis of genomic data.
+
+---
+
+# Bioconductor [website](https://www.bioconductor.org/)
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bioconductor_2020.png" alt="igv" height="500" width="1000"&gt;
+&lt;/div&gt;
+
+---
+# Bioconductor packages
+
+Bioconductor packages can be broadly split into 4 groups.
+
+- Software (Tools for the analysis/visualisation of biological data)
+- Annotation Data (Tools for the integration of biological metadata)
+- Experiment Data (Example and actual data from experiments)
+- Workflow
+
+---
+# Current Bioconductor Release
+
+Current release is Bioconductor 3.10
+
+Includes 1823 packages.
+
+All packages have been 
+- Reviewed.
+- Tested and evaluated automatically.
+- Actively maintained and updated.
+
+
+---
+
+# Packages review
+
+Before being accepted to Bioconductor all new packages are reviewed so as to pass Bioconductor guidelines.
+
+Review includes automatic testing of packages
+
+- Testing manual and all examples.
+- Checking code integrity.
+
+
+---
+# Packages review
+
+As well as an open review on [Bioconductor github site](https://github.com/Bioconductor/Contributions/issues).
+
+![](imgs/biocReview.png)
+
+---
+
+# Bioconductor packages
+Review ensures
+
+- All packages can be built in latest version R.
+- Examples in reference manual can be evaluated.
+- Vignette manual code can all be run.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/check_2020.png" alt="igv" height="160" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+
+# Bioconductor packages
+
+Example package - [BasecallQC](https://bioconductor.org/packages/release/bioc/html/basecallQC.html)
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/basecallQC_2020.png" alt="igv" height="400" width="400"&gt;
+&lt;/div&gt;
+
+
+---
+
+# Installing Bioconductor and packages
+
+Installing Bioconductor/Bioconductor packages is quite straight forward. Every Bioconductor package has a description of the installation R command we can simply copy and paste.
+
+Install Bioconductor:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.10")
+```
+
+Install a package:
+
+```r
+BiocManager::install("basecallQC")
+```
+
+---
+
+# Bioconductor package dependencies
+
+All dependencies and their required versions are resolved for us. We must be careful however to check the version of Bioconductor we are using.
+
+
+```r
+BiocManager::version()
+```
+
+```
+## [1] '3.10'
+```
+
+If we wish to update to latest Bioconductor release we can install Bioconductor again:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.10")
+```
+
+---
+
+# Reference Manual
+
+.pull-left[
+
+All packages will have a reference manual containing the help pages for every function.
+
+This will include importantly
+
+- Details of functions' inputs and outputs.
+- Working examples. 
+
+]
+
+.pull-right[
+&lt;div align="center"&gt;
+&lt;img src="imgs/manual_2020.png" alt="igv" height="400" width="400"&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# Vignette
+
+.pull-left[
+
+All packages will also include at least one vignette. 
+
+These vignettes detail a typical usage of the package with working examples included.
+
+]
+
+.pull-right[
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/vignette_2020.png" alt="igv" height="400" width="410"&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+
+# Genomics data in Bioconductor
+
+Bioconductor packages cover a wide range of biological data types.
+
+In this course we are focusing on high throughput sequencing so we will focus on the main packages for this.
+
+This includes methods for handling common genomics data types.
+
+- Fasta and FastQ
+- BED, BED6 and narrowPeak/broadPeak
+- GFF
+- SAM and BAM
+
+---
+
+# FASTA in Bioconductor
+
+Genomic sequences stored as [FASTA files](https://rockefelleruniversity.github.io/Genomic_data/gr_course/presentations/slides/GenomicsData.html#9) are handled using the [**Biostrings**](https://bioconductor.org/packages/release/bioc/html/Biostrings.html) package.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/fasta.png" alt="igv" height="250" width="600"&gt;
+&lt;/div&gt;
+
+
+---
+
+# BED/BED6 in Bioconductor
+
+Genomic intervals stored as [BED files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#22) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bed6.png" alt="igv" height="260" width="400"&gt;
+&lt;/div&gt;
+
+---
+
+# Wigs and BigWigs in Bioconductor
+
+Genomic scores stored as [wig or bigWig files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#25) are handled using the [**rtracklayer**](https://bioconductor.org/packages/release/bioc/html/rtracklayer.html) and [**GenomicRanges**](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) packages.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/wiggle.png" alt="igv" height="500" width="400"&gt;
+&lt;/div&gt;
+
+---
+# GFF
+
+[GFF files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#29) containing gene models are handled using the [**GenomicFeatures**](https://bioconductor.org/packages/release/bioc/html/GenomicFeatures.html)  package.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/gff2.png" alt="igv" height="200" width="600"&gt;
+&lt;/div&gt;
+
+---
+# FastQ 
+
+[FastQ files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#12) containing gene models are handled using the [**ShortRead**](https://bioconductor.org/packages/release/bioc/html/ShortRead.html) package.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/fq1.png" alt="igv" height="200" width="600"&gt;
+&lt;/div&gt;
+
+---
+# SAM/BAM
+
+[SAM and BAM files](https://rockefelleruniversity.github.io/Genomic_data/r_course/presentations/slides/GenomicsData.html#15) are handled using the  [**GenomicAlignments**](https://bioconductor.org/packages/release/bioc/html/GenomicAlignments.html) package.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/sam2.png" alt="igv" height="200" width="600"&gt;
+&lt;/div&gt;
+
+---
+# Reference Data in Bioconductor
+
+As well as software packages, we know Bioconductor maintains a number of annotation packages.
+
+This includes microarray annotation, gene to ID mappings, genes' functional annotation,  genome sequence information and gene/trancript models.
+
+---
+
+# Gene annotation
+
+Information on model organism's gene annotation is contained with the **org.db** packages.
+
+Format is org. **species** . **ID type** .db
+
+Homo Sapiens annotation with Entrez Gene IDs -- org.Hs.eg.db
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/orgdb_2020.png" alt="igv" height="400" width="390"&gt;
+&lt;/div&gt;
+
+
+---
+
+# Genome Sequence
+
+Genomic sequence information is held within the **BSgenome** packages.
+
+Format is BSgenome. **species**. **source**. **major version**
+
+Homo Sapiens genome sequence from UCSC's version hg19 -- BSgenome.Hsapiens.UCSC.hg19
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bsgenome_2020.png" alt="igv" height="400" width="370"&gt;
+&lt;/div&gt;
+
+---
+
+# Gene Models
+
+Gene models are held in the **TxDb** packages.
+
+Format is TxDb. **species** . **source** . **major version** . **table**
+
+Homo Sapiens gene build from UCSC's version hg19 known gene table -- TxDb.Hsapiens.UCSC.hg19.knownGene
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/txdb_2020.png" alt="igv" height="400" width="355"&gt;
+&lt;/div&gt;
+
+---
+
+# Time for an exercise.
+
+[Link_to_exercises](../../exercises/biocIntro_exercises.html)
+
+[Link_to_answers](../../answers/biocIntro_answers.html)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>SequencesInBioconductor.utf8</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
+    <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Sequences In Bioconductor
+<html>
+<div style="float:left">
+
+</div>
+<hr color='#EB811B' size=1px width=796px>
+</html>
+### Rockefeller University, Bioinformatics Resource Centre
+### <a href="http://rockefelleruniversity.github.io/Bioconductor_Introduction/" class="uri">http://rockefelleruniversity.github.io/Bioconductor_Introduction/</a>
+
+---
+
+
+
+
+
+
+# Genomic Sequences
+
+As we have seen earlier, genomic sequences are often stored in FASTA format.
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/newFASTA.png" alt="igv" height="400" width="800"&gt;
+&lt;/div&gt;
+
+
+---
+
+# Genomic Sequences in Bioconductor
+
+Genomic sequences can be handled in Bioconductor using the functions in the **Biostrings** package and full genome sequences for many model organisms are contained within the [**BSgenome** packages](https://bioconductor.org/packages/release/BiocViews.html#___AnnotationData).
+
+&lt;div align="center"&gt;
+&lt;img src="imgs/bsgenomeExample_2020.png" alt="igv" height="415" width="400"&gt;
+&lt;/div&gt;
+
+
+
+---
+
+# BSgenome packages
+
+To make use of a BSgenome package we must first install and load the library.
+
+The resulting BSgenome object (here BSgenome.Mmusculus.UCSC.mm10) contains the full genome sequence for the model organism.
+
+
+```r
+library(BSgenome.Mmusculus.UCSC.mm10)
+class(BSgenome.Mmusculus.UCSC.mm10)
+```
+
+
+```
+## [1] "BSgenome"
+## attr(,"package")
+## [1] "BSgenome"
+```
+---
+# BSgenome.Mmusculus.UCSC.mm10
+
+```r
+BSgenome.Mmusculus.UCSC.mm10
+```
+
+```
+## Mouse genome:
+## # organism: Mus musculus (Mouse)
+## # provider: UCSC
+## # provider version: mm10
+## # release date: Dec. 2011
+## # release name: Genome Reference Consortium GRCm38
+## # 66 sequences:
+## #   chr1                 chr2                 chr3                
+## #   chr4                 chr5                 chr6                
+## #   chr7                 chr8                 chr9                
+## #   chr10                chr11                chr12               
+## #   chr13                chr14                chr15               
+## #   ...                  ...                  ...                 
+## #   chrUn_GL456372       chrUn_GL456378       chrUn_GL456379      
+## #   chrUn_GL456381       chrUn_GL456382       chrUn_GL456383      
+## #   chrUn_GL456385       chrUn_GL456387       chrUn_GL456389      
+## #   chrUn_GL456390       chrUn_GL456392       chrUn_GL456393      
+## #   chrUn_GL456394       chrUn_GL456396       chrUn_JH584304      
+## # (use 'seqnames()' to see all the sequence names, use the '$' or '[[' operator to
+## # access a given sequence)
+```
+---
+# Data in BSgenome objects
+
+Simply by typing the object name we have retrieved some important information.
+
+Importantly it tells us how we can access information in the object.
+
+- **seqnames()** function to retrieve all contig names.
+- **$** and **[[]]** accessors to retrieve a given contig's sequence.
+---
+# Contig Names
+
+We can retrieve contig names using **seqnames()** function.
+
+
+```r
+contigNames &lt;- seqnames(BSgenome.Mmusculus.UCSC.mm10)
+contigNames[1:22]
+```
+
+```
+##  [1] "chr1"  "chr2"  "chr3"  "chr4"  "chr5"  "chr6"  "chr7"  "chr8"  "chr9"  "chr10"
+## [11] "chr11" "chr12" "chr13" "chr14" "chr15" "chr16" "chr17" "chr18" "chr19" "chrX" 
+## [21] "chrY"  "chrM"
+```
+---
+
+# Contig Lengths
+
+We can also retrieve contig lengths using **seqlengths()** function.
+
+
+```r
+contigLengths &lt;- seqlengths(BSgenome.Mmusculus.UCSC.mm10)
+contigLengths[1:4]
+```
+
+```
+##      chr1      chr2      chr3      chr4 
+## 195471971 182113224 160039680 156508116
+```
+
+---
+
+# Retrieving Sequence Information
+
+Now we know sequence names, we can retrieve sequence information using either the **$** or **[[]]** accessors.
+
+Here we use the data.frame and list accessor **$** with name of contig of interest
+
+```r
+chr19_Seq &lt;- BSgenome.Mmusculus.UCSC.mm10$chr19
+chr19_Seq
+```
+
+```
+##   61431566-letter "DNAString" instance
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+```
+---
+# Retrieving Sequence Information
+
+
+now we use list accessor **[[]]** with name of contig of interest
+
+```r
+chr19_Seq &lt;- BSgenome.Mmusculus.UCSC.mm10[["chr19"]]
+chr19_Seq
+```
+
+```
+##   61431566-letter "DNAString" instance
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+```
+
+---
+
+# Biostrings and DNAString
+
+The returned sequence object is a **DNAString** object from the **Biostrings** package. DNAStrings are efficient objects for storing and accessing large sequences.
+
+
+```r
+class(chr19_Seq)
+```
+
+```
+## [1] "DNAString"
+## attr(,"package")
+## [1] "Biostrings"
+```
+
+**?DNAString** for full help on DNAString objects.
+---
+
+# Subsetting a DNAString Set 
+
+We can subset a DNAString object just like indexing a normal vector
+
+
+```r
+chr19_Seq[1:10000000]
+```
+
+```
+##   10000000-letter "DNAString" instance
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GGGCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG
+```
+
+---
+
+# Subsetting a DNAString Set 
+
+Or we can use the Biostrings function **subseq()** on our DNAString.
+
+Note that **subseq()** is a faster implementation of subsetting for DNAString objects.
+
+
+```r
+subseq(chr19_Seq,start=1,end=10000000)
+```
+
+```
+##   10000000-letter "DNAString" instance
+## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GGGCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG
+```
+
+---
+
+# Useful Functions
+
+The Biostrings package has many useful functions for handling sequence data.
+
+We can review the frequency of bases using the **alphabetFrequency()** function.
+
+
+```r
+alphabetFrequency(chr19_Seq)
+```
+
+```
+##        A        C        G        T        M        R        W        S        Y 
+## 16732680 12449343 12420880 16602953        0        0        0        0        0 
+##        K        V        H        D        B        N        -        +        . 
+##        0        0        0        0        0  3225710        0        0        0
+```
+
+---
+
+# Useful Functions
+
+We can get the complement,reverse and reverse complement of sequence using the **complement()**, **reverse()**, **reverseComplement()**.
+
+
+```r
+chr19_SeqComp &lt;- complement(chr19_Seq)
+chr19_SeqRev &lt;- reverse(chr19_Seq)
+chr19_SeqRevComp &lt;- reverseComplement(chr19_Seq[10000000:10000010])
+chr19_Seq[10000000:10000010]
+```
+
+```
+##   11-letter "DNAString" instance
+## seq: GTAATGTACAG
+```
+
+```r
+chr19_SeqRevComp
+```
+
+```
+##   11-letter "DNAString" instance
+## seq: CTGTACATTAC
+```
+
+---
+
+# Useful Functions
+
+We can get the translation of our sequence using the **translate()**.
+
+
+```r
+length(chr19_Seq[10000000:10000008])
+```
+
+```
+## [1] 9
+```
+
+```r
+chr19_SeqTranslation &lt;- translate(chr19_Seq[10000000:10000008])
+chr19_SeqTranslation
+```
+
+```
+##   3-letter "AAString" instance
+## seq: VMY
+```
+
+---
+
+# Useful Functions
+
+We can get also match and count the occurrence of patterns in our sequence using **matchPattern()** and **countPattern()**.
+
+To count occurrence of patterns we provide our sequence to match to the **pattern** argument and the sequence to search within as a DNAstring object to the **subject** argument.
+
+
+```r
+chr19_Count &lt;- countPattern(pattern="ATCTGCAATG",
+                            subject=chr19_Seq)
+chr19_Count
+```
+
+```
+## [1] 86
+```
+
+---
+
+# Useful Functions
+
+We may not always expect a perfect match for our sequence. We can search for close matches by setting the degree of specificity to the **max.mismatch** and **min.mismatch** arguments. 
+
+By default both **max.mismatch** and **min.mismatch**  are set to 0.
+
+
+```r
+chr19_Count &lt;- countPattern(pattern="ATCTGCAATG",
+                            subject=chr19_Seq,
+                            max.mismatch = 2,
+                            min.mismatch = 0)
+chr19_Count
+```
+
+```
+## [1] 34456
+```
+
+---
+
+# Useful Functions
+
+We can also use IUPAC codes to account for ambiguity in the sequence we will match.
+
+We can see the availble IUPAC code by viewing the Biostring named vector **IUPAC_CODE_MAP**.
+
+
+```r
+IUPAC_CODE_MAP
+```
+
+```
+##      A      C      G      T      M      R      W      S      Y      K      V      H 
+##    "A"    "C"    "G"    "T"   "AC"   "AG"   "AT"   "CG"   "CT"   "GT"  "ACG"  "ACT" 
+##      D      B      N 
+##  "AGT"  "CGT" "ACGT"
+```
+
+---
+
+# Useful Functions
+
+We can make use of IUPAC codes in our search by setting the **fixed** argument to false.
+
+
+```r
+chr19_Count &lt;- countPattern(pattern="RYKHBNKYSRR",
+                            subject=chr19_Seq,
+                            fixed=FALSE)
+chr19_Count
+```
+
+```
+## [1] 3303152
+```
+
+---
+
+# Useful Functions
+
+Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns. 
+
+
+```r
+chr19_Count_Watson &lt;- countPattern(pattern="ATCTGCAATG",
+                                    subject=chr19_Seq)
+chr19_Count_Crick &lt;- countPattern(pattern="ATCTGCAATG",
+                                    subject=reverseComplement(chr19_Seq)
+                                   )
+Total_chr19_Count &lt;- chr19_Count_Watson+chr19_Count_Crick
+```
+
+
+---
+
+#Writing to a FASTA File
+
+The **Biostrings** package contains useful functions to read and write to a FASTA file.
+
+To write our DNAString object to a FASTA file we can use the **writeXStringSet()** function. 
+
+First we will convert our DNAString to a DNAStringSet object using the **DNAStringSet()** function and set names using the **names()** function.
+
+
+
+```r
+chr19_SeqSet &lt;- DNAStringSet(chr19_Seq[10000000:10000010])
+names(chr19_SeqSet) &lt;- "chr19"
+writeXStringSet(chr19_SeqSet,filepath = "data/chr19_Seq.fa")
+```
+
+
+
+---
+
+#Reading a FASTA File
+
+Now we can read our a FASTA file back to DNAStringSet object using the **readDNAStringSet()** function. 
+
+We can access our DNAString from the DNAStringSet object again using **$** and **[[]]** functions.
+
+
+
+```r
+chr19_FromFASTA &lt;- readDNAStringSet(filepath = "data/chr19_Seq.fa")
+chr19_FromFASTA$chr19
+```
+
+
+```
+##   11-letter "DNAString" instance
+## seq: GTAATGTACAG
+```
+
+
+---
+
+# Time for an exercise.
+
+[Link_to_exercises](../../exercises/fastaAndBiostrings_exercises.html)
+
+[Link_to_answers](../../answers/fastaAndBiostrings_answers.html)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
