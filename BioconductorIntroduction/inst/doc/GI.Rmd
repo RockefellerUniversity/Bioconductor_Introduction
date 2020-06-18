@@ -34,6 +34,8 @@ install("rtracklayer")
 ```{r installBS2z,echo=FALSE,  echo=toMessage}
 suppressPackageStartupMessages(library(rtracklayer))
 suppressPackageStartupMessages(library(GenomicRanges))
+"%in%" <- BiocGenerics::"%in%"
+
 ```
 
 ```{r installBS2,  echo=toMessage}
@@ -56,6 +58,8 @@ ggplot(MYCDF,aes(x=seqnames,y=FE,color=seqnames))+geom_boxplot()+theme_bw()
 
 
 4. Create a GRanges object of genomic intervals on chromosome 1 with scores greater than 10 and pvalue less than 0.0001 and export as BED file **filteredMyc.bed**.
+
+
 
 ```{r instadllBsssS2,  echo=toMessage}
 MYCfilteredGRanges <- MYCgranges[MYCgranges$FE > 10 & MYCgranges$minuslog10Pval > -log10(0.0001)]
