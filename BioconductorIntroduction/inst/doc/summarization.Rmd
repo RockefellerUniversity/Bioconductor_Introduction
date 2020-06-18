@@ -30,6 +30,7 @@ The example data can be found in the data directory
 
 ```{r installdeBSded,include=FALSE}
 suppressPackageStartupMessages(library(GenomicAlignments))
+"%in%" <- BiocGenerics::"%in%"
 ```
 
 ```{r installBSded,  echo=toMessage}
