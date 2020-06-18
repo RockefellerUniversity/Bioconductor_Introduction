@@ -27,6 +27,7 @@ This data can be found at the Encode experiment here or at the direct link [here
 ```{r installBS2z,echo=FALSE,  echo=toMessage}
 suppressPackageStartupMessages(library(rtracklayer))
 suppressPackageStartupMessages(library(GenomicRanges))
+download.file("https://www.encodeproject.org/files/ENCFF940MBK/@@download/ENCFF940MBK.bigWig","ENCFF940MBK.bigWig",mode = "w",quiet = TRUE)
 ```
 
 
@@ -38,7 +39,7 @@ library(rtracklayer)
 regionToImport <- GRanges(seqnames="chr1",
                           ranges=IRanges(133040000,133149400))
 mySelection <- BigWigSelection(regionToImport)
-bigWigRegion <- import.bw("~/Downloads/ENCFF940MBK.bigWig",
+bigWigRegion <- import.bw("ENCFF940MBK.bigWig",
                           selection=mySelection,
                           as="RleList")
 ```
