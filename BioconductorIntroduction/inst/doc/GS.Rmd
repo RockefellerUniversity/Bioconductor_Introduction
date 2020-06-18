@@ -15,6 +15,13 @@ params:
 toMessage <- ifelse(!is.null(params$toMessage),params$toMessage,FALSE)
 message(toMessage)
 "%in%" <- BiocGenerics::"%in%"
+
+download.file("https://www.encodeproject.org/files/ENCFF940MBK/@@download/ENCFF940MBK.bigWig","ENCFF940MBK.bigWig",mode = "w",quiet = TRUE)
+
+download.file("http://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/mm10.60way.phastCons.bw","mm10.60way.phastCons.bw",mode = "w",quiet = TRUE)
+
+
+
 ```
 
 ## Working with Genomic Scores
@@ -28,7 +35,7 @@ This data can be found at the Encode experiment here or at the direct link [here
 ```{r installBS2z,echo=FALSE,  echo=toMessage}
 suppressPackageStartupMessages(library(rtracklayer))
 suppressPackageStartupMessages(library(GenomicRanges))
-download.file("https://www.encodeproject.org/files/ENCFF940MBK/@@download/ENCFF940MBK.bigWig","ENCFF940MBK.bigWig",mode = "w",quiet = TRUE)
+
 ```
 
 
@@ -95,7 +102,7 @@ library(rtracklayer)
 library(GenomicRanges)
 
 mySelection <- BigWigSelection(MYCgrangesChr1)
-bigWigPeaks <- import.bw("~/Downloads/ENCFF940MBK.bigWig",
+bigWigPeaks <- import.bw("ENCFF940MBK.bigWig",
                           selection=mySelection,
                           as="RleList")
 ```
@@ -167,13 +174,13 @@ Import into IGV and find some areas of high conservation (closer to 1).
 ```{r ejsd,  echo=toMessage}
 
 mySelection <- BigWigSelection(MYCgrangesChr1)
-phastcons <- import.bw("~/Downloads/mm10.60way.phastCons.bw",
+phastcons <- import.bw("mm10.60way.phastCons.bw",
                           selection=mySelection,
                           as="RleList")
 phastconsPromoter <- phastcons[promoterPeaks]
 phastconsMaxs_Promoter <- mean(phastconsPromoter)
 
-bigWigPeaks <- import.bw("~/Downloads/ENCFF940MBK.bigWig",
+bigWigPeaks <- import.bw("ENCFF940MBK.bigWig",
                           selection=mySelection,
                           as="RleList")
 PeakCoveragePromoter <- bigWigPeaks[promoterPeaks]
