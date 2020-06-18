@@ -81,7 +81,7 @@ writeXStringSet(mySet,filepath ="data/testFasta.fa")
 
 8. Look up the position of MYC in IGV (Human hg19) and find the genomic coordinates of its first exon.
 
-```{r installBS2ss3ssee,  echo=toMessage}
+```{r installBS2ss3ssee,  echo=toMessage,eval=FALSE}
 chr8:128748315-128748869
 ```
 
