@@ -23,9 +23,10 @@ In this exercise we will work with some ChIP-seq peak calls for the Encode exper
 1. Install the GenomicRanges and rtracklayer package
 
 ```{r installBS, eval=FALSE,  echo=toMessage}
-source("https://bioconductor.org/biocLite.R")
-biocLite("GenomicRanges")
-biocLite("rtracklayer")
+install.packages("BiocManager")
+require(BiocManager)
+install("GenomicRanges")
+install("rtracklayer")
 ```
 
 2. Read in the file **data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls** and create a GRanges object which includes values of fold_enrichment and - log10 pvalue provided in file.
