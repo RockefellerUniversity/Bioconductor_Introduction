@@ -33,7 +33,7 @@ We will also use the full FastQ file from this dataset which you can download fr
 suppressPackageStartupMessages(library(QuasR))
 ```
 
-```{r installBSded,  echo=toMessage}
+```{r installBSded,  echo=toMessage,eval=FALSE}
 library(QuasR)
 
 library(BSgenome.Hsapiens.UCSC.hg38)
@@ -55,6 +55,7 @@ sortBam("data/liver.bodyMap.bam", "data/sorted_liver.bodyMap.bam")
 
 ```{r installBS2w,  echo=toMessage}
 library(ShortRead)
+FileName <- c("data/heart.bodyMap.fq","data/liver.bodyMap.fq")
 my_fastq <- readFastq(FileName[1])
 fastqRead <- my_fastq[as.character(id(my_fastq)) == "HWI-BRUNOP16X_0001:7:66:3246:157000#0/1"]
 fastqReadSeq <- sread(fastqRead)
