@@ -45,6 +45,7 @@ jobs:
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps("BioconductorIntroduction/",dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+          remotes::install_cran("BiocManager")
         shell: Rscript {0}
 
       - name: Cache R packages
@@ -56,8 +57,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
 
-      - name: Install dependencies
-        run: |
+
       - name: Install dependencies
         run: |
           ## Try installing the package dependencies in steps. First the local
