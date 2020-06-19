@@ -1,0 +1,148 @@
+output_dir: '.'
+navbar:
+  title: Introduction to Bioconductor
+  left:
+  - text: Home
+    href: index.html
+  - text: Slides
+    menu:
+    - text: Session1
+      menu:
+      - text: Slide
+        href: presentations/slides/introToR_Session1.html
+      - text: Single Page
+        href: presentations/singlepage/introToR_Session1.html
+      - text: Code
+        href: presentations/r_code/introToR_Session1.R
+    - text: Session2
+      menu:
+      - text: Slide
+        href: presentations/slides/introToR_Session2.html
+      - text: Single Page
+        href: presentations/singlepage/introToR_Session2.html
+      - text: Code
+        href: presentations/r_code/introToR_Session2.R
+    - text: Session3
+      menu:
+      - text: Slide
+        href: .na.character
+      - text: Single Page
+        href: .na.character
+      - text: Code
+        href: .na.character
+    - text: Session4
+      menu:
+      - text: Slide
+        href: .na.character
+      - text: Single Page
+        href: .na.character
+      - text: Code
+        href: .na.character
+    - text: Session5
+      menu:
+      - text: Slide
+        href: .na.character
+      - text: Single Page
+        href: .na.character
+      - text: Code
+        href: .na.character
+    - text: Session6
+      menu:
+      - text: Slide
+        href: .na.character
+      - text: Single Page
+        href: .na.character
+      - text: Code
+        href: .na.character
+    - text: Session7
+      menu:
+      - text: Slide
+        href: .na.character
+      - text: Single Page
+        href: .na.character
+      - text: Code
+        href: .na.character
+    - text: Session8
+      menu:
+      - text: Slide
+        href: .na.character
+      - text: Single Page
+        href: .na.character
+      - text: Code
+        href: .na.character
+    - text: Session9
+      menu:
+      - text: Slide
+        href: .na.character
+      - text: Single Page
+        href: .na.character
+      - text: Code
+        href: .na.character
+  - text: Exercises
+    menu:
+    - text: biocIntro
+      menu:
+      - text: Exercise
+        href: exercises/exercises/biocIntro_exercise.html
+      - text: Solution
+        href: exercises/answers/biocIntro_answers.html
+    - text: fastaAndBiostrings
+      menu:
+      - text: Exercise
+        href: exercises/exercises/fastaAndBiostrings_exercise.html
+      - text: Solution
+        href: exercises/answers/fastaAndBiostrings_answers.html
+    - text: GI
+      menu:
+      - text: Exercise
+        href: exercises/exercises/GI_exercise.html
+      - text: Solution
+        href: exercises/answers/GI_answers.html
+    - text: GS
+      menu:
+      - text: Exercise
+        href: exercises/exercises/GS_exercise.html
+      - text: Solution
+        href: exercises/answers/GS_answers.html
+    - text: GenomicFeatures
+      menu:
+      - text: Exercise
+        href: exercises/exercises/GenomicFeatures_exercise.html
+      - text: Solution
+        href: exercises/answers/GenomicFeatures_answers.html
+    - text: fastq
+      menu:
+      - text: Exercise
+        href: exercises/exercises/fastq_exercise.html
+      - text: Solution
+        href: exercises/answers/fastq_answers.html
+    - text: alignment
+      menu:
+      - text: Exercise
+        href: exercises/exercises/alignment_exercise.html
+      - text: Solution
+        href: exercises/answers/alignment_answers.html
+    - text: alignedData
+      menu:
+      - text: Exercise
+        href: exercises/exercises/alignedData_exercise.html
+      - text: Solution
+        href: exercises/answers/alignedData_answers.html
+    - text: summarization
+      menu:
+      - text: Exercise
+        href: exercises/exercises/summarization_exercise.html
+      - text: Solution
+        href: exercises/answers/summarization_answers.html
+  right:
+  - text: Getting help!
+    href: https://github.com//RockefellerUniversity/Bioconductor_Introduction/issues
+  - href: https://twitter.com/Rockefeller_BRC
+    icon: ion-social-twitter
+output:
+  html_document:
+    toc: yes
+    theme: cosmo
+    toc_float: yes
+    highlight: textmate
+
