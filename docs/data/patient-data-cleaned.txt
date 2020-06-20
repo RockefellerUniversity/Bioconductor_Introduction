@@ -1,0 +1,101 @@
+"ID"	"Name"	"Race"	"Sex"	"Smokes"	"Height"	"Weight"	"Birth"	"State"	"Pet"	"Grade"	"Died"	"Count"	"Date.Entered.Study"	"Age"	"BMI"	"Overweight"
+"AC/AH/001"	"Michael"	"White"	"Male"	"Non-Smoker"	182.87	76.57	"1972-02-06"	"Georgia"	"Dog"	2	FALSE	0.01	"2015-12-01"	44	22.9	FALSE
+"AC/AH/017"	"Derek"	"White"	"Male"	"Non-Smoker"	179.12	80.43	"1972-06-15"	"Missouri"	"Dog"	2	FALSE	-1.31	"2015-12-01"	43	25.07	TRUE
+"AC/AH/020"	"Todd"	"Black"	"Male"	"Non-Smoker"	169.15	75.48	"1972-07-09"	"Pennsylvania"	"None"	2	FALSE	-0.17	"2015-12-01"	43	26.38	TRUE
+"AC/AH/022"	"Ronald"	"White"	"Male"	"Non-Smoker"	175.66	94.54	"1972-08-17"	"Florida"	"Cat"	1	FALSE	-1.1	"2015-12-01"	43	30.64	TRUE
+"AC/AH/029"	"Christine"	"White"	"Female"	"Non-Smoker"	164.47	71.78	"1973-06-12"	"Iowa"	NA	2	TRUE	1.42	"2015-12-01"	42	26.54	TRUE
+"AC/AH/033"	"Dana"	NA	"Female"	"Smoker"	158.27	69.9	"1973-07-01"	"Maryland"	"Dog"	2	FALSE	0.29	"2015-12-01"	42	27.9	TRUE
+"AC/AH/037"	"Erin"	"White"	"Female"	"Non-Smoker"	161.69	68.85	"1972-03-26"	"Pennsylvania"	"None"	1	FALSE	0.16	"2015-12-01"	44	26.34	TRUE
+"AC/AH/044"	"Rachel"	"White"	"Female"	"Non-Smoker"	165.84	70.44	"1973-05-11"	"North Carolina"	"None"	1	FALSE	-0.07	"2015-12-01"	42	25.61	TRUE
+"AC/AH/045"	"Ronald"	"White"	"Male"	"Non-Smoker"	181.32	76.9	"1971-12-31"	"Louisiana"	"Dog"	1	FALSE	-1.43	"2015-12-01"	44	23.39	FALSE
+"AC/AH/048"	"Bryan"	"Hispanic"	"Male"	"Non-Smoker"	167.37	79.06	"1973-07-19"	"North Carolina"	"None"	2	FALSE	0.54	"2015-12-31"	42	28.22	TRUE
+"AC/AH/049"	"Kimberly"	"White"	"Female"	"Non-Smoker"	160.06	72.37	"1972-05-04"	"California"	"Horse"	2	TRUE	-2.41	"2015-12-31"	44	28.25	TRUE
+"AC/AH/050"	"Pamela"	"White"	"Female"	"Non-Smoker"	166.48	67.34	"1971-11-14"	"Michigan"	"None"	1	FALSE	1.05	"2015-12-31"	44	24.3	FALSE
+"AC/AH/052"	"Kenneth"	"White"	"Male"	"Smoker"	175.39	92.22	"1972-03-22"	"Indiana"	"Bird"	3	FALSE	-0.04	"2015-12-31"	44	29.98	TRUE
+"AC/AH/053"	"Stacy"	"White"	"Female"	"Smoker"	164.7	75.69	"1971-11-22"	"Virginia"	"Dog"	1	FALSE	-0.65	"2015-12-31"	44	27.9	TRUE
+"AC/AH/057"	"Elizabeth"	"White"	"Female"	"Smoker"	163.79	65.76	"1972-01-12"	"Illinois"	"Cat"	3	FALSE	0.06	"2015-12-31"	44	24.51	FALSE
+"AC/AH/061"	"Marc"	"Black"	"Male"	"Non-Smoker"	181.13	72.33	"1972-11-22"	"Wisconsin"	"Dog"	NA	TRUE	-0.15	"2015-12-31"	43	22.05	FALSE
+"AC/AH/063"	"Brandon"	"Hispanic"	"Male"	"Non-Smoker"	169.24	73.3	"1971-11-22"	"Illinois"	"None"	3	FALSE	0.68	"2015-12-31"	44	25.59	TRUE
+"AC/AH/076"	"Travis"	"White"	"Male"	"Non-Smoker"	176.22	97.67	"1973-04-14"	"Louisiana"	"Cat"	2	FALSE	-1.97	"2015-12-31"	43	31.45	TRUE
+"AC/AH/077"	"Andrew"	"Black"	"Male"	"Non-Smoker"	174.09	72.2	"1973-02-07"	"Washington"	"Cat"	3	FALSE	-1.18	"2015-12-31"	43	23.82	FALSE
+"AC/AH/086"	"Jeffrey"	"Black"	"Male"	"Smoker"	180.11	75.72	"1973-05-18"	"Georgia"	"Cat"	3	FALSE	0.4	"2015-12-31"	42	23.34	FALSE
+"AC/AH/089"	"Jimmy"	"White"	"Male"	"Non-Smoker"	179.24	75.54	"1972-03-17"	"California"	"None"	2	TRUE	-0.47	"2015-12-31"	44	23.51	FALSE
+"AC/AH/100"	"Tara"	"White"	"Female"	"Non-Smoker"	161.92	69.92	"1973-01-02"	"Georgia"	"Dog"	1	FALSE	0.5	"2015-12-31"	43	26.67	TRUE
+"AC/AH/104"	"Thomas"	"White"	"Male"	"Smoker"	169.85	90.63	"1972-04-18"	"Kentucky"	"None"	1	TRUE	-0.2	"2015-12-31"	44	31.42	TRUE
+"AC/AH/112"	"Paula"	"Black"	"Female"	"Non-Smoker"	160.57	63.54	"1973-07-02"	"California"	NA	NA	TRUE	0.69	"2016-01-31"	42	24.64	FALSE
+"AC/AH/113"	"Sandra"	"White"	"Female"	"Non-Smoker"	168.24	69.57	"1972-02-13"	"Massachusetts"	NA	2	FALSE	0.38	"2016-01-31"	44	24.58	FALSE
+"AC/AH/114"	"Mark"	"Hispanic"	"Male"	"Non-Smoker"	177.75	74.84	"1972-11-25"	"Pennsylvania"	"Bird"	3	FALSE	0.15	"2016-01-31"	43	23.69	FALSE
+"AC/AH/115"	"Steven"	"Bi-Racial"	"Male"	"Smoker"	183.21	83.36	"1973-10-05"	"California"	"Dog"	2	FALSE	0.05	"2016-01-31"	42	24.83	FALSE
+"AC/AH/127"	"George"	"White"	"Male"	"Non-Smoker"	167.75	82.06	"1972-11-04"	"Texas"	"Dog"	1	TRUE	0.63	"2016-01-31"	43	29.16	TRUE
+"AC/AH/133"	"Steven"	"Hispanic"	"Male"	"Non-Smoker"	181.15	83.93	"1973-10-19"	"Washington"	"Cat"	3	TRUE	-0.81	"2016-03-02"	42	25.58	TRUE
+"AC/AH/150"	"Brandon"	"White"	"Male"	"Smoker"	181.56	79.54	"1972-05-09"	"Kentucky"	"Dog"	1	TRUE	0.92	"2016-03-02"	44	24.13	FALSE
+"AC/AH/154"	"Julie"	"White"	"Female"	"Non-Smoker"	160.03	64.3	"1973-09-05"	"California"	"Dog"	1	TRUE	-0.1	"2016-03-02"	42	25.11	TRUE
+"AC/AH/156"	"Aaron"	"White"	"Male"	"Non-Smoker"	165.62	76.72	"1972-07-15"	"California"	"Dog"	1	TRUE	0.61	"2016-03-02"	43	27.97	TRUE
+"AC/AH/159"	"Jeffery"	"White"	"Male"	"Non-Smoker"	181.64	96.91	"1972-12-10"	"Connecticut"	"Cat"	2	FALSE	-0.39	"2016-03-02"	43	29.37	TRUE
+"AC/AH/160"	"Kristen"	"Asian"	"Female"	"Non-Smoker"	159.67	71.88	"1973-09-28"	"Florida"	"Cat"	2	TRUE	0.74	"2016-03-02"	42	28.19	TRUE
+"AC/AH/164"	"Brett"	"Hispanic"	"Male"	"Smoker"	177.03	74.04	"1972-02-24"	"Florida"	"None"	2	FALSE	0.15	"2016-03-02"	44	23.63	FALSE
+"AC/AH/171"	"Teresa"	"White"	"Female"	"Non-Smoker"	163.35	70.46	"1973-04-22"	"California"	"Bird"	3	TRUE	1.68	"2016-03-31"	43	26.41	TRUE
+"AC/AH/176"	"Brent"	"Asian"	"Male"	"Non-Smoker"	175.21	83.65	"1973-05-07"	"Virginia"	"Dog"	3	TRUE	0.41	"2016-03-31"	43	27.25	TRUE
+"AC/AH/180"	"Tiffany"	"White"	"Female"	"Non-Smoker"	160.8	64.77	"1973-02-24"	"Oregon"	"Cat"	1	TRUE	-2.17	"2016-03-31"	43	25.05	TRUE
+"AC/AH/185"	"Joel"	"White"	"Male"	"Non-Smoker"	166.46	76.83	"1972-08-23"	"Colorado"	"None"	NA	TRUE	-1.32	"2016-03-31"	43	27.73	TRUE
+"AC/AH/186"	"Michelle"	"White"	"Female"	"Non-Smoker"	157.95	67.41	"1972-05-12"	"New Jersey"	"Dog"	3	TRUE	-1.89	"2016-03-31"	43	27.02	TRUE
+"AC/AH/192"	"Aaron"	"White"	"Male"	"Non-Smoker"	180.61	83.59	"1972-03-30"	"Michigan"	"None"	3	TRUE	-0.6	"2016-03-31"	44	25.63	TRUE
+"AC/AH/198"	"Brandy"	"White"	"Female"	"Non-Smoker"	159.52	67.99	"1972-12-08"	"Missouri"	"Cat"	2	FALSE	-0.4	"2016-03-31"	43	26.72	TRUE
+"AC/AH/207"	"Kristina"	"White"	"Female"	"Non-Smoker"	163.01	65.19	"1973-05-23"	"Florida"	"Dog"	2	FALSE	1.07	"2016-03-31"	42	24.53	FALSE
+"AC/AH/208"	"Catherine"	"Hispanic"	"Female"	"Non-Smoker"	165.8	71.77	"1973-08-13"	"Louisiana"	"None"	1	FALSE	-1.21	"2016-03-31"	42	26.11	TRUE
+"AC/AH/210"	"Alicia"	"Hispanic"	"Female"	"Smoker"	170.03	66.68	"1972-09-03"	"New York"	"Dog"	NA	FALSE	-0.66	"2016-03-31"	43	23.06	FALSE
+"AC/AH/211"	"Sherry"	"White"	"Female"	"Non-Smoker"	157.16	69.64	"1973-07-20"	"California"	"Cat"	2	TRUE	-0.7	"2016-05-01"	42	28.2	TRUE
+"AC/AH/213"	"Tanya"	"White"	"Female"	"Smoker"	164.58	72.99	"1972-01-31"	"Louisiana"	"Dog"	1	FALSE	-0.32	"2016-05-01"	44	26.95	TRUE
+"AC/AH/219"	"Nancy"	"White"	"Female"	"Non-Smoker"	163.47	72.89	"1972-04-13"	"North Caroline"	"Bird"	1	TRUE	0.33	"2016-05-01"	44	27.28	TRUE
+"AC/AH/220"	"Charles"	"White"	"Male"	"Non-Smoker"	185.43	87.23	"1973-07-19"	"Florida"	"Cat"	1	FALSE	1.29	"2016-05-01"	42	25.37	TRUE
+"AC/AH/221"	"Linda"	"White"	"Female"	"Non-Smoker"	165.34	70.84	"1972-02-07"	"Michigan"	"Dog"	NA	TRUE	1.69	"2016-05-01"	44	25.91	TRUE
+"AC/AH/225"	"Nicole"	"White"	"Female"	"Non-Smoker"	163.45	67.67	"1972-10-27"	"Michigan"	"Cat"	2	FALSE	-0.74	"2016-05-01"	43	25.33	TRUE
+"AC/AH/233"	"Wendy"	"White"	"Female"	"Non-Smoker"	163.97	66.71	"1971-12-29"	"Ohio"	"Cat"	3	TRUE	-1.07	"2016-05-01"	44	24.81	FALSE
+"AC/AH/241"	"April"	"White"	"Female"	"Non-Smoker"	161.38	73.55	"1972-02-14"	"Florida"	"Cat"	3	FALSE	-0.82	"2016-05-31"	44	28.24	TRUE
+"AC/AH/244"	"Barbara"	"White"	"Female"	"Non-Smoker"	160.09	65.93	"1973-01-31"	"Maryland"	"None"	NA	TRUE	0.5	"2016-05-31"	43	25.72	TRUE
+"AC/AH/248"	"Brandon"	"White"	"Male"	"Non-Smoker"	178.64	97.05	"1973-01-18"	"Indiana"	"Cat"	1	TRUE	-1.21	"2016-05-31"	43	30.41	TRUE
+"AC/AH/249"	"Holly"	"Hispanic"	"Female"	"Smoker"	159.78	68.31	"1972-04-29"	"Alabama"	"Cat"	2	TRUE	0.52	"2016-05-31"	44	26.76	TRUE
+"AC/SG/002"	"Stacy"	"White"	"Female"	"Smoker"	161.57	67.92	"1973-07-09"	"Arizona"	"Dog"	3	FALSE	0.33	"2016-05-31"	42	26.02	TRUE
+"AC/SG/003"	"Kelly"	"White"	"Female"	"Non-Smoker"	161.83	66.03	"1972-07-17"	"Oregon"	"None"	2	TRUE	-0.9	"2016-05-31"	43	25.21	TRUE
+"AC/SG/008"	"Shawn"	"White"	"Male"	"Smoker"	169.66	77.3	"1973-06-01"	"Nevada"	"Dog"	1	TRUE	-2.36	"2016-05-31"	42	26.85	TRUE
+"AC/SG/009"	"Anthony"	"White"	"Male"	"Non-Smoker"	166.84	88.25	"1972-03-10"	"Vermont"	"Dog"	1	FALSE	1.51	"2016-07-01"	44	31.7	TRUE
+"AC/SG/010"	"Sherry"	"Asian"	"Female"	"Non-Smoker"	159.32	64.92	"1973-02-04"	"New York"	"Cat"	2	TRUE	0.71	"2016-07-01"	43	25.58	TRUE
+"AC/SG/015"	"Jeffery"	"White"	"Male"	"Smoker"	170.51	84.35	"1972-11-15"	"New Jersey"	"Dog"	3	TRUE	0.12	"2016-07-01"	43	29.01	TRUE
+"AC/SG/016"	"Valerie"	"Black"	"Female"	"Non-Smoker"	161.84	69.97	"1972-04-09"	"Arizona"	"Cat"	3	TRUE	-0.57	"2016-07-01"	44	26.71	TRUE
+"AC/SG/046"	"Jimmy"	"Hispanic"	"Male"	"Non-Smoker"	171.41	81.7	"1973-08-11"	"Mississippi"	"Bird"	2	TRUE	0.43	"2016-07-01"	42	27.81	TRUE
+"AC/SG/055"	"Jeffrey"	"White"	"Male"	"Non-Smoker"	166.75	79.06	"1972-03-01"	"Illinois"	"Bird"	3	TRUE	-0.55	"2016-07-31"	44	28.43	TRUE
+"AC/SG/056"	"Tiffany"	"Asian"	"Female"	"Smoker"	166.19	67.46	"1972-12-03"	"Indiana"	NA	3	TRUE	-1.06	"2016-07-31"	43	24.43	FALSE
+"AC/SG/064"	"Steven"	"White"	"Male"	"Non-Smoker"	169.16	90.08	"1972-10-10"	"Illinois"	"Cat"	2	TRUE	-0.1	"2016-07-31"	43	31.48	TRUE
+"AC/SG/065"	"Brandy"	"White"	"Female"	"Non-Smoker"	157.01	66.56	"1972-04-11"	"California"	"Dog"	3	TRUE	0.64	"2016-07-31"	44	27	TRUE
+"AC/SG/067"	"Jon"	"White"	"Male"	"Non-Smoker"	167.51	84.15	"1972-07-25"	"Pennsylvania"	"Bird"	2	TRUE	-1.46	"2016-07-31"	43	29.99	TRUE
+"AC/SG/068"	"Sarah"	"Hispanic"	"Female"	"Non-Smoker"	160.47	68.2	"1972-04-21"	"Tennessee"	"Cat"	3	TRUE	0.83	"2016-07-31"	44	26.48	TRUE
+"AC/SG/072"	"Barbara"	"Black"	"Female"	"Smoker"	162.33	66.47	"1972-02-21"	"Californa"	NA	3	FALSE	1.02	"2016-07-31"	44	25.22	TRUE
+"AC/SG/074"	"James"	"Hispanic"	"Male"	"Non-Smoker"	175.67	88.82	"1973-10-10"	"Georgia"	"None"	NA	FALSE	-3.14	"2016-07-31"	42	28.78	TRUE
+"AC/SG/084"	"Marc"	"Hispanic"	"Male"	"Non-Smoker"	174.25	80.93	"1972-03-12"	"Virginia"	"Dog"	2	TRUE	1.79	"2016-07-31"	44	26.65	TRUE
+"AC/SG/095"	"Mary"	"White"	"Female"	"Non-Smoker"	158.94	65.14	"1973-06-01"	"Hawaii"	"Dog"	1	FALSE	0.47	"2016-07-31"	42	25.79	TRUE
+"AC/SG/099"	"Richard"	"Asian"	"Male"	"Non-Smoker"	172.72	67.62	"1972-02-10"	"Ohio"	"Cat"	1	FALSE	0.05	"2016-07-31"	44	22.67	FALSE
+"AC/SG/101"	"Erica"	"White"	"Female"	"Non-Smoker"	159.23	69.96	"1973-10-04"	"Michigan"	"Dog"	2	TRUE	-0.81	"2016-07-31"	42	27.59	TRUE
+"AC/SG/107"	"Benjamin"	"White"	"Male"	"Non-Smoker"	176.54	90.76	"1973-02-03"	"Hawaii"	"None"	3	FALSE	-1.48	"2016-08-31"	43	29.12	TRUE
+"AC/SG/116"	"Joel"	"Black"	"Male"	"Non-Smoker"	184.34	90.41	"1972-06-11"	"Florida"	"None"	3	TRUE	-1.41	"2016-08-31"	43	26.61	TRUE
+"AC/SG/121"	"Carrie"	"White"	"Female"	"Non-Smoker"	163.94	71.47	"1973-03-18"	"Michigan"	"Cat"	3	FALSE	-0.25	"2016-08-31"	43	26.59	TRUE
+"AC/SG/122"	"Alicia"	"Hispanic"	"Female"	"Non-Smoker"	160.09	68.94	"1971-12-22"	"South Carolina"	"Dog"	1	FALSE	-0.99	"2016-08-31"	44	26.9	TRUE
+"AC/SG/123"	"Paula"	"White"	"Female"	"Smoker"	162.32	72.72	"1972-09-09"	"North Caroline"	"Bird"	1	TRUE	-0.92	"2016-08-31"	43	27.6	TRUE
+"AC/SG/134"	"Stacy"	"White"	"Female"	"Smoker"	162.59	69.76	"1972-06-03"	"Texas"	"Cat"	2	TRUE	-0.28	"2016-08-31"	43	26.39	TRUE
+"AC/SG/139"	"Todd"	"White"	"Male"	"Non-Smoker"	171.94	82.11	"1973-10-12"	"Michigan"	"None"	1	FALSE	-1.18	"2016-08-31"	42	27.77	TRUE
+"AC/SG/142"	"Brenda"	"White"	"Female"	"Non-Smoker"	158.07	69.8	"1972-05-21"	"Kansas"	"Dog"	3	FALSE	0.54	"2016-08-31"	43	27.94	TRUE
+"AC/SG/155"	"Laura"	"White"	"Female"	"Non-Smoker"	158.35	69.72	"1972-06-08"	"California"	"Cat"	3	TRUE	1.42	"2016-08-31"	43	27.8	TRUE
+"AC/SG/165"	"Laura"	"White"	"Female"	"Non-Smoker"	162.18	67.81	"1972-03-31"	"Washington"	"Bird"	1	TRUE	1.68	"2016-08-31"	44	25.78	TRUE
+"AC/SG/167"	"Suzanne"	"White"	"Female"	"Non-Smoker"	159.38	70.37	"1973-10-06"	"Washington"	"None"	2	TRUE	0.02	"2016-10-01"	42	27.7	TRUE
+"AC/SG/172"	"Troy"	"White"	"Male"	"Non-Smoker"	171.45	84.29	"1972-03-02"	"Florida"	"Dog"	2	TRUE	-0.19	"2016-10-01"	44	28.67	TRUE
+"AC/SG/173"	"Barbara"	"White"	"Female"	"Smoker"	163.17	64.47	"1973-06-25"	"Californa"	"None"	2	FALSE	0.69	"2016-10-01"	42	24.21	FALSE
+"AC/SG/179"	"Russell"	"White"	"Male"	"Non-Smoker"	183.1	82.47	"1972-10-30"	"Ohio"	"Dog"	3	TRUE	0.77	"2016-10-01"	43	24.6	FALSE
+"AC/SG/181"	"Philip"	"Hispanic"	"Male"	"Non-Smoker"	177.14	88.7	"1971-11-30"	"Indiana"	"Cat"	3	TRUE	1.76	"2016-10-01"	44	28.27	TRUE
+"AC/SG/182"	"Stephen"	"Hispanic"	"Male"	"Smoker"	171.08	72.51	"1973-03-31"	"Louisiana"	"None"	3	TRUE	-0.22	"2016-10-01"	43	24.77	FALSE
+"AC/SG/191"	"Holly"	"Hispanic"	"Female"	"Non-Smoker"	159.33	70.68	"1973-06-27"	"Texas"	"None"	3	TRUE	-1.07	"2016-10-01"	42	27.84	TRUE
+"AC/SG/193"	"Douglas"	"White"	"Male"	"Smoker"	185.43	73.63	"1973-06-11"	"Iowa"	"Dog"	3	FALSE	-0.29	"2016-10-01"	42	21.41	FALSE
+"AC/SG/194"	"Christy"	"White"	"Female"	"Non-Smoker"	162.65	73.99	"1972-08-10"	"Maryland"	"Cat"	3	FALSE	0.87	"2016-10-31"	43	27.97	TRUE
+"AC/SG/197"	"Jill"	"White"	"Female"	"Non-Smoker"	159.44	66.21	"1972-11-14"	"New York"	"Cat"	1	TRUE	1.21	"2016-10-31"	43	26.05	TRUE
+"AC/SG/204"	"Rhonda"	"White"	"Female"	"Non-Smoker"	164.11	70.66	"1972-06-23"	"California"	"Dog"	3	FALSE	-0.17	"2016-10-31"	43	26.24	TRUE
+"AC/SG/216"	"Wendy"	"White"	"Female"	"Non-Smoker"	159.13	66.96	"1972-06-25"	"Alabama"	"None"	1	TRUE	0.95	"2016-10-31"	43	26.44	TRUE
+"AC/SG/217"	"Sharon"	"White"	"Female"	"Non-Smoker"	160.58	71.49	"1972-11-17"	"Ohio"	"None"	1	TRUE	-0.78	"2016-10-31"	43	27.72	TRUE
+"AC/SG/234"	"Cheryl"	"Hispanic"	"Female"	"Non-Smoker"	164.88	68.07	"1971-11-16"	"Pennsylvania"	"Cat"	3	TRUE	0.35	"2016-10-31"	44	25.04	TRUE

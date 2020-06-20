@@ -1,0 +1,20 @@
+reads.FileName1	/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/Data/heart.bodyMap.fq
+reads.FileName2	NA
+reads.md5subsum1	c4c960c605464bc6c16860a92c20011f
+reads.md5subsum2	NA
+samplesFormat	fastq
+genome	/Users/tcarroll/Projects/Software/Github/RUBioconductor_Introduction/r_course/presentations/slides/chr12.fa
+genome.md5	b0f13c2f22bf4c756e66230800a46361
+genomeFormat	file
+aux	NA
+aux.md5	NA
+aligner	Rbowtie
+aligner.version	1.16.0
+maxHits	1
+paired	no
+splicedAlignment	TRUE
+snpFile	NA
+snpFile.md5	NA
+bisulfite	no
+alignmentParameter	-max_intron 400000 -min_intron 20000 -max_multi_hit 10 -selectSingleHit TRUE -seed_mismatch 1 -read_mismatch 2 -try_hard yes
+QuasR.version	1.16.0

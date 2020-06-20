@@ -1,0 +1,8 @@
+chr1	unknown	exon	3214482	3216968	.	-	.	gene_id "Xkr4"; gene_name "Xkr4"; p_id "P15119"; transcript_id "NM_001011874"; tss_id "TSS26513";
+chr1	unknown	stop_codon	3216022	3216024	.	-	.	gene_id "Xkr4"; gene_name "Xkr4"; p_id "P15119"; transcript_id "NM_001011874"; tss_id "TSS26513";
+chr1	unknown	CDS	3216025	3216968	.	-	2	gene_id "Xkr4"; gene_name "Xkr4"; p_id "P15119"; transcript_id "NM_001011874"; tss_id "TSS26513";
+chr1	unknown	CDS	3421702	3421901	.	-	1	gene_id "Xkr4"; gene_name "Xkr4"; p_id "P15119"; transcript_id "NM_001011874"; tss_id "TSS26513";
+chr1	unknown	exon	3421702	3421901	.	-	.	gene_id "Xkr4"; gene_name "Xkr4"; p_id "P15119"; transcript_id "NM_001011874"; tss_id "TSS26513";
+chr1	unknown	CDS	3670552	3671348	.	-	0	gene_id "Xkr4"; gene_name "Xkr4"; p_id "P15119"; transcript_id "NM_001011874"; tss_id "TSS26513";
+chr1	unknown	exon	3670552	3671498	.	-	.	gene_id "Xkr4"; gene_name "Xkr4"; p_id "P15119"; transcript_id "NM_001011874"; tss_id "TSS26513";
+chr1	unknown	start_codon	3671346	3671348	.	-	.	gene_id "Xkr4"; gene_name "Xkr4"; p_id "P15119"; transcript_id "NM_001011874"; tss_id "TSS26513";
