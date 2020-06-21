@@ -441,8 +441,8 @@ summary {
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">require</span>(BiocManager)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">install</span>(<span class="st">&quot;GenomicRanges&quot;</span>)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">install</span>(<span class="st">&quot;rtracklayer&quot;</span>)</span></code></pre></div>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">install</span>(<span class="st">&quot;GenomicRanges&quot;</span>,<span class="dt">update =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">install</span>(<span class="st">&quot;rtracklayer&quot;</span>,<span class="dt">update =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Read in the file <strong>data/Myc_Ch12_1_withInput_Input_Ch12_peaks.xls</strong> and create a GRanges object which includes values of fold_enrichment and - log10 pvalue provided in file.</li>
 </ol>

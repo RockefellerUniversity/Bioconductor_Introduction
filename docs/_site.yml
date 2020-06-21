@@ -9,75 +9,75 @@ navbar:
     - text: Session1
       menu:
       - text: Slide
-        href: presentations/slides/introToR_Session1.html
+        href: presentations/slides/bioconductor_introduction.html
       - text: Single Page
-        href: presentations/singlepage/introToR_Session1.html
+        href: presentations/singlepage/bioconductor_introduction.html
       - text: Code
-        href: presentations/r_code/introToR_Session1.R
+        href: presentations/r_code/bioconductor_introduction.R
     - text: Session2
       menu:
       - text: Slide
-        href: presentations/slides/introToR_Session2.html
+        href: presentations/slides/SequencesInBioconductor.html
       - text: Single Page
-        href: presentations/singlepage/introToR_Session2.html
+        href: presentations/singlepage/SequencesInBioconductor.html
       - text: Code
-        href: presentations/r_code/introToR_Session2.R
+        href: presentations/r_code/SequencesInBioconductor.R
     - text: Session3
       menu:
       - text: Slide
-        href: .na.character
+        href: presentations/slides/GenomicIntervals_In_Bioconductor.html
       - text: Single Page
-        href: .na.character
+        href: presentations/singlepage/GenomicIntervals_In_Bioconductor.html
       - text: Code
-        href: .na.character
+        href: presentations/r_code/GenomicIntervals_In_Bioconductor.R
     - text: Session4
       menu:
       - text: Slide
-        href: .na.character
+        href: presentations/slides/GenomicScores_In_Bioconductor.html
       - text: Single Page
-        href: .na.character
+        href: presentations/singlepage/GenomicScores_In_Bioconductor.html
       - text: Code
-        href: .na.character
+        href: presentations/r_code/GenomicScores_In_Bioconductor.R
     - text: Session5
       menu:
       - text: Slide
-        href: .na.character
+        href: presentations/slides/GenomicFeatures_In_Bioconductor.html
       - text: Single Page
-        href: .na.character
+        href: presentations/singlepage/GenomicFeatures_In_Bioconductor.html
       - text: Code
-        href: .na.character
+        href: presentations/r_code/GenomicFeatures_In_Bioconductor.R
     - text: Session6
       menu:
       - text: Slide
-        href: .na.character
+        href: presentations/slides/FastQInBioconductor.html
       - text: Single Page
-        href: .na.character
+        href: presentations/singlepage/FastQInBioconductor.html
       - text: Code
-        href: .na.character
+        href: presentations/r_code/FastQInBioconductor.R
     - text: Session7
       menu:
       - text: Slide
-        href: .na.character
+        href: presentations/slides/AlignmentInBioconductor.html
       - text: Single Page
-        href: .na.character
+        href: presentations/singlepage/AlignmentInBioconductor.html
       - text: Code
-        href: .na.character
+        href: presentations/r_code/AlignmentInBioconductor.R
     - text: Session8
       menu:
       - text: Slide
-        href: .na.character
+        href: presentations/slides/AlignedDataInBioconductor.html
       - text: Single Page
-        href: .na.character
+        href: presentations/singlepage/AlignedDataInBioconductor.html
       - text: Code
-        href: .na.character
+        href: presentations/r_code/AlignedDataInBioconductor.R
     - text: Session9
       menu:
       - text: Slide
-        href: .na.character
+        href: presentations/slides/Summarising_Scores_In_Bioconductor.html
       - text: Single Page
-        href: .na.character
+        href: presentations/singlepage/Summarising_Scores_In_Bioconductor.html
       - text: Code
-        href: .na.character
+        href: presentations/r_code/Summarising_Scores_In_Bioconductor.R
   - text: Exercises
     menu:
     - text: biocIntro
@@ -110,12 +110,6 @@ navbar:
         href: exercises/exercises/GenomicFeatures_exercise.html
       - text: Solution
         href: exercises/answers/GenomicFeatures_answers.html
-    - text: fastq
-      menu:
-      - text: Exercise
-        href: exercises/exercises/fastq_exercise.html
-      - text: Solution
-        href: exercises/answers/fastq_answers.html
     - text: alignment
       menu:
       - text: Exercise
