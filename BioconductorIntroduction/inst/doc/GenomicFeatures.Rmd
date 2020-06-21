@@ -14,7 +14,7 @@ params:
 ```{r, setup,include=FALSE}
 toMessage <- ifelse(!is.null(params$toMessage),params$toMessage,FALSE)
 message(toMessage)
-BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene")
+BiocManager::install("TxDb.Mmusculus.UCSC.mm10.knownGene",update = FALSE)
 ```
 
 
