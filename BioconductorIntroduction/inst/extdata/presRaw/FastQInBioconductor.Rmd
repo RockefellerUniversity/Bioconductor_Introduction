@@ -492,7 +492,7 @@ close(fq)
 
 ##Time for an Exercise
 
-[Link_to_exercises](../../exercises/exercises/fastq_exercises.html)
+[Link_to_exercises](../../exercises/exercises/fastq_exercise.html)
 
 [Link_to_answers](../../exercises/answers/fastq_answers.html)
 

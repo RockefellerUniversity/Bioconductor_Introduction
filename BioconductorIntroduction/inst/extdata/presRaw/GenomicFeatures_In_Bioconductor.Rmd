@@ -624,7 +624,7 @@ myTable[1:2,]
 
 ## Time for an Exercise
 
-[Link_to_exercises](../../exercises/exercises/GenomicFeatures_exercises.html)
+[Link_to_exercises](../../exercises/exercises/GenomicFeatures_exercise.html)
 
 [Link_to_answers](../../exercises/answers/GenomicFeatures_answers.html)
 
