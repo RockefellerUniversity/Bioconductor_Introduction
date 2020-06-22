@@ -35,7 +35,7 @@ writeFastq(fastqSample,file = "~/Projects/Software/Github/RUBioconductor_Introdu
 
 ```{r,results='asis',include=TRUE,echo=FALSE}
 if(params$isSlides == "yes"){
-  cat("---
+  cat("
 class: inverse, center, middle
 
 # Summarizing Scores
@@ -46,7 +46,7 @@ class: inverse, center, middle
 "    
   )
 }else{
-  cat("---
+  cat("
 
 # Summarizing Scores
 
@@ -316,7 +316,7 @@ heartCoverageNorm["chr12"]
 ```
 
 ---
-# summarizing from scores
+# Summarizing from scores
 
 We can use [RleLists to summarize scores over regions by subsetting with GRanges and using standard arithmetic operations.](https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/singlepage/GenomicScores_In_Bioconductor.html#rlelists_and_granges)
 
@@ -335,7 +335,7 @@ slc25A3
 ```
 
 ---
-# summarizing from scores 
+# Summarizing from scores 
 
 ```{r a9lk}
 heartCoverageNorm <- coverage("Heart.bam")
@@ -367,7 +367,6 @@ class: inverse, center, middle
 }
 ```
 
----
 # Counting reads in/over regions
 
 To count reads within regions and across gene models we can take advantage of specialist counting tools available within the **summarizeOverlaps()** functions.

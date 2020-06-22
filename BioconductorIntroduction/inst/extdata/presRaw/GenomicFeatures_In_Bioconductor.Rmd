@@ -29,7 +29,7 @@ AsSlides <- TRUE
 
 ```{r,results='asis',include=TRUE,echo=FALSE}
 if(params$isSlides == "yes"){
-  cat("---
+  cat("
 class: inverse, center, middle
 
 # Genomic Features
@@ -40,7 +40,7 @@ class: inverse, center, middle
 "    
   )
 }else{
-  cat("---
+  cat("
 
 ## Genomic Features
 
@@ -66,7 +66,7 @@ Genomic Features are often stored as GTF or GFF files.
 
 In particular, we often find gene models as GFF or GTF files.
 
-This importantly allows us to associate.
+This importantly allows us to associate:
 
 * Exons with transcripts.
 * Transcripts with genes.

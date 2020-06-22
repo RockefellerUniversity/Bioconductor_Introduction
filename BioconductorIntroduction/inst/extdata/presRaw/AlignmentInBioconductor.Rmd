@@ -67,7 +67,7 @@ Rsamtools::indexBam("~/Downloads/ENCFF846QSN.bam")
 
 ```{r,results='asis',include=TRUE,echo=FALSE}
 if(params$isSlides == "yes"){
-  cat("---
+  cat("
 class: inverse, center, middle
 
 # Alignment
@@ -78,7 +78,7 @@ class: inverse, center, middle
 "    
   )
 }else{
-  cat("---
+  cat("
 
 # Alignment
 
