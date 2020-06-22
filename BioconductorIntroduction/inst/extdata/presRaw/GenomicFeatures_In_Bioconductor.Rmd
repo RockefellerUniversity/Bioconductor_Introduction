@@ -590,7 +590,7 @@ keytypes(org.Hs.eg.db)
 
 If we want to extract few identifiers of a particular keytype, we can use keys() function
 ```{r, echo=TRUE, eval=TRUE}
-keys(org.Hs.eg.db, keytype="SYMBOL")
+keys(org.Hs.eg.db, keytype="SYMBOL")[1:10]
 ```
 ---
 ## Accessing Annotation from Org.Db
