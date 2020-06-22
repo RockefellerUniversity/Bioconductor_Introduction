@@ -1,10 +1,10 @@
 <br>
 
-#### **Genomic Features in Bioconductor**
+#### **Genomic Scores in Bioconductor**
 
-In this session we introduce genomic features handling and import/export.
+In this session we introduce genomic scores handling and import/export
 Session sections:
 
-* Importing and exporting Gene models as GTF/GFF
-* Working with TxDb objects
-* Retrieving annotation from OrgDb packages
+* Importing and exporting bedGraph and bigWig files
+* Manipulating genomic scores in R
+* Operations and summary statitics using genomic scores
