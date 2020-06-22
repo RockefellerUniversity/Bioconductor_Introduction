@@ -221,7 +221,7 @@ keytypes(org.Hs.eg.db)
 
 
 ## ---- echo=TRUE, eval=TRUE----------------------------------------------------
-keys(org.Hs.eg.db, keytype="SYMBOL")
+keys(org.Hs.eg.db, keytype="SYMBOL")[1:10]
 
 
 ## ---- echo=TRUE, eval=TRUE,message=FALSE,warning=FALSE------------------------
