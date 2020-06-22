@@ -326,7 +326,7 @@ Homo Sapiens gene build from UCSC's version hg19 known gene table -- TxDb.Hsapie
 
 # Time for an exercise.
 
-[Link_to_exercises](../../exercises/exercises/biocIntro_exercises.html)
+[Link_to_exercises](../../exercises/exercises/biocIntro_exercise.html)
 
 [Link_to_answers](../../exercises/answers/biocIntro_answers.html)
 
