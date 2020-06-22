@@ -1858,14 +1858,14 @@ div.tocify {
 <p>Many vector operations and function work with <strong>Rle</strong> objects.</p>
 <p>These include</p>
 <ul>
-<li>Arithmetric and Mathematical operations.</li>
+<li>Arithmetic and Mathematical operations.</li>
 <li>Logical operations and comparisons/</li>
 <li>Summary statistics.</li>
 </ul>
 </div>
 <div id="operations-on-rle" class="section level1">
 <h1>Operations on RLE</h1>
-<p>We can use many simple arithmetric operations such as <strong>+</strong>, <strong>-</strong>, <strong>/</strong> and *****</p>
+<p>We can use many simple arithmetic operations such as <strong>+</strong>, <strong>-</strong>, <strong>/</strong> and *****</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>chr1_rle<span class="op">+</span><span class="dv">1000</span></span></code></pre></div>
 <pre><code>## numeric-Rle of length 195471971 with 2109 runs
 ##   Lengths:        10  72811044        65 ...        10        15 122614997
@@ -1884,8 +1884,8 @@ div.tocify {
 ##   Lengths:        10  72823081        55 ...        65         2 122627007
 ##   Values :     FALSE      TRUE     FALSE ...      TRUE     FALSE      TRUE</code></pre>
 </div>
-<div id="operations-on-rle.-arithmetric-and-mathematical" class="section level1">
-<h1>Operations on RLE. (Arithmetric and Mathematical)</h1>
+<div id="operations-on-rle-2" class="section level1">
+<h1>Operations on RLE</h1>
 <p>We use this <strong>logical Rle</strong> to replace values less than 10 with 0 as we would use a <a href="https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/32">logical vector with standard vectors</a>.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>chr1_rle[chr1_rle <span class="op">&lt;</span><span class="st"> </span><span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">0</span></span>
 <span id="cb38-2"><a href="#cb38-2"></a>chr1_rle</span></code></pre></div>
@@ -1893,8 +1893,8 @@ div.tocify {
 ##   Lengths:        10  72823081        14 ...        65         2 122627007
 ##   Values :  100.0000    0.0000   10.0802 ...    0.0000   10.2513    0.0000</code></pre>
 </div>
-<div id="operations-on-rle.-summaries" class="section level1">
-<h1>Operations on RLE. (Summaries)</h1>
+<div id="operations-on-rle-3" class="section level1">
+<h1>Operations on RLE</h1>
 <p>Many functions providing summary statisitics are also available to us including <strong>mean()</strong>, <strong>max()</strong> and <strong>sum()</strong> functions.</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">mean</span>(chr1_rle)</span></code></pre></div>
 <pre><code>## [1] 4.181372e-05</code></pre>
