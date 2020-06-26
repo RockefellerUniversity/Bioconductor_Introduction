@@ -1269,6 +1269,22 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -1874,7 +1890,7 @@ div.tocify {
 <p>We can then use the <strong>report()</strong> function to generate a simple report.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>myReport &lt;-<span class="st"> </span><span class="kw">report</span>(my_QA)</span>
 <span id="cb56-2"><a href="#cb56-2"></a>myReport</span></code></pre></div>
-<pre><code>## [1] &quot;/tmp/RtmplX8Xrw/file39f92d53d463/index.html&quot;</code></pre>
+<pre><code>## [1] &quot;/tmp/RtmpwAgwXk/file3a4659c5f2f4/index.html&quot;</code></pre>
 <p>##ShortReads’ qa() Function</p>
 <p>Finally we can review the report in a browser or use the browseURL function to open it in a browser from R.</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="kw">browseURL</span>(myReport)</span></code></pre></div>
