@@ -497,7 +497,7 @@ import.bw("data/TSS_ENCFF940MBK.bw",
 ---
 # Time for an exercise.
 
-[Link_to_exercises](../../exercises/exercises/GS_exercises.html)
+[Link_to_exercises](../../exercises/exercises/GS_exercise.html)
 
 [Link_to_answers](../../exercises/answers/GS_answers.html)
 
