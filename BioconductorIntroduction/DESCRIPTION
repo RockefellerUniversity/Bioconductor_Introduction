@@ -8,7 +8,7 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 LazyData: TRUE
 biocViews: Training
-Depends: methods, rmarkdown, igraph,org.Hs.eg.db, RMariaDB, Rbowtie, parallel, QuasR, BSgenome.Mmusculus.UCSC.mm10, BSgenome.Hsapiens.UCSC.hg19,BSgenome.Hsapiens.UCSC.hg38, Biostrings, rtracklayer, ggplot2, GenomicRanges, ShortRead, Rsubread, Rsamtools, Rbowtie2, stringi, Rhisat2, R.utils, GenomicAlignments, basecallQC, TxDb.Mmusculus.UCSC.mm10.knownGene, TxDb.Hsapiens.UCSC.hg19.knownGene, TxDb.Hsapiens.UCSC.hg38.knownGene
+Depends: methods, rmarkdown, igraph,org.Hs.eg.db, RMariaDB, Rbowtie, parallel, QuasR, BSgenome, BSgenome.Mmusculus.UCSC.mm10, BSgenome.Hsapiens.UCSC.hg19,BSgenome.Hsapiens.UCSC.hg38, Biostrings, rtracklayer, ggplot2, GenomicRanges, ShortRead, Rsubread, Rsamtools, Rbowtie2, stringi, Rhisat2, R.utils, GenomicAlignments, basecallQC, TxDb.Mmusculus.UCSC.mm10.knownGene, TxDb.Hsapiens.UCSC.hg19.knownGene, TxDb.Hsapiens.UCSC.hg38.knownGene
 Suggests: knitr,
     rmarkdown,
     testthat,
