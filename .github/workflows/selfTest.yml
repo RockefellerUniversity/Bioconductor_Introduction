@@ -58,7 +58,7 @@ jobs:
   ## This first job uses the GitHub repository branch name to infer what
   ## version of Bioconductor we will be working on.
   define-docker-info:
-    runs-on: ubuntu-release
+    runs-on: ubuntu-latest
     outputs:
       imagename: ${{ steps.findinfo.outputs.imagename }}
       biocversion: ${{ steps.findinfo.outputs.biocversion }}
@@ -70,7 +70,7 @@ jobs:
           if echo "$GITHUB_REF" | grep -q "RELEASE_"; then
               biocversion="$(basename -- $GITHUB_REF | tr '[:upper:]' '[:lower:]')"
           else
-              biocversion="devel"
+              biocversion="release"
           fi
           ## Define the image name and print the information
           imagename="bioconductor/bioconductor_docker:${biocversion}"
@@ -83,11 +83,11 @@ jobs:
     ## This job then checks the R package using the Bioconductor docker that
     ## was defined by the previous job. This job will determine what version of
     ## R to use for the macOS and Windows builds on the next job.
-    runs-on: ubuntu-release
+    runs-on: ubuntu-latest
     needs: define-docker-info
 
     ## Name shown on the GHA log
-    name: ubuntu-release (r-biocdocker bioc-${{ needs.define-docker-info.outputs.biocversion }})
+    name: ubuntu-latest (r-biocdocker bioc-${{ needs.define-docker-info.outputs.biocversion }})
 
     ## Information used by the next job that will run on macOS and Windows
     outputs:
