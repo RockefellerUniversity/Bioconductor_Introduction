@@ -195,22 +195,6 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
 
 
 
@@ -393,7 +377,7 @@ summary {
 <ol start="8" style="list-style-type: decimal">
 <li>Using a loop and ScanBamParam, count the number number reads in Heart file overlapping exons for the SLC25A3 gene. Remember we can use TxDb objects to extract GRanges of exon positions for genes.</li>
 </ol>
-<pre><code>## &#39;select()&#39; returned 1:1 mapping between keys and columns</code></pre>
+<pre><code>## 'select()' returned 1:1 mapping between keys and columns</code></pre>
 <pre><code>## [1] 0
 ## [1] 0
 ## [1] 0

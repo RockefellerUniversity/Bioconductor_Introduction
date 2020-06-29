@@ -1269,29 +1269,13 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -1301,16 +1285,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -1319,9 +1301,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  background-color: #f8f8f8; }
+  { background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -1646,14 +1628,14 @@ div.tocify {
 <h2>Genomic Intervals in Bioconductor</h2>
 <p>The first package we will look at is the GenomicRanges package.</p>
 <p>Remember we can install Bioconductor packages (fairly) easily using Bioconductor package <a href="https://www.bioconductor.org/install/">commands</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="dt">version =</span> <span class="st">&quot;3.10&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a>BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;GenomicRanges&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="dt">version =</span> <span class="st">&quot;3.10&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;GenomicRanges&quot;</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="genomic-intervals-in-bioconductor-3" class="section level1">
 <h1>Genomic Intervals in Bioconductor</h1>
 <p>Now we have the package installed, we can load the library.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(GenomicRanges)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(GenomicRanges)</a></code></pre></div>
 <p>class: inverse, center, middle</p>
 </div>
 <div id="creating-genomic-ranges." class="section level1">
@@ -1669,8 +1651,8 @@ div.tocify {
 <h1>Building a GenomicRanges</h1>
 <p>To construct a GenomicRanges object we require a set of genomic intervals.</p>
 <p>Intervals (genomic and non genomic intervals) are created using the <strong>IRanges()</strong> function. We must specify <strong>start</strong> and <strong>end</strong> positions as numeric vectors to create our IRanges object.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>myIntervals &lt;-<span class="st"> </span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">20</span>),<span class="dt">end=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">11</span>,<span class="dv">30</span>))</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">class</span>(myIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">myIntervals &lt;-<span class="st"> </span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">10</span>,<span class="dv">20</span>),<span class="dt">end=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">11</span>,<span class="dv">30</span>))</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">class</span>(myIntervals)</a></code></pre></div>
 <pre><code>## [1] &quot;IRanges&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;IRanges&quot;</code></pre>
@@ -1678,7 +1660,7 @@ div.tocify {
 <div id="building-a-genomicranges-1" class="section level1">
 <h1>Building a GenomicRanges</h1>
 <p>The resulting IRanges object contains our intervals and an additional column describing widths of intervals.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>myIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">myIntervals</a></code></pre></div>
 <pre><code>## IRanges object with 3 ranges and 0 metadata columns:
 ##           start       end     width
 ##       &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
@@ -1690,9 +1672,9 @@ div.tocify {
 <h1>Building a GenomicRanges</h1>
 <p>Now to create a Genomic Ranges interval object or <strong>GRanges</strong> object. We extend our IRanges object to also include chrosomosome/contig information.</p>
 <p>To do this we can supply our new IRanges object and a vector of corresponding chromosome locations to the <strong>seqnames</strong> parameter in <strong>GRanges()</strong> function.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>),</span>
-<span id="cb7-2"><a href="#cb7-2"></a>                              myIntervals)</span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">class</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>),</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">                              myIntervals)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">class</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## [1] &quot;GRanges&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;GenomicRanges&quot;</code></pre>
@@ -1700,7 +1682,7 @@ div.tocify {
 <div id="building-a-genomicranges-3" class="section level1">
 <h1>Building a GenomicRanges</h1>
 <p>The created <strong>GRanges</strong> object contains our original intervals from the IRanges object and now the chromosomes/contigs on which the intervals exist.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>myGenomicIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">myGenomicIntervals</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1713,7 +1695,7 @@ div.tocify {
 <div id="indexing-a-genomicranges" class="section level1">
 <h1>Indexing a GenomicRanges</h1>
 <p>We can retrieve genomic intervals from our GRanges using indexing as with <a href="https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/singlepage/introToR_Session1.html#vectors_-_indexing">vectors, matrices and dataframes.</a></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>myGenomicIntervals[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>),]</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">myGenomicIntervals[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>),]</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1725,7 +1707,7 @@ div.tocify {
 <div id="indexing-a-genomicranges-1" class="section level1">
 <h1>Indexing a GenomicRanges</h1>
 <p>Unlike data frames and matrices, we dont need the second <strong>“,”</strong> to specify rows not columns.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>myGenomicIntervals[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">myGenomicIntervals[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)]</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1738,30 +1720,30 @@ div.tocify {
 <h1>Accessing columns in GenomicRanges</h1>
 <p>To access the columns of a GRanges object we must use special accessor functions - <strong>seqnames()</strong>,<strong>start()</strong>, <strong>end()</strong> which correspond to the columns we wish to retrieve.</p>
 <p>We get start and stop positions using the <strong>start()</strong> and <strong>end()</strong> functions.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">start</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">start</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## [1]  1 10 20</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">end</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">end</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## [1]  2 11 30</code></pre>
 </div>
 <div id="replacing-values-in-genomicranges" class="section level1">
 <h1>Replacing values in GenomicRanges</h1>
 <p>We can use the <strong>start()</strong> and <strong>end()</strong> functions to update our start and end positions as well.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">start</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">15</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">start</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">start</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">5</span>,<span class="dv">15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">start</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## [1]  1  5 15</code></pre>
 </div>
 <div id="replacing-values-in-genomicranges-1" class="section level1">
 <h1>Replacing values in GenomicRanges</h1>
 <p>We can not however create intervals with negative widths. Our start positions cannot be greater than our end positions.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">start</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">50</span>,<span class="dv">150</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">start</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">50</span>,<span class="dv">150</span>)</a></code></pre></div>
 <pre><code>## Error in validObject(x): invalid class &quot;IRanges&quot; object: 
-##     &#39;width(x)&#39; cannot contain negative integers</code></pre>
+##     'width(x)' cannot contain negative integers</code></pre>
 </div>
 <div id="retrieving-chromosomecontig-info" class="section level1">
 <h1>Retrieving chromosome/contig info</h1>
 <p>We can retrieve the chromosome names from GenomicRanges in a similar manner to <strong>start()</strong> and <strong>end()</strong> functions using the <strong>seqnames()</strong> function.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>contigNames &lt;-<span class="st"> </span><span class="kw">seqnames</span>(myGenomicIntervals)</span>
-<span id="cb24-2"><a href="#cb24-2"></a>contigNames</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">contigNames &lt;-<span class="st"> </span><span class="kw">seqnames</span>(myGenomicIntervals)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">contigNames</a></code></pre></div>
 <pre><code>## factor-Rle of length 3 with 2 runs
 ##   Lengths:    2    1
 ##   Values : chr1 chr2
@@ -1771,14 +1753,14 @@ div.tocify {
 <h1>Retrieving chromosome/contig info</h1>
 <p>The contig names are stored in another special object called a RLE (run length encoded). This RLE object saves memory and allows for more efficient manipulation of long stretches of repeated names.</p>
 <p>We can convert to a character vector using the <strong>as.character()</strong> function</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">as.character</span>(contigNames)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">as.character</span>(contigNames)</a></code></pre></div>
 <pre><code>## [1] &quot;chr1&quot; &quot;chr1&quot; &quot;chr2&quot;</code></pre>
 </div>
 <div id="replacing-chromosomecontig-info" class="section level1">
 <h1>Replacing chromosome/contig info</h1>
 <p>As with the <strong>start()</strong> and <strong>end()</strong> functions we can update our contig names using the <strong>seqnames()</strong> function.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">seqnames</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr1&quot;</span>)</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="kw">seqnames</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">seqnames</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr1&quot;</span>)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw">seqnames</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## factor-Rle of length 3 with 2 runs
 ##   Lengths:    2    1
 ##   Values : chr2 chr1
@@ -1787,28 +1769,28 @@ div.tocify {
 <div id="replacing-chromosomecontig-info-1" class="section level1">
 <h1>Replacing chromosome/contig info</h1>
 <p>As with <a href="https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/singlepage/introToR_Session1.html#factors_-_creating_factors">all factors however</a>, we can not add contigs not already in use in seqnames column.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="kw">seqnames</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr3&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr1&quot;</span>)</span></code></pre></div>
-<pre><code>## Error in .normalize_seqnames_replacement_value(value, x): levels of supplied &#39;seqnames&#39; must be identical to &#39;seqlevels(x)&#39;</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">seqnames</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr3&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr1&quot;</span>)</a></code></pre></div>
+<pre><code>## Error in .normalize_seqnames_replacement_value(value, x): levels of supplied 'seqnames' must be identical to 'seqlevels(x)'</code></pre>
 </div>
 <div id="replacing-chromosomecontig-info-2" class="section level1">
 <h1>Replacing chromosome/contig info</h1>
 <p>To add new contig we must update the seqlevels, like levels for factors but now for contigs in GRanges objects.</p>
 <p>The <strong>seqlevels()</strong> identifies which contigs we are using.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw">seqlevels</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">seqlevels</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## [1] &quot;chr1&quot; &quot;chr2&quot;</code></pre>
 </div>
 <div id="replacing-chromosomecontig-info-3" class="section level1">
 <h1>Replacing chromosome/contig info</h1>
 <p>We can update the seqlevels in use by again using the <strong>seqlevels()</strong> function.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">seqlevels</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr3&quot;</span>)</span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="kw">seqlevels</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">seqlevels</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr3&quot;</span>)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="kw">seqlevels</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## [1] &quot;chr1&quot; &quot;chr2&quot; &quot;chr3&quot;</code></pre>
 </div>
 <div id="replacing-chromosomecontig-info-4" class="section level1">
 <h1>Replacing chromosome/contig info</h1>
 <p>Now we can add contig for chromosome 3 (<strong>chr3</strong>).</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">seqnames</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr3&quot;</span>)</span>
-<span id="cb36-2"><a href="#cb36-2"></a>myGenomicIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">seqnames</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr3&quot;</span>)</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">myGenomicIntervals</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1822,10 +1804,10 @@ div.tocify {
 <h1>Strand information in a GenomicRanges</h1>
 <p>We can include strand information in GRanges objects.</p>
 <p>We can set strand to be “+” , “-” , or unstranded with &quot;*&quot;.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>), </span>
-<span id="cb38-2"><a href="#cb38-2"></a>                              myIntervals,</span>
-<span id="cb38-3"><a href="#cb38-3"></a>                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;*&quot;</span>))</span>
-<span id="cb38-4"><a href="#cb38-4"></a>myGenomicIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>), </a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">                              myIntervals,</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3">                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;*&quot;</span>))</a>
+<a class="sourceLine" id="cb38-4" data-line-number="4">myGenomicIntervals</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1838,8 +1820,8 @@ div.tocify {
 <div id="strand-information-in-a-genomicranges-1" class="section level1">
 <h1>Strand information in a GenomicRanges</h1>
 <p>Similarly we can extract and set strand information using the <strong>strand()</strong> function.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">strand</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>)</span>
-<span id="cb40-2"><a href="#cb40-2"></a><span class="kw">strand</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">strand</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>)</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">strand</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## factor-Rle of length 3 with 2 runs
 ##   Lengths: 2 1
 ##   Values : + -
@@ -1848,10 +1830,10 @@ div.tocify {
 <div id="strand-information-in-a-genomicranges-2" class="section level1">
 <h1>Strand information in a GenomicRanges</h1>
 <p>The strand information is also stored as a factor RLE. This contains the levels “+”, “-”, &quot;*&quot; and only these levels.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>),</span>
-<span id="cb42-2"><a href="#cb42-2"></a>                              myIntervals,</span>
-<span id="cb42-3"><a href="#cb42-3"></a>                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</span>
-<span id="cb42-4"><a href="#cb42-4"></a><span class="kw">strand</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>),</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">                              myIntervals,</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="kw">strand</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## factor-Rle of length 3 with 1 run
 ##   Lengths: 3
 ##   Values : +
@@ -1860,8 +1842,8 @@ div.tocify {
 <div id="names-in-a-genomicranges" class="section level1">
 <h1>Names in a GenomicRanges</h1>
 <p>Finally we can set and extract names for our genomic intervals using the <strong>names()</strong> function.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw">names</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;peak1&quot;</span>,<span class="st">&quot;peak2&quot;</span>,<span class="st">&quot;peak3&quot;</span>)</span>
-<span id="cb44-2"><a href="#cb44-2"></a>myGenomicIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">names</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;peak1&quot;</span>,<span class="st">&quot;peak2&quot;</span>,<span class="st">&quot;peak3&quot;</span>)</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">myGenomicIntervals</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 0 metadata columns:
 ##         seqnames    ranges strand
 ##            &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1874,7 +1856,7 @@ div.tocify {
 <div id="names-in-a-genomicranges-1" class="section level1">
 <h1>Names in a GenomicRanges</h1>
 <p>As with vectors we can use to names to index and retrieve genomic intervals of interest.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>myGenomicIntervals[<span class="st">&quot;peak2&quot;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">myGenomicIntervals[<span class="st">&quot;peak2&quot;</span>]</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 0 metadata columns:
 ##         seqnames    ranges strand
 ##            &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1886,24 +1868,24 @@ div.tocify {
 <h1>Additional genomic interval information</h1>
 <p>We will often want to store more information on our genomic intervals. We can use the <strong>mcols</strong> (metadata columns) to store this information.</p>
 <p>To add additional metadata columns we can simply supply the desired column name and the values we want to the <strong>GRanges()</strong> function as with data frames.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>myIntervals &lt;-<span class="st"> </span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>),<span class="dt">end=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">11</span>,<span class="dv">30</span>))</span>
-<span id="cb48-2"><a href="#cb48-2"></a>myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>),</span>
-<span id="cb48-3"><a href="#cb48-3"></a>                              myIntervals,<span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>),</span>
-<span id="cb48-4"><a href="#cb48-4"></a>                              <span class="dt">Score=</span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">40</span>),</span>
-<span id="cb48-5"><a href="#cb48-5"></a>                              <span class="dt">Comment=</span><span class="kw">c</span>(<span class="st">&quot;GoodQC&quot;</span>,<span class="st">&quot;GoodQC&quot;</span>,<span class="st">&quot;BadQC&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">myIntervals &lt;-<span class="st"> </span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>),<span class="dt">end=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">11</span>,<span class="dv">30</span>))</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>),</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">                              myIntervals,<span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>),</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">                              <span class="dt">Score=</span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">40</span>),</a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">                              <span class="dt">Comment=</span><span class="kw">c</span>(<span class="st">&quot;GoodQC&quot;</span>,<span class="st">&quot;GoodQC&quot;</span>,<span class="st">&quot;BadQC&quot;</span>))</a></code></pre></div>
 </div>
 <div id="additional-genomic-interval-information-1" class="section level1">
 <h1>Additional genomic interval information</h1>
 <p>We can retrieve this metadata column information as with data frames by using the <strong>$</strong> accessor</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>myGenomicIntervals<span class="op">$</span>Score</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">myGenomicIntervals<span class="op">$</span>Score</a></code></pre></div>
 <pre><code>## [1] 10 20 40</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>myGenomicIntervals<span class="op">$</span>Comment</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">myGenomicIntervals<span class="op">$</span>Comment</a></code></pre></div>
 <pre><code>## [1] &quot;GoodQC&quot; &quot;GoodQC&quot; &quot;BadQC&quot;</code></pre>
 </div>
 <div id="additional-genomic-interval-information-2" class="section level1">
 <h1>Additional genomic interval information</h1>
 <p>We to retrieve all metadata columns as a data frames we can use the <strong>mcols()</strong> function</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="kw">mcols</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">mcols</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>## DataFrame with 3 rows and 2 columns
 ##       Score     Comment
 ##   &lt;numeric&gt; &lt;character&gt;
@@ -1914,7 +1896,7 @@ div.tocify {
 <div id="convert-to-data-frame" class="section level1">
 <h1>Convert to data frame</h1>
 <p>We can convert the entire GRanges to a data.frame using the <strong>as.data.frame()</strong> function.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="kw">as.data.frame</span>(myGenomicIntervals)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">as.data.frame</span>(myGenomicIntervals)</a></code></pre></div>
 <pre><code>##   seqnames start end width strand Score Comment
 ## 1     chr1     1   2     2      +    10  GoodQC
 ## 2     chr1     2  11    10      +    20  GoodQC
@@ -1923,7 +1905,7 @@ div.tocify {
 <h2>GRanges from IDs</h2>
 <p>The GenomicRanges package also has a quick short cut to create GRanges from character strings.</p>
 <p>We simply specify a genomic range in a similar format to that used by IGV - <strong>Chromosome:Start-End</strong> <em><strong>(chr1:110-120)</strong></em>.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="kw">GRanges</span>(<span class="st">&quot;chr1:110-120&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">GRanges</span>(<span class="st">&quot;chr1:110-120&quot;</span>)</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1935,22 +1917,22 @@ div.tocify {
 <h2>GRanges from IDs</h2>
 <p>Often genomics programs will export results in table with a similar format for the GenomicIntervals. The BRC pipeline outputs in a format of <strong>Chromosome:Start:End</strong> <em><strong>(chr1:110:120)</strong></em> to allow separation into columns in programs such as excel.</p>
 <p>To convert the formats we can use some string manipulation tools. In the BRC example we will need to replace last <strong>“:”</strong> with a <strong>“-”</strong>. We can use the <strong>stringi</strong> package’s <strong>stri_replace_last_fixed</strong> function.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="kw">library</span>(stringi)</span>
-<span id="cb59-2"><a href="#cb59-2"></a>myRange &lt;-<span class="st"> &quot;chr1:110:120&quot;</span></span>
-<span id="cb59-3"><a href="#cb59-3"></a>newRange &lt;-<span class="st"> </span><span class="kw">stri_replace_last_fixed</span>(myRange, <span class="st">&#39;:&#39;</span>, <span class="st">&#39;-&#39;</span>)</span>
-<span id="cb59-4"><a href="#cb59-4"></a>newRange</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">library</span>(stringi)</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2">myRange &lt;-<span class="st"> &quot;chr1:110:120&quot;</span></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3">newRange &lt;-<span class="st"> </span><span class="kw">stri_replace_last_fixed</span>(myRange, <span class="st">':'</span>, <span class="st">'-'</span>)</a>
+<a class="sourceLine" id="cb59-4" data-line-number="4">newRange</a></code></pre></div>
 <pre><code>## [1] &quot;chr1:110-120&quot;</code></pre>
 </div>
 <div id="granges-from-ids-2" class="section level2">
 <h2>GRanges from IDs</h2>
 <p>Another common format is <strong>IDforRange:Chromosome:Start:End</strong>. We can clean this up in additional step using another <strong>stringi</strong> function.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a><span class="kw">library</span>(stringi)</span>
-<span id="cb61-2"><a href="#cb61-2"></a>myRange &lt;-<span class="st"> &quot;MyID:chr1:110:120&quot;</span></span>
-<span id="cb61-3"><a href="#cb61-3"></a>newRange &lt;-<span class="st"> </span><span class="kw">stri_replace_last_fixed</span>(myRange, <span class="st">&#39;:&#39;</span>, <span class="st">&#39;-&#39;</span>)</span>
-<span id="cb61-4"><a href="#cb61-4"></a>newerRange &lt;-<span class="st"> </span><span class="kw">stri_replace_first_regex</span>(newRange, <span class="st">&#39;</span><span class="ch">\\</span><span class="st">w*:&#39;</span>, <span class="st">&#39;&#39;</span>)</span>
-<span id="cb61-5"><a href="#cb61-5"></a>newerRange</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">library</span>(stringi)</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">myRange &lt;-<span class="st"> &quot;MyID:chr1:110:120&quot;</span></a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">newRange &lt;-<span class="st"> </span><span class="kw">stri_replace_last_fixed</span>(myRange, <span class="st">':'</span>, <span class="st">'-'</span>)</a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">newerRange &lt;-<span class="st"> </span><span class="kw">stri_replace_first_regex</span>(newRange, <span class="st">'</span><span class="ch">\\</span><span class="st">w*:'</span>, <span class="st">''</span>)</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5">newerRange</a></code></pre></div>
 <pre><code>## [1] &quot;chr1:110-120&quot;</code></pre>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a><span class="kw">GRanges</span>(newerRange)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">GRanges</span>(newerRange)</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -1969,14 +1951,14 @@ div.tocify {
 <h1>Adjusting genomic ranges positions</h1>
 <p>To adjust the postion of a GRanges object we can manually adjust start and end positions, but GenomicRanges provides some more user friendly methods.</p>
 <p>The <strong>shift</strong> function allows us to move by a specified number of basepairs.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>myGenomicIntervals[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">myGenomicIntervals[<span class="dv">1</span>]</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 2 metadata columns:
 ##       seqnames    ranges strand |     Score     Comment
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
 ##   [1]     chr1       1-2      + |        10      GoodQC
 ##   -------
 ##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a><span class="kw">shift</span>(myGenomicIntervals[<span class="dv">1</span>],<span class="dt">shift =</span> <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">shift</span>(myGenomicIntervals[<span class="dv">1</span>],<span class="dt">shift =</span> <span class="dv">10</span>)</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 2 metadata columns:
 ##       seqnames    ranges strand |     Score     Comment
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
@@ -1987,14 +1969,14 @@ div.tocify {
 <div id="adjusting-genomic-ranges-positions-1" class="section level1">
 <h1>Adjusting genomic ranges positions</h1>
 <p>The <strong>resize()</strong> function allows to adjust the width of regions.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a>myGenomicIntervals[<span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1">myGenomicIntervals[<span class="dv">3</span>]</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 2 metadata columns:
 ##       seqnames    ranges strand |     Score     Comment
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
 ##   [1]     chr2      2-30      + |        40       BadQC
 ##   -------
 ##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a><span class="kw">resize</span>(myGenomicIntervals[<span class="dv">3</span>], <span class="dt">width=</span><span class="dv">20</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">resize</span>(myGenomicIntervals[<span class="dv">3</span>], <span class="dt">width=</span><span class="dv">20</span>)</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 2 metadata columns:
 ##       seqnames    ranges strand |     Score     Comment
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
@@ -2005,14 +1987,14 @@ div.tocify {
 <div id="adjusting-genomic-ranges-positions-2" class="section level1">
 <h1>Adjusting genomic ranges positions</h1>
 <p>By default the <strong>resize()</strong> function adjust the width of regions from the <strong>start</strong> of the region. We can control this behavior by specifying the <strong>fix</strong> parameter as <strong>start</strong>, <strong>end</strong> or <strong>center</strong> to specify where we wish to resize from.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a>myGenomicIntervals[<span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">myGenomicIntervals[<span class="dv">3</span>]</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 2 metadata columns:
 ##       seqnames    ranges strand |     Score     Comment
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
 ##   [1]     chr2      2-30      + |        40       BadQC
 ##   -------
 ##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a><span class="kw">resize</span>(myGenomicIntervals[<span class="dv">3</span>], <span class="dt">width=</span><span class="dv">20</span>, <span class="dt">fix=</span><span class="st">&quot;end&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">resize</span>(myGenomicIntervals[<span class="dv">3</span>], <span class="dt">width=</span><span class="dv">20</span>, <span class="dt">fix=</span><span class="st">&quot;end&quot;</span>)</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 2 metadata columns:
 ##       seqnames    ranges strand |     Score     Comment
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
@@ -2024,15 +2006,15 @@ div.tocify {
 <h1>Adjusting genomic ranges positions</h1>
 <p>The <strong>resize()</strong> function by default takes into account strand information.</p>
 <p>For negative strand intervals, when specifying <strong>fix=start</strong> it considers the start as the end position i.e. Useful for Gene positions.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a><span class="kw">resize</span>(myGenomicIntervals[<span class="dv">3</span>],<span class="dt">width=</span><span class="dv">20</span>, <span class="dt">fix=</span><span class="st">&quot;start&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">resize</span>(myGenomicIntervals[<span class="dv">3</span>],<span class="dt">width=</span><span class="dv">20</span>, <span class="dt">fix=</span><span class="st">&quot;start&quot;</span>)</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 2 metadata columns:
 ##       seqnames    ranges strand |     Score     Comment
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
 ##   [1]     chr2      2-21      + |        40       BadQC
 ##   -------
 ##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a><span class="kw">strand</span>(myGenomicIntervals)[<span class="dv">3</span>] &lt;-<span class="st"> &quot;-&quot;</span></span>
-<span id="cb79-2"><a href="#cb79-2"></a><span class="kw">resize</span>(myGenomicIntervals[<span class="dv">3</span>],<span class="dt">width=</span><span class="dv">20</span>, <span class="dt">fix=</span><span class="st">&quot;start&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">strand</span>(myGenomicIntervals)[<span class="dv">3</span>] &lt;-<span class="st"> &quot;-&quot;</span></a>
+<a class="sourceLine" id="cb79-2" data-line-number="2"><span class="kw">resize</span>(myGenomicIntervals[<span class="dv">3</span>],<span class="dt">width=</span><span class="dv">20</span>, <span class="dt">fix=</span><span class="st">&quot;start&quot;</span>)</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 2 metadata columns:
 ##       seqnames    ranges strand |     Score     Comment
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt; &lt;character&gt;
@@ -2045,10 +2027,10 @@ div.tocify {
 <p>A final function for adjusting genomic ranges which we will review is the <strong>reduce()</strong> function.</p>
 <p>The reduce function merges overlapping regions into a single genomic interval.</p>
 <p>First lets make some overlapping intervals</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a>myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>),</span>
-<span id="cb81-2"><a href="#cb81-2"></a>                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>),<span class="dt">end=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">11</span>,<span class="dv">30</span>)),</span>
-<span id="cb81-3"><a href="#cb81-3"></a>                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</span>
-<span id="cb81-4"><a href="#cb81-4"></a>myGenomicIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1">myGenomicIntervals &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>),</a>
+<a class="sourceLine" id="cb81-2" data-line-number="2">                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>),<span class="dt">end=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">11</span>,<span class="dv">30</span>)),</a>
+<a class="sourceLine" id="cb81-3" data-line-number="3">                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</a>
+<a class="sourceLine" id="cb81-4" data-line-number="4">myGenomicIntervals</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2061,8 +2043,8 @@ div.tocify {
 <div id="adjusting-genomic-ranges-positions-5" class="section level1">
 <h1>Adjusting genomic ranges positions</h1>
 <p>Now we can merge them with <strong>reduce()</strong> function taking into account chromosomes.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1"></a>mergedGenomicIntervals &lt;-<span class="st"> </span><span class="kw">reduce</span>(myGenomicIntervals)</span>
-<span id="cb83-2"><a href="#cb83-2"></a>mergedGenomicIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">mergedGenomicIntervals &lt;-<span class="st"> </span><span class="kw">reduce</span>(myGenomicIntervals)</a>
+<a class="sourceLine" id="cb83-2" data-line-number="2">mergedGenomicIntervals</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2074,9 +2056,9 @@ div.tocify {
 <div id="adjusting-genomic-ranges-positions-6" class="section level1">
 <h1>Adjusting genomic ranges positions</h1>
 <p>The <strong>reduce()</strong> function also takes into account the strand information and only merges genomic intervals on same strand.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1"></a><span class="kw">strand</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;+&quot;</span>)</span>
-<span id="cb85-2"><a href="#cb85-2"></a>mergedGenomicIntervals &lt;-<span class="st"> </span><span class="kw">reduce</span>(myGenomicIntervals)</span>
-<span id="cb85-3"><a href="#cb85-3"></a>mergedGenomicIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">strand</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;+&quot;</span>)</a>
+<a class="sourceLine" id="cb85-2" data-line-number="2">mergedGenomicIntervals &lt;-<span class="st"> </span><span class="kw">reduce</span>(myGenomicIntervals)</a>
+<a class="sourceLine" id="cb85-3" data-line-number="3">mergedGenomicIntervals</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2089,10 +2071,10 @@ div.tocify {
 <div id="adjusting-genomic-ranges-positions-7" class="section level1">
 <h1>Adjusting genomic ranges positions</h1>
 <p>We can merge intervals across strands by setting <strong>ignore.strand=TRUE</strong>. Note that all regions are now considered strandless.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1"></a><span class="kw">strand</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;+&quot;</span>)</span>
-<span id="cb87-2"><a href="#cb87-2"></a>mergedGenomicIntervals &lt;-<span class="st"> </span><span class="kw">reduce</span>(myGenomicIntervals,</span>
-<span id="cb87-3"><a href="#cb87-3"></a>                                 <span class="dt">ignore.strand=</span><span class="ot">TRUE</span>)</span>
-<span id="cb87-4"><a href="#cb87-4"></a>mergedGenomicIntervals</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="kw">strand</span>(myGenomicIntervals) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;+&quot;</span>)</a>
+<a class="sourceLine" id="cb87-2" data-line-number="2">mergedGenomicIntervals &lt;-<span class="st"> </span><span class="kw">reduce</span>(myGenomicIntervals,</a>
+<a class="sourceLine" id="cb87-3" data-line-number="3">                                 <span class="dt">ignore.strand=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb87-4" data-line-number="4">mergedGenomicIntervals</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2106,19 +2088,19 @@ div.tocify {
 <p>Some particularly useful methods/operators in GenomicRanges allows us to assess the relationship between two sets of GRanges objects.</p>
 <p>One of the most common is the <strong>%over%</strong> operator which allows us to identify overlapping regions.</p>
 <p>First we make two GRanges objects.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1"></a>myGenomicIntervals1 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),</span>
-<span id="cb89-2"><a href="#cb89-2"></a>                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">25</span>),</span>
-<span id="cb89-3"><a href="#cb89-3"></a>                                             <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>)),</span>
-<span id="cb89-4"><a href="#cb89-4"></a>                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</span>
-<span id="cb89-5"><a href="#cb89-5"></a></span>
-<span id="cb89-6"><a href="#cb89-6"></a>myGenomicIntervals2 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),</span>
-<span id="cb89-7"><a href="#cb89-7"></a>                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">22</span>,<span class="dv">100</span>),</span>
-<span id="cb89-8"><a href="#cb89-8"></a>                                             <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">27</span>,<span class="dv">130</span>)),</span>
-<span id="cb89-9"><a href="#cb89-9"></a>                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1">myGenomicIntervals1 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),</a>
+<a class="sourceLine" id="cb89-2" data-line-number="2">                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">25</span>),</a>
+<a class="sourceLine" id="cb89-3" data-line-number="3">                                             <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">20</span>,<span class="dv">30</span>)),</a>
+<a class="sourceLine" id="cb89-4" data-line-number="4">                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</a>
+<a class="sourceLine" id="cb89-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb89-6" data-line-number="6">myGenomicIntervals2 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),</a>
+<a class="sourceLine" id="cb89-7" data-line-number="7">                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">22</span>,<span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb89-8" data-line-number="8">                                             <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">27</span>,<span class="dv">130</span>)),</a>
+<a class="sourceLine" id="cb89-9" data-line-number="9">                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</a></code></pre></div>
 </div>
 <div id="overlapping-genomic-intervals-1" class="section level1">
 <h1>Overlapping genomic intervals</h1>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1"></a>myGenomicIntervals1</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1">myGenomicIntervals1</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2126,7 +2108,7 @@ div.tocify {
 ##   [2]     chr1     25-30      +
 ##   -------
 ##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1"></a>myGenomicIntervals2</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1">myGenomicIntervals2</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2139,13 +2121,13 @@ div.tocify {
 <h1>Overlapping genomic intervals</h1>
 <p>Now to find all regions in <strong>myGenomicIntervals1</strong> which overlap with intervals in <strong>myGenomicIntervals2</strong> we simply use the <strong>%over%</strong> operator.</p>
 <p>This will return a logical vector specifying if regions in <strong>myGenomicIntervals1</strong> overlap any regions in <strong>myGenomicIntervals2</strong>.</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1"></a>myGenomicIntervals1 <span class="op">%over%</span><span class="st"> </span>myGenomicIntervals2</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1">myGenomicIntervals1 <span class="op">%over%</span><span class="st"> </span>myGenomicIntervals2</a></code></pre></div>
 <pre><code>## [1] FALSE  TRUE</code></pre>
 </div>
 <div id="overlapping-genomic-intervals-3" class="section level1">
 <h1>Overlapping genomic intervals</h1>
 <p>We can use this logical vector then to subset our <strong>myGenomicIntervals1</strong> set <a href="https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#factors_-_creating_factors">as we have with vectors</a>.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1"></a>myGenomicIntervals1[myGenomicIntervals1 <span class="op">%over%</span><span class="st"> </span>myGenomicIntervals2]</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">myGenomicIntervals1[myGenomicIntervals1 <span class="op">%over%</span><span class="st"> </span>myGenomicIntervals2]</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2157,12 +2139,12 @@ div.tocify {
 <h1>Overlapping genomic intervals</h1>
 <p>Another useful function to find overlaps is the <strong>findOverlaps()</strong> function.</p>
 <p>This returns a new object <strong>Hits</strong> object.</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1"></a>myOverlaps &lt;-<span class="st"> </span><span class="kw">findOverlaps</span>(myGenomicIntervals1,myGenomicIntervals2)</span>
-<span id="cb98-2"><a href="#cb98-2"></a><span class="kw">class</span>(myOverlaps)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1">myOverlaps &lt;-<span class="st"> </span><span class="kw">findOverlaps</span>(myGenomicIntervals1,myGenomicIntervals2)</a>
+<a class="sourceLine" id="cb98-2" data-line-number="2"><span class="kw">class</span>(myOverlaps)</a></code></pre></div>
 <pre><code>## [1] &quot;SortedByQueryHits&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;S4Vectors&quot;</code></pre>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1"></a>myOverlaps </span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">myOverlaps </a></code></pre></div>
 <pre><code>## Hits object with 1 hit and 0 metadata columns:
 ##       queryHits subjectHits
 ##       &lt;integer&gt;   &lt;integer&gt;
@@ -2174,22 +2156,22 @@ div.tocify {
 <h1>Overlapping genomic intervals</h1>
 <p>To extract the indices of genomic intervals in <strong>myGenomicIntervals1</strong> overlapping <strong>myGenomicIntervals2</strong> we can use the <strong>queryHits()</strong> function.</p>
 <p>To get the corresponding indicies of overlapping <strong>myGenomicIntervals2</strong> regions we can use the <strong>subjectHits()</strong> function.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1"></a><span class="kw">queryHits</span>(myOverlaps)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="kw">queryHits</span>(myOverlaps)</a></code></pre></div>
 <pre><code>## [1] 2</code></pre>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1"></a><span class="kw">subjectHits</span>(myOverlaps)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">subjectHits</span>(myOverlaps)</a></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 </div>
 <div id="overlapping-genomic-intervals-6" class="section level1">
 <h1>Overlapping genomic intervals</h1>
 <p>We can use these indices to retrieve the overlapping intervals.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1"></a>myGenomicIntervals1[<span class="kw">queryHits</span>(myOverlaps)]</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1">myGenomicIntervals1[<span class="kw">queryHits</span>(myOverlaps)]</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
 ##   [1]     chr1     25-30      +
 ##   -------
 ##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1"></a>myGenomicIntervals2[<span class="kw">subjectHits</span>(myOverlaps)]</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">myGenomicIntervals2[<span class="kw">subjectHits</span>(myOverlaps)]</a></code></pre></div>
 <pre><code>## GRanges object with 1 range and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2201,18 +2183,18 @@ div.tocify {
 <h1>Finding closest regions</h1>
 <p>Another common set of operations we often want to perform between our Genomic Intervals is to find regions which are nearest to, precede or follow each other.</p>
 <p>We can perform these actions using the <strong>nearest</strong>, <strong>precede</strong> and <strong>follow</strong> functions.</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1"></a>myGenomicIntervals1 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),</span>
-<span id="cb110-2"><a href="#cb110-2"></a>                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>),</span>
-<span id="cb110-3"><a href="#cb110-3"></a>                                             <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">25</span>,<span class="dv">30</span>)),</span>
-<span id="cb110-4"><a href="#cb110-4"></a>                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</span>
-<span id="cb110-5"><a href="#cb110-5"></a></span>
-<span id="cb110-6"><a href="#cb110-6"></a>myGenomicIntervals2 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),</span>
-<span id="cb110-7"><a href="#cb110-7"></a>                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">10000</span>),</span>
-<span id="cb110-8"><a href="#cb110-8"></a>                                             <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">10002</span>)),</span>
-<span id="cb110-9"><a href="#cb110-9"></a>                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1">myGenomicIntervals1 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),</a>
+<a class="sourceLine" id="cb110-2" data-line-number="2">                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>),</a>
+<a class="sourceLine" id="cb110-3" data-line-number="3">                                             <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">25</span>,<span class="dv">30</span>)),</a>
+<a class="sourceLine" id="cb110-4" data-line-number="4">                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</a>
+<a class="sourceLine" id="cb110-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb110-6" data-line-number="6">myGenomicIntervals2 &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr1&quot;</span>),</a>
+<a class="sourceLine" id="cb110-7" data-line-number="7">                              <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">10000</span>),</a>
+<a class="sourceLine" id="cb110-8" data-line-number="8">                                             <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">10002</span>)),</a>
+<a class="sourceLine" id="cb110-9" data-line-number="9">                              <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;+&quot;</span>))</a></code></pre></div>
 <div id="finding-closest-regions-1" class="section level2">
 <h2>Finding closest regions</h2>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1"></a>myGenomicIntervals1</span></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1">myGenomicIntervals1</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2220,7 +2202,7 @@ div.tocify {
 ##   [2]     chr1     20-30      +
 ##   -------
 ##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1"></a>myGenomicIntervals2</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1">myGenomicIntervals2</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames      ranges strand
 ##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2233,14 +2215,14 @@ div.tocify {
 <div id="nearest-genomics-intervals" class="section level1">
 <h1>Nearest genomics intervals</h1>
 <p>The <strong>nearest()</strong> function accepts the two GenomicRanges we wish to compare as arguments and returns the index of intervals in second GenomicRanges nearest to those in first GenomicRanges.</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1"></a>indexOfNearest &lt;-<span class="st"> </span><span class="kw">nearest</span>(myGenomicIntervals1,myGenomicIntervals2)</span>
-<span id="cb115-2"><a href="#cb115-2"></a>indexOfNearest</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">indexOfNearest &lt;-<span class="st"> </span><span class="kw">nearest</span>(myGenomicIntervals1,myGenomicIntervals2)</a>
+<a class="sourceLine" id="cb115-2" data-line-number="2">indexOfNearest</a></code></pre></div>
 <pre><code>## [1] 1 1</code></pre>
 </div>
 <div id="nearest-genomics-intervals-1" class="section level1">
 <h1>Nearest genomics intervals</h1>
 <p>I can use this vector of index positions to then extract intervals in second GenomicRanges nearest to those in first GenomicRanges.</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1"></a>myGenomicIntervals2[indexOfNearest]</span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1">myGenomicIntervals2[indexOfNearest]</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames    ranges strand
 ##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2252,9 +2234,9 @@ div.tocify {
 <div id="precedingfollowing-intervals" class="section level1">
 <h1>Preceding/following intervals</h1>
 <p>We can use the <strong>precede()</strong> and <strong>follow()</strong> functions in much the same way to the <strong>nearest()</strong> function. This returns the index of elements in second GenomicRanges argument that are preceeded or followed by elements in first GenomicRanges argument.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1"></a>precedeIndex &lt;-<span class="st"> </span><span class="kw">precede</span>(myGenomicIntervals1,myGenomicIntervals2)</span>
-<span id="cb119-2"><a href="#cb119-2"></a>followIndex &lt;-<span class="st"> </span><span class="kw">follow</span>(myGenomicIntervals1,myGenomicIntervals2)</span>
-<span id="cb119-3"><a href="#cb119-3"></a>myGenomicIntervals2[precedeIndex]</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1">precedeIndex &lt;-<span class="st"> </span><span class="kw">precede</span>(myGenomicIntervals1,myGenomicIntervals2)</a>
+<a class="sourceLine" id="cb119-2" data-line-number="2">followIndex &lt;-<span class="st"> </span><span class="kw">follow</span>(myGenomicIntervals1,myGenomicIntervals2)</a>
+<a class="sourceLine" id="cb119-3" data-line-number="3">myGenomicIntervals2[precedeIndex]</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 0 metadata columns:
 ##       seqnames      ranges strand
 ##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt;
@@ -2266,8 +2248,8 @@ div.tocify {
 <div id="distance-to-nearest-genomics-intervals" class="section level1">
 <h1>Distance to nearest genomics intervals</h1>
 <p>Another useful function is <strong>distanceToNearest()</strong> which again accepts arguments like <strong>nearest()</strong> or <strong>findOverlaps()</strong> functions and provides an object containing indexes of nearest intervals including a column of distances between nearest intervals.</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1"></a>distances &lt;-<span class="st"> </span><span class="kw">distanceToNearest</span>(myGenomicIntervals1,myGenomicIntervals2)</span>
-<span id="cb121-2"><a href="#cb121-2"></a>distances</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">distances &lt;-<span class="st"> </span><span class="kw">distanceToNearest</span>(myGenomicIntervals1,myGenomicIntervals2)</a>
+<a class="sourceLine" id="cb121-2" data-line-number="2">distances</a></code></pre></div>
 <pre><code>## Hits object with 2 hits and 1 metadata column:
 ##       queryHits subjectHits |  distance
 ##       &lt;integer&gt;   &lt;integer&gt; | &lt;integer&gt;
@@ -2275,7 +2257,7 @@ div.tocify {
 ##   [2]         2           1 |        17
 ##   -------
 ##   queryLength: 2 / subjectLength: 2</code></pre>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1"></a><span class="kw">mcols</span>(distances)</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw">mcols</span>(distances)</a></code></pre></div>
 <pre><code>## DataFrame with 2 rows and 1 column
 ##    distance
 ##   &lt;integer&gt;
@@ -2286,9 +2268,9 @@ div.tocify {
 <h1>Importing and exporting to bed</h1>
 <p>As we have seen, Genomic Intervals are often stores as BED files.</p>
 <p>The <strong>rtracklayer</strong> package provide mechanisms to import and export from BED3/6 files using the <strong>import.bed</strong> and <strong>export.bed</strong> functions.</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1"></a><span class="kw">library</span>(rtracklayer)</span>
-<span id="cb125-2"><a href="#cb125-2"></a>mySicerPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<span class="dt">con=</span><span class="st">&quot;data/SicerPeaks.bed&quot;</span>)</span>
-<span id="cb125-3"><a href="#cb125-3"></a>mySicerPeaks</span></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">library</span>(rtracklayer)</a>
+<a class="sourceLine" id="cb125-2" data-line-number="2">mySicerPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<span class="dt">con=</span><span class="st">&quot;data/SicerPeaks.bed&quot;</span>)</a>
+<a class="sourceLine" id="cb125-3" data-line-number="3">mySicerPeaks</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 2 metadata columns:
 ##       seqnames            ranges strand |        name     score
 ##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;numeric&gt;
@@ -2302,13 +2284,13 @@ div.tocify {
 <h1>Importing and exporting to bed</h1>
 <p>Exporting to BED is achieved by using the <strong>export.bed()</strong> function.</p>
 <p>This produces a valid BED file for use in IGV and other softwares.</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1"></a><span class="kw">export.bed</span>(mySicerPeaks, <span class="dt">con=</span><span class="st">&quot;moreSicerPeaks.bed&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="kw">export.bed</span>(mySicerPeaks, <span class="dt">con=</span><span class="st">&quot;moreSicerPeaks.bed&quot;</span>)</a></code></pre></div>
 </div>
 <div id="using-granges-to-extract-sequences" class="section level1">
 <h1>Using GRanges to extract sequences</h1>
 <p>We saw how we can extract sequences from a BSgenome object previously using <strong>subseq()</strong> function.</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1"></a><span class="kw">library</span>(BSgenome.Mmusculus.UCSC.mm10)</span>
-<span id="cb128-2"><a href="#cb128-2"></a><span class="kw">subseq</span>(BSgenome.Mmusculus.UCSC.mm10<span class="op">$</span>chr10,<span class="dv">1</span>,<span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">library</span>(BSgenome.Mmusculus.UCSC.mm10)</a>
+<a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw">subseq</span>(BSgenome.Mmusculus.UCSC.mm10<span class="op">$</span>chr10,<span class="dv">1</span>,<span class="dv">100</span>)</a></code></pre></div>
 <pre><code>## 100-letter DNAString object
 ## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code></pre>
 </div>
@@ -2316,8 +2298,8 @@ div.tocify {
 <h1>Using GRanges to extract sequences</h1>
 <p>With GRanges objects we can specify the BSgenome for the sequence and GRanges as regions to be extracted.</p>
 <p>Here we can use the <strong>getSeq()</strong> function to extract sequences under our Sicer Peaks on the mm10 genome.</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1"></a>sicerSeq &lt;-<span class="st"> </span><span class="kw">getSeq</span>(BSgenome.Mmusculus.UCSC.mm10, <span class="dt">names=</span>mySicerPeaks)</span>
-<span id="cb130-2"><a href="#cb130-2"></a>sicerSeq</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1">sicerSeq &lt;-<span class="st"> </span><span class="kw">getSeq</span>(BSgenome.Mmusculus.UCSC.mm10, <span class="dt">names=</span>mySicerPeaks)</a>
+<a class="sourceLine" id="cb130-2" data-line-number="2">sicerSeq</a></code></pre></div>
 <pre><code>## DNAStringSet object of length 3:
 ##     width seq
 ## [1]  5399 AACAGGGCCTGACTGCGTACAGACATGTCCCCCT...GCCCCGGAGATCGGCGCTGGGCCCTAGCCTAGA
@@ -2327,7 +2309,7 @@ div.tocify {
 <div id="using-granges-to-extract-sequences-2" class="section level1">
 <h1>Using GRanges to extract sequences</h1>
 <p>The resulting <strong>DNAStringSet</strong> may be written to a FASTA file for further analysis in external programs.</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1"></a><span class="kw">writeXStringSet</span>(sicerSeq,<span class="st">&quot;sicerSeq.fa&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">writeXStringSet</span>(sicerSeq,<span class="st">&quot;sicerSeq.fa&quot;</span>)</a></code></pre></div>
 </div>
 <div id="time-for-an-exercise." class="section level1">
 <h1>Time for an exercise.</h1>

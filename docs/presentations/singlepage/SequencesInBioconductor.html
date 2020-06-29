@@ -1269,29 +1269,13 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -1301,16 +1285,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -1319,9 +1301,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  background-color: #f8f8f8; }
+  { background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -1620,15 +1602,15 @@ div.tocify {
 <h1>BSgenome packages</h1>
 <p>To make use of a BSgenome package we must first install and load the library.</p>
 <p>The resulting BSgenome object (here BSgenome.Mmusculus.UCSC.mm10) contains the full genome sequence for the model organism.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(BSgenome.Mmusculus.UCSC.mm10)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">class</span>(BSgenome.Mmusculus.UCSC.mm10)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(BSgenome.Mmusculus.UCSC.mm10)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">class</span>(BSgenome.Mmusculus.UCSC.mm10)</a></code></pre></div>
 <pre><code>## [1] &quot;BSgenome&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;BSgenome&quot;</code></pre>
 </div>
 <div id="bsgenome.mmusculus.ucsc.mm10" class="section level1">
 <h1>BSgenome.Mmusculus.UCSC.mm10</h1>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>BSgenome.Mmusculus.UCSC.mm10</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">BSgenome.Mmusculus.UCSC.mm10</a></code></pre></div>
 <pre><code>## Mouse genome:
 ## # organism: Mus musculus (Mouse)
 ## # provider: UCSC
@@ -1647,7 +1629,7 @@ div.tocify {
 ## #   chrUn_GL456385       chrUn_GL456387       chrUn_GL456389      
 ## #   chrUn_GL456390       chrUn_GL456392       chrUn_GL456393      
 ## #   chrUn_GL456394       chrUn_GL456396       chrUn_JH584304      
-## # (use &#39;seqnames()&#39; to see all the sequence names, use the &#39;$&#39; or &#39;[[&#39; operator
+## # (use 'seqnames()' to see all the sequence names, use the '$' or '[[' operator
 ## # to access a given sequence)</code></pre>
 </div>
 <div id="data-in-bsgenome-objects" class="section level1">
@@ -1662,8 +1644,8 @@ div.tocify {
 <div id="contig-names" class="section level1">
 <h1>Contig Names</h1>
 <p>We can retrieve contig names using <strong>seqnames()</strong> function.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>contigNames &lt;-<span class="st"> </span><span class="kw">seqnames</span>(BSgenome.Mmusculus.UCSC.mm10)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>contigNames[<span class="dv">1</span><span class="op">:</span><span class="dv">22</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">contigNames &lt;-<span class="st"> </span><span class="kw">seqnames</span>(BSgenome.Mmusculus.UCSC.mm10)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">contigNames[<span class="dv">1</span><span class="op">:</span><span class="dv">22</span>]</a></code></pre></div>
 <pre><code>##  [1] &quot;chr1&quot;  &quot;chr2&quot;  &quot;chr3&quot;  &quot;chr4&quot;  &quot;chr5&quot;  &quot;chr6&quot;  &quot;chr7&quot;  &quot;chr8&quot;  &quot;chr9&quot; 
 ## [10] &quot;chr10&quot; &quot;chr11&quot; &quot;chr12&quot; &quot;chr13&quot; &quot;chr14&quot; &quot;chr15&quot; &quot;chr16&quot; &quot;chr17&quot; &quot;chr18&quot;
 ## [19] &quot;chr19&quot; &quot;chrX&quot;  &quot;chrY&quot;  &quot;chrM&quot;</code></pre>
@@ -1671,8 +1653,8 @@ div.tocify {
 <div id="contig-lengths" class="section level1">
 <h1>Contig Lengths</h1>
 <p>We can also retrieve contig lengths using <strong>seqlengths()</strong> function.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>contigLengths &lt;-<span class="st"> </span><span class="kw">seqlengths</span>(BSgenome.Mmusculus.UCSC.mm10)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>contigLengths[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">contigLengths &lt;-<span class="st"> </span><span class="kw">seqlengths</span>(BSgenome.Mmusculus.UCSC.mm10)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">contigLengths[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
 <pre><code>##      chr1      chr2      chr3      chr4 
 ## 195471971 182113224 160039680 156508116</code></pre>
 </div>
@@ -1680,23 +1662,23 @@ div.tocify {
 <h1>Retrieving Sequence Information</h1>
 <p>Now we know sequence names, we can retrieve sequence information using either the <strong>$</strong> or <strong>[[]]</strong> accessors.</p>
 <p>Here we use the data.frame and list accessor <strong>$</strong> with name of contig of interest</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>chr19_Seq &lt;-<span class="st"> </span>BSgenome.Mmusculus.UCSC.mm10<span class="op">$</span>chr19</span>
-<span id="cb9-2"><a href="#cb9-2"></a>chr19_Seq</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">chr19_Seq &lt;-<span class="st"> </span>BSgenome.Mmusculus.UCSC.mm10<span class="op">$</span>chr19</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">chr19_Seq</a></code></pre></div>
 <pre><code>## 61431566-letter DNAString object
 ## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code></pre>
 </div>
 <div id="retrieving-sequence-information-1" class="section level1">
 <h1>Retrieving Sequence Information</h1>
 <p>now we use list accessor <strong>[[]]</strong> with name of contig of interest</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>chr19_Seq &lt;-<span class="st"> </span>BSgenome.Mmusculus.UCSC.mm10[[<span class="st">&quot;chr19&quot;</span>]]</span>
-<span id="cb11-2"><a href="#cb11-2"></a>chr19_Seq</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">chr19_Seq &lt;-<span class="st"> </span>BSgenome.Mmusculus.UCSC.mm10[[<span class="st">&quot;chr19&quot;</span>]]</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">chr19_Seq</a></code></pre></div>
 <pre><code>## 61431566-letter DNAString object
 ## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</code></pre>
 </div>
 <div id="biostrings-and-dnastring" class="section level1">
 <h1>Biostrings and DNAString</h1>
 <p>The returned sequence object is a <strong>DNAString</strong> object from the <strong>Biostrings</strong> package. DNAStrings are efficient objects for storing and accessing large sequences.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">class</span>(chr19_Seq)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">class</span>(chr19_Seq)</a></code></pre></div>
 <pre><code>## [1] &quot;DNAString&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;Biostrings&quot;</code></pre>
@@ -1705,7 +1687,7 @@ div.tocify {
 <div id="subsetting-a-dnastring-set" class="section level1">
 <h1>Subsetting a DNAString Set</h1>
 <p>We can subset a DNAString object just like indexing a normal vector</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>chr19_Seq[<span class="dv">1</span><span class="op">:</span><span class="dv">10000000</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">chr19_Seq[<span class="dv">1</span><span class="op">:</span><span class="dv">10000000</span>]</a></code></pre></div>
 <pre><code>## 10000000-letter DNAString object
 ## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG</code></pre>
 </div>
@@ -1713,7 +1695,7 @@ div.tocify {
 <h1>Subsetting a DNAString Set</h1>
 <p>Or we can use the Biostrings function <strong>subseq()</strong> on our DNAString.</p>
 <p>Note that <strong>subseq()</strong> is a faster implementation of subsetting for DNAString objects.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">subseq</span>(chr19_Seq,<span class="dt">start=</span><span class="dv">1</span>,<span class="dt">end=</span><span class="dv">10000000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">subseq</span>(chr19_Seq,<span class="dt">start=</span><span class="dv">1</span>,<span class="dt">end=</span><span class="dv">10000000</span>)</a></code></pre></div>
 <pre><code>## 10000000-letter DNAString object
 ## seq: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN...GCAGACCCAACTTGCCCAGGTGCGGGTTTTCCATTG</code></pre>
 </div>
@@ -1721,7 +1703,7 @@ div.tocify {
 <h1>Useful Functions</h1>
 <p>The Biostrings package has many useful functions for handling sequence data.</p>
 <p>We can review the frequency of bases using the <strong>alphabetFrequency()</strong> function.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">alphabetFrequency</span>(chr19_Seq)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">alphabetFrequency</span>(chr19_Seq)</a></code></pre></div>
 <pre><code>##        A        C        G        T        M        R        W        S 
 ## 16732680 12449343 12420880 16602953        0        0        0        0 
 ##        Y        K        V        H        D        B        N        - 
@@ -1732,23 +1714,23 @@ div.tocify {
 <div id="useful-functions-1" class="section level1">
 <h1>Useful Functions</h1>
 <p>We can get the complement,reverse and reverse complement of sequence using the <strong>complement()</strong>, <strong>reverse()</strong>, <strong>reverseComplement()</strong>.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>chr19_SeqComp &lt;-<span class="st"> </span><span class="kw">complement</span>(chr19_Seq)</span>
-<span id="cb21-2"><a href="#cb21-2"></a>chr19_SeqRev &lt;-<span class="st"> </span><span class="kw">reverse</span>(chr19_Seq)</span>
-<span id="cb21-3"><a href="#cb21-3"></a>chr19_SeqRevComp &lt;-<span class="st"> </span><span class="kw">reverseComplement</span>(chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000010</span>])</span>
-<span id="cb21-4"><a href="#cb21-4"></a>chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000010</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">chr19_SeqComp &lt;-<span class="st"> </span><span class="kw">complement</span>(chr19_Seq)</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">chr19_SeqRev &lt;-<span class="st"> </span><span class="kw">reverse</span>(chr19_Seq)</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">chr19_SeqRevComp &lt;-<span class="st"> </span><span class="kw">reverseComplement</span>(chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000010</span>])</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000010</span>]</a></code></pre></div>
 <pre><code>## 11-letter DNAString object
 ## seq: GTAATGTACAG</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>chr19_SeqRevComp</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">chr19_SeqRevComp</a></code></pre></div>
 <pre><code>## 11-letter DNAString object
 ## seq: CTGTACATTAC</code></pre>
 </div>
 <div id="useful-functions-2" class="section level1">
 <h1>Useful Functions</h1>
 <p>We can get the translation of our sequence using the <strong>translate()</strong>.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">length</span>(chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000008</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">length</span>(chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000008</span>])</a></code></pre></div>
 <pre><code>## [1] 9</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>chr19_SeqTranslation &lt;-<span class="st"> </span><span class="kw">translate</span>(chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000008</span>])</span>
-<span id="cb27-2"><a href="#cb27-2"></a>chr19_SeqTranslation</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">chr19_SeqTranslation &lt;-<span class="st"> </span><span class="kw">translate</span>(chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000008</span>])</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">chr19_SeqTranslation</a></code></pre></div>
 <pre><code>## 3-letter AAString object
 ## seq: VMY</code></pre>
 </div>
@@ -1756,27 +1738,27 @@ div.tocify {
 <h1>Useful Functions</h1>
 <p>We can get also match and count the occurrence of patterns in our sequence using <strong>matchPattern()</strong> and <strong>countPattern()</strong>.</p>
 <p>To count occurrence of patterns we provide our sequence to match to the <strong>pattern</strong> argument and the sequence to search within as a DNAstring object to the <strong>subject</strong> argument.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>chr19_Count &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,</span>
-<span id="cb29-2"><a href="#cb29-2"></a>                            <span class="dt">subject=</span>chr19_Seq)</span>
-<span id="cb29-3"><a href="#cb29-3"></a>chr19_Count</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">chr19_Count &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">                            <span class="dt">subject=</span>chr19_Seq)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">chr19_Count</a></code></pre></div>
 <pre><code>## [1] 86</code></pre>
 </div>
 <div id="useful-functions-4" class="section level1">
 <h1>Useful Functions</h1>
 <p>We may not always expect a perfect match for our sequence. We can search for close matches by setting the degree of specificity to the <strong>max.mismatch</strong> and <strong>min.mismatch</strong> arguments.</p>
 <p>By default both <strong>max.mismatch</strong> and <strong>min.mismatch</strong> are set to 0.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>chr19_Count &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,</span>
-<span id="cb31-2"><a href="#cb31-2"></a>                            <span class="dt">subject=</span>chr19_Seq,</span>
-<span id="cb31-3"><a href="#cb31-3"></a>                            <span class="dt">max.mismatch =</span> <span class="dv">2</span>,</span>
-<span id="cb31-4"><a href="#cb31-4"></a>                            <span class="dt">min.mismatch =</span> <span class="dv">0</span>)</span>
-<span id="cb31-5"><a href="#cb31-5"></a>chr19_Count</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">chr19_Count &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">                            <span class="dt">subject=</span>chr19_Seq,</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">                            <span class="dt">max.mismatch =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4">                            <span class="dt">min.mismatch =</span> <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb31-5" data-line-number="5">chr19_Count</a></code></pre></div>
 <pre><code>## [1] 34456</code></pre>
 </div>
 <div id="useful-functions-5" class="section level1">
 <h1>Useful Functions</h1>
 <p>We can also use IUPAC codes to account for ambiguity in the sequence we will match.</p>
 <p>We can see the availble IUPAC code by viewing the Biostring named vector <strong>IUPAC_CODE_MAP</strong>.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>IUPAC_CODE_MAP</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">IUPAC_CODE_MAP</a></code></pre></div>
 <pre><code>##      A      C      G      T      M      R      W      S      Y      K      V 
 ##    &quot;A&quot;    &quot;C&quot;    &quot;G&quot;    &quot;T&quot;   &quot;AC&quot;   &quot;AG&quot;   &quot;AT&quot;   &quot;CG&quot;   &quot;CT&quot;   &quot;GT&quot;  &quot;ACG&quot; 
 ##      H      D      B      N 
@@ -1785,33 +1767,33 @@ div.tocify {
 <div id="useful-functions-6" class="section level1">
 <h1>Useful Functions</h1>
 <p>We can make use of IUPAC codes in our search by setting the <strong>fixed</strong> argument to false.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>chr19_Count &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;RYKHBNKYSRR&quot;</span>,</span>
-<span id="cb35-2"><a href="#cb35-2"></a>                            <span class="dt">subject=</span>chr19_Seq,</span>
-<span id="cb35-3"><a href="#cb35-3"></a>                            <span class="dt">fixed=</span><span class="ot">FALSE</span>)</span>
-<span id="cb35-4"><a href="#cb35-4"></a>chr19_Count</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">chr19_Count &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;RYKHBNKYSRR&quot;</span>,</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">                            <span class="dt">subject=</span>chr19_Seq,</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">                            <span class="dt">fixed=</span><span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">chr19_Count</a></code></pre></div>
 <pre><code>## [1] 3303152</code></pre>
 </div>
 <div id="useful-functions-7" class="section level1">
 <h1>Useful Functions</h1>
 <p>Typically we will search both strands (Watson and Crick/forward and reverse) to identify any patterns.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>chr19_Count_Watson &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,</span>
-<span id="cb37-2"><a href="#cb37-2"></a>                                    <span class="dt">subject=</span>chr19_Seq)</span>
-<span id="cb37-3"><a href="#cb37-3"></a>chr19_Count_Crick &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,</span>
-<span id="cb37-4"><a href="#cb37-4"></a>                                    <span class="dt">subject=</span><span class="kw">reverseComplement</span>(chr19_Seq)</span>
-<span id="cb37-5"><a href="#cb37-5"></a>                                   )</span>
-<span id="cb37-6"><a href="#cb37-6"></a>Total_chr19_Count &lt;-<span class="st"> </span>chr19_Count_Watson<span class="op">+</span>chr19_Count_Crick</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">chr19_Count_Watson &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">                                    <span class="dt">subject=</span>chr19_Seq)</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">chr19_Count_Crick &lt;-<span class="st"> </span><span class="kw">countPattern</span>(<span class="dt">pattern=</span><span class="st">&quot;ATCTGCAATG&quot;</span>,</a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">                                    <span class="dt">subject=</span><span class="kw">reverseComplement</span>(chr19_Seq)</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5">                                   )</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">Total_chr19_Count &lt;-<span class="st"> </span>chr19_Count_Watson<span class="op">+</span>chr19_Count_Crick</a></code></pre></div>
 <p>#Writing to a FASTA File</p>
 <p>The <strong>Biostrings</strong> package contains useful functions to read and write to a FASTA file.</p>
 <p>To write our DNAString object to a FASTA file we can use the <strong>writeXStringSet()</strong> function.</p>
 <p>First we will convert our DNAString to a DNAStringSet object using the <strong>DNAStringSet()</strong> function and set names using the <strong>names()</strong> function.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>chr19_SeqSet &lt;-<span class="st"> </span><span class="kw">DNAStringSet</span>(chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000010</span>])</span>
-<span id="cb38-2"><a href="#cb38-2"></a><span class="kw">names</span>(chr19_SeqSet) &lt;-<span class="st"> &quot;chr19&quot;</span></span>
-<span id="cb38-3"><a href="#cb38-3"></a><span class="kw">writeXStringSet</span>(chr19_SeqSet,<span class="dt">filepath =</span> <span class="st">&quot;data/chr19_Seq.fa&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">chr19_SeqSet &lt;-<span class="st"> </span><span class="kw">DNAStringSet</span>(chr19_Seq[<span class="dv">10000000</span><span class="op">:</span><span class="dv">10000010</span>])</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw">names</span>(chr19_SeqSet) &lt;-<span class="st"> &quot;chr19&quot;</span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw">writeXStringSet</span>(chr19_SeqSet,<span class="dt">filepath =</span> <span class="st">&quot;data/chr19_Seq.fa&quot;</span>)</a></code></pre></div>
 <p>#Reading a FASTA File</p>
 <p>Now we can read our a FASTA file back to DNAStringSet object using the <strong>readDNAStringSet()</strong> function.</p>
 <p>We can access our DNAString from the DNAStringSet object again using <strong>$</strong> and <strong>[[]]</strong> functions.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>chr19_FromFASTA &lt;-<span class="st"> </span><span class="kw">readDNAStringSet</span>(<span class="dt">filepath =</span> <span class="st">&quot;data/chr19_Seq.fa&quot;</span>)</span>
-<span id="cb39-2"><a href="#cb39-2"></a>chr19_FromFASTA<span class="op">$</span>chr19</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">chr19_FromFASTA &lt;-<span class="st"> </span><span class="kw">readDNAStringSet</span>(<span class="dt">filepath =</span> <span class="st">&quot;data/chr19_Seq.fa&quot;</span>)</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">chr19_FromFASTA<span class="op">$</span>chr19</a></code></pre></div>
 <pre><code>## 11-letter DNAString object
 ## seq: GTAATGTACAG</code></pre>
 </div>
