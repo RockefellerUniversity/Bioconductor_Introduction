@@ -83,11 +83,11 @@ jobs:
     ## This job then checks the R package using the Bioconductor docker that
     ## was defined by the previous job. This job will determine what version of
     ## R to use for the macOS and Windows builds on the next job.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-release
     needs: define-docker-info
 
     ## Name shown on the GHA log
-    name: ubuntu-latest (r-biocdocker bioc-${{ needs.define-docker-info.outputs.biocversion }})
+    name: ubuntu-release (r-biocdocker bioc-${{ needs.define-docker-info.outputs.biocversion }})
 
     ## Information used by the next job that will run on macOS and Windows
     outputs:
