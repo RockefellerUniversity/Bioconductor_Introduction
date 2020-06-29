@@ -1269,6 +1269,22 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -2059,7 +2075,7 @@ div.tocify {
 </div>
 <div id="time-for-an-exercise." class="section level1">
 <h1>Time for an exercise.</h1>
-<p><a href="../../exercises/exercises/GS_exercises.html">Link_to_exercises</a></p>
+<p><a href="../../exercises/exercises/GS_exercise.html">Link_to_exercises</a></p>
 <p><a href="../../exercises/answers/GS_answers.html">Link_to_answers</a></p>
 </div>
 

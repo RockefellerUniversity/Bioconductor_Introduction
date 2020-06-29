@@ -200,6 +200,13 @@ signalDepth &lt;- chr12Cov[98591400:98608400]
 signalDepthScaled &lt;- data.frame(Position=98591400:98608400,
                                 Signal=signalDepth*1000)
 library(ggplot2)
+```
+
+```
+## Warning: package 'ggplot2' was built under R version 4.0.1
+```
+
+```r
 ggplot(signalDepthScaled,aes(x=Position,y=Signal))+
   geom_line()+theme_minimal()
 ```
