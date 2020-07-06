@@ -60,14 +60,14 @@ heartCoverageNorm <- coverage("Heart.bam",weight = 1/totalHeart)
 
 ```{r installBSaa2w,  echo=toMessage}
 heartCoverageNorm12 <- heartCoverageNorm[["chr12"]]
-signalDepthHeart <- heartCoverageNorm12[98986183:98998558]
+signalDepthHeart <- heartCoverageNorm12[98592587:98607803]
 signalDepthScaled <- data.frame(Sample="Heart",
-                                Position=98986183:98998558,
+                                Position=98592587:98607803,
                                 Signal=signalDepthHeart)
 liverCoverageNorm12 <- liverCoverageNorm[["chr12"]]
-signalDepthLiver <- liverCoverageNorm12[98986183:98998558]
+signalDepthLiver <- liverCoverageNorm12[98592587:98607803]
 signalDepthScaled2 <- data.frame(Sample="Liver",
-                                Position=98986183:98998558,
+                                Position=98592587:98607803,
                                 Signal=signalDepthLiver)
 
 toPlot <- rbind(signalDepthScaled,signalDepthScaled2)
