@@ -38,7 +38,7 @@ class: inverse, center, middle
 Sequencing data from Illumina sequences machines are often stored in FASTQ format.
 
 &lt;div align="center"&gt;
-&lt;img src="imgs/fastq.png" alt="igv" height="400" width="600"&gt;
+&lt;img src="imgs/fq1.png" alt="igv" height="200" width="600"&gt;
 &lt;/div&gt;
 
 
@@ -368,19 +368,21 @@ slc25A3
 ```r
 heartCoverageNorm &lt;- coverage("Heart.bam")
 myMeanCovOverExons &lt;- mean(heartCoverageNorm[slc25A3])
-```
-
-```
-## Warning in mean.default(heartCoverageNorm[slc25A3]): argument is not numeric or
-## logical: returning NA
-```
-
-```r
 myMeanCovOverExons
 ```
 
+
 ```
-## [1] NA
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+##  197.3933  255.2500  633.2740  323.8462  341.8605  345.5647  361.1852  510.2909 
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+##  715.6889  601.2222  554.0204  756.4282 1757.2919  473.0144 1770.5732  539.0552 
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+## 4232.1680 2317.5153  204.4162  299.2623 2600.1274 6779.2570 6785.8833 6749.0552 
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+## 5607.1697 2104.1342 6218.8696 6158.3462 4092.3000 6375.2486 3771.8433 7370.8919 
+##     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
+## 7180.3787 7139.7459 6667.7147 6648.3255 3626.9619 2858.4856  476.9898
 ```
 
 ---
