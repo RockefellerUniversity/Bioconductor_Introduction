@@ -153,9 +153,15 @@ slc25A3 <- exonsOfGenes[["5250"]]
 slc25A3
 
 
-## ----a9lk---------------------------------------------------------------------
+## ----a9lk,echo=TRUE,eval=FALSE------------------------------------------------
+## heartCoverageNorm <- coverage("Heart.bam")
+## myMeanCovOverExons <- mean(heartCoverageNorm[slc25A3])
+## myMeanCovOverExons
+
+
+## ----a9lkD,echo=FALSE,eval=TRUE-----------------------------------------------
 heartCoverageNorm <- coverage("Heart.bam")
-myMeanCovOverExons <- mean(heartCoverageNorm[slc25A3])
+myMeanCovOverExons <- BiocGenerics::mean(heartCoverageNorm[slc25A3])
 myMeanCovOverExons
 
 
