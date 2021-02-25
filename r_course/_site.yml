@@ -110,6 +110,12 @@ navbar:
         href: exercises/exercises/GenomicFeatures_exercise.html
       - text: Solution
         href: exercises/answers/GenomicFeatures_answers.html
+    - text: fastq
+      menu:
+      - text: Exercise
+        href: exercises/exercises/fastq_exercise.html
+      - text: Solution
+        href: exercises/answers/fastq_answers.html
     - text: alignment
       menu:
       - text: Exercise

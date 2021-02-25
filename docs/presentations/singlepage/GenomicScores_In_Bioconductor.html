@@ -1273,9 +1273,9 @@ window.buildTabsets = function(tocID) {
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -1285,16 +1285,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -1303,9 +1301,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  background-color: #f8f8f8; }
+  { background-color: #f8f8f8; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -1649,7 +1647,7 @@ div.tocify {
 <div id="genomic-scores-in-bioconductor.-1" class="section level1">
 <h1>Genomic Scores in Bioconductor.</h1>
 <p>Now we have the package installed, we can load the library <strong>rtracklayer</strong> which we will use to import and export from/to bedGraph and bigWig.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(rtracklayer)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(rtracklayer)</a></code></pre></div>
 </div>
 <div id="genomic-scores-in-bioconductor.-2" class="section level1">
 <h1>Genomic Scores in Bioconductor.</h1>
@@ -1662,12 +1660,12 @@ div.tocify {
 <div id="reading-in-a-bedgraph." class="section level1">
 <h1>Reading in a bedGraph.</h1>
 <p>The rtracklayer package provides functions to import genomic scores from a bedGraph using the <strong>import.bedGraph()</strong> function.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>myBedG &lt;-<span class="st"> </span><span class="kw">import.bedGraph</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bedGraph&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">myBedG &lt;-<span class="st"> </span><span class="kw">import.bedGraph</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bedGraph&quot;</span>)</a></code></pre></div>
 </div>
 <div id="reading-in-a-bedgraph.-1" class="section level1">
 <h1>Reading in a bedGraph.</h1>
 <p>The genomic scores by default are stored as a familiar <a href="https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html#9"><strong>GRanges object</strong></a> containing the original 4 columns of information, <strong>contig</strong>, <strong>start</strong>, <strong>end</strong> and <strong>score</strong>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>myBedG[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">myBedG[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 1 metadata column:
 ##       seqnames            ranges strand |     score
 ##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
@@ -1680,7 +1678,7 @@ div.tocify {
 <div id="reading-in-a-bedgraph.-2" class="section level1">
 <h1>Reading in a bedGraph.</h1>
 <p>Because we only have 4 columns in a bedGraph and no strand information, the <strong>GRanges</strong> intervals are unstranded with * in their strand column</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">strand</span>(myBedG)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">strand</span>(myBedG)</a></code></pre></div>
 <pre><code>## factor-Rle of length 2161 with 1 run
 ##   Lengths: 2161
 ##   Values :    *
@@ -1690,12 +1688,12 @@ div.tocify {
 <h1>Reading in a bigWig</h1>
 <p>Much of the genomic scores we will be working with are infact stored in the compressed bigWig format.</p>
 <p>We can also import bigWigs into R using the <strong>import.bw</strong> function.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>myBigWig &lt;-<span class="st"> </span><span class="kw">import.bw</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bw&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">myBigWig &lt;-<span class="st"> </span><span class="kw">import.bw</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bw&quot;</span>)</a></code></pre></div>
 </div>
 <div id="reading-in-a-bigwig-1" class="section level1">
 <h1>Reading in a bigWig</h1>
 <p>The import bigWig’s genomic scores are again imported as a <strong>GRanges</strong> object containing the same information as the imported bedGraph.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>myBigWig[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">myBigWig[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 1 metadata column:
 ##       seqnames            ranges strand |     score
 ##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
@@ -1709,9 +1707,9 @@ div.tocify {
 <h1>GenomicScores as a GRanges</h1>
 <p>So far we have retrieved our genomic scores from bedGraphs and bigWigs as <strong>GRanges</strong> objects.</p>
 <p>This allows us to use <strong>GRanges</strong> accessors and functions we have already <a href="https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html#32">seen in our last session.</a></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>myGRanges &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="st">&quot;chr1&quot;</span>,<span class="kw">IRanges</span>(<span class="dv">72823698</span>,<span class="dv">72824485</span>))</span>
-<span id="cb10-2"><a href="#cb10-2"></a>filteredBigWig &lt;-<span class="st"> </span>myBigWig[myBigWig <span class="op">%over%</span><span class="st"> </span>myGRanges]</span>
-<span id="cb10-3"><a href="#cb10-3"></a>filteredBigWig[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">myGRanges &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="st">&quot;chr1&quot;</span>,<span class="kw">IRanges</span>(<span class="dv">72823698</span>,<span class="dv">72824485</span>))</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">filteredBigWig &lt;-<span class="st"> </span>myBigWig[myBigWig <span class="op">%over%</span><span class="st"> </span>myGRanges]</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">filteredBigWig[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
 <pre><code>## GRanges object with 3 ranges and 1 metadata column:
 ##       seqnames            ranges strand |     score
 ##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
@@ -1725,9 +1723,9 @@ div.tocify {
 <h1>GenomicScores as a RLE</h1>
 <p>We can however specify the type of objects we would like to return from the import.bedGraph and import.bw functions.</p>
 <p>Here we will import the bigWig as a object we have briefly seen, the <strong>Rle</strong> object (run length encoding). Here we have an <strong>Rlelist</strong> (a list of <strong>Rle</strong> objects)</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>myBigWig &lt;-<span class="st"> </span><span class="kw">import.bw</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bw&quot;</span>,</span>
-<span id="cb12-2"><a href="#cb12-2"></a>                      <span class="dt">as =</span> <span class="st">&quot;RleList&quot;</span>)</span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="kw">class</span>(myBigWig)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">myBigWig &lt;-<span class="st"> </span><span class="kw">import.bw</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bw&quot;</span>,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">                      <span class="dt">as =</span> <span class="st">&quot;RleList&quot;</span>)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw">class</span>(myBigWig)</a></code></pre></div>
 <pre><code>## [1] &quot;SimpleRleList&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;IRanges&quot;</code></pre>
@@ -1746,11 +1744,11 @@ div.tocify {
 <h1>Rle in genomics</h1>
 <p>We have also seen <strong>Rle</strong> objects <a href="https://rockefelleruniversity.github.io/Bioconductor_Introduction/r_course/presentations/slides/GenomicIntervals_In_Bioconductor.html#18">within the GRanges objects we reviewed last session.</a></p>
 <p>Chromosome/contig names in <strong>GRanges</strong> objects are stored as <strong>Rle</strong> objects for instance.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>mycPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<span class="st">&quot;data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed&quot;</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">seqnames</span>(mycPeaks)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">mycPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<span class="st">&quot;data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed&quot;</span>)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">seqnames</span>(mycPeaks)</a></code></pre></div>
 <pre><code>## factor-Rle of length 13910 with 21 runs
 ##   Lengths:   891   737  1537   498   595 ...   796   646   714   227    10
-##   Values : chr1  chr10 chr11 chr12 chr13 ... chr7  chr8  chr9  chrX  chrY 
+##   Values :  chr1 chr10 chr11 chr12 chr13 ...  chr7  chr8  chr9  chrX  chrY
 ## Levels(21): chr1 chr10 chr11 chr12 chr13 chr14 ... chr7 chr8 chr9 chrX chrY</code></pre>
 </div>
 <div id="rle-in-genomics-2" class="section level1">
@@ -1758,8 +1756,8 @@ div.tocify {
 <p>For genomic scores we will be storing long stretchs of numbers as an <strong>Rle</strong>.</p>
 <p>To store genomic scores across chromosomes/contig we will use an <strong>RleList</strong>.</p>
 <p>Creating an <strong>Rle</strong> is straightforward. We can simply supply a numeric vector of numbers we wish to compress to the <strong>Rle()</strong> function.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>myNumbers &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="kw">Rle</span>(myNumbers)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">myNumbers &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">Rle</span>(myNumbers)</a></code></pre></div>
 <pre><code>## numeric-Rle of length 13 with 3 runs
 ##   Lengths: 5 3 5
 ##   Values : 0 1 0</code></pre>
@@ -1767,11 +1765,11 @@ div.tocify {
 <div id="rle-in-genomics-3" class="section level1">
 <h1>Rle in genomics</h1>
 <p>Now can construct a named <strong>RleList</strong> containing the <strong>Rle</strong> objects using the <strong>RleList()</strong> function.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>myNumbers2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
-<span id="cb18-2"><a href="#cb18-2"></a>chr1Scores &lt;-<span class="st"> </span><span class="kw">Rle</span>(myNumbers)</span>
-<span id="cb18-3"><a href="#cb18-3"></a>chr2Scores &lt;-<span class="st"> </span><span class="kw">Rle</span>(myNumbers2)</span>
-<span id="cb18-4"><a href="#cb18-4"></a>myRleList &lt;-<span class="st"> </span><span class="kw">RleList</span>(<span class="dt">chr1=</span>chr1Scores,<span class="dt">chr2=</span>chr2Scores)</span>
-<span id="cb18-5"><a href="#cb18-5"></a>myRleList</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">myNumbers2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">chr1Scores &lt;-<span class="st"> </span><span class="kw">Rle</span>(myNumbers)</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">chr2Scores &lt;-<span class="st"> </span><span class="kw">Rle</span>(myNumbers2)</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">myRleList &lt;-<span class="st"> </span><span class="kw">RleList</span>(<span class="dt">chr1=</span>chr1Scores,<span class="dt">chr2=</span>chr2Scores)</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5">myRleList</a></code></pre></div>
 <pre><code>## RleList of length 2
 ## $chr1
 ## numeric-Rle of length 13 with 3 runs
@@ -1787,12 +1785,12 @@ div.tocify {
 <h1>Rle in genomics</h1>
 <p><strong>Rle</strong> allows for us to compress space needed to store genomic scores and so the Bioconductor <strong>Rle</strong> and <strong>RleList</strong> objects allows us make use of this in R.</p>
 <p>We can see the compression of space in action by reviewing our imported genomic scores as an <strong>RleList</strong> objects.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>myBigWig[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">myBigWig[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a></code></pre></div>
 <pre><code>## RleList of length 2
 ## $chr1
 ## numeric-Rle of length 195471971 with 2108 runs
-##   Lengths:  72811054        65        26 ...        10        15 122614997
-##   Values :   0.00000   0.69040   0.57802 ...   0.21374   0.20965   0.00000
+##   Lengths:           72811054                 65 ...          122614997
+##   Values :                  0  0.690400004386902 ...                  0
 ## 
 ## $chr10
 ## numeric-Rle of length 130694993 with 1 run
@@ -1803,18 +1801,18 @@ div.tocify {
 <h1>Indexing an RLElist</h1>
 <p>To access elements of a <strong>RleList</strong> we can use our regular accessors for lists <strong>$</strong> and <strong>[[]]</strong>.</p>
 <p>Here we retrieve the <strong>Rle</strong> object named <em>chr1</em> containing all the genomic scores information for chromosome 1.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>chr1_rle &lt;-<span class="st"> </span>myBigWig<span class="op">$</span>chr1</span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="co"># Or</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>chr1_rle &lt;-<span class="st"> </span>myBigWig[[<span class="st">&quot;chr1&quot;</span>]]</span>
-<span id="cb22-4"><a href="#cb22-4"></a>chr1_rle</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">chr1_rle &lt;-<span class="st"> </span>myBigWig<span class="op">$</span>chr1</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="co"># Or</span></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3">chr1_rle &lt;-<span class="st"> </span>myBigWig[[<span class="st">&quot;chr1&quot;</span>]]</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">chr1_rle</a></code></pre></div>
 <pre><code>## numeric-Rle of length 195471971 with 2108 runs
-##   Lengths:  72811054        65        26 ...        10        15 122614997
-##   Values :   0.00000   0.69040   0.57802 ...   0.21374   0.20965   0.00000</code></pre>
+##   Lengths:           72811054                 65 ...          122614997
+##   Values :                  0  0.690400004386902 ...                  0</code></pre>
 </div>
 <div id="indexing-an-rle" class="section level1">
 <h1>Indexing an RLE</h1>
 <p>Now we have an <strong>Rle</strong> object of our genomic scores on chromosome 1 we can index it just like we have for standard vectors. Here i retrieve values for all basepairs between 1 and 10</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
 <pre><code>## numeric-Rle of length 10 with 1 run
 ##   Lengths: 10
 ##   Values :  0</code></pre>
@@ -1823,24 +1821,24 @@ div.tocify {
 <h1>Replacement in an RLE.</h1>
 <p>We can also replace values in a <strong>Rle</strong>, just as we would with a vector.</p>
 <p>Here I replace values for all basepairs between 1 and 10 to 100</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">100</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a>chr1_rle</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">chr1_rle</a></code></pre></div>
 <pre><code>## numeric-Rle of length 195471971 with 2109 runs
-##   Lengths:        10  72811044        65 ...        10        15 122614997
-##   Values : 100.00000   0.00000   0.69040 ...   0.21374   0.20965   0.00000</code></pre>
+##   Lengths:                 10           72811044 ...          122614997
+##   Values :                100                  0 ...                  0</code></pre>
 </div>
 <div id="converting-to-other-data-types" class="section level1">
 <h1>Converting to other data types</h1>
 <p>We can convert <strong>Rle’s</strong> to standard vectors.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>rleAsVector &lt;-<span class="st"> </span><span class="kw">as.vector</span>(chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</span>
-<span id="cb28-2"><a href="#cb28-2"></a>rleAsVector</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">rleAsVector &lt;-<span class="st"> </span><span class="kw">as.vector</span>(chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">rleAsVector</a></code></pre></div>
 <pre><code>##  [1] 100 100 100 100 100 100 100 100 100 100</code></pre>
 </div>
 <div id="converting-to-other-data-types-1" class="section level1">
 <h1>Converting to other data types</h1>
 <p>Or to a data.frame</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>rleAsDF &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</span>
-<span id="cb30-2"><a href="#cb30-2"></a>rleAsDF</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">rleAsDF &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(chr1_rle[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>])</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">rleAsDF</a></code></pre></div>
 <pre><code>##    value
 ## 1    100
 ## 2    100
@@ -1858,61 +1856,61 @@ div.tocify {
 <p>Many vector operations and function work with <strong>Rle</strong> objects.</p>
 <p>These include</p>
 <ul>
-<li>Arithmetric and Mathematical operations.</li>
+<li>Arithmetic and Mathematical operations.</li>
 <li>Logical operations and comparisons/</li>
 <li>Summary statistics.</li>
 </ul>
 </div>
 <div id="operations-on-rle" class="section level1">
 <h1>Operations on RLE</h1>
-<p>We can use many simple arithmetric operations such as <strong>+</strong>, <strong>-</strong>, <strong>/</strong> and *****</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>chr1_rle<span class="op">+</span><span class="dv">1000</span></span></code></pre></div>
+<p>We can use many simple arithmetic operations such as <strong>+</strong>, <strong>-</strong>, <strong>/</strong> and *****</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">chr1_rle<span class="op">+</span><span class="dv">1000</span></a></code></pre></div>
 <pre><code>## numeric-Rle of length 195471971 with 2109 runs
-##   Lengths:        10  72811044        65 ...        10        15 122614997
-##   Values :   1100.00   1000.00   1000.69 ...   1000.21   1000.21   1000.00</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>(chr1_rle<span class="op">+</span><span class="dv">1000</span>)<span class="op">*</span><span class="dv">10</span></span></code></pre></div>
+##   Lengths:               10         72811044 ...        122614997
+##   Values :             1100             1000 ...             1000</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">(chr1_rle<span class="op">+</span><span class="dv">1000</span>)<span class="op">*</span><span class="dv">10</span></a></code></pre></div>
 <pre><code>## numeric-Rle of length 195471971 with 2109 runs
-##   Lengths:        10  72811044        65 ...        10        15 122614997
-##   Values :   11000.0   10000.0   10006.9 ...   10002.1   10002.1   10000.0</code></pre>
+##   Lengths:               10         72811044 ...        122614997
+##   Values :            11000            10000 ...            10000</code></pre>
 </div>
 <div id="operations-on-rle-1" class="section level1">
 <h1>Operations on RLE</h1>
 <p>Logical operations can be used with <strong>Rle</strong> objects just as with vectors.</p>
 <p>For <strong>Rle</strong> objects, logical opertations return a logical Rle instead of standard logical vector.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>chr1_rle <span class="op">&lt;</span><span class="st"> </span><span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">chr1_rle <span class="op">&lt;</span><span class="st"> </span><span class="dv">10</span></a></code></pre></div>
 <pre><code>## logical-Rle of length 195471971 with 20 runs
 ##   Lengths:        10  72823081        55 ...        65         2 122627007
 ##   Values :     FALSE      TRUE     FALSE ...      TRUE     FALSE      TRUE</code></pre>
 </div>
-<div id="operations-on-rle.-arithmetric-and-mathematical" class="section level1">
-<h1>Operations on RLE. (Arithmetric and Mathematical)</h1>
+<div id="operations-on-rle-2" class="section level1">
+<h1>Operations on RLE</h1>
 <p>We use this <strong>logical Rle</strong> to replace values less than 10 with 0 as we would use a <a href="https://rockefelleruniversity.github.io/Intro_To_R_1Day/r_course/presentations/slides/introToR_Session1.html#/32">logical vector with standard vectors</a>.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>chr1_rle[chr1_rle <span class="op">&lt;</span><span class="st"> </span><span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">0</span></span>
-<span id="cb38-2"><a href="#cb38-2"></a>chr1_rle</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">chr1_rle[chr1_rle <span class="op">&lt;</span><span class="st"> </span><span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">chr1_rle</a></code></pre></div>
 <pre><code>## numeric-Rle of length 195471971 with 122 runs
-##   Lengths:        10  72823081        14 ...        65         2 122627007
-##   Values :  100.0000    0.0000   10.0802 ...    0.0000   10.2513    0.0000</code></pre>
+##   Lengths:               10         72823081 ...        122627007
+##   Values :              100                0 ...                0</code></pre>
 </div>
-<div id="operations-on-rle.-summaries" class="section level1">
-<h1>Operations on RLE. (Summaries)</h1>
+<div id="operations-on-rle-3" class="section level1">
+<h1>Operations on RLE</h1>
 <p>Many functions providing summary statisitics are also available to us including <strong>mean()</strong>, <strong>max()</strong> and <strong>sum()</strong> functions.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">mean</span>(chr1_rle)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">mean</span>(chr1_rle)</a></code></pre></div>
 <pre><code>## [1] 4.181372e-05</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="kw">max</span>(chr1_rle)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">max</span>(chr1_rle)</a></code></pre></div>
 <pre><code>## [1] 100</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw">sum</span>(chr1_rle)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">sum</span>(chr1_rle)</a></code></pre></div>
 <pre><code>## [1] 8173.411</code></pre>
 </div>
 <div id="operations-on-rlelists" class="section level1">
 <h1>Operations on RLELists</h1>
 <p>Very usefully, We can also apply arithmetic and mathematical operations to whole RleLists as imported from the bigWig file.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>myBigWig &lt;-<span class="st"> </span><span class="kw">import.bw</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bw&quot;</span>,<span class="dt">as=</span><span class="st">&quot;RleList&quot;</span>)</span>
-<span id="cb46-2"><a href="#cb46-2"></a>myBigWig<span class="op">+</span><span class="dv">10</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">myBigWig &lt;-<span class="st"> </span><span class="kw">import.bw</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bw&quot;</span>,<span class="dt">as=</span><span class="st">&quot;RleList&quot;</span>)</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">myBigWig<span class="op">+</span><span class="dv">10</span></a></code></pre></div>
 <pre><code>## RleList of length 54
 ## $chr1
 ## numeric-Rle of length 195471971 with 2108 runs
-##   Lengths:  72811054        65        26 ...        10        15 122614997
-##   Values :   10.0000   10.6904   10.5780 ...   10.2137   10.2096   10.0000
+##   Lengths:         72811054               65 ...        122614997
+##   Values :               10 10.6904000043869 ...               10
 ## 
 ## $chr10
 ## numeric-Rle of length 130694993 with 1 run
@@ -1940,8 +1938,8 @@ div.tocify {
 <div id="summaries-on-rlelists" class="section level1">
 <h1>Summaries on RLELists</h1>
 <p>Summary functions return a summary for every Rle object (here for chromosomes) within the RleList.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>chromosomeMax &lt;-<span class="st"> </span><span class="kw">max</span>(myBigWig)</span>
-<span id="cb48-2"><a href="#cb48-2"></a>chromosomeMax[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">chromosomeMax &lt;-<span class="st"> </span><span class="kw">max</span>(myBigWig)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">chromosomeMax[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
 <pre><code>##     chr1    chr10    chr11    chr12 
 ## 23.09015  0.00000  0.00000  0.00000</code></pre>
 </div>
@@ -1949,39 +1947,43 @@ div.tocify {
 <h1>Subsetting RleLists with a GRanges.</h1>
 <p>We can in fact use <strong>GRanges</strong> objects to index our <strong>RleList</strong> objects.The <strong>GRanges</strong> provides the intervals from which genomic scores are retrieved. The resulting <strong>RleList</strong> object contains an entry with the scores for each interval in the <strong>GRanges</strong> object.</p>
 <p>To demonstrate first we can retrieve the Myc Peaks calls which overlap the region we are reviewing.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>myRanges &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="st">&quot;chr1&quot;</span>,<span class="dt">ranges =</span> <span class="kw">IRanges</span>(<span class="dv">72811055</span>,<span class="dv">72856974</span>))</span>
-<span id="cb50-2"><a href="#cb50-2"></a>mycPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<span class="st">&quot;data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed&quot;</span>)</span>
-<span id="cb50-3"><a href="#cb50-3"></a>mycPeaks &lt;-<span class="st"> </span><span class="kw">resize</span>(mycPeaks,<span class="dv">50</span>,<span class="dt">fix=</span><span class="st">&quot;center&quot;</span>)</span>
-<span id="cb50-4"><a href="#cb50-4"></a>newMycPeaks &lt;-<span class="st"> </span>mycPeaks[mycPeaks <span class="op">%over%</span><span class="st"> </span>myRanges]</span>
-<span id="cb50-5"><a href="#cb50-5"></a>newMycPeaks</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">myRanges &lt;-<span class="st"> </span><span class="kw">GRanges</span>(<span class="st">&quot;chr1&quot;</span>,<span class="dt">ranges =</span> <span class="kw">IRanges</span>(<span class="dv">72811055</span>,<span class="dv">72856974</span>))</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2">mycPeaks &lt;-<span class="st"> </span><span class="kw">import.bed</span>(<span class="st">&quot;data/Myc_Ch12_1_withInput_Input_Ch12_summits.bed&quot;</span>)</a>
+<a class="sourceLine" id="cb50-3" data-line-number="3">mycPeaks &lt;-<span class="st"> </span><span class="kw">resize</span>(mycPeaks,<span class="dv">50</span>,<span class="dt">fix=</span><span class="st">&quot;center&quot;</span>)</a>
+<a class="sourceLine" id="cb50-4" data-line-number="4">newMycPeaks &lt;-<span class="st"> </span>mycPeaks[mycPeaks <span class="op">%over%</span><span class="st"> </span>myRanges]</a>
+<a class="sourceLine" id="cb50-5" data-line-number="5">newMycPeaks</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 2 metadata columns:
-##       seqnames            ranges strand |                   name     score
-##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |            &lt;character&gt; &lt;numeric&gt;
-##   [1]     chr1 72824021-72824070      * | Myc_Ch12_1_withInput..  18.55062
-##   [2]     chr1 72844876-72844925      * | Myc_Ch12_1_withInput..   9.27569
+##       seqnames            ranges strand |
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |
+##   [1]     chr1 72824021-72824070      * |
+##   [2]     chr1 72844876-72844925      * |
+##                                           name     score
+##                                    &lt;character&gt; &lt;numeric&gt;
+##   [1] Myc_Ch12_1_withInput_Input_Ch12_peak_246  18.55062
+##   [2] Myc_Ch12_1_withInput_Input_Ch12_peak_247   9.27569
 ##   -------
 ##   seqinfo: 21 sequences from an unspecified genome; no seqlengths</code></pre>
 </div>
 <div id="rlelists-and-granges." class="section level1">
 <h1>RleLists and GRanges.</h1>
 <p>Now we can simply index our RleList object by providing our <strong>GRanges</strong> as an index in <strong>[]</strong> brackets.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>rleOverGranges &lt;-<span class="st"> </span>myBigWig[newMycPeaks]</span>
-<span id="cb52-2"><a href="#cb52-2"></a>rleOverGranges</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">rleOverGranges &lt;-<span class="st"> </span>myBigWig[newMycPeaks]</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2">rleOverGranges</a></code></pre></div>
 <pre><code>## RleList of length 2
 ## $chr1
 ## numeric-Rle of length 50 with 14 runs
-##   Lengths:       6       3       2       3 ...       2       1       1       1
-##   Values : 16.1810 18.4153 20.7201 19.5592 ... 20.7201 21.8973 23.0902 21.8973
+##   Lengths:                6                3 ...                1
+##   Values : 16.1809902191162 18.4152698516846 ... 21.8972606658936
 ## 
 ## $chr1
 ## numeric-Rle of length 50 with 9 runs
-##   Lengths:        1       10        6        3 ...        8        4        2
-##   Values : 11.25152  9.79599 10.51570  9.79599 ...  9.09299  8.40735  7.09102</code></pre>
+##   Lengths:                1               10 ...                2
+##   Values : 11.2515201568604 9.79598999023438 ... 7.09102010726929</code></pre>
 </div>
 <div id="rlelists-and-granges.-1" class="section level1">
 <h1>RleLists and GRanges.</h1>
 <p>With the <strong>RleList</strong> containing our scores over the Myc peaks we can now gather summary statistics as with all RleList objects</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a><span class="kw">sum</span>(rleOverGranges)</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">sum</span>(rleOverGranges)</a></code></pre></div>
 <pre><code>##      chr1      chr1 
 ## 1009.0643  480.4242</code></pre>
 </div>
@@ -1989,18 +1991,18 @@ div.tocify {
 <h1>Exporting an RLElist</h1>
 <p>We may wish to export our <strong>RleList</strong> or <strong>Rle</strong> objects back to a bigWig file.</p>
 <p>We would need to convert any <strong>Rle</strong> objects to a <strong>RleList</strong> first in order to provide some chromosome/contig names. We can do this with the <strong>RleList()</strong> function and providing a chromosome/contig name to our <strong>Rle</strong> object.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>myRleList &lt;-<span class="st"> </span><span class="kw">RleList</span>(<span class="dt">chr1=</span>chr1_rle)</span>
-<span id="cb56-2"><a href="#cb56-2"></a>myRleList</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">myRleList &lt;-<span class="st"> </span><span class="kw">RleList</span>(<span class="dt">chr1=</span>chr1_rle)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2">myRleList</a></code></pre></div>
 <pre><code>## RleList of length 1
 ## $chr1
 ## numeric-Rle of length 195471971 with 122 runs
-##   Lengths:        10  72823081        14 ...        65         2 122627007
-##   Values :  100.0000    0.0000   10.0802 ...    0.0000   10.2513    0.0000</code></pre>
+##   Lengths:               10         72823081 ...        122627007
+##   Values :              100                0 ...                0</code></pre>
 </div>
 <div id="exporting-an-rlelist-1" class="section level1">
 <h1>Exporting an RLElist</h1>
 <p>Now we have our <strong>RleList</strong> object we export this to a bigWig using the <strong>export.bw()</strong> function.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="kw">export.bw</span>(myRleList,<span class="dt">con=</span><span class="st">&quot;chr1_Myc.bw&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">export.bw</span>(myRleList,<span class="dt">con=</span><span class="st">&quot;chr1_Myc.bw&quot;</span>)</a></code></pre></div>
 </div>
 <div id="importing-large-files" class="section level1">
 <h1>Importing large files</h1>
@@ -2011,12 +2013,16 @@ div.tocify {
 <h1>Importing large files</h1>
 <p>When importing only a portion of a bigWig we simply need to specify a GRanges of regions we wish to retrieve to the <strong>BigWigSelection()</strong> function.</p>
 <p>Here we will use the Myc Peaks in our window as the GRanges of regions for selection.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a>newMycPeaks</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1">newMycPeaks</a></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 2 metadata columns:
-##       seqnames            ranges strand |                   name     score
-##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |            &lt;character&gt; &lt;numeric&gt;
-##   [1]     chr1 72824021-72824070      * | Myc_Ch12_1_withInput..  18.55062
-##   [2]     chr1 72844876-72844925      * | Myc_Ch12_1_withInput..   9.27569
+##       seqnames            ranges strand |
+##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; |
+##   [1]     chr1 72824021-72824070      * |
+##   [2]     chr1 72844876-72844925      * |
+##                                           name     score
+##                                    &lt;character&gt; &lt;numeric&gt;
+##   [1] Myc_Ch12_1_withInput_Input_Ch12_peak_246  18.55062
+##   [2] Myc_Ch12_1_withInput_Input_Ch12_peak_247   9.27569
 ##   -------
 ##   seqinfo: 21 sequences from an unspecified genome; no seqlengths</code></pre>
 </div>
@@ -2024,15 +2030,15 @@ div.tocify {
 <h1>Importing large files</h1>
 <p>Now we pass the Myc peak <strong>GRanges</strong> object to the <strong>BigWigSelection()</strong> function.</p>
 <p>We then supply the resulting <strong>BigWigSelection</strong> selection object to the <strong>selection</strong> parameter of <strong>import.bw()</strong> function.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>mySelection &lt;-<span class="st"> </span><span class="kw">BigWigSelection</span>(newMycPeaks)</span>
-<span id="cb61-2"><a href="#cb61-2"></a><span class="kw">import.bw</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bw&quot;</span>, </span>
-<span id="cb61-3"><a href="#cb61-3"></a>          <span class="dt">selection=</span>mySelection, </span>
-<span id="cb61-4"><a href="#cb61-4"></a>          <span class="dt">as=</span><span class="st">&quot;RleList&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">mySelection &lt;-<span class="st"> </span><span class="kw">BigWigSelection</span>(newMycPeaks)</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="kw">import.bw</span>(<span class="st">&quot;data/TSS_ENCFF940MBK.bw&quot;</span>, </a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">          <span class="dt">selection=</span>mySelection, </a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">          <span class="dt">as=</span><span class="st">&quot;RleList&quot;</span>)</a></code></pre></div>
 <pre><code>## RleList of length 54
 ## $chr1
 ## numeric-Rle of length 195471971 with 26 runs
-##   Lengths:  72824020         6         3 ...         4         2 122627046
-##   Values :   0.00000  16.18099  18.41527 ...   8.40735   7.09102   0.00000
+##   Lengths:         72824020                6 ...        122627046
+##   Values :                0 16.1809902191162 ...                0
 ## 
 ## $chr10
 ## numeric-Rle of length 130694993 with 1 run
@@ -2059,7 +2065,7 @@ div.tocify {
 </div>
 <div id="time-for-an-exercise." class="section level1">
 <h1>Time for an exercise.</h1>
-<p><a href="../../exercises/exercises/GS_exercises.html">Link_to_exercises</a></p>
+<p><a href="../../exercises/exercises/GS_exercise.html">Link_to_exercises</a></p>
 <p><a href="../../exercises/answers/GS_answers.html">Link_to_answers</a></p>
 </div>
 

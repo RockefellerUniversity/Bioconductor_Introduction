@@ -550,6 +550,17 @@ div.tocify {
       </ul>
     </li>
     <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">fastq</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="exercises/exercises/fastq_exercise.html">Exercise</a>
+        </li>
+        <li>
+          <a href="exercises/answers/fastq_answers.html">Solution</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">alignment</a>
       <ul class="dropdown-menu" role="menu">
         <li>
@@ -668,6 +679,7 @@ BiocManager::install(&#39;RMariaDB&#39;)
 BiocManager::install(&#39;Rbowtie&#39;)
 BiocManager::install(&#39;parallel&#39;)
 BiocManager::install(&#39;QuasR&#39;)
+BiocManager::install(&#39;BSgenome&#39;)
 BiocManager::install(&#39;BSgenome.Mmusculus.UCSC.mm10&#39;)
 BiocManager::install(&#39;BSgenome.Hsapiens.UCSC.hg19&#39;)
 BiocManager::install(&#39;BSgenome.Hsapiens.UCSC.hg38&#39;)
@@ -755,13 +767,13 @@ BiocManager::install(&#39;yaml&#39;)</code></pre>
 <p><br></p>
 </div>
 </div>
-<div id="genomic-features-in-bioconductor" class="section level4">
-<h4><strong>Genomic Features in Bioconductor</strong></h4>
-<p>In this session we introduce genomic features handling and import/export. Session sections:</p>
+<div id="genomic-scores-in-bioconductor" class="section level4">
+<h4><strong>Genomic Scores in Bioconductor</strong></h4>
+<p>In this session we introduce genomic scores handling and import/export Session sections:</p>
 <ul>
-<li>Importing and exporting Gene models as GTF/GFF</li>
-<li>Working with TxDb objects</li>
-<li>Retrieving annotation from OrgDb packages</li>
+<li>Importing and exporting bedGraph and bigWig files</li>
+<li>Manipulating genomic scores in R</li>
+<li>Operations and summary statitics using genomic scores</li>
 </ul>
 <iframe src="presentations/slides/GenomicScores_In_Bioconductor.html" width="100%" height="400" title="Session4">
 </iframe>
@@ -773,7 +785,7 @@ BiocManager::install(&#39;yaml&#39;)</code></pre>
 <p><br></p>
 </div>
 </div>
-<div id="genomic-features-in-bioconductor-1" class="section level4">
+<div id="genomic-features-in-bioconductor" class="section level4">
 <h4><strong>Genomic Features in Bioconductor</strong></h4>
 <p>In this session we introduce genomic features handling and import/export. Session sections:</p>
 <ul>

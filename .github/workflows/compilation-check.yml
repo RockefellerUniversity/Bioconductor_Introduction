@@ -175,7 +175,9 @@ jobs:
           remotes::install_cran("rcmdcheck")
           BiocManager::install("BiocCheck")
           BiocManager::install("rmarkdown")
-          BiocManager::install("RockefellerUniversity/compileCourses",subdir="compileCourses")          
+          BiocManager::install("RockefellerUniversity/compileCourses",subdir="compileCourses")
+          BiocManager::install("BSgenome")
+          BiocManager::install("BSgenome.Mmusculus.UCSC.mm10")
         shell: Rscript {0}
 
       - name: Session info

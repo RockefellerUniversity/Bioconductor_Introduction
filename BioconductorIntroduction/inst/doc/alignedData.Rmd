@@ -124,8 +124,8 @@ library(org.Hs.eg.db)
 myIds <- AnnotationDbi::select(org.Hs.eg.db, keys = "SLC25A3", keytype = "SYMBOL", 
             columns = c("SYMBOL", "GENENAME","ENTREZID"))
 entrezIDforSLC25A3 <- myIds[,"ENTREZID"]
-library(TxDb.Hsapiens.UCSC.hg19.knownGene)
-allExons <- exonsBy(TxDb.Hsapiens.UCSC.hg19.knownGene,by="gene")
+library(TxDb.Hsapiens.UCSC.hg38.knownGene)
+allExons <- exonsBy(TxDb.Hsapiens.UCSC.hg38.knownGene,by="gene")
 exonsforSLC25A3 <- allExons[[entrezIDforSLC25A3]]
 
 seqlevels(exonsforSLC25A3) <- "chr12"

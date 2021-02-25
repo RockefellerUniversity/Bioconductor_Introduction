@@ -5,4 +5,4 @@ Presentations:
   titles: Session1 Session2 Session3 Session4 Session5 Session6 Session7 Session8 Session9
   PresRmd: bioconductor_introduction.Rmd SequencesInBioconductor.Rmd GenomicIntervals_In_Bioconductor.Rmd GenomicScores_In_Bioconductor.Rmd GenomicFeatures_In_Bioconductor.Rmd FastQInBioconductor.Rmd AlignmentInBioconductor.Rmd AlignedDataInBioconductor.Rmd Summarising_Scores_In_Bioconductor.Rmd
   PresOverviewRmd: bioconductor_session1.Rmd bioconductor_session2.Rmd bioconductor_session3.Rmd bioconductor_session4.Rmd bioconductor_session5.Rmd bioconductor_session6.Rmd bioconductor_session7.Rmd  bioconductor_session8.Rmd bioconductor_session9.Rmd
-  Exercises: biocIntro.Rmd fastaAndBiostrings.Rmd GI.Rmd GS.Rmd GenomicFeatures.Rmd alignment.Rmd alignedData.Rmd summarization.Rmd
+  Exercises: biocIntro.Rmd fastaAndBiostrings.Rmd GI.Rmd GS.Rmd GenomicFeatures.Rmd fastq.Rmd alignment.Rmd alignedData.Rmd summarization.Rmd

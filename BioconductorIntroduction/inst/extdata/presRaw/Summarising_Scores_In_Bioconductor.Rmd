@@ -63,7 +63,7 @@ class: inverse, center, middle
 Sequencing data from Illumina sequences machines are often stored in FASTQ format.
 
 <div align="center">
-<img src="imgs/fastq.png" alt="igv" height="400" width="600">
+<img src="imgs/fq1.png" alt="igv" height="200" width="600">
 </div>
 
 
@@ -337,9 +337,15 @@ slc25A3
 ---
 # Summarizing from scores 
 
-```{r a9lk}
+```{r a9lk,echo=TRUE,eval=FALSE}
 heartCoverageNorm <- coverage("Heart.bam")
 myMeanCovOverExons <- mean(heartCoverageNorm[slc25A3])
+myMeanCovOverExons
+```
+
+```{r a9lkD,echo=FALSE,eval=TRUE}
+heartCoverageNorm <- coverage("Heart.bam")
+myMeanCovOverExons <- BiocGenerics::mean(heartCoverageNorm[slc25A3])
 myMeanCovOverExons
 ```
 

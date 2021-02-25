@@ -164,17 +164,17 @@ export.bed(filteredPeaks,"filteredPeaks.bed")
 
 11. Download the file of conservation scores (**mm10.60way.phastCons.bw**) for mm10 genome from UCSC. 
 
-The degree of phylogenetic conservation for a region of the genome may be represented as a score between 1 to 0 (the posterior probability) with 1 showing the highest degree of conservation and 0 the lowest.
+<!-- The degree of phylogenetic conservation for a region of the genome may be represented as a score between 1 to 0 (the posterior probability) with 1 showing the highest degree of conservation and 0 the lowest. -->
 
-The phastCons bigWig files contain these genome scores for  phylogenetic conservation between sets o species at a base pair resolution.
+<!-- The phastCons bigWig files contain these genome scores for  phylogenetic conservation between sets o species at a base pair resolution. -->
 
-We can find phastCons bigWigs for mm10 at the [UCSC website here](http://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/) or by direct link to [mm10.60way.phastCons.bw here](http://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/mm10.60way.phastCons.bw)
+<!-- We can find phastCons bigWigs for mm10 at the [UCSC website here](http://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/) or by direct link to [mm10.60way.phastCons.bw here](http://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/mm10.60way.phastCons.bw) -->
 
-Import into IGV and find some areas of high conservation (closer to 1).
+<!-- Import into IGV and find some areas of high conservation (closer to 1). -->
 
-12. Plot the a scatter of mean conservation scores versus the log10  sum ChIP-seq signal for Myc peaks on chromosome 1 using ggplot2. Scale points in the plot depending on their maximum ChIP-seq signal.
+<!-- 12. Plot the a scatter of mean conservation scores versus the log10  sum ChIP-seq signal for Myc peaks on chromosome 1 using ggplot2. Scale points in the plot depending on their maximum ChIP-seq signal. -->
 
-```{r ejsd,  echo=toMessage,eval=LinuxOnly}
+```{r ejsd,  echo=FALSE,eval=FALSE}
 
 mySelection <- BigWigSelection(MYCgrangesChr1)
 phastcons <- import.bw("mm10.60way.phastCons.bw",
