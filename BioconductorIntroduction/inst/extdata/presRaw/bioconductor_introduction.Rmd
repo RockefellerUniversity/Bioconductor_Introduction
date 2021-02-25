@@ -67,9 +67,9 @@ Bioconductor packages can be broadly split into 4 groups.
 ---
 # Current Bioconductor Release
 
-Current release is Bioconductor 3.10
+Current release is Bioconductor `r BiocManager::version()`
 
-Includes 1823 packages.
+Includes nearly 2000 software packages.
 
 All packages have been 
 - Reviewed.

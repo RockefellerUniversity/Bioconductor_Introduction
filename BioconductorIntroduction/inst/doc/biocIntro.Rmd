@@ -24,13 +24,13 @@ These exercises will run us through the installation of some key packages.
 
 1. Install the Biostrings package
 
-```{r installBS, echo=toMessage}
+```{r installBS, echo=toMessage, eval=F}
 install.packages("BiocManager")
 require(BiocManager)
-install("Biostrings",update = FALSE)
+BiocManager::install("Biostrings",update = FALSE)
 ```
 
-2. Check your Bioconductor version (should be 3.11)
+2. Check your Bioconductor version (should be `r BiocManager::version()`)
 
 ```{r installBS2, echo=toMessage}
 version()
@@ -38,7 +38,7 @@ version()
 
 3. Install the BSgenome annotation package for mouse UCSC mm10 and human UCSC hg19.
 
-```{r installBS23, echo=toMessage}
+```{r installBS23, echo=toMessage, eval=F}
 install("BSgenome.Hsapiens.UCSC.hg19",update = FALSE)
 install("BSgenome.Mmusculus.UCSC.mm10",update = FALSE)
 ```
