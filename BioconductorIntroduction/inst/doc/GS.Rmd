@@ -11,7 +11,7 @@ params:
   toMessage: false    
 ---
 
-```{r, setup,include=FALSE}
+```{r, setup, include=FALSE}
 toMessage <- ifelse(!is.null(params$toMessage),params$toMessage,FALSE)
 message(toMessage)
 "%in%" <- BiocGenerics::"%in%"
@@ -19,8 +19,10 @@ if(!file.exists("ENCFF940MBK.bigWig")){
   download.file("https://www.encodeproject.org/files/ENCFF940MBK/@@download/ENCFF940MBK.bigWig","ENCFF940MBK.bigWig",mode = "w",quiet = TRUE)
 }
 if(!file.exists("mm10.60way.phastCons.bw")){
-  download.file("http://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/mm10.60way.phastCons.bw","mm10.60way.phastCons.bw",mode = "w",quiet = TRUE)
+  download.file("https://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/mm10.60way.phastCons.bw","mm10.60way.phastCons.bw",mode = "w",quiet = TRUE)
 }
+
+
 
 LinuxOnly <- .Platform$OS.type == "unix"
 ```
