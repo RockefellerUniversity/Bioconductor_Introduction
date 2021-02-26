@@ -22,7 +22,7 @@ class: inverse, center, middle
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
 
-
+---
 "    
   )
 }else{
@@ -30,7 +30,7 @@ class: inverse, center, middle
 
 # Summarizing Scores
 
-
+---
 "    
   )
   
@@ -167,22 +167,22 @@ myMeanCovOverExons
 
 ## ----results='asis',include=TRUE,echo=FALSE-----------------------------------
 if(params$isSlides == "yes"){
-  cat("
+  cat("---
 class: inverse, center, middle
 
 # Summarizing counts in regions from alignments
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
 
-
+---
 "    
   )
 }else{
-  cat("
+  cat("---
 
 # Summarizing counts in regions from alignments
 
-
+---
 "    
   )
   

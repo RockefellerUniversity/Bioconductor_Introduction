@@ -53,6 +53,15 @@ if (!!window.navigator.userAgent.match("MSIE 8")) {
 !function(a){"use strict";a.matchMedia=a.matchMedia||function(a){var b,c=a.documentElement,d=c.firstElementChild||c.firstChild,e=a.createElement("body"),f=a.createElement("div");return f.id="mq-test-1",f.style.cssText="position:absolute;top:-100em",e.style.background="none",e.appendChild(f),function(a){return f.innerHTML='&shy;<style media="'+a+'"> #mq-test-1 { width: 42px; }</style>',c.insertBefore(e,d),b=42===f.offsetWidth,c.removeChild(e),{matches:b,media:a}}}(a.document)}(this),function(a){"use strict";function b(){u(!0)}var c={};a.respond=c,c.update=function(){};var d=[],e=function(){var b=!1;try{b=new a.XMLHttpRequest}catch(c){b=new a.ActiveXObject("Microsoft.XMLHTTP")}return function(){return b}}(),f=function(a,b){var c=e();c&&(c.open("GET",a,!0),c.onreadystatechange=function(){4!==c.readyState||200!==c.status&&304!==c.status||b(c.responseText)},4!==c.readyState&&c.send(null))};if(c.ajax=f,c.queue=d,c.regex={media:/@media[^\{]+\{([^\{\}]*\{[^\}\{]*\})+/gi,keyframes:/@(?:\-(?:o|moz|webkit)\-)?keyframes[^\{]+\{(?:[^\{\}]*\{[^\}\{]*\})+[^\}]*\}/gi,urls:/(url\()['"]?([^\/\)'"][^:\)'"]+)['"]?(\))/g,findStyles:/@media *([^\{]+)\{([\S\s]+?)$/,only:/(only\s+)?([a-zA-Z]+)\s?/,minw:/\([\s]*min\-width\s*:[\s]*([\s]*[0-9\.]+)(px|em)[\s]*\)/,maxw:/\([\s]*max\-width\s*:[\s]*([\s]*[0-9\.]+)(px|em)[\s]*\)/},c.mediaQueriesSupported=a.matchMedia&&null!==a.matchMedia("only all")&&a.matchMedia("only all").matches,!c.mediaQueriesSupported){var g,h,i,j=a.document,k=j.documentElement,l=[],m=[],n=[],o={},p=30,q=j.getElementsByTagName("head")[0]||k,r=j.getElementsByTagName("base")[0],s=q.getElementsByTagName("link"),t=function(){var a,b=j.createElement("div"),c=j.body,d=k.style.fontSize,e=c&&c.style.fontSize,f=!1;return b.style.cssText="position:absolute;font-size:1em;width:1em",c||(c=f=j.createElement("body"),c.style.background="none"),k.style.fontSize="100%",c.style.fontSize="100%",c.appendChild(b),f&&k.insertBefore(c,k.firstChild),a=b.offsetWidth,f?k.removeChild(c):c.removeChild(b),k.style.fontSize=d,e&&(c.style.fontSize=e),a=i=parseFloat(a)},u=function(b){var c="clientWidth",d=k[c],e="CSS1Compat"===j.compatMode&&d||j.body[c]||d,f={},o=s[s.length-1],r=(new Date).getTime();if(b&&g&&p>r-g)return a.clearTimeout(h),h=a.setTimeout(u,p),void 0;g=r;for(var v in l)if(l.hasOwnProperty(v)){var w=l[v],x=w.minw,y=w.maxw,z=null===x,A=null===y,B="em";x&&(x=parseFloat(x)*(x.indexOf(B)>-1?i||t():1)),y&&(y=parseFloat(y)*(y.indexOf(B)>-1?i||t():1)),w.hasquery&&(z&&A||!(z||e>=x)||!(A||y>=e))||(f[w.media]||(f[w.media]=[]),f[w.media].push(m[w.rules]))}for(var C in n)n.hasOwnProperty(C)&&n[C]&&n[C].parentNode===q&&q.removeChild(n[C]);n.length=0;for(var D in f)if(f.hasOwnProperty(D)){var E=j.createElement("style"),F=f[D].join("\n");E.type="text/css",E.media=D,q.insertBefore(E,o.nextSibling),E.styleSheet?E.styleSheet.cssText=F:E.appendChild(j.createTextNode(F)),n.push(E)}},v=function(a,b,d){var e=a.replace(c.regex.keyframes,"").match(c.regex.media),f=e&&e.length||0;b=b.substring(0,b.lastIndexOf("/"));var g=function(a){return a.replace(c.regex.urls,"$1"+b+"$2$3")},h=!f&&d;b.length&&(b+="/"),h&&(f=1);for(var i=0;f>i;i++){var j,k,n,o;h?(j=d,m.push(g(a))):(j=e[i].match(c.regex.findStyles)&&RegExp.$1,m.push(RegExp.$2&&g(RegExp.$2))),n=j.split(","),o=n.length;for(var p=0;o>p;p++)k=n[p],l.push({media:k.split("(")[0].match(c.regex.only)&&RegExp.$2||"all",rules:m.length-1,hasquery:k.indexOf("(")>-1,minw:k.match(c.regex.minw)&&parseFloat(RegExp.$1)+(RegExp.$2||""),maxw:k.match(c.regex.maxw)&&parseFloat(RegExp.$1)+(RegExp.$2||"")})}u()},w=function(){if(d.length){var b=d.shift();f(b.href,function(c){v(c,b.href,b.media),o[b.href]=!0,a.setTimeout(function(){w()},0)})}},x=function(){for(var b=0;b<s.length;b++){var c=s[b],e=c.href,f=c.media,g=c.rel&&"stylesheet"===c.rel.toLowerCase();e&&g&&!o[e]&&(c.styleSheet&&c.styleSheet.rawCssText?(v(c.styleSheet.rawCssText,e,f),o[e]=!0):(!/^([a-zA-Z:]*\/\/)/.test(e)&&!r||e.replace(RegExp.$1,"").split("/")[0]===a.location.host)&&("//"===e.substring(0,2)&&(e=a.location.protocol+e),d.push({href:e,media:f})))}w()};x(),c.update=x,c.getEmValue=t,a.addEventListener?a.addEventListener("resize",b,!1):a.attachEvent&&a.attachEvent("onresize",b)}}(this);
 };
 </script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script>/*! jQuery UI - v1.11.4 - 2016-01-05
 * http://jqueryui.com
 * Includes: core.js, widget.js, mouse.js, position.js, draggable.js, droppable.js, resizable.js, selectable.js, sortable.js, accordion.js, autocomplete.js, button.js, dialog.js, menu.js, progressbar.js, selectmenu.js, slider.js, spinner.js, tabs.js, tooltip.js, effect.js, effect-blind.js, effect-bounce.js, effect-clip.js, effect-drop.js, effect-explode.js, effect-fade.js, effect-fold.js, effect-highlight.js, effect-puff.js, effect-pulsate.js, effect-scale.js, effect-shake.js, effect-size.js, effect-slide.js, effect-transfer.js
@@ -302,7 +311,7 @@ float: none;
         self._setEventHandlers();
 
         // Binding to the Window load event to make sure the correct scrollTop is calculated
-        $(window).load(function() {
+        $(window).on("load", function() {
 
           // Sets the active TOC item
           self._setActiveElement(true);
@@ -1269,13 +1278,45 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -1285,14 +1326,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -1301,9 +1344,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  { background-color: #f8f8f8; }
+  {  background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -1356,39 +1399,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 
 
@@ -1398,10 +1411,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -1418,6 +1427,9 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
@@ -1430,7 +1442,6 @@ summary {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -1556,18 +1567,18 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
 <div id="TOC" class="tocify">
 </div>
 </div>
 
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -1586,6 +1597,7 @@ div.tocify {
 
 <div id="genomic-features" class="section level2">
 <h2>Genomic Features</h2>
+<hr />
 </div>
 <div id="genomic-features-1" class="section level2">
 <h2>Genomic Features</h2>
@@ -1648,20 +1660,20 @@ div.tocify {
 <h2>Genomic Features in Bioconductor</h2>
 <p>The first package we will look at is the <strong>TxDB</strong> package - <strong>TxDb.Hsapiens.UCSC.hg19.knownGene</strong>.</p>
 <p>Remember we can install Bioconductor packages (fairly) easily using Bioconductor package pages’ provided commands.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">    <span class="kw">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;TxDb.Hsapiens.UCSC.hg19.knownGene&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>))</span>
+<span id="cb1-2"><a href="#cb1-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;TxDb.Hsapiens.UCSC.hg19.knownGene&quot;</span>)</span></code></pre></div>
 </div>
 <div id="genomic-intervals-in-bioconductor" class="section level2">
 <h2>Genomic Intervals in Bioconductor</h2>
 <p>Now we have the package installed, we can load the library.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</span></code></pre></div>
 </div>
 <div id="txdb" class="section level2">
 <h2>TxDb</h2>
 <p>Once we have loaded the <strong>TxDb.Hsapiens.UCSC.hg19.knownGene</strong> library, we will have a new <strong>TxDb</strong> object available to us called <strong>TxDb.Hsapiens.UCSC.hg19.knownGene</strong>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">class</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">class</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</span></code></pre></div>
 <pre><code>## [1] &quot;TxDb&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;GenomicFeatures&quot;</code></pre>
@@ -1669,7 +1681,7 @@ div.tocify {
 <div id="txdb-1" class="section level2">
 <h2>TxDb</h2>
 <p>When this variable name is typed in into console we can retrieve some key information on the Gene Model build as well as summary metrics.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">TxDb.Hsapiens.UCSC.hg19.knownGene</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>TxDb.Hsapiens.UCSC.hg19.knownGene</span></code></pre></div>
 <pre><code>## TxDb object:
 ## # Db type: TxDb
 ## # Supporting package: GenomicFeatures
@@ -1710,13 +1722,13 @@ div.tocify {
 <div id="extracting-genes" class="section level2">
 <h2>Extracting Genes</h2>
 <p>We can extract genes with the <strong>genes()</strong> function and the <strong>TxDb</strong> object as a parameter.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">myGenes &lt;-<span class="st"> </span><span class="kw">genes</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>myGenes &lt;-<span class="st"> </span><span class="kw">genes</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</span></code></pre></div>
 <pre><code>##   403 genes were dropped because they have exons located on both strands
 ##   of the same reference sequence or on more than one reference sequence,
 ##   so cannot be represented by a single genomic range.
-##   Use 'single.strand.genes.only=FALSE' to get all the genes in a
+##   Use &#39;single.strand.genes.only=FALSE&#39; to get all the genes in a
 ##   GRangesList object, or use suppressMessages() to suppress this message.</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">myGenes</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>myGenes</span></code></pre></div>
 <pre><code>## GRanges object with 23056 ranges and 1 metadata column:
 ##         seqnames              ranges strand |     gene_id
 ##            &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -1737,8 +1749,8 @@ div.tocify {
 <div id="extracting-exons" class="section level2">
 <h2>Extracting Exons</h2>
 <p>We can extract exons with the <strong>exons()</strong> function and the <strong>TxDb</strong> object as a parameter in the same way.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">myExons &lt;-<span class="st"> </span><span class="kw">exons</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">myExons</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>myExons &lt;-<span class="st"> </span><span class="kw">exons</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>myExons</span></code></pre></div>
 <pre><code>## GRanges object with 289969 ranges and 1 metadata column:
 ##                  seqnames      ranges strand |   exon_id
 ##                     &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;
@@ -1759,8 +1771,8 @@ div.tocify {
 <div id="extracting-transcripts" class="section level2">
 <h2>Extracting Transcripts</h2>
 <p>We can extract transcripts with the <strong>transcripts()</strong> functions and the <strong>TxDb</strong> object as a parameter.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">myTranscripts &lt;-<span class="st"> </span><span class="kw">transcripts</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">myTranscripts</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>myTranscripts &lt;-<span class="st"> </span><span class="kw">transcripts</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>myTranscripts</span></code></pre></div>
 <pre><code>## GRanges object with 82960 ranges and 2 metadata columns:
 ##                 seqnames        ranges strand |     tx_id     tx_name
 ##                    &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
@@ -1781,8 +1793,8 @@ div.tocify {
 <div id="extracting-coding-regions" class="section level2">
 <h2>Extracting Coding Regions</h2>
 <p>We can extract coding regions with the <strong>cds()</strong> functions and the <strong>TxDb</strong> object as a parameter.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">myCDS &lt;-<span class="st"> </span><span class="kw">cds</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">myCDS</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>myCDS &lt;-<span class="st"> </span><span class="kw">cds</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>myCDS</span></code></pre></div>
 <pre><code>## GRanges object with 237533 ranges and 1 metadata column:
 ##                  seqnames        ranges strand |    cds_id
 ##                     &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;
@@ -1804,9 +1816,9 @@ div.tocify {
 <h2>Extracting Additional Information</h2>
 <p>We can control which additional information such as transcript ID and gene ID we retrieve in metadata columns using the <strong>columns</strong> parameter in the <strong>exons()/transcripts()/cds()</strong> functions.</p>
 <p>For a full list of available columns see <strong>?transcripts()</strong> function help.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">myTranscripts &lt;-<span class="st"> </span><span class="kw">transcripts</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">                             <span class="dt">columns=</span><span class="kw">c</span>(<span class="st">&quot;gene_id&quot;</span>,<span class="st">&quot;tx_id&quot;</span>))</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">myTranscripts[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>myTranscripts &lt;-<span class="st"> </span><span class="kw">transcripts</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </span>
+<span id="cb17-2"><a href="#cb17-2"></a>                             <span class="dt">columns=</span><span class="kw">c</span>(<span class="st">&quot;gene_id&quot;</span>,<span class="st">&quot;tx_id&quot;</span>))</span>
+<span id="cb17-3"><a href="#cb17-3"></a>myTranscripts[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 2 metadata columns:
 ##       seqnames      ranges strand |         gene_id     tx_id
 ##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;CharacterList&gt; &lt;integer&gt;
@@ -1820,9 +1832,9 @@ div.tocify {
 <p>Another useful function is the <strong>promoters()</strong> function.</p>
 <p>This accepts additional parameters of <strong>upstream</strong> and <strong>downstream</strong> to specify regions around TSS to be used as a promoter while accounting for a transcripts’s strand.</p>
 <p>We have been using the <strong>resize()</strong> function with <strong>GRanges</strong> objects for the same purpose.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">myPromoters &lt;-<span class="st"> </span><span class="kw">promoters</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">                             <span class="dt">upstream=</span><span class="dv">2000</span>,<span class="dt">downstream=</span><span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">myPromoters[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>myPromoters &lt;-<span class="st"> </span><span class="kw">promoters</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </span>
+<span id="cb19-2"><a href="#cb19-2"></a>                             <span class="dt">upstream=</span><span class="dv">2000</span>,<span class="dt">downstream=</span><span class="dv">50</span>)</span>
+<span id="cb19-3"><a href="#cb19-3"></a>myPromoters[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 2 metadata columns:
 ##              seqnames     ranges strand |     tx_id     tx_name
 ##                 &lt;Rle&gt;  &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
@@ -1841,9 +1853,9 @@ div.tocify {
 <h2>Extracting Groups of Genomic Features</h2>
 <p>The <strong>transcriptsBy()</strong> function takes as argument a <strong>TxDb</strong> object and a <strong>by</strong> argument specifying the metafeature/feature to group by.</p>
 <p>For the <strong>transcriptsBy()</strong>, the <strong>by</strong> argument may be gene, exon or cds.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">transcriptByGenes &lt;-<span class="st"> </span><span class="kw">transcriptsBy</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">                                   <span class="dt">by=</span><span class="st">&quot;gene&quot;</span>)</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">transcriptByGenes[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>transcriptByGenes &lt;-<span class="st"> </span><span class="kw">transcriptsBy</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </span>
+<span id="cb21-2"><a href="#cb21-2"></a>                                   <span class="dt">by=</span><span class="st">&quot;gene&quot;</span>)</span>
+<span id="cb21-3"><a href="#cb21-3"></a>transcriptByGenes[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## GRangesList object of length 2:
 ## $`1`
 ## GRanges object with 2 ranges and 2 metadata columns:
@@ -1866,8 +1878,8 @@ div.tocify {
 <h2>Extracting Groups of Genomic Features</h2>
 <p>As with all lists we can extract information from elements in the GRangesList using the <strong>$</strong> and <strong>[[]]</strong> accessors.</p>
 <p>This will extract the grouped intervals as a GRanges.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># transcriptByGenes$1 or</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">transcriptByGenes[[<span class="dv">1</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># transcriptByGenes$1 or</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>transcriptByGenes[[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 2 metadata columns:
 ##       seqnames            ranges strand |     tx_id     tx_name
 ##          &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
@@ -1880,9 +1892,9 @@ div.tocify {
 <h2>Extracting Groups of Genomic Features</h2>
 <p>Similarly the very useful <strong>exonsBy()</strong> function takes again an argument for a <strong>TxDb</strong> object and a <strong>by</strong> argument.</p>
 <p>For the <strong>exonsBy()</strong> and <strong>cdsBy()</strong> functions, the <strong>by</strong> argument may be gene, or transcript.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">exonsByTranscript &lt;-<span class="st"> </span><span class="kw">exonsBy</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">                                   <span class="dt">by=</span><span class="st">&quot;tx&quot;</span>)</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">exonsByTranscript[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>exonsByTranscript &lt;-<span class="st"> </span><span class="kw">exonsBy</span>(TxDb.Hsapiens.UCSC.hg19.knownGene, </span>
+<span id="cb25-2"><a href="#cb25-2"></a>                                   <span class="dt">by=</span><span class="st">&quot;tx&quot;</span>)</span>
+<span id="cb25-3"><a href="#cb25-3"></a>exonsByTranscript[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## GRangesList object of length 2:
 ## $`1`
 ## GRanges object with 3 ranges and 3 metadata columns:
@@ -1908,18 +1920,18 @@ div.tocify {
 <h2>Creating TxDb from External Sources</h2>
 <p>Often we will have our favourite gene models stored in a GTF outside of Bioconductor objects. If we wish to take advantage of all the features in Bioconductor we will need to import it into a <strong>TxDb</strong> object.</p>
 <p>We can do this using the <strong>makeTxDbFromGFF()</strong> function which will parse GTF or GFF into a <strong>TxDb</strong> object</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">myCustomTxDb &lt;-<span class="st"> </span><span class="kw">makeTxDbFromGFF</span>(<span class="st">&quot;data/Xkr4.gtf&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>myCustomTxDb &lt;-<span class="st"> </span><span class="kw">makeTxDbFromGFF</span>(<span class="st">&quot;data/Xkr4.gtf&quot;</span>)</span></code></pre></div>
 <pre><code>## Import genomic features from the file as a GRanges object ... OK
-## Prepare the 'metadata' data frame ... OK
+## Prepare the &#39;metadata&#39; data frame ... OK
 ## Make the TxDb object ... OK</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">class</span>(myCustomTxDb)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">class</span>(myCustomTxDb)</span></code></pre></div>
 <pre><code>## [1] &quot;TxDb&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;GenomicFeatures&quot;</code></pre>
 </div>
 <div id="creating-txdb-from-external-sources-1" class="section level2">
 <h2>Creating TxDb from External Sources</h2>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">myCustomTxDb</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>myCustomTxDb</span></code></pre></div>
 <pre><code>## TxDb object:
 ## # Db type: TxDb
 ## # Supporting package: GenomicFeatures
@@ -1930,15 +1942,15 @@ div.tocify {
 ## # Genome: NA
 ## # Nb of transcripts: 1
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2020-07-06 15:57:05 +0000 (Mon, 06 Jul 2020)
-## # GenomicFeatures version at creation time: 1.40.0
-## # RSQLite version at creation time: 2.2.0
+## # Creation time: 2021-02-26 16:26:27 +0000 (Fri, 26 Feb 2021)
+## # GenomicFeatures version at creation time: 1.42.1
+## # RSQLite version at creation time: 2.2.3
 ## # DBSCHEMAVERSION: 1.2</code></pre>
 </div>
 <div id="creating-txdb-from-external-sources-2" class="section level2">
 <h2>Creating TxDb from External Sources</h2>
 <p>Now we have our own custom GTF object we can make use of the functions from <strong>GenomicFeatures</strong> package such as retrieving gene coordinates as a <strong>GRanges</strong>.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">genes</span>(myCustomTxDb)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">genes</span>(myCustomTxDb)</span></code></pre></div>
 <pre><code>## GRanges object with 1 range and 1 metadata column:
 ##        seqnames          ranges strand |     gene_id
 ##           &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -1949,7 +1961,7 @@ div.tocify {
 <div id="creating-txdb-from-external-sources-3" class="section level2">
 <h2>Creating TxDb from External Sources</h2>
 <p>Or exons grouped by genes as a <strong>GRangesList</strong>.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">exonsBy</span>(myCustomTxDb,<span class="dt">by=</span><span class="st">&quot;gene&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">exonsBy</span>(myCustomTxDb,<span class="dt">by=</span><span class="st">&quot;gene&quot;</span>)</span></code></pre></div>
 <pre><code>## GRangesList object of length 1:
 ## $Xkr4
 ## GRanges object with 3 ranges and 2 metadata columns:
@@ -1966,9 +1978,9 @@ div.tocify {
 <p>We can create a TxDb directly from UCSC’s database using the <strong>makeTxDbFromUCSC()</strong> function.</p>
 <p>The <strong>makeTxDbFromUCSC</strong> function simply requires a genome name to build a <strong>TxDb</strong> object.</p>
 <p>We can review the genomes available to us using the <strong>ucscGenomes()</strong> function from the <strong>rtracklayer</strong> package. This returns a data frame of genomes from which we can build a TxDB object.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">library</span>(rtracklayer)</a>
-<a class="sourceLine" id="cb37-2" data-line-number="2">availableGenomes &lt;-<span class="st"> </span><span class="kw">ucscGenomes</span>()</a>
-<a class="sourceLine" id="cb37-3" data-line-number="3">availableGenomes[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,]</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="kw">library</span>(rtracklayer)</span>
+<span id="cb37-2"><a href="#cb37-2"></a>availableGenomes &lt;-<span class="st"> </span><span class="kw">ucscGenomes</span>()</span>
+<span id="cb37-3"><a href="#cb37-3"></a>availableGenomes[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,]</span></code></pre></div>
 <pre><code>##     db species      date                               name
 ## 1 hg38   Human Dec. 2013 Genome Reference Consortium GRCh38
 ## 2 hg19   Human Feb. 2009 Genome Reference Consortium GRCh37
@@ -1978,8 +1990,8 @@ div.tocify {
 <div id="creating-txdb-from-ucsc-1" class="section level2">
 <h2>Creating TxDb from UCSC</h2>
 <p>Once we have identified the genome build we wish to use we can specify the genome parameter in the <strong>makeTxDbFromUCSC()</strong> function.</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">hg18TxDb &lt;-<span class="st"> </span><span class="kw">makeTxDbFromUCSC</span>(<span class="dt">genome=</span><span class="st">&quot;hg18&quot;</span>)</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2">hg18TxDb</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>hg18TxDb &lt;-<span class="st"> </span><span class="kw">makeTxDbFromUCSC</span>(<span class="dt">genome=</span><span class="st">&quot;hg18&quot;</span>)</span>
+<span id="cb39-2"><a href="#cb39-2"></a>hg18TxDb</span></code></pre></div>
 <pre><code>## TxDb object:
 ## # Db type: TxDb
 ## # Supporting package: GenomicFeatures
@@ -1995,44 +2007,44 @@ div.tocify {
 ## # miRBase build ID: NA
 ## # Nb of transcripts: 66803
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2020-07-06 15:57:39 +0000 (Mon, 06 Jul 2020)
-## # GenomicFeatures version at creation time: 1.40.0
-## # RSQLite version at creation time: 2.2.0
+## # Creation time: 2021-02-26 16:26:59 +0000 (Fri, 26 Feb 2021)
+## # GenomicFeatures version at creation time: 1.42.1
+## # RSQLite version at creation time: 2.2.3
 ## # DBSCHEMAVERSION: 1.2</code></pre>
 </div>
 <div id="creating-txdb-from-ucsc-2" class="section level2">
 <h2>Creating TxDb from UCSC</h2>
 <p>And again we can now make use of <strong>GenomicFeatures</strong> package’s functions with our new TxDb objects</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">hg18Promoters &lt;-<span class="st"> </span><span class="kw">promoters</span>(hg18TxDb,<span class="dv">2000</span>,<span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>hg18Promoters &lt;-<span class="st"> </span><span class="kw">promoters</span>(hg18TxDb,<span class="dv">2000</span>,<span class="dv">50</span>)</span></code></pre></div>
 </div>
 <div id="exporting-a-txdb-object-as-gtfgff-file" class="section level2">
 <h2>Exporting a TxDb Object as GTF/GFF File</h2>
 <p>We can make use of the <strong>export.gff()</strong> in the <strong>rtracklayer</strong> package to export our <strong>TxDb</strong> object to a gtf or gff file. We can include an additional argument of <strong>format</strong> to the <strong>export.gff()</strong> function.</p>
 <p>We can specify the <strong>format</strong> to be <strong>gff</strong> or <strong>gtf</strong> as shown below.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">export.gff</span>(myCustomTxDb,<span class="dt">con=</span><span class="st">&quot;customTxDbb.gff&quot;</span>,<span class="dt">format=</span><span class="st">&quot;gff&quot;</span>)</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">export.gff</span>(myCustomTxDb,<span class="dt">con=</span><span class="st">&quot;customTxDbb.gtf&quot;</span>,<span class="dt">format=</span><span class="st">&quot;gtf&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="kw">export.gff</span>(myCustomTxDb,<span class="dt">con=</span><span class="st">&quot;customTxDbb.gff&quot;</span>,<span class="dt">format=</span><span class="st">&quot;gff&quot;</span>)</span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="kw">export.gff</span>(myCustomTxDb,<span class="dt">con=</span><span class="st">&quot;customTxDbb.gtf&quot;</span>,<span class="dt">format=</span><span class="st">&quot;gtf&quot;</span>)</span></code></pre></div>
 </div>
 <div id="useful-functions-in-genomicfeatures" class="section level2">
 <h2>Useful Functions in GenomicFeatures</h2>
 <p>We have seen that we can extract transcripts and exons grouped by their genes/transcripts using the <strong>transcriptsBy()</strong> and <strong>exonsBy()</strong> functions.</p>
 <p>To identify the total number of groups we can simply use the <strong>length()</strong> function. Here we have 23459 transcipts or groups of exons.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">transcriptByGenes &lt;-<span class="st"> </span><span class="kw">exonsBy</span>(hg18TxDb,<span class="dt">by=</span><span class="st">&quot;gene&quot;</span>)</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw">length</span>(transcriptByGenes)</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>transcriptByGenes &lt;-<span class="st"> </span><span class="kw">exonsBy</span>(hg18TxDb,<span class="dt">by=</span><span class="st">&quot;gene&quot;</span>)</span>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="kw">length</span>(transcriptByGenes)</span></code></pre></div>
 <pre><code>## [1] 20121</code></pre>
 </div>
 <div id="useful-functions-in-genomicfeatures-1" class="section level2">
 <h2>Useful Functions in GenomicFeatures</h2>
 <p>To find the number of exons in every group/transcript we can use the function <strong>lengths()</strong>. The <strong>lengths()</strong> function will tell us the length of every group in our <strong>GRangesList</strong></p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">transcriptNumberPerGene &lt;-<span class="st"> </span><span class="kw">lengths</span>(transcriptByGenes)</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">transcriptNumberPerGene[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>transcriptNumberPerGene &lt;-<span class="st"> </span><span class="kw">lengths</span>(transcriptByGenes)</span>
+<span id="cb45-2"><a href="#cb45-2"></a>transcriptNumberPerGene[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span></code></pre></div>
 <pre><code>##     1    10   100  1000 10000 
 ##    15     3    12    16    16</code></pre>
 </div>
 <div id="useful-functions-in-genomicfeatures-2" class="section level2">
 <h2>Useful Functions in GenomicFeatures</h2>
 <p>We may wish to know the total sum length of all exons in every transcript. The <strong>transcriptLengths()</strong> function allows us to find all transcript lengths from a TxDb object as well as additional information.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">transcript_Lens &lt;-<span class="st"> </span><span class="kw">transcriptLengths</span>(hg18TxDb)</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">transcript_Lens[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>transcript_Lens &lt;-<span class="st"> </span><span class="kw">transcriptLengths</span>(hg18TxDb)</span>
+<span id="cb47-2"><a href="#cb47-2"></a>transcript_Lens[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]</span></code></pre></div>
 <pre><code>##   tx_id    tx_name gene_id nexon tx_len
 ## 1     1 uc001aaa.2    &lt;NA&gt;     3   2122
 ## 2     2 uc009vip.1    &lt;NA&gt;     2   2772
@@ -2044,10 +2056,10 @@ div.tocify {
 <h2>Extracting Sequence Information</h2>
 <p>As with many Bioconductor packages, there is interoperability between <strong>BSgenome</strong> packages holding genome sequences and <strong>TxDb</strong> objects with gene models. One very useful function is the <strong>extractTranscriptSeqs()</strong> function.</p>
 <p>The <strong>extractTranscriptSeqs()</strong> accepts a BSgenome object of genomic sequence of interest and a TxDb object.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">library</span>(BSgenome.Hsapiens.UCSC.hg19)</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">hg19TransSeq &lt;-<span class="st"> </span><span class="kw">extractTranscriptSeqs</span>(BSgenome.Hsapiens.UCSC.hg19, </a>
-<a class="sourceLine" id="cb49-3" data-line-number="3">                                      <span class="dt">transcripts=</span>TxDb.Hsapiens.UCSC.hg19.knownGene)</a>
-<a class="sourceLine" id="cb49-4" data-line-number="4">hg19TransSeq</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="kw">library</span>(BSgenome.Hsapiens.UCSC.hg19)</span>
+<span id="cb49-2"><a href="#cb49-2"></a>hg19TransSeq &lt;-<span class="st"> </span><span class="kw">extractTranscriptSeqs</span>(BSgenome.Hsapiens.UCSC.hg19, </span>
+<span id="cb49-3"><a href="#cb49-3"></a>                                      <span class="dt">transcripts=</span>TxDb.Hsapiens.UCSC.hg19.knownGene)</span>
+<span id="cb49-4"><a href="#cb49-4"></a>hg19TransSeq</span></code></pre></div>
 <pre><code>## DNAStringSet object of length 82960:
 ##          width seq                                          names               
 ##     [1]   1652 CTTGCCGTCAGCCTTTTCTTT...AAGCACACTGTTGGTTTCTG 1
@@ -2065,7 +2077,7 @@ div.tocify {
 <div id="extracting-sequence-information-1" class="section level2">
 <h2>Extracting Sequence Information</h2>
 <p>We can then either work with the resulting DNAStringSet then in R or write to Fasta file for analysis in external programs.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">writeXStringSet</span>(hg19TransSeq,<span class="st">&quot;myTranscriptSequences.fa&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="kw">writeXStringSet</span>(hg19TransSeq,<span class="st">&quot;myTranscriptSequences.fa&quot;</span>)</span></code></pre></div>
 </div>
 <div id="changing-naming-conventions" class="section level2">
 <h2>Changing Naming Conventions</h2>
@@ -2083,14 +2095,14 @@ div.tocify {
 <h2>Changing Chromosome Naming Styles</h2>
 <p>The <strong>GenomeInfoDb</strong> package and associated <strong>GenomeInfoDbData</strong> package contain mappings between differing naming conventions and functions to convert between them.</p>
 <p>First we need to load the <strong>GenomeInfoDb</strong> library.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">library</span>(GenomeInfoDb)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="kw">library</span>(GenomeInfoDb)</span></code></pre></div>
 </div>
 <div id="reviewing-chromosome-naming-styles" class="section level2">
 <h2>Reviewing Chromosome Naming Styles</h2>
 <p>We can review all the mappings for supported organisms’ genomes using the <strong>genomeStyles()</strong> function with no arguments.</p>
 <p>The <strong>genomeStyles()</strong> function returns a list of mapping data.frames of each organism.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">allMappings &lt;-<span class="st"> </span><span class="kw">genomeStyles</span>()</a>
-<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw">names</span>(allMappings)</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>allMappings &lt;-<span class="st"> </span><span class="kw">genomeStyles</span>()</span>
+<span id="cb53-2"><a href="#cb53-2"></a><span class="kw">names</span>(allMappings)</span></code></pre></div>
 <pre><code>##  [1] &quot;Arabidopsis_thaliana&quot;     &quot;Caenorhabditis_elegans&quot;  
 ##  [3] &quot;Canis_familiaris&quot;         &quot;Cyanidioschyzon_merolae&quot; 
 ##  [5] &quot;Drosophila_melanogaster&quot;  &quot;Homo_sapiens&quot;            
@@ -2102,8 +2114,8 @@ div.tocify {
 <h2>Chromosome Naming Style</h2>
 <p>We can then review mappings for our organism of interest’s genomes by retrieving the relevant entry from our list returned by the <strong>genomeStyles()</strong> function.</p>
 <p>The resulting data.frame contains information on contig/chromosome mappings as well as additional information on chromosomes, i.e. Circularity.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co">#allMappings$Homo_sapiens or</span></a>
-<a class="sourceLine" id="cb55-2" data-line-number="2">allMappings[[<span class="st">&quot;Homo_sapiens&quot;</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="co">#allMappings$Homo_sapiens or</span></span>
+<span id="cb55-2"><a href="#cb55-2"></a>allMappings[[<span class="st">&quot;Homo_sapiens&quot;</span>]]</span></code></pre></div>
 <pre><code>##    circular  auto   sex NCBI  UCSC dbSNP Ensembl
 ## 1     FALSE  TRUE FALSE    1  chr1   ch1       1
 ## 2     FALSE  TRUE FALSE    2  chr2   ch2       2
@@ -2135,15 +2147,15 @@ div.tocify {
 <h2>Changing Chromosome Naming Styles</h2>
 <p>The <strong>seqlevelsStyle()</strong> function allows us to review as well as set the naming convention for our GenomicRanges or TxDb objects.</p>
 <p>First lets review the genes from the <strong>TxDb.Hsapiens.UCSC.hg19.knownGene</strong> package. Here we see they are <strong>UCSC</strong> style.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1">myGenes &lt;-<span class="st"> </span><span class="kw">genes</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>myGenes &lt;-<span class="st"> </span><span class="kw">genes</span>(TxDb.Hsapiens.UCSC.hg19.knownGene)</span></code></pre></div>
 <pre><code>##   403 genes were dropped because they have exons located on both strands
 ##   of the same reference sequence or on more than one reference sequence,
 ##   so cannot be represented by a single genomic range.
-##   Use 'single.strand.genes.only=FALSE' to get all the genes in a
+##   Use &#39;single.strand.genes.only=FALSE&#39; to get all the genes in a
 ##   GRangesList object, or use suppressMessages() to suppress this message.</code></pre>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">seqlevelsStyle</span>(myGenes)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="kw">seqlevelsStyle</span>(myGenes)</span></code></pre></div>
 <pre><code>## [1] &quot;UCSC&quot;</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">myGenes[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,]</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>myGenes[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,]</span></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 1 metadata column:
 ##      seqnames            ranges strand |     gene_id
 ##         &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -2156,8 +2168,8 @@ div.tocify {
 <h2>Changing Chromosome Naming Styles</h2>
 <p>Now we can update them to <strong>Ensembl</strong>, <strong>NCBI</strong> or <strong>dbSNP</strong> styles. Here we update to <strong>Ensembl</strong> chromosome naming conventions.</p>
 <p>This conversion is essential if we want to use our objects with data generated following Ensembl styles.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">seqlevelsStyle</span>(myGenes) &lt;-<span class="st"> &quot;Ensembl&quot;</span></a>
-<a class="sourceLine" id="cb63-2" data-line-number="2">myGenes[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,]</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a><span class="kw">seqlevelsStyle</span>(myGenes) &lt;-<span class="st"> &quot;Ensembl&quot;</span></span>
+<span id="cb63-2"><a href="#cb63-2"></a>myGenes[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,]</span></code></pre></div>
 <pre><code>## GRanges object with 2 ranges and 1 metadata column:
 ##      seqnames            ranges strand |     gene_id
 ##         &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -2180,9 +2192,9 @@ div.tocify {
 <h2>Gene Annotation</h2>
 <p>To gain access to gene annotation we must first load the library for the relevant species.</p>
 <p>Here we install and load the library for Human, Org.Hs.eg.db.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;org.Hs.eg.db&quot;</span>)</a>
-<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="kw">library</span>(org.Hs.eg.db)</a>
-<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="kw">class</span>(org.Hs.eg.db)</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">&quot;org.Hs.eg.db&quot;</span>)</span>
+<span id="cb65-2"><a href="#cb65-2"></a><span class="kw">library</span>(org.Hs.eg.db)</span>
+<span id="cb65-3"><a href="#cb65-3"></a><span class="kw">class</span>(org.Hs.eg.db)</span></code></pre></div>
 <pre><code>## [1] &quot;OrgDb&quot;
 ## attr(,&quot;package&quot;)
 ## [1] &quot;AnnotationDbi&quot;</code></pre>
@@ -2203,7 +2215,7 @@ div.tocify {
 <h2>Accessing Annotation from Org.Db</h2>
 <p>We can use the <strong>columns()</strong> function first to list available annotation.</p>
 <p>Here we see our annotation for alternative IDs (ENSEMBL, REFSEQ, GENENAME) as well as functional annotation (GO, PATH, OMIM)</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">columns</span>(org.Hs.eg.db)</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a><span class="kw">columns</span>(org.Hs.eg.db)</span></code></pre></div>
 <pre><code>##  [1] &quot;ACCNUM&quot;       &quot;ALIAS&quot;        &quot;ENSEMBL&quot;      &quot;ENSEMBLPROT&quot;  &quot;ENSEMBLTRANS&quot;
 ##  [6] &quot;ENTREZID&quot;     &quot;ENZYME&quot;       &quot;EVIDENCE&quot;     &quot;EVIDENCEALL&quot;  &quot;GENENAME&quot;    
 ## [11] &quot;GO&quot;           &quot;GOALL&quot;        &quot;IPI&quot;          &quot;MAP&quot;          &quot;OMIM&quot;        
@@ -2211,12 +2223,12 @@ div.tocify {
 ## [21] &quot;PROSITE&quot;      &quot;REFSEQ&quot;       &quot;SYMBOL&quot;       &quot;UCSCKG&quot;       &quot;UNIGENE&quot;     
 ## [26] &quot;UNIPROT&quot;</code></pre>
 <p>– To know more about the above identifier types</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">help</span>(GENENAME)</a></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a><span class="kw">help</span>(GENENAME)</span></code></pre></div>
 </div>
 <div id="accessing-annotation-from-org.hs.eg.db" class="section level2">
 <h2>Accessing Annotation from org.Hs.eg.db</h2>
 <p>Which keytypes can be used to query this database can be retrieved using keytypes.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw">keytypes</span>(org.Hs.eg.db)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a><span class="kw">keytypes</span>(org.Hs.eg.db)</span></code></pre></div>
 <pre><code>##  [1] &quot;ACCNUM&quot;       &quot;ALIAS&quot;        &quot;ENSEMBL&quot;      &quot;ENSEMBLPROT&quot;  &quot;ENSEMBLTRANS&quot;
 ##  [6] &quot;ENTREZID&quot;     &quot;ENZYME&quot;       &quot;EVIDENCE&quot;     &quot;EVIDENCEALL&quot;  &quot;GENENAME&quot;    
 ## [11] &quot;GO&quot;           &quot;GOALL&quot;        &quot;IPI&quot;          &quot;MAP&quot;          &quot;OMIM&quot;        
@@ -2227,28 +2239,28 @@ div.tocify {
 <div id="accessing-annotation-from-org.db-1" class="section level2">
 <h2>Accessing Annotation from Org.Db</h2>
 <p>If we want to extract few identifiers of a particular keytype, we can use keys() function</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="kw">keys</span>(org.Hs.eg.db, <span class="dt">keytype=</span><span class="st">&quot;SYMBOL&quot;</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="kw">keys</span>(org.Hs.eg.db, <span class="dt">keytype=</span><span class="st">&quot;SYMBOL&quot;</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</span></code></pre></div>
 <pre><code>##  [1] &quot;A1BG&quot;     &quot;A2M&quot;      &quot;A2MP1&quot;    &quot;NAT1&quot;     &quot;NAT2&quot;     &quot;NATP&quot;    
 ##  [7] &quot;SERPINA3&quot; &quot;AADAC&quot;    &quot;AAMP&quot;     &quot;AANAT&quot;</code></pre>
 </div>
 <div id="accessing-annotation-from-org.db-2" class="section level2">
 <h2>Accessing Annotation from Org.Db</h2>
 <p>We can extract other annotations for a particular identifier using <b>select</b> function</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1"><span class="kw">select</span>(org.Hs.eg.db, <span class="dt">keys =</span> <span class="st">&quot;A1BG&quot;</span>, <span class="dt">keytype =</span> <span class="st">&quot;SYMBOL&quot;</span>, </a>
-<a class="sourceLine" id="cb74-2" data-line-number="2">       <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">&quot;SYMBOL&quot;</span>, <span class="st">&quot;GENENAME&quot;</span>, <span class="st">&quot;CHR&quot;</span>) )</a></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a><span class="kw">select</span>(org.Hs.eg.db, <span class="dt">keys =</span> <span class="st">&quot;A1BG&quot;</span>, <span class="dt">keytype =</span> <span class="st">&quot;SYMBOL&quot;</span>, </span>
+<span id="cb74-2"><a href="#cb74-2"></a>       <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">&quot;SYMBOL&quot;</span>, <span class="st">&quot;GENENAME&quot;</span>, <span class="st">&quot;CHR&quot;</span>) )</span></code></pre></div>
 <pre><code>##   SYMBOL               GENENAME CHR
 ## 1   A1BG alpha-1-B glycoprotein  19</code></pre>
 </div>
 <div id="annotating-results" class="section level2">
 <h2>Annotating Results</h2>
 <p>We can use this now to translate our Entrez IDs from TxDb object to a gene name</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1">geneLocations &lt;-<span class="st"> </span><span class="kw">genes</span>(hg18TxDb)</a></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a>geneLocations &lt;-<span class="st"> </span><span class="kw">genes</span>(hg18TxDb)</span></code></pre></div>
 <pre><code>##   379 genes were dropped because they have exons located on both strands
 ##   of the same reference sequence or on more than one reference sequence,
 ##   so cannot be represented by a single genomic range.
-##   Use 'single.strand.genes.only=FALSE' to get all the genes in a
+##   Use &#39;single.strand.genes.only=FALSE&#39; to get all the genes in a
 ##   GRangesList object, or use suppressMessages() to suppress this message.</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1">geneLocations</a></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>geneLocations</span></code></pre></div>
 <pre><code>## GRanges object with 19742 ranges and 1 metadata column:
 ##         seqnames              ranges strand |     gene_id
 ##            &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
@@ -2268,10 +2280,10 @@ div.tocify {
 </div>
 <div id="annotating-results-1" class="section level2">
 <h2>Annotating Results</h2>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1">IDs &lt;-<span class="st"> </span>geneLocations<span class="op">$</span>gene_id</a>
-<a class="sourceLine" id="cb80-2" data-line-number="2">myTable &lt;-<span class="st"> </span><span class="kw">select</span>(org.Hs.eg.db, <span class="dt">keys =</span> IDs, <span class="dt">keytype =</span> <span class="st">&quot;ENTREZID&quot;</span>,</a>
-<a class="sourceLine" id="cb80-3" data-line-number="3">                  <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">&quot;SYMBOL&quot;</span>, <span class="st">&quot;GENENAME&quot;</span>, <span class="st">&quot;ENTREZID&quot;</span>) )</a>
-<a class="sourceLine" id="cb80-4" data-line-number="4">myTable[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,]</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a>IDs &lt;-<span class="st"> </span>geneLocations<span class="op">$</span>gene_id</span>
+<span id="cb80-2"><a href="#cb80-2"></a>myTable &lt;-<span class="st"> </span><span class="kw">select</span>(org.Hs.eg.db, <span class="dt">keys =</span> IDs, <span class="dt">keytype =</span> <span class="st">&quot;ENTREZID&quot;</span>,</span>
+<span id="cb80-3"><a href="#cb80-3"></a>                  <span class="dt">columns =</span> <span class="kw">c</span>(<span class="st">&quot;SYMBOL&quot;</span>, <span class="st">&quot;GENENAME&quot;</span>, <span class="st">&quot;ENTREZID&quot;</span>) )</span>
+<span id="cb80-4"><a href="#cb80-4"></a>myTable[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,]</span></code></pre></div>
 <pre><code>##   ENTREZID SYMBOL               GENENAME
 ## 1        1   A1BG alpha-1-B glycoprotein
 ## 2       10   NAT2  N-acetyltransferase 2</code></pre>
@@ -2294,7 +2306,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -2312,7 +2324,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
