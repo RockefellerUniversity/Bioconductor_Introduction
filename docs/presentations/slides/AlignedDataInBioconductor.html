@@ -944,9 +944,9 @@ infoInReads[1]
 ##       seqnames strand       cigar    qwidth     start       end     width
 ##          &lt;Rle&gt;  &lt;Rle&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt; &lt;integer&gt;
 ##   [1]    chr12      -      31M19S        50    956642    956672        31
-##           njunc |                                 qname                     seq
-##       &lt;integer&gt; |                           &lt;character&gt;          &lt;DNAStringSet&gt;
-##   [1]         0 | HWI-BRUNOP16X_0001:8:1:13022:116605#0 GCTCAAGCGA...CACAATTGNG
+##           njunc |                  qname                     seq
+##       &lt;integer&gt; |            &lt;character&gt;          &lt;DNAStringSet&gt;
+##   [1]         0 | HWI-BRUNOP16X_0001:8.. GCTCAAGCGA...CACAATTGNG
 ##                           qual
 ##                 &lt;PhredQuality&gt;
 ##   [1] gg^eg]\\[Z[...SSTTTTSSBT
@@ -966,32 +966,19 @@ mcols(infoInReads)
 
 ```
 ## DataFrame with 48294 rows and 3 columns
-##                                        qname                     seq
-##                                  &lt;character&gt;          &lt;DNAStringSet&gt;
-## 1      HWI-BRUNOP16X_0001:8:1:13022:116605#0 GCTCAAGCGA...CACAATTGNG
-## 2       HWI-BRUNOP16X_0001:8:42:8540:23598#0 AAAAATACAA...TAGTTCCAGC
-## 3      HWI-BRUNOP16X_0001:8:2:17583:195044#0 AGAGTGAAAC...ATGATTTTTG
-## 4      HWI-BRUNOP16X_0001:8:4:12047:184239#0 AGAGTGAAAC...ATGATTTTTG
-## 5       HWI-BRUNOP16X_0001:8:48:3593:50269#0 TTGGAGACCA...TACAAAAAAT
-## ...                                      ...                     ...
-## 48290  HWI-BRUNOP16X_0001:8:3:16173:190471#0 TTGGCCAGGC...GCCCACCTCA
-## 48291 HWI-BRUNOP16X_0001:8:24:20187:100753#0 TTGGCCAGGC...GCCCACCTCA
-## 48292   HWI-BRUNOP16X_0001:8:64:15913:5846#0 TTGGCCAGGC...GCCCACCTCA
-## 48293    HWI-BRUNOP16X_0001:8:2:12306:8795#0 CCAGGAGTTG...CTCTCTCTAC
-## 48294  HWI-BRUNOP16X_0001:8:21:9352:156521#0 GGCTGTTCTT...TCAGCCTCCC
-##                           qual
-##                 &lt;PhredQuality&gt;
-## 1     gg^eg]\\[Z[...SSTTTTSSBT
-## 2      aeebeebfgg...gfgbgeeebe
-## 3      gggggggggg...gggggggggg
-## 4      gggggggggg...gggggggggg
-## 5      gggggggggg...ffgggggggg
-## ...                        ...
-## 48290  gggggggggg...eggggggggg
-## 48291  gggggf^ece...dfggggeggg
-## 48292  gggegggggg...gggggggggg
-## 48293  gggggggggg...gggggggggg
-## 48294  BBBBBBBBBB...TTTSKSQXTT
+##                        qname                     seq                     qual
+##                  &lt;character&gt;          &lt;DNAStringSet&gt;           &lt;PhredQuality&gt;
+## 1     HWI-BRUNOP16X_0001:8.. GCTCAAGCGA...CACAATTGNG gg^eg]\\[Z[...SSTTTTSSBT
+## 2     HWI-BRUNOP16X_0001:8.. AAAAATACAA...TAGTTCCAGC  aeebeebfgg...gfgbgeeebe
+## 3     HWI-BRUNOP16X_0001:8.. AGAGTGAAAC...ATGATTTTTG  gggggggggg...gggggggggg
+## 4     HWI-BRUNOP16X_0001:8.. AGAGTGAAAC...ATGATTTTTG  gggggggggg...gggggggggg
+## 5     HWI-BRUNOP16X_0001:8.. TTGGAGACCA...TACAAAAAAT  gggggggggg...ffgggggggg
+## ...                      ...                     ...                      ...
+## 48290 HWI-BRUNOP16X_0001:8.. TTGGCCAGGC...GCCCACCTCA  gggggggggg...eggggggggg
+## 48291 HWI-BRUNOP16X_0001:8.. TTGGCCAGGC...GCCCACCTCA  gggggf^ece...dfggggeggg
+## 48292 HWI-BRUNOP16X_0001:8.. TTGGCCAGGC...GCCCACCTCA  gggegggggg...gggggggggg
+## 48293 HWI-BRUNOP16X_0001:8.. CCAGGAGTTG...CTCTCTCTAC  gggggggggg...gggggggggg
+## 48294 HWI-BRUNOP16X_0001:8.. GGCTGTTCTT...TCAGCCTCCC  BBBBBBBBBB...TTTSKSQXTT
 ```
 
 

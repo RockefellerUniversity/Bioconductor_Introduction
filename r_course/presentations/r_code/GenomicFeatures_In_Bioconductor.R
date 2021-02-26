@@ -15,7 +15,7 @@ class: inverse, center, middle
 
 <html><div style='float:left'></div><hr color='#EB811B' size=1px width=720px></html> 
 
-
+---
 "    
   )
 }else{
@@ -23,7 +23,7 @@ class: inverse, center, middle
 
 ## Genomic Features
 
-
+---
 "    
   )
   
