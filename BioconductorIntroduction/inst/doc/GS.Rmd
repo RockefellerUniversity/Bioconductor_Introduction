@@ -18,9 +18,9 @@ message(toMessage)
 if(!file.exists("ENCFF940MBK.bigWig")){
   download.file("https://www.encodeproject.org/files/ENCFF940MBK/@@download/ENCFF940MBK.bigWig","ENCFF940MBK.bigWig",mode = "w",quiet = TRUE)
 }
-if(!file.exists("mm10.60way.phastCons.bw")){
-  download.file("https://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/mm10.60way.phastCons.bw","mm10.60way.phastCons.bw",mode = "w",quiet = TRUE)
-}
+# if(!file.exists("mm10.60way.phastCons.bw")){
+#   download.file("https://hgdownload.cse.ucsc.edu/goldenpath/mm10/phastCons60way/mm10.60way.phastCons.bw","mm10.60way.phastCons.bw",mode = "w",quiet = TRUE)
+# }
 
 
 
@@ -164,7 +164,7 @@ export.bed(filteredPeaks,"filteredPeaks.bed")
 
 
 
-11. Download the file of conservation scores (**mm10.60way.phastCons.bw**) for mm10 genome from UCSC. 
+<!-- 11. Download the file of conservation scores (**mm10.60way.phastCons.bw**) for mm10 genome from UCSC.  -->
 
 <!-- The degree of phylogenetic conservation for a region of the genome may be represented as a score between 1 to 0 (the posterior probability) with 1 showing the highest degree of conservation and 0 the lowest. -->
 
