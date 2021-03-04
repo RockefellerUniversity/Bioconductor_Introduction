@@ -365,8 +365,8 @@ availableGenomes[1:4,]
 Once we have identified the genome build we wish to use we can specify the genome parameter in the **makeTxDbFromUCSC()** function.
 
 ```{r ssslkzzzzfkssjj,eval=TRUE,cache=FALSE,message=FALSE}
-hg18TxDb <- makeTxDbFromUCSC(genome="hg18")
-hg18TxDb
+hg17TxDb <- makeTxDbFromUCSC(genome="hg17")
+hg17TxDb
 ```
 ---
 ## Creating TxDb from UCSC
@@ -374,7 +374,7 @@ hg18TxDb
 And again we can now make use of **GenomicFeatures** package's functions with our new TxDb objects
 
 ```{r ssslkzzzzddfkjj,eval=TRUE,cache=TRUE,message=FALSE,warning=FALSE}
-hg18Promoters <- promoters(hg18TxDb,2000,50)
+hg17Promoters <- promoters(hg17TxDb,2000,50)
 ```
 ---
 ## Exporting a TxDb Object as GTF/GFF File
@@ -395,7 +395,7 @@ We have seen that we can extract transcripts and exons grouped by their genes/tr
 To identify the total number of groups we can simply use the **length()** function. Here we have 23459 transcipts or groups of exons.
 
 ```{r ssslkzzzzsdsddfkjj,eval=TRUE,cache=TRUE,message=FALSE,warning=FALSE}
-transcriptByGenes <- exonsBy(hg18TxDb,by="gene")
+transcriptByGenes <- exonsBy(hg17TxDb,by="gene")
 length(transcriptByGenes)
 ```
 ---
@@ -413,7 +413,7 @@ transcriptNumberPerGene[1:5]
 We may wish to know the total sum length of all exons in every transcript. The **transcriptLengths()** function allows us to find all transcript lengths from a TxDb object as well as additional information.
 
 ```{r ssslkzzxxzssszddfkjj,eval=TRUE,cache=TRUE,message=FALSE,warning=FALSE}
-transcript_Lens <- transcriptLengths(hg18TxDb)
+transcript_Lens <- transcriptLengths(hg17TxDb)
 transcript_Lens[1:5,]
 ```
 ---
@@ -606,7 +606,7 @@ select(org.Hs.eg.db, keys = "A1BG", keytype = "SYMBOL",
 
 We can use this now to translate our Entrez IDs from TxDb object to a gene name
 ```{r sqsq, echo=TRUE, eval=TRUE, dependson="ssslkzzzzfkssjj"}
-geneLocations <- genes(hg18TxDb)
+geneLocations <- genes(hg17TxDb)
 geneLocations
 ```
 
