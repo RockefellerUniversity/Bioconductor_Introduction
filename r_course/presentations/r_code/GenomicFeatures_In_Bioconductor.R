@@ -131,12 +131,12 @@ availableGenomes[1:4,]
 
 
 ## ----ssslkzzzzfkssjj,eval=TRUE,cache=FALSE,message=FALSE----------------------
-hg18TxDb <- makeTxDbFromUCSC(genome="hg18")
-hg18TxDb
+hg17TxDb <- makeTxDbFromUCSC(genome="hg17")
+hg17TxDb
 
 
 ## ----ssslkzzzzddfkjj,eval=TRUE,cache=TRUE,message=FALSE,warning=FALSE---------
-hg18Promoters <- promoters(hg18TxDb,2000,50)
+hg17Promoters <- promoters(hg17TxDb,2000,50)
 
 
 ## ----ssslkzzzzdddsdsfkjj,eval=TRUE,cache=TRUE,message=FALSE,warning=FALSE-----
@@ -145,7 +145,7 @@ export.gff(myCustomTxDb,con="customTxDbb.gtf",format="gtf")
 
 
 ## ----ssslkzzzzsdsddfkjj,eval=TRUE,cache=TRUE,message=FALSE,warning=FALSE------
-transcriptByGenes <- exonsBy(hg18TxDb,by="gene")
+transcriptByGenes <- exonsBy(hg17TxDb,by="gene")
 length(transcriptByGenes)
 
 
@@ -155,7 +155,7 @@ transcriptNumberPerGene[1:5]
 
 
 ## ----ssslkzzxxzssszddfkjj,eval=TRUE,cache=TRUE,message=FALSE,warning=FALSE----
-transcript_Lens <- transcriptLengths(hg18TxDb)
+transcript_Lens <- transcriptLengths(hg17TxDb)
 transcript_Lens[1:5,]
 
 
@@ -230,7 +230,7 @@ select(org.Hs.eg.db, keys = "A1BG", keytype = "SYMBOL",
 
 
 ## ----sqsq, echo=TRUE, eval=TRUE, dependson="ssslkzzzzfkssjj"------------------
-geneLocations <- genes(hg18TxDb)
+geneLocations <- genes(hg17TxDb)
 geneLocations
 
 
