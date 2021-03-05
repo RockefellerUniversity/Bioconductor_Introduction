@@ -373,9 +373,9 @@ hg18TxDb
 
 ```{r ssslkzzzzfkssjj2, eval=TRUE, echo=F}
 
-saveDb(hg18TxDb, file="data/hg18txdb.RData")
-hg18TxDb <- loadDb("data/hg18txdb.RData")
-load(file="data/hg18txdb.RData")
+#saveDb(hg18TxDb, file="data/hg18txdb.sqlite")
+hg18TxDb <- loadDb("data/hg18txdb.sqlite")
+#load(file="data/hg18txdb.RData")
 hg18TxDb
 ```
 
