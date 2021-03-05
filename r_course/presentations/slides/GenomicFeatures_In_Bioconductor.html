@@ -538,7 +538,7 @@ myCustomTxDb
 ## # Genome: NA
 ## # Nb of transcripts: 1
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2021-03-04 21:31:41 +0000 (Thu, 04 Mar 2021)
+## # Creation time: 2021-03-05 01:32:10 +0000 (Fri, 05 Mar 2021)
 ## # GenomicFeatures version at creation time: 1.42.1
 ## # RSQLite version at creation time: 2.2.3
 ## # DBSCHEMAVERSION: 1.2
@@ -614,42 +614,37 @@ availableGenomes[1:4,]
 
 Once we have identified the genome build we wish to use we can specify the genome parameter in the **makeTxDbFromUCSC()** function.
 
+&lt;!-- # issue here atm. UCSC_dbselect command sets us rmariadb connection. maybe have to override this and change ports used?. For the moment i have just added a little work aorund by saving the object. --&gt;
+
 
 ```r
-hg17TxDb &lt;- makeTxDbFromUCSC(genome="hg17")
+hg18TxDb &lt;- makeTxDbFromUCSC(genome="hg18")
+hg18TxDb
 ```
 
-```
-## Warning in .extract_cds_locs_from_UCSC_txtable(ucsc_txtable): UCSC data anomaly in 4 transcript(s): the cds cumulative length is not
-##   a multiple of 3 for transcripts 'NM_016178' 'NM_130385' 'NM_002537'
-##   'NM_004152'
-```
-
-```r
-hg17TxDb
-```
 
 ```
 ## TxDb object:
 ## # Db type: TxDb
 ## # Supporting package: GenomicFeatures
 ## # Data source: UCSC
-## # Genome: hg17
+## # Genome: hg18
 ## # Organism: Homo sapiens
 ## # Taxonomy ID: 9606
 ## # UCSC Table: knownGene
-## # UCSC Track: Known Genes
+## # UCSC Track: UCSC Genes
 ## # Resource URL: http://genome.ucsc.edu/
 ## # Type of Gene ID: Entrez Gene ID
 ## # Full dataset: yes
 ## # miRBase build ID: NA
-## # Nb of transcripts: 39368
+## # Nb of transcripts: 66803
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2021-03-04 21:32:20 +0000 (Thu, 04 Mar 2021)
-## # GenomicFeatures version at creation time: 1.42.1
+## # Creation time: 2021-03-04 18:35:05 -0500 (Thu, 04 Mar 2021)
+## # GenomicFeatures version at creation time: 1.40.1
 ## # RSQLite version at creation time: 2.2.3
 ## # DBSCHEMAVERSION: 1.2
 ```
+
 ---
 ## Creating TxDb from UCSC
 
@@ -657,7 +652,7 @@ And again we can now make use of **GenomicFeatures** package's functions with ou
 
 
 ```r
-hg17Promoters &lt;- promoters(hg17TxDb,2000,50)
+hg18Promoters &lt;- promoters(hg18TxDb,2000,50)
 ```
 ---
 ## Exporting a TxDb Object as GTF/GFF File
@@ -680,12 +675,12 @@ To identify the total number of groups we can simply use the **length()** functi
 
 
 ```r
-transcriptByGenes &lt;- exonsBy(hg17TxDb,by="gene")
+transcriptByGenes &lt;- exonsBy(hg18TxDb,by="gene")
 length(transcriptByGenes)
 ```
 
 ```
-## [1] 17697
+## [1] 20121
 ```
 ---
 ## Useful Functions in GenomicFeatures
@@ -700,7 +695,7 @@ transcriptNumberPerGene[1:5]
 
 ```
 ##     1    10   100  1000 10000 
-##    10     2    12    16    15
+##    15     3    12    16    16
 ```
 ---
 ## Useful Functions in GenomicFeatures
@@ -709,17 +704,17 @@ We may wish to know the total sum length of all exons in every transcript. The *
 
 
 ```r
-transcript_Lens &lt;- transcriptLengths(hg17TxDb)
+transcript_Lens &lt;- transcriptLengths(hg18TxDb)
 transcript_Lens[1:5,]
 ```
 
 ```
-##   tx_id      tx_name gene_id nexon tx_len
-## 1     1 NM_001005484   79501     1    918
-## 2     2 NM_001005221  135896     1    939
-## 3     3     AK097327    &lt;NA&gt;     2   1944
-## 4     4     BC024295  148398    10   2120
-## 5     5     AK054643  148398     7   1733
+##   tx_id    tx_name gene_id nexon tx_len
+## 1     1 uc001aaa.2    &lt;NA&gt;     3   2122
+## 2     2 uc009vip.1    &lt;NA&gt;     2   2772
+## 3     3 uc009vjg.1    &lt;NA&gt;     3    708
+## 4     4 uc009vjh.1   79501     3    888
+## 5     5 uc001aal.1   79501     1    918
 ```
 ---
 ## Extracting Sequence Information
@@ -1045,11 +1040,11 @@ select(org.Hs.eg.db, keys = "A1BG", keytype = "SYMBOL",
 We can use this now to translate our Entrez IDs from TxDb object to a gene name
 
 ```r
-geneLocations &lt;- genes(hg17TxDb)
+geneLocations &lt;- genes(hg18TxDb)
 ```
 
 ```
-##   166 genes were dropped because they have exons located on both strands
+##   379 genes were dropped because they have exons located on both strands
 ##   of the same reference sequence or on more than one reference sequence,
 ##   so cannot be represented by a single genomic range.
 ##   Use 'single.strand.genes.only=FALSE' to get all the genes in a
@@ -1061,22 +1056,22 @@ geneLocations
 ```
 
 ```
-## GRanges object with 17531 ranges and 1 metadata column:
+## GRanges object with 19742 ranges and 1 metadata column:
 ##         seqnames              ranges strand |     gene_id
 ##            &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##       1    chr19   63548356-63559403      - |           1
-##      10     chr8   18293035-18302962      + |          10
-##     100    chr20   42681578-42713790      - |         100
-##    1000    chr18   23784934-24011189      - |        1000
-##   10000     chr1 239977576-240332594      - |       10000
+##       1    chr19   63549984-63565932      - |           1
+##      10     chr8   18293035-18303003      + |          10
+##     100    chr20   42681577-42713790      - |         100
+##    1000    chr18   23784933-24011189      - |        1000
+##   10000     chr1 241718158-242073207      - |       10000
 ##     ...      ...                 ...    ... .         ...
-##    9991     chr9 112060450-112175460      - |        9991
+##    9991     chr9 114020538-114135733      - |        9991
 ##    9992    chr21   34658193-34665310      + |        9992
-##    9993    chr22   17398355-17484474      - |        9993
-##    9994     chr6   90596379-90640875      + |        9994
-##    9997    chr22   49252143-49254116      - |        9997
+##    9993    chr22   17403795-17489967      - |        9993
+##    9994     chr6   90596334-90640876      + |        9994
+##    9997    chr22   49308863-49310900      - |        9997
 ##   -------
-##   seqinfo: 46 sequences (1 circular) from hg17 genome
+##   seqinfo: 49 sequences (1 circular) from hg18 genome
 ```
 
 ---
