@@ -444,6 +444,38 @@ unlink("myTrimmed_Fastq.fastq.gz")
 writeFastq(TrimmedFastq,"myTrimmed_Fastq.fastq.gz",mode="w")
 ```
 
+# Can something do this all for me?
+
+There are several utility programs that will provide you with QC and trim your data for you, with less input from you. We are fans of the [fastp](https://pubmed.ncbi.nlm.nih.gov/30423086/) as it does some basic QC and trims your fastqs, and it does it very quickly. To make this available in R, the BRC wrapped this in the Bioconductor package [Rfastp](http://www.bioconductor.org/packages/release/bioc/html/Rfastp.html).
+
+
+```{r, warnings=F, message=FALSE}
+library(Rfastp)
+
+rfastp_report <- rfastp(read1 = "data/sampled_ENCFF000CXH.fastq.gz", outputFastq ="data/Rfastp_ENCFF000CXH")
+
+```
+# Rfastp QC Summary
+
+```{r}
+dfsummary <- qcSummary(rfastp_report)
+dfsummary
+```
+
+# Rfastp QC Plot
+.pull-left[
+```{r}
+curvePlot(rfastp_report, curve="quality_curves")
+
+```
+  ]
+  
+.pull-left[  
+```{r}
+curvePlot(rfastp_report, curve="content_curves")
+
+```
+  ]
 
 ---
 ##Handling Large Files
@@ -493,6 +525,9 @@ while (length(fq_stream <- yield(fq)) > 0) {
 ```{r closeconn, echo=F}
 close(fq)
 ```
+
+
+
 ---
 
 ##Time for an Exercise
