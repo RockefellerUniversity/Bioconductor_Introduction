@@ -108,7 +108,7 @@ In previous sessions we have seen how to handle unaligned sequence data as well 
 ---
 ## Aligned data - SAM/BAM
 
-We will want to produce a SAM/BAM file containing aligned reads in a format we can visualise in IGV and work with in our downstream analysis.
+We will want to produce a SAM/BAM file containing aligned reads in a format we can visualize in IGV and work with in our downstream analysis.
 
 
 <div align="center">
@@ -542,7 +542,7 @@ The **qAlign()** function requires just two arguments.
 * Reference genome - Character string of **BSgenome** object or FASTA file location.
 
 ---
-## QuasR genomic alignment - Sample table
+## QuasR Sample table
 
 The sample table requires is a tab-delimited file listing the path to fastq(s) to be aligned and the desired sample names.
 
@@ -551,6 +551,7 @@ FileName <- "data/sampledActin.fq.gz"
 SampleName <- "sampledActin"
 sampleTable <- data.frame(FileName,SampleName)
 write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
+sampleTable
 ```
 
 ```{r sampleTable1s, echo=FALSE,eval=TRUE}

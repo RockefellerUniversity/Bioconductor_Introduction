@@ -29,11 +29,11 @@ We have already reviewed this data when looking at IGV in an earlier session.
 
 The example data can be found in the data directory 
 
-**data/liver.bodyMap.fq**
-**data/heart.bodyMap.fq**
+* **data/liver.bodyMap.fq**
+* **data/heart.bodyMap.fq**
 
 
-1. Identify the number of reads in heart.bodyMap.fq and  liver.bodyMap.fq files.
+1. Identify the number of reads in heart.bodyMap.fq and liver.bodyMap.fq files.
 
 ```{r installdeBSded,include=FALSE,  echo=toMessage}
 suppressPackageStartupMessages(library(Rsubread))
@@ -49,8 +49,8 @@ library(ggplot2)
 library(Rsamtools)
 heartQ <- readFastq("data/heart.bodyMap.fq")
 liverQ <- readFastq("data/liver.bodyMap.fq")
-# length(heartQ)
-# length(liverQ)
+length(heartQ)
+length(liverQ)
 ```
 
 2. Create a violin plot of summed read qualities for the two samples in ggplot2
@@ -114,7 +114,7 @@ quickBamFlagSummary("Heart.bam")
 quickBamFlagSummary("Liver.bam")
 ```
 
-7. Visualise the result in IGV
+7. Visualize the result in IGV
 
 [HINT: Check Gene SLC25A3]
 
