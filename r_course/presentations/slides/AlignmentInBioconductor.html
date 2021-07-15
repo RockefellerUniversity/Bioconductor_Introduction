@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>AlignmentInBioconductor.utf8</title>
+    <title>AlignmentInBioconductor.knit</title>
     <meta charset="utf-8" />
     <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <script src="libs/header-attrs-2.9/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
     <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
@@ -57,7 +58,7 @@ In previous sessions we have seen how to handle unaligned sequence data as well 
 ---
 ## Aligned data - SAM/BAM
 
-We will want to produce a SAM/BAM file containing aligned reads in a format we can visualise in IGV and work with in our downstream analysis.
+We will want to produce a SAM/BAM file containing aligned reads in a format we can visualize in IGV and work with in our downstream analysis.
 
 
 &lt;div align="center"&gt;
@@ -535,7 +536,7 @@ The **qAlign()** function requires just two arguments.
 * Reference genome - Character string of **BSgenome** object or FASTA file location.
 
 ---
-## QuasR genomic alignment - Sample table
+## QuasR Sample table
 
 The sample table requires is a tab-delimited file listing the path to fastq(s) to be aligned and the desired sample names.
 
@@ -545,6 +546,7 @@ FileName &lt;- "data/sampledActin.fq.gz"
 SampleName &lt;- "sampledActin"
 sampleTable &lt;- data.frame(FileName,SampleName)
 write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
+sampleTable
 ```
 
 
@@ -595,6 +597,8 @@ qAlign("sampleTable.txt","chr7.fa", aligner="Rhisat2")
 [Link_to_exercises](../../exercises/exercises/alignment_exercise.html)
 
 [Link_to_answers](../../exercises/answers/alignment_answers.html)
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -4,6 +4,7 @@
     <title>Summarizing Scores In Bioconductor</title>
     <meta charset="utf-8" />
     <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <script src="libs/header-attrs-2.9/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
     <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
@@ -303,6 +304,7 @@ allChromosomeStats
 ```
 ##   seqnames seqlength mapped unmapped
 ## 1    chr12 133275309 132381        0
+## 2        *         0      0      223
 ```
 
 ---
@@ -346,17 +348,17 @@ slc25A3
 ## GRanges object with 39 ranges and 2 metadata columns:
 ##        seqnames            ranges strand |   exon_id   exon_name
 ##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
-##    [1]    chr12 98593591-98593740      + |    376828        &lt;NA&gt;
-##    [2]    chr12 98593625-98593740      + |    376829        &lt;NA&gt;
-##    [3]    chr12 98593625-98594135      + |    376830        &lt;NA&gt;
-##    [4]    chr12 98593650-98593740      + |    376831        &lt;NA&gt;
-##    [5]    chr12 98593655-98593740      + |    376832        &lt;NA&gt;
+##    [1]    chr12 98593591-98593740      + |    381304        &lt;NA&gt;
+##    [2]    chr12 98593625-98593740      + |    381305        &lt;NA&gt;
+##    [3]    chr12 98593625-98594135      + |    381306        &lt;NA&gt;
+##    [4]    chr12 98593650-98593740      + |    381307        &lt;NA&gt;
+##    [5]    chr12 98593655-98593740      + |    381308        &lt;NA&gt;
 ##    ...      ...               ...    ... .       ...         ...
-##   [35]    chr12 98601368-98601707      + |    376863        &lt;NA&gt;
-##   [36]    chr12 98601368-98601708      + |    376864        &lt;NA&gt;
-##   [37]    chr12 98601368-98601997      + |    376865        &lt;NA&gt;
-##   [38]    chr12 98601368-98602168      + |    376866        &lt;NA&gt;
-##   [39]    chr12 98601368-98606379      + |    376867        &lt;NA&gt;
+##   [35]    chr12 98601368-98601708      + |    381339        &lt;NA&gt;
+##   [36]    chr12 98601368-98601997      + |    381340        &lt;NA&gt;
+##   [37]    chr12 98601368-98602168      + |    381341        &lt;NA&gt;
+##   [38]    chr12 98601368-98606367      + |    381342        &lt;NA&gt;
+##   [39]    chr12 98601368-98606379      + |    381343        &lt;NA&gt;
 ##   -------
 ##   seqinfo: 595 sequences (1 circular) from hg38 genome
 ```
@@ -374,15 +376,15 @@ myMeanCovOverExons
 
 ```
 ##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
-##  197.3933  255.2500  633.2740  323.8462  341.8605  345.5647  361.1852  510.2909 
+##  197.3933  255.2500  633.2740  323.8462  341.8605  345.5647  510.2909  715.6889 
 ##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
-##  715.6889  601.2222  554.0204  756.4282 1757.2919  473.0144 1770.5732  539.0552 
+##  601.2222  554.0204  756.4282 1757.2919  473.0144 1770.5732  539.0552 4232.1680 
 ##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
-## 4232.1680 2317.5153  204.4162  299.2623 2600.1274 6779.2570 6785.8833 6749.0552 
+## 2317.5153  204.4162  299.2623 2600.1274 6779.2570 6785.8833 6749.0552 5607.1697 
 ##     chr12     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
-## 5607.1697 2104.1342 6218.8696 6158.3462 4092.3000 6375.2486 3771.8433 7370.8919 
+## 2104.1342 6218.8696 6158.3462 4092.3000 6375.2486 3771.8433 7370.8919 7180.3787 
 ##     chr12     chr12     chr12     chr12     chr12     chr12     chr12 
-## 7180.3787 7139.7459 6667.7147 6648.3255 3626.9619 2858.4856  476.9898
+## 7139.7459 6667.7147 6648.3255 3626.9619 2858.4856  478.1346  476.9898
 ```
 
 ---
@@ -464,7 +466,7 @@ geneBody &lt;- genes(TxDb.Hsapiens.UCSC.hg38.knownGene)
 ```
 
 ```
-##   1613 genes were dropped because they have exons located on both strands
+##   228 genes were dropped because they have exons located on both strands
 ##   of the same reference sequence or on more than one reference sequence,
 ##   so cannot be represented by a single genomic range.
 ##   Use 'single.strand.genes.only=FALSE' to get all the genes in a
@@ -497,10 +499,10 @@ myTSScounts
 
 ```
 ## class: RangedSummarizedExperiment 
-## dim: 25750 1 
+## dim: 27113 1 
 ## metadata(0):
 ## assays(1): counts
-## rownames(25750): 1 10 ... 9994 9997
+## rownames(27113): 1 10 ... 9994 9997
 ## rowData names(1): gene_id
 ## colnames(1): Heart.bam
 ## colData names(0):
@@ -538,20 +540,20 @@ Granges
 ```
 
 ```
-## GRanges object with 25750 ranges and 1 metadata column:
-##             seqnames              ranges strand |     gene_id
-##                &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
-##           1    chr19   58362252-58363251      - |           1
-##          10     chr8   18390782-18391781      + |          10
-##         100    chr20   44651734-44652733      - |         100
-##        1000    chr18   28176631-28177630      - |        1000
-##   100009613    chr11   70074934-70075933      - |   100009613
-##         ...      ...                 ...    ... .         ...
-##        9991     chr9 112333168-112334167      - |        9991
-##        9992    chr21   34363524-34364523      + |        9992
-##        9993    chr22   19121955-19122954      - |        9993
-##        9994     chr6   89829394-89830393      + |        9994
-##        9997    chr22   50525962-50526961      - |        9997
+## GRanges object with 27113 ranges and 1 metadata column:
+##         seqnames              ranges strand |     gene_id
+##            &lt;Rle&gt;           &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##       1    chr19   58362252-58363251      - |           1
+##      10     chr8   18390782-18391781      + |          10
+##     100    chr20   44651734-44652733      - |         100
+##    1000    chr18   28177447-28178446      - |        1000
+##   10000     chr1 243850580-243851579      - |       10000
+##     ...      ...                 ...    ... .         ...
+##    9991     chr9 112333165-112334164      - |        9991
+##    9992    chr21   34363506-34364505      + |        9992
+##    9993    chr22   19121955-19122954      - |        9993
+##    9994     chr6   89829394-89830393      + |        9994
+##    9997    chr22   50525962-50526961      - |        9997
 ##   -------
 ##   seqinfo: 595 sequences (1 circular) from hg38 genome
 ```
@@ -577,17 +579,17 @@ geneExons["5250"]
 ## GRanges object with 39 ranges and 2 metadata columns:
 ##        seqnames            ranges strand |   exon_id   exon_name
 ##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
-##    [1]    chr12 98593591-98593740      + |    376828        &lt;NA&gt;
-##    [2]    chr12 98593625-98593740      + |    376829        &lt;NA&gt;
-##    [3]    chr12 98593625-98594135      + |    376830        &lt;NA&gt;
-##    [4]    chr12 98593650-98593740      + |    376831        &lt;NA&gt;
-##    [5]    chr12 98593655-98593740      + |    376832        &lt;NA&gt;
+##    [1]    chr12 98593591-98593740      + |    381304        &lt;NA&gt;
+##    [2]    chr12 98593625-98593740      + |    381305        &lt;NA&gt;
+##    [3]    chr12 98593625-98594135      + |    381306        &lt;NA&gt;
+##    [4]    chr12 98593650-98593740      + |    381307        &lt;NA&gt;
+##    [5]    chr12 98593655-98593740      + |    381308        &lt;NA&gt;
 ##    ...      ...               ...    ... .       ...         ...
-##   [35]    chr12 98601368-98601707      + |    376863        &lt;NA&gt;
-##   [36]    chr12 98601368-98601708      + |    376864        &lt;NA&gt;
-##   [37]    chr12 98601368-98601997      + |    376865        &lt;NA&gt;
-##   [38]    chr12 98601368-98602168      + |    376866        &lt;NA&gt;
-##   [39]    chr12 98601368-98606379      + |    376867        &lt;NA&gt;
+##   [35]    chr12 98601368-98601708      + |    381339        &lt;NA&gt;
+##   [36]    chr12 98601368-98601997      + |    381340        &lt;NA&gt;
+##   [37]    chr12 98601368-98602168      + |    381341        &lt;NA&gt;
+##   [38]    chr12 98601368-98606367      + |    381342        &lt;NA&gt;
+##   [39]    chr12 98601368-98606379      + |    381343        &lt;NA&gt;
 ##   -------
 ##   seqinfo: 595 sequences (1 circular) from hg38 genome
 ```
@@ -605,10 +607,10 @@ myGeneCounts
 
 ```
 ## class: RangedSummarizedExperiment 
-## dim: 27363 1 
+## dim: 27341 1 
 ## metadata(0):
 ## assays(1): counts
-## rownames(27363): 1 10 ... 9994 9997
+## rownames(27341): 1 10 ... 9994 9997
 ## rowData names(0):
 ## colnames(1): Heart.bam
 ## colData names(0):
@@ -643,27 +645,27 @@ grgList
 ```
 
 ```
-## GRangesList object of length 27363:
+## GRangesList object of length 27341:
 ## $`1`
 ## GRanges object with 29 ranges and 2 metadata columns:
 ##        seqnames            ranges strand |   exon_id   exon_name
 ##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;character&gt;
-##    [1]    chr19 58345178-58347029      - |    573605        &lt;NA&gt;
-##    [2]    chr19 58345183-58347029      - |    573606        &lt;NA&gt;
-##    [3]    chr19 58346854-58347029      - |    573607        &lt;NA&gt;
-##    [4]    chr19 58346858-58347029      - |    573608        &lt;NA&gt;
-##    [5]    chr19 58346860-58347029      - |    573609        &lt;NA&gt;
+##    [1]    chr19 58345178-58347029      - |    579646        &lt;NA&gt;
+##    [2]    chr19 58345183-58347029      - |    579647        &lt;NA&gt;
+##    [3]    chr19 58346854-58347029      - |    579648        &lt;NA&gt;
+##    [4]    chr19 58346858-58347029      - |    579649        &lt;NA&gt;
+##    [5]    chr19 58346860-58347029      - |    579650        &lt;NA&gt;
 ##    ...      ...               ...    ... .       ...         ...
-##   [25]    chr19 58357585-58357649      - |    573632        &lt;NA&gt;
-##   [26]    chr19 58357952-58358286      - |    573633        &lt;NA&gt;
-##   [27]    chr19 58358489-58358585      - |    573634        &lt;NA&gt;
-##   [28]    chr19 58359197-58359323      - |    573635        &lt;NA&gt;
-##   [29]    chr19 58362677-58362751      - |    573636        &lt;NA&gt;
+##   [25]    chr19 58357585-58357649      - |    579673        &lt;NA&gt;
+##   [26]    chr19 58357952-58358286      - |    579674        &lt;NA&gt;
+##   [27]    chr19 58358489-58358585      - |    579675        &lt;NA&gt;
+##   [28]    chr19 58359197-58359323      - |    579676        &lt;NA&gt;
+##   [29]    chr19 58362677-58362751      - |    579677        &lt;NA&gt;
 ##   -------
 ##   seqinfo: 595 sequences (1 circular) from hg38 genome
 ## 
 ## ...
-## &lt;27362 more elements&gt;
+## &lt;27340 more elements&gt;
 ```
 
 ---
@@ -735,10 +737,10 @@ heartGeneCounts
 
 ```
 ## class: RangedSummarizedExperiment 
-## dim: 27363 1 
+## dim: 27341 1 
 ## metadata(0):
 ## assays(1): counts
-## rownames(27363): 1 10 ... 9994 9997
+## rownames(27341): 1 10 ... 9994 9997
 ## rowData names(0):
 ## colnames(1): Heart.bam
 ## colData names(0):
@@ -759,10 +761,10 @@ allGeneCounts
 
 ```
 ## class: RangedSummarizedExperiment 
-## dim: 27363 2 
+## dim: 27341 2 
 ## metadata(0):
 ## assays(1): counts
-## rownames(27363): 1 10 ... 9994 9997
+## rownames(27341): 1 10 ... 9994 9997
 ## rowData names(0):
 ## colnames(2): Heart.bam Liver.bam
 ## colData names(0):
@@ -774,6 +776,8 @@ allGeneCounts
 [Link_to_exercises](../../exercises/exercises/summarization_exercise.html)
 
 [Link_to_answers](../../exercises/answers/summarization_answers.html)
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
