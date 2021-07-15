@@ -29,8 +29,8 @@ We have already reviewed this data when looking at IGV in an earlier session.
 
 The example data can be found in the data directory 
 
-**data/Heart.bam**
-**data/Liver.bam**
+* **data/Heart.bam**
+* **data/Liver.bam**
 
 
 1. Coordinate sort and index the aligned reads in BAM files **data/Heart.bam** and **data/Liver.bam**.
@@ -68,6 +68,8 @@ ggplot(toPlot,aes(x=seqnames,y=mapped,fill=seqnames))+
 
 3. Using the qwidth() and the width() functions, plot the length of reads vs the length of their alignment for the Heart bam file using ggplot2. Facet the plot by the number of junctions a read spans.
 
+Plot this again, but add a limit to the alignment of 2.5Kb in the plotting. 
+
 
 ```{r instsallssBSded,  echo=toMessage}
 myReads <- readGAlignments("data/heart.bodyMap.bam")
@@ -76,6 +78,15 @@ ggplot(toPlot,aes(x=readLength,y=alignmentLength))+
   geom_point()+facet_grid(~junctions)+
   theme_minimal()+xlab("Read Length")+ylab("Alignment Length")
 ```
+
+```{r instsallssBSded3,  echo=toMessage}
+myReads <- readGAlignments("data/heart.bodyMap.bam")
+toPlot <- data.frame(readLength=qwidth(myReads),alignmentLength=width(myReads),junctions=factor(njunc(myReads)))
+ggplot(toPlot,aes(x=readLength,y=alignmentLength))+
+  geom_point()+facet_grid(~junctions)+
+  theme_minimal()+xlab("Read Length")+ylab("Alignment Length")+ylim(0,25000)
+```
+
 
 4. Export any aligned reads spanning more than 40000 bp on the genome to a BAM file and review in IGV.
 
@@ -101,6 +112,10 @@ infoInReads <- readGAlignments("SortedHeart.bam",param = myParam)
 readnames <- mcols(infoInReads)$qname
 uniqueIDs <- length(unique(readnames))
 totalReads <- length(infoInReads)
+
+uniqueIDs
+
+totalReads
 ```
 
 
@@ -117,7 +132,7 @@ toPlot <- data.frame(Base=names(mainBases),Freq=mainBases)
 ggplot(toPlot,aes(x=Base,y=Freq,fill=Base))+geom_bar(stat="identity")+theme_bw()
 ```
 
-8. Using a loop and ScanBamParam, count the number number reads in Heart file overlapping exons for the SLC25A3 gene. Remember we can use TxDb objects to extract GRanges of exon positions for genes.
+8. Using a loop and ScanBamParam, count the number number reads in Heart file overlapping each exon for the SLC25A3 gene. Remember we can use TxDb objects to extract GRanges of exon positions for genes.
 
 ```{r instalsasSAlBSded,  echo=toMessage}
 library(org.Hs.eg.db)

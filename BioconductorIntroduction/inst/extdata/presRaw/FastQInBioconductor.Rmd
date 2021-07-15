@@ -456,6 +456,7 @@ rfastp_report <- rfastp(read1 = "data/sampled_ENCFF000CXH.fastq.gz", outputFastq
 
 ```
 # Rfastp QC Summary
+By default fastp will make a html report to summarize your result. But the Rfastp wrapper allows you to look at some of them in R. 
 
 ```{r}
 dfsummary <- qcSummary(rfastp_report)
@@ -476,6 +477,8 @@ curvePlot(rfastp_report, curve="content_curves")
 
 ```
   ]
+
+
 
 ---
 ##Handling Large Files
