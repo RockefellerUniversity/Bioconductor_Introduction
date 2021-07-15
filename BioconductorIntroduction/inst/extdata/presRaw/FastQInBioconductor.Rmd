@@ -85,7 +85,7 @@ suppressPackageStartupMessages(library(ShortRead))
 
 ##Data
 
-In this session we will be making use of some public datasets from the Encode consortium.
+In this session we will be making use of some public datasets from the ENCODE consortium.
 
 We will be using raw sequence reads in fastQ format which have been generated from an RNAseq experiment.
 
@@ -99,9 +99,9 @@ This RNAseq data has been generated from the human cell line **GM12878** and the
 
 ##Data Locally
 
-For this session, i have taken the first 100,000 reads from the fastQ file **ENCFF000CXH.fastq.gz** to create **data/sampled_ENCFF000CXH.fastq.gz**. This should allow us to quickly perform some processing and analysis of this data as well as include the smaller file size example data in our zip archive.
+For this session, I have taken the first 100,000 reads from the FastQ file **ENCFF000CXH.fastq.gz** to create **data/sampled_ENCFF000CXH.fastq.gz**. This should allow us to quickly perform some processing and analysis of this data as well as include the smaller file size example data in our zip archive.
 
-This can be found in 
+This can be found in:
 
 **data/sampled_ENCFF000CXH.fastq.gz**
 
@@ -119,7 +119,7 @@ We will review this at the end of the session.
 
 ##Reading in FastQ File
 
-The **ShortRead** package allows us to import FastQ files into R using the **readFastq()** function. This function returns a **ShortReadQ** storing the information from the fastQ file (sequence, quality of sequence and unique read identifiers).
+The **ShortRead** package allows us to import FastQ files into R using the **readFastq()** function. This function returns a **ShortReadQ** storing the information from the FastQ file (sequence, quality of sequence and unique read identifiers).
 
 ```{r setup2112,eval=TRUE,echo=TRUE}
 library(ShortRead)
@@ -161,7 +161,7 @@ readLengths[1:10]
 
 We can subset or index **ShortReadQ** objects using the same methods as we have for vectors and GRanges.
 
-Here i use a vector, e.g. 1:10 or c(1,2,3,4,5,6,7,8,9,10), to retrieve first 10 reads in file.
+Here I use a vector to retrieve first 10 reads in file **[Quick reminder that 1:10 is the same as c(1,2,3,4,5,6,7,8,9,10)]**
 ```{r setup2q3a}
 fastQ[1:10]
 ```
@@ -169,10 +169,10 @@ fastQ[1:10]
 ---
 ##FastQ Accessors
 
-As we have seen, just typing the object name provide a summary of total reads and maximum read length but to retrieve information such a the sequence, quality or ID we will need to use some special accessors.
+As we have seen, just typing the object name provide a summary of total reads and maximum read length but to retrieve information such a the sequence, quality or ID we will need to use some special accessor functions.
 
 * **sread()** - Retrieve sequence of reads.
-* **quality()** - Retrieve quality of reads as ASCI scores.
+* **quality()** - Retrieve quality of reads as ASCII scores.
 * **ids()** - Retrieve IDs of reads.
 ---
 
@@ -233,7 +233,7 @@ Ids[1:4]
 
 A fundamental difference betweem Fasta and FastQ files is the **Q**uality scores containined in FastQ.
 
-As we have seen, quality scores are stored as ASCI characters representing -log10 probability of base being wrong (Larger scores would be associated to more confident base calls).
+As we have seen, quality scores are stored as ASCII characters representing -log10 probability of base being wrong (Larger scores would be associated to more confident base calls).
 
 A comprehensive description of phred quality can be found on the wiki page for [FastQ](https://en.wikipedia.org/wiki/FASTQ_format#Quality).
 
@@ -252,7 +252,7 @@ class(quals)
 ---
 ##FastQ Quality
 
-The object itself contains our quality scores as characters in ASCI format.
+The object itself contains our quality scores as characters in ASCII format.
 
 ```{r setup23s3reed}
 quals
@@ -261,7 +261,7 @@ quals
 ---
 ##FastQ Quality
 
-We can find out how to translate from these ASCI characters into their corresponding -log10 pvalues using the **encoding()** function on our **FastqQuality** object of qualities.
+We can find out how to translate from these ASCII characters into their corresponding -log10 pvalues using the **encoding()** function on our **FastqQuality** object of qualities.
 
 ```{r setup23we4}
 qualityEncoding <- encoding(quals)
@@ -282,7 +282,7 @@ quals[[1]]
 ---
 ##FastQ Quality
 
-We can use the **strsplit()** to split out quality into an array of individual ASCI quality score and use the quality encoding to translate to -log10 pvalues. 
+We can use the **strsplit()** to split out quality into an array of individual ASCII quality score and use the quality encoding to translate to -log10 pvalues. 
 
 The **strsplit()** function takes a character vector to split and a character vector to split by. Here we split by nothing **""** to give us a vector of individual characters.
 
@@ -402,6 +402,11 @@ We can then use the **report()** function to generate a simple report.
 ```{r setup236a}
 myReport <- report(my_QA)
 myReport
+```
+
+If you want to keep the report, you can save it to a specific directory
+```{R}
+report(my_QA, dest="QC_report")
 ```
 
 ---

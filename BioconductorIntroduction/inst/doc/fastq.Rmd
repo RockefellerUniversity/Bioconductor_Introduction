@@ -17,17 +17,17 @@ knitr::opts_chunk$set(echo = T,eval=T)
 These are answers for exercises that cover the FastQ sections of [Introduction to Bioconductor](https://rockefelleruniversity.github.io/Bioconductor_Introduction/).
 
 
-## Installing Bioconductor packages
+## FastQs and ShortRead
 
 In these exercises we will review some of the **ShortRead** packages functionality with handling fastQ files.
 
-The example data can be found in the data directory 
+The example data can be found in the data directory.
 
-**data/sampled_ENCFF000CXH.fastq.gz**
+**data/heart.bodyMap.fq**
 
-We will also use the full FastQ file from this dataset which you can download from [here.](https://www.encodeproject.org/files/ENCFF000CXH/@@download/ENCFF000CXH.fastq.gz).
+<!-- We will also use the full FastQ file from this dataset which you can download from [here](https://www.encodeproject.org/files/ENCFF000CXH/@@download/ENCFF000CXH.fastq.gz). -->
 
-1. Align the data from heart.bodyMap.fq with QuasR.
+<!-- 1. Align the data from heart.bodyMap.fq with QuasR. -->
 
 ```{r installdeBSded,include=FALSE}
 suppressPackageStartupMessages(library(QuasR))
@@ -36,7 +36,7 @@ id <- ShortRead::id
 ```
 
 
-2. Plot the occurrence of A, G, T, C and N in the read with ID **"HWI-BRUNOP16X_0001:7:66:3246:157000#0/1"** using ggplot2
+1. Plot the occurrence of A, G, T, C and N in the read with ID **"HWI-BRUNOP16X_0001:7:66:3246:157000#0/1"** using ggplot2
 
 ```{r installBS2w}
 library(ShortRead)
@@ -51,7 +51,7 @@ library(ggplot2)
 ggplot(toPlot,aes(x=bases,y=Freq,fill=bases))+geom_bar(stat="identity") + theme_bw()
 ```
 
-3. Create a boxplot of quality scores over cycles for first 10,000 reads using base graphics.
+2. Create a boxplot of quality scores over cycles for first 10,000 reads using base graphics.
 
 ```{r installBSww2}
 allQuals <- quality(my_fastq[1:10000,])
@@ -60,7 +60,7 @@ colnames(forBox) <- paste0("Cycle",1:ncol(forBox))
 boxplot(forBox)
 ```
 
-4. Plot the frequency of A, G, C, T and N bases over cycles using ggplot2/
+3. Plot the frequency of A, G, C, T and N bases over cycles using ggplot2.
 
 ```{r installBS2de}
 alpByCyle <- alphabetByCycle(sread(my_fastq))
@@ -74,41 +74,46 @@ myFrame <- rbind(AbyCycFrame,CbyCycFrame,TbyCycFrame,GbyCycFrame,NbyCycFrame)
 ggplot(myFrame,aes(x=Cycle,y=Freq,colour=Base))+geom_line()+theme_bw()
 ```
 
-5. Read in a random 10000 bases from the downloaded **ENCFF000CXH.fastq.gz** file
+4. How many reads are in the original fastq? Read in a random 10000 bases from the original fastq.
 
 ```{r installBS2ecdde,cache=TRUE}
-mySampledFile <- FastqSampler("data/sampled_ENCFF000CXH.fastq.gz",n=10000)
-myFastQ <- yield(mySampledFile)
+length(my_fastq)
+mySampledFile <- FastqSampler("data/heart.bodyMap.fq",n=10000)
+my_fastq_10000 <- yield(mySampledFile)
+my_fastq_10000
 ```
 
-6. Count the number of duplicate sequences and filter file to only the non-duplicated sequences
-
+5. Count the number of duplicate sequences and filter file to only the non-duplicated sequences
 
 ```{r instjnknallBS2drre,dependson="installBS2ecdde"}
-dupLogical <- srduplicated(myFastQ)
+dupLogical <- srduplicated(my_fastq_10000)
 numberOfDups <- table(dupLogical)
-nonDups <- myFastQ[dupLogical]
+numberOfDups
+nonDups <- my_fastq_10000[dupLogical]
 ```
 
-7. Trim the resulting non-duplicated reads to remove reads when a succession of 10 bases fall below quality of 5. 
+6. Trim the resulting non-duplicated reads to remove reads when a succession of 10 bases fall below quality of 5. 
 
 ```{r instaljnkklBS2drre,dependson="instjnknallBS2drre"}
 trimmedNonDups <- trimTails(nonDups,10,"5")
 ```
 
-8. Plot a histogram of the resulting read lengths using base graphics
+7. Plot a histogram of the resulting read lengths using base graphics
 
 ```{r installBSi2drre,dependson="instaljnkklBS2drre"}
 hist(width(trimmedNonDups),xlab="Trimmed Length",main="Histogram of trimmed lengths")
 ```
 
-9.Filter out reads less than 32 bases and write to file
-```{r installswswBS2kjdrre,dependson="installBSi2drre"}
+8.Filter out reads less than 32 bases and write to file
+```{r installswswBS2kjdrre,dependson="installBSi2drre", echo=F, warning=FALSE,message=FALSE}
 unlink("filteredFastq.fq.gz")
 ```
 
 ```{r installBS2kjdrre,dependson="installswswBS2kjdrre"}
 filteredFastq <- trimmedNonDups[width(trimmedNonDups) >= 32]
 writeFastq(filteredFastq,file="filteredFastq.fq.gz")
+```
+
+```{r installBS2kjdrre_unlink,dependson="installBS2kjdrre"}
 unlink("filteredFastq.fq.gz")
 ```
