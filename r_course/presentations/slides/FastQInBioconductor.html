@@ -643,7 +643,7 @@ myReport
 ```
 
 ```
-## [1] "/tmp/RtmpZlTsfT/file3f3726e499f2/index.html"
+## [1] "/tmp/RtmppVwLJW/file163311fc1a00/index.html"
 ```
 
 If you want to keep the report, you can save it to a specific directory
@@ -708,6 +708,7 @@ library(Rfastp)
 rfastp_report &lt;- rfastp(read1 = "data/sampled_ENCFF000CXH.fastq.gz", outputFastq ="data/Rfastp_ENCFF000CXH")
 ```
 # Rfastp QC Summary
+By default fastp will make a html report to summarize your result. But the Rfastp wrapper allows you to look at some of them in R. 
 
 
 ```r
@@ -745,6 +746,8 @@ curvePlot(rfastp_report, curve="content_curves")
 
 ![](FastQInBioconductor_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
   ]
+
+
 
 ---
 ##Handling Large Files

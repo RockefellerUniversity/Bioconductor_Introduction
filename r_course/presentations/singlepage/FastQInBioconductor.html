@@ -623,7 +623,7 @@ div.tocify {
 <p>We can then use the <strong>report()</strong> function to generate a simple report.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>myReport <span class="ot">&lt;-</span> <span class="fu">report</span>(my_QA)</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>myReport</span></code></pre></div>
-<pre><code>## [1] &quot;/tmp/RtmpZlTsfT/file3f377e26d1a7/index.html&quot;</code></pre>
+<pre><code>## [1] &quot;/tmp/RtmppVwLJW/file16333d70a21d/index.html&quot;</code></pre>
 <p>If you want to keep the report, you can save it to a specific directory</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(my_QA, <span class="at">dest=</span><span class="st">&quot;QC_report&quot;</span>)</span></code></pre></div>
 <pre><code>## Warning in dir.create(dest, recursive = TRUE): &#39;QC_report&#39; already exists</code></pre>
@@ -650,6 +650,7 @@ div.tocify {
 </div>
 <div id="rfastp-qc-summary" class="section level1">
 <h1>Rfastp QC Summary</h1>
+<p>By default fastp will make a html report to summarize your result. But the Rfastp wrapper allows you to look at some of them in R.</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>dfsummary <span class="ot">&lt;-</span> <span class="fu">qcSummary</span>(rfastp_report)</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>dfsummary</span></code></pre></div>
 <pre><code>##                      Before_QC     After_QC
