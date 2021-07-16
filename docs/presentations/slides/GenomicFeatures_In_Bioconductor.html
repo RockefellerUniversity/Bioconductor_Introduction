@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>GenomicFeatures_In_Bioconductor.utf8</title>
+    <title>GenomicFeatures_In_Bioconductor.knit</title>
     <meta charset="utf-8" />
     <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <script src="libs/header-attrs-2.9/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
     <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
@@ -538,9 +539,9 @@ myCustomTxDb
 ## # Genome: NA
 ## # Nb of transcripts: 1
 ## # Db created by: GenomicFeatures package from Bioconductor
-## # Creation time: 2021-03-05 01:32:10 +0000 (Fri, 05 Mar 2021)
-## # GenomicFeatures version at creation time: 1.42.1
-## # RSQLite version at creation time: 2.2.3
+## # Creation time: 2021-07-15 22:40:21 +0000 (Thu, 15 Jul 2021)
+## # GenomicFeatures version at creation time: 1.44.0
+## # RSQLite version at creation time: 2.2.7
 ## # DBSCHEMAVERSION: 1.2
 ```
 
@@ -603,11 +604,16 @@ availableGenomes[1:4,]
 ```
 
 ```
-##     db species      date                               name
-## 1 hg38   Human Dec. 2013 Genome Reference Consortium GRCh38
-## 2 hg19   Human Feb. 2009 Genome Reference Consortium GRCh37
-## 3 hg18   Human Mar. 2006                    NCBI Build 36.1
-## 4 hg17   Human  May 2004                      NCBI Build 35
+##        db            species      date
+## 1 ailMel1              Panda Dec. 2009
+## 2 allMis1 American alligator Aug. 2012
+## 3 anoCar1             Lizard Feb. 2007
+## 4 anoCar2             Lizard  May 2010
+##                                                              name
+## 1                               BGI-Shenzhen AilMel 1.0 Dec. 2009
+## 2                 International Crocodilian Genomes Working Group
+## 3                                    Broad Institute AnoCar (1.0)
+## 4 Broad Institute of MIT and Harvard AnoCar 2.0 (GCA_000090745.1)
 ```
 ---
 ## Creating TxDb from UCSC
@@ -977,9 +983,9 @@ columns(org.Hs.eg.db)
 ```
 ##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT"  "ENSEMBLTRANS"
 ##  [6] "ENTREZID"     "ENZYME"       "EVIDENCE"     "EVIDENCEALL"  "GENENAME"    
-## [11] "GO"           "GOALL"        "IPI"          "MAP"          "OMIM"        
-## [16] "ONTOLOGY"     "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"        
-## [21] "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"       "UNIGENE"     
+## [11] "GENETYPE"     "GO"           "GOALL"        "IPI"          "MAP"         
+## [16] "OMIM"         "ONTOLOGY"     "ONTOLOGYALL"  "PATH"         "PFAM"        
+## [21] "PMID"         "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"      
 ## [26] "UNIPROT"
 ```
 --
@@ -1000,9 +1006,9 @@ keytypes(org.Hs.eg.db)
 ```
 ##  [1] "ACCNUM"       "ALIAS"        "ENSEMBL"      "ENSEMBLPROT"  "ENSEMBLTRANS"
 ##  [6] "ENTREZID"     "ENZYME"       "EVIDENCE"     "EVIDENCEALL"  "GENENAME"    
-## [11] "GO"           "GOALL"        "IPI"          "MAP"          "OMIM"        
-## [16] "ONTOLOGY"     "ONTOLOGYALL"  "PATH"         "PFAM"         "PMID"        
-## [21] "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"       "UNIGENE"     
+## [11] "GENETYPE"     "GO"           "GOALL"        "IPI"          "MAP"         
+## [16] "OMIM"         "ONTOLOGY"     "ONTOLOGYALL"  "PATH"         "PFAM"        
+## [21] "PMID"         "PROSITE"      "REFSEQ"       "SYMBOL"       "UCSCKG"      
 ## [26] "UNIPROT"
 ```
 ---
@@ -1097,6 +1103,7 @@ myTable[1:2,]
 [Link_to_exercises](../../exercises/exercises/GenomicFeatures_exercise.html)
 
 [Link_to_answers](../../exercises/answers/GenomicFeatures_answers.html)
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

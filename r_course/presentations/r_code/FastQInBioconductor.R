@@ -151,6 +151,10 @@ myReport <- report(my_QA)
 myReport
 
 
+## -----------------------------------------------------------------------------
+report(my_QA, dest="QC_report")
+
+
 ## ----setup23q7,eval=FALSE-----------------------------------------------------
 ## browseURL(myReport)
 
@@ -167,6 +171,28 @@ TrimmedFastq
 ## ----setup23kk7ede,echo=FALSE-------------------------------------------------
 unlink("myTrimmed_Fastq.fastq.gz")
 writeFastq(TrimmedFastq,"myTrimmed_Fastq.fastq.gz",mode="w")
+
+
+## ---- warnings=F, message=FALSE-----------------------------------------------
+library(Rfastp)
+
+rfastp_report <- rfastp(read1 = "data/sampled_ENCFF000CXH.fastq.gz", outputFastq ="data/Rfastp_ENCFF000CXH")
+
+
+
+## -----------------------------------------------------------------------------
+dfsummary <- qcSummary(rfastp_report)
+dfsummary
+
+
+## -----------------------------------------------------------------------------
+curvePlot(rfastp_report, curve="quality_curves")
+
+
+
+## -----------------------------------------------------------------------------
+curvePlot(rfastp_report, curve="content_curves")
+
 
 
 ## ----setup237fef--------------------------------------------------------------

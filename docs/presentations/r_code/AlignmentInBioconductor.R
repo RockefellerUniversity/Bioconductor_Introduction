@@ -214,6 +214,7 @@ suppressPackageStartupMessages(library(QuasR))
 ## SampleName <- "sampledActin"
 ## sampleTable <- data.frame(FileName,SampleName)
 ## write.table(sampleTable,file="sampleTable.txt",sep="\t",quote=FALSE,row.names = FALSE)
+## sampleTable
 
 
 ## ----sampleTable1s, echo=FALSE,eval=TRUE--------------------------------------

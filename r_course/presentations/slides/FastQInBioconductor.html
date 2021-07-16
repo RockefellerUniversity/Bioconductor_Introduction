@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>FastQInBioconductor.utf8</title>
+    <title>FastQInBioconductor.knit</title>
     <meta charset="utf-8" />
     <meta name="author" content="Rockefeller University, Bioinformatics Resource Centre" />
+    <script src="libs/header-attrs-2.9/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="metropolisCustom.css" type="text/css" />
     <link rel="stylesheet" href="metropolis-fontsCustom.css" type="text/css" />
@@ -81,7 +82,7 @@ BiocManager::install("ShortRead")
 
 ##Data
 
-In this session we will be making use of some public datasets from the Encode consortium.
+In this session we will be making use of some public datasets from the ENCODE consortium.
 
 We will be using raw sequence reads in fastQ format which have been generated from an RNAseq experiment.
 
@@ -95,9 +96,9 @@ This RNAseq data has been generated from the human cell line **GM12878** and the
 
 ##Data Locally
 
-For this session, i have taken the first 100,000 reads from the fastQ file **ENCFF000CXH.fastq.gz** to create **data/sampled_ENCFF000CXH.fastq.gz**. This should allow us to quickly perform some processing and analysis of this data as well as include the smaller file size example data in our zip archive.
+For this session, I have taken the first 100,000 reads from the FastQ file **ENCFF000CXH.fastq.gz** to create **data/sampled_ENCFF000CXH.fastq.gz**. This should allow us to quickly perform some processing and analysis of this data as well as include the smaller file size example data in our zip archive.
 
-This can be found in 
+This can be found in:
 
 **data/sampled_ENCFF000CXH.fastq.gz**
 
@@ -115,7 +116,7 @@ We will review this at the end of the session.
 
 ##Reading in FastQ File
 
-The **ShortRead** package allows us to import FastQ files into R using the **readFastq()** function. This function returns a **ShortReadQ** storing the information from the fastQ file (sequence, quality of sequence and unique read identifiers).
+The **ShortRead** package allows us to import FastQ files into R using the **readFastq()** function. This function returns a **ShortReadQ** storing the information from the FastQ file (sequence, quality of sequence and unique read identifiers).
 
 
 ```r
@@ -180,7 +181,7 @@ readLengths[1:10]
 
 We can subset or index **ShortReadQ** objects using the same methods as we have for vectors and GRanges.
 
-Here i use a vector, e.g. 1:10 or c(1,2,3,4,5,6,7,8,9,10), to retrieve first 10 reads in file.
+Here I use a vector to retrieve first 10 reads in file **[Quick reminder that 1:10 is the same as c(1,2,3,4,5,6,7,8,9,10)]**
 
 ```r
 fastQ[1:10]
@@ -194,10 +195,10 @@ fastQ[1:10]
 ---
 ##FastQ Accessors
 
-As we have seen, just typing the object name provide a summary of total reads and maximum read length but to retrieve information such a the sequence, quality or ID we will need to use some special accessors.
+As we have seen, just typing the object name provide a summary of total reads and maximum read length but to retrieve information such a the sequence, quality or ID we will need to use some special accessor functions.
 
 * **sread()** - Retrieve sequence of reads.
-* **quality()** - Retrieve quality of reads as ASCI scores.
+* **quality()** - Retrieve quality of reads as ASCII scores.
 * **ids()** - Retrieve IDs of reads.
 ---
 
@@ -312,7 +313,7 @@ Ids[1:4]
 
 A fundamental difference betweem Fasta and FastQ files is the **Q**uality scores containined in FastQ.
 
-As we have seen, quality scores are stored as ASCI characters representing -log10 probability of base being wrong (Larger scores would be associated to more confident base calls).
+As we have seen, quality scores are stored as ASCII characters representing -log10 probability of base being wrong (Larger scores would be associated to more confident base calls).
 
 A comprehensive description of phred quality can be found on the wiki page for [FastQ](https://en.wikipedia.org/wiki/FASTQ_format#Quality).
 
@@ -338,7 +339,7 @@ class(quals)
 ---
 ##FastQ Quality
 
-The object itself contains our quality scores as characters in ASCI format.
+The object itself contains our quality scores as characters in ASCII format.
 
 
 ```r
@@ -366,7 +367,7 @@ quals
 ---
 ##FastQ Quality
 
-We can find out how to translate from these ASCI characters into their corresponding -log10 pvalues using the **encoding()** function on our **FastqQuality** object of qualities.
+We can find out how to translate from these ASCII characters into their corresponding -log10 pvalues using the **encoding()** function on our **FastqQuality** object of qualities.
 
 
 ```r
@@ -416,7 +417,7 @@ quals[[1]]
 ---
 ##FastQ Quality
 
-We can use the **strsplit()** to split out quality into an array of individual ASCI quality score and use the quality encoding to translate to -log10 pvalues. 
+We can use the **strsplit()** to split out quality into an array of individual ASCII quality score and use the quality encoding to translate to -log10 pvalues. 
 
 The **strsplit()** function takes a character vector to split and a character vector to split by. Here we split by nothing **""** to give us a vector of individual characters.
 
@@ -642,7 +643,17 @@ myReport
 ```
 
 ```
-## [1] "/tmp/RtmpAq6NFG/file17386a5da370/index.html"
+## [1] "/tmp/RtmpZlTsfT/file3f3726e499f2/index.html"
+```
+
+If you want to keep the report, you can save it to a specific directory
+
+```r
+report(my_QA, dest="QC_report")
+```
+
+```
+## [1] "QC_report/index.html"
 ```
 
 ---
@@ -685,6 +696,55 @@ writeFastq(TrimmedFastq,"myTrimmed_Fastq.fastq.gz")
 
 
 
+# Can something do this all for me?
+
+There are several utility programs that will provide you with QC and trim your data for you, with less input from you. We are fans of the [fastp](https://pubmed.ncbi.nlm.nih.gov/30423086/) as it does some basic QC and trims your fastqs, and it does it very quickly. To make this available in R, the BRC wrapped this in the Bioconductor package [Rfastp](http://www.bioconductor.org/packages/release/bioc/html/Rfastp.html).
+
+
+
+```r
+library(Rfastp)
+
+rfastp_report &lt;- rfastp(read1 = "data/sampled_ENCFF000CXH.fastq.gz", outputFastq ="data/Rfastp_ENCFF000CXH")
+```
+# Rfastp QC Summary
+
+
+```r
+dfsummary &lt;- qcSummary(rfastp_report)
+dfsummary
+```
+
+```
+##                      Before_QC     After_QC
+## total_reads       1.000000e+05 6.777800e+04
+## total_bases       7.600000e+06 5.151128e+06
+## q20_bases         4.965570e+06 4.297295e+06
+## q30_bases         2.872723e+06 2.486809e+06
+## q20_rate          6.533640e-01 8.342430e-01
+## q30_rate          3.779900e-01 4.827700e-01
+## read1_mean_length 7.600000e+01 7.600000e+01
+## gc_content        4.895160e-01 4.875440e-01
+```
+
+# Rfastp QC Plot
+.pull-left[
+
+```r
+curvePlot(rfastp_report, curve="quality_curves")
+```
+
+![](FastQInBioconductor_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+  ]
+  
+.pull-left[  
+
+```r
+curvePlot(rfastp_report, curve="content_curves")
+```
+
+![](FastQInBioconductor_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+  ]
 
 ---
 ##Handling Large Files
@@ -747,6 +807,9 @@ while (length(fq_stream &lt;- yield(fq)) &gt; 0) {
 ## [1] 25000
 ```
 
+
+
+
 ---
 
 ##Time for an Exercise
@@ -754,6 +817,8 @@ while (length(fq_stream &lt;- yield(fq)) &gt; 0) {
 [Link_to_exercises](../../exercises/exercises/fastq_exercise.html)
 
 [Link_to_answers](../../exercises/answers/fastq_answers.html)
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
