@@ -315,6 +315,9 @@ heartCoverageNorm <- coverage("Heart.bam",
 heartCoverageNorm["chr12"]
 ```
 
+**REMEMBER: You can always export the RLE to a BigWig with rtracklayer, so you can then view it in IGV.** 
+
+
 ---
 # Summarizing from scores
 
@@ -409,7 +412,7 @@ Often we will want to summarize to genes, not individual exons.
 </div>
 
 ---
-# summarizeOverlaps - A read only assigned to one feature
+# A read can only assigned to one feature!
 
 When using **summarizeOverlaps()** function, a read can only be assigned to one feature.
 
